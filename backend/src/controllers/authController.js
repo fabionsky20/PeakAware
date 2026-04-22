@@ -10,14 +10,16 @@ const Utente = require('../models/Utente');
 
 /**
  * Genera un token JWT per l'utente autenticato.
- * Il token contiene l'id dell'utente e scade dopo 7 giorni.
+ * Include id e ruolo nel payload per permettere
+ * al frontend di determinare i permessi senza chiamate aggiuntive.
  *
  * @param {string} id - ID MongoDB dell'utente
+ * @param {string} ruolo - Ruolo dell'utente ('utente' o 'admin')
  * @returns {string} Token JWT firmato con JWT_SECRET
  */
-const generaToken = (id) => {
+const generaToken = (id, ruolo) => {
   return jwt.sign(
-    { id },
+    { id, ruolo },
     process.env.JWT_SECRET,
     { expiresIn: '7d' }
   );
@@ -66,7 +68,7 @@ const registrati = async (req, res) => {
     });
 
     // Genera il token JWT per la sessione
-    const token = generaToken(nuovoUtente._id);
+  const token = generaToken(nuovoUtente._id, nuovoUtente.ruolo);
 
     // Risponde con i dati pubblici dell'utente (mai restituire la password)
     res.status(201).json({
@@ -133,7 +135,7 @@ const login = async (req, res) => {
     }
 
     // Genera il token JWT per la sessione
-    const token = generaToken(utente._id);
+    const token = generaToken(utente._id, utente.ruolo);
 
     // Risponde con i dati pubblici dell'utente (mai restituire la password)
     res.status(200).json({
