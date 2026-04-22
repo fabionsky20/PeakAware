@@ -1,0 +1,241 @@
+.quiz-container {
+  min-height: 100vh;
+  background: #F4F6F7;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  background: #1B4F72;
+  color: white;
+}
+
+.navbar-brand {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.6);
+  color: white;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+  width: auto;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem;
+}
+
+.page-header {
+  margin-bottom: 1.2rem;
+}
+
+.page-header h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #1B4F72;
+  margin-bottom: 0.2rem;
+}
+
+.page-header p {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.filtri {
+  margin-bottom: 1.4rem;
+}
+
+.filtri select {
+  padding: 0.55rem 1rem;
+  border: 0.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #333;
+  background: white;
+  cursor: pointer;
+}
+
+.filtri select:focus {
+  outline: none;
+  border-color: #2E86C1;
+}
+
+.stato-messaggio {
+  text-align: center;
+  color: #888;
+  padding: 3rem;
+  font-size: 0.95rem;
+}
+
+.errore {
+  background: #FDEDEC;
+  color: #C0392B;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.quiz-card {
+  background: white;
+  border-radius: 12px;
+  border: 0.5px solid #e8e8e8;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.quiz-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.quiz-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.categoria-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  background: #E6F1FB;
+  color: #0C447C;
+}
+
+.categoria-badge.valanghe {
+  background: #FAEEDA;
+  color: #854F0B;
+}
+
+.categoria-badge.fauna {
+  background: #EAF3DE;
+  color: #3B6D11;
+}
+
+.categoria-badge.prontoSoccorso {
+  background: #FCEBEB;
+  color: #A32D2D;
+}
+
+.categoria-badge.orientamento {
+  background: #EEEDFE;
+  color: #3C3489;
+}
+
+.difficolta {
+  font-size: 0.8rem;
+}
+
+.quiz-card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1B4F72;
+  margin-bottom: 0.3rem;
+}
+
+.argomento {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+.quiz-card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #aaa;
+  border-top: 0.5px solid #f0f0f0;
+  padding-top: 0.75rem;
+}
+
+/* Card aggiungi nuovo quiz */
+.card-aggiungi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed #2E86C1;
+  background: #F8FBFF;
+  cursor: pointer;
+  min-height: 160px;
+  transition: background 0.2s;
+}
+
+.card-aggiungi:hover {
+  background: #E6F1FB;
+}
+
+.aggiungi-icon {
+  font-size: 2.5rem;
+  color: #2E86C1;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.card-aggiungi p {
+  color: #2E86C1;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Controlli admin sulle card */
+.quiz-card {
+  position: relative;
+}
+
+.admin-controls {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-modifica,
+.btn-elimina {
+  background: white;
+  border: 0.5px solid #ddd;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: auto;
+  transition: background 0.2s;
+}
+
+.btn-modifica:hover {
+  background: #EAF2FB;
+}
+
+.btn-elimina:hover {
+  background: #FDEDEC;
+  color: #C0392B;
+}

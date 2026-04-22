@@ -1,0 +1,53 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="login-hero">
+      <span class="login-hero-icon">⛰️</span>
+      <h1>PeakAware</h1>
+    </div>
+
+    <div class="login-body">
+      <h2>Bentornato</h2>
+
+      <form (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="nome@email.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="••••••"
+            required
+          />
+        </div>
+
+        @if (errore) {
+          <div class="errore">{{ errore }}</div>
+        }
+
+        <button type="submit" class="btn-primary" [disabled]="caricamento">
+          {{ caricamento ? 'Accesso in corso...' : 'Accedi' }}
+        </button>
+      </form>
+
+      <p class="link-registrazione">
+        Non hai un account?
+        <a (click)="vaiARegistrazione()">Registrati</a>
+      </p>
+    </div>
+
+  </div>
+</div>

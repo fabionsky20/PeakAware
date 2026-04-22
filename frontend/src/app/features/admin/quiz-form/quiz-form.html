@@ -1,0 +1,159 @@
+<!--
+  @file quiz-form.html
+  @description Form per creazione e modifica quiz.
+  Accessibile solo agli utenti con ruolo admin.
+  Corrisponde al componente Gestione Contenuti del D2 sezione 1.3.
+-->
+
+<div class="quiz-form-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <button class="logout-btn" (click)="annulla()">← Torna ai quiz</button>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h2>{{ isModifica ? 'Modifica Quiz' : 'Nuovo Quiz' }}</h2>
+      <p>{{ isModifica ? 'Aggiorna i dati del quiz' : 'Crea un nuovo quiz educativo' }}</p>
+    </div>
+
+    <form (ngSubmit)="salva()">
+
+      <!-- Dati base quiz -->
+      <div class="form-card">
+        <h3>Dati generali</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Titolo</label>
+            <input type="text" [(ngModel)]="quiz.titolo" name="titolo"
+              placeholder="es. Lettura delle nuvole" required />
+          </div>
+          <div class="form-group">
+            <label>Argomento</label>
+            <input type="text" [(ngModel)]="quiz.argomento" name="argomento"
+              placeholder="es. Riconosci i segnali meteo" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Categoria</label>
+            <select [(ngModel)]="quiz.categoria" name="categoria">
+              <option value="meteo">Meteo</option>
+              <option value="valanghe">Valanghe</option>
+              <option value="orientamento">Orientamento</option>
+              <option value="fauna">Fauna</option>
+              <option value="prontoSoccorso">Pronto Soccorso</option>
+              <option value="generale">Generale</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Difficoltà (1-5)</label>
+            <input type="number" [(ngModel)]="quiz.difficolta" name="difficolta"
+              min="1" max="5" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Punteggio massimo</label>
+            <input type="number" [(ngModel)]="quiz.punteggio" name="punteggio"
+              min="0" />
+          </div>
+          <div class="form-group">
+            <label>Tempo limite (secondi, 0 = nessun limite)</label>
+            <input type="number" [(ngModel)]="quiz.tempo" name="tempo" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Domande -->
+      <div class="form-card">
+        <div class="domande-header">
+          <h3>Domande</h3>
+          <button type="button" class="btn-aggiungi-domanda" (click)="aggiungiDomanda()">
+            + Aggiungi domanda
+          </button>
+        </div>
+
+        @for (domanda of quiz.domande; track $index) {
+          <div class="domanda-card">
+
+            <div class="domanda-header">
+              <span class="domanda-numero">Domanda {{ $index + 1 }}</span>
+              <button type="button" class="btn-rimuovi" (click)="rimuoviDomanda($index)">
+                ✕
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label>Testo della domanda</label>
+              <input type="text" [(ngModel)]="domanda.testo"
+                [name]="'domanda_' + $index"
+                placeholder="es. Quale nuvola indica temporale?" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Punti</label>
+                <input type="number" [(ngModel)]="domanda.puntiChevale"
+                  [name]="'punti_' + $index" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Tentativi</label>
+                <input type="number" [(ngModel)]="domanda.tentativi"
+                  [name]="'tentativi_' + $index" min="1" />
+              </div>
+            </div>
+
+            <!-- Risposte -->
+            <div class="risposte-section">
+              <div class="risposte-header">
+                <label>Risposte</label>
+                <button type="button" class="btn-aggiungi-risposta"
+                  (click)="aggiungiRisposta($index)">+ Risposta</button>
+              </div>
+
+              @for (risposta of domanda.risposte; track $index) {
+                <div class="risposta-row">
+                  <input type="text" [(ngModel)]="risposta.testo"
+                    [name]="'risposta_' + $index + '_' + $index"
+                    placeholder="Testo risposta" />
+                  <label class="risposta-corretta">
+                    <input type="checkbox" [(ngModel)]="risposta.eCorretta"
+                      [name]="'corretta_' + $index + '_' + $index" />
+                    Corretta
+                  </label>
+                  <button type="button" class="btn-rimuovi-piccolo"
+                    (click)="rimuoviRisposta($index, $index)">✕</button>
+                </div>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+
+      <!-- Messaggi -->
+      @if (errore) {
+        <div class="errore">{{ errore }}</div>
+      }
+      @if (successo) {
+        <div class="successo">{{ successo }}</div>
+      }
+
+      <!-- Azioni -->
+      <div class="form-azioni">
+        <button type="button" class="btn-annulla" (click)="annulla()">Annulla</button>
+        <button type="submit" class="btn-salva" [disabled]="caricamento">
+          {{ caricamento ? 'Salvataggio...' : isModifica ? 'Aggiorna' : 'Crea Quiz' }}
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+</div>
