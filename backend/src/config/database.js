@@ -1,28 +1,39 @@
 /**
  * @file database.js
- * @description Configurazione e connessione a MongoDB tramite Mongoose.
- * Legge l'URI di connessione dalla variabile d'ambiente MONGODB_URI.
+ * @description Configurazione intelligente per MongoDB.
+ * Gestisce lo switch tra locale (Uni) e cloud (Atlas).
  */
 
 const mongoose = require('mongoose');
 
-/**
- * Stabilisce la connessione al database MongoDB locale.
- * In caso di errore logga il problema ma non termina il processo,
- * così il server resta attivo durante lo sviluppo.
- *
- * @async
- * @returns {Promise<void>}
- */
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000, // Timeout selezione server: 5 secondi
-      socketTimeoutMS: 45000,         // Timeout socket: 45 secondi
+    // 1. Determina quale URI usare
+    // Se DB_MODE è 'ATLAS', usa la stringa cloud, altrimenti quella locale
+    const dbURI = process.env.DB_MODE === 'ATLAS' 
+                  ? process.env.MONGO_ATLAS 
+                  : process.env.MONGO_LOCAL;
+
+    // 2. Connessione
+    const conn = await mongoose.connect(dbURI, {
+      serverSelectionTimeoutMS: 5000, 
+      socketTimeoutMS: 45000,         
     });
-    console.log(`MongoDB connesso: ${conn.connection.host}`);
+
+    // 3. Feedback visivo nel terminale
+    console.log("------------------------------------------");
+    console.log(`✅ MongoDB Connesso: ${conn.connection.host}`);
+    console.log(`📍 Modalità: ${process.env.DB_MODE || 'LOCAL (Default)'}`);
+    console.log("------------------------------------------");
+
   } catch (error) {
-    console.error(`MongoDB non raggiungibile: ${error.message}`);
+    console.error("------------------------------------------");
+    console.error(`❌ Errore MongoDB: ${error.message}`);
+    console.log("💡 Tip: Se sei in Uni, ricorda di lanciare 'dbon'");
+    console.log("💡 Controlla il file .env e la variabile DB_MODE");
+    console.log("------------------------------------------");
+    
+    // In sviluppo è meglio non crashare il server, come indicato nel tuo file originale
   }
 };
 

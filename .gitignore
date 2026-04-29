@@ -1,5 +1,11 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# Node
+
+.env
+*.log
+
+
 # Compiled output
 /dist
 /tmp
@@ -7,7 +13,10 @@
 /bazel-out
 
 # Node
-/node_modules
+/backend/node_modules
+/frontend/node_modules
+.angular/
+.nvm/
 npm-debug.log
 yarn-error.log
 

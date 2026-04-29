@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
+import { App } from './app'; 
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [App], // I componenti standalone vanno negli imports
     }).compileComponents();
   });
 
@@ -18,6 +18,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontend');
+    // Modifica 'PeakAware' con il testo che hai effettivamente messo nel tuo h1
+    expect(compiled.querySelector('h1')?.textContent).toContain('PeakAware');
   });
 });
