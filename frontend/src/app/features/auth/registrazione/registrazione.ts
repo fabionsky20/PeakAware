@@ -17,7 +17,7 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './registrazione.html',
   styleUrl: './registrazione.css'
 })
-export class RegistrazioneComponent {
+export class Registrazione {
 
   /** Valore del campo email nel form */
   email: string = '';

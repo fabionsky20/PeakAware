@@ -5,18 +5,18 @@
  */
 
 import { Routes } from '@angular/router';
-import { LoginComponent } from './features/auth/login/login';
-import { RegistrazioneComponent } from './features/auth/registrazione/registrazione';
-import { QuizListComponent } from './features/education/quiz-list/quiz-list';
-import { QuizFormComponent } from './features/admin/quiz-form/quiz-form';
+import { Login } from './features/auth/login/login';
+import { Registrazione } from './features/auth/registrazione/registrazione';
+import { QuizList } from './features/education/quiz-list/quiz-list';
+import { QuizForm } from './features/admin/quiz-form/quiz-form';
 
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'registrazione', component: RegistrazioneComponent },
-  { path: 'quiz', component: QuizListComponent },
-  { path: 'admin/quiz-form', component: QuizFormComponent },
-  { path: 'admin/quiz-form/:id', component: QuizFormComponent },
+  { path: 'login', component: Login },
+  { path: 'registrazione', component: Registrazione },
+  { path: 'quiz', component: QuizList },
+  { path: 'admin/quiz-form', component: QuizForm },
+  { path: 'admin/quiz-form/:id', component: QuizForm },
   { path: '**', redirectTo: 'login' }
 ];

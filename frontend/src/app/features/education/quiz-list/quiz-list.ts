@@ -29,7 +29,7 @@ interface Quiz {
   templateUrl: './quiz-list.html',
   styleUrl: './quiz-list.css'
 })
-export class QuizListComponent implements OnInit {
+export class QuizList implements OnInit {
 
   quiz: Quiz[] = [];
   categoriaSelezionata: string = '';

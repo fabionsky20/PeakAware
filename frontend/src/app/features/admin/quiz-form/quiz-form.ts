@@ -18,7 +18,7 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './quiz-form.html',
   styleUrl: './quiz-form.css'
 })
-export class QuizFormComponent implements OnInit {
+export class QuizForm implements OnInit {
 
   /** true se stiamo modificando un quiz esistente, false se stiamo creando */
   isModifica: boolean = false;
