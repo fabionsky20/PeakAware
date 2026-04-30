@@ -9,8 +9,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./src/config/database');
+const sentieriRoutes = require('./src/routes/sentieriRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const educazioneRoutes = require('./src/routes/educazioneRoutes');
+
 
 
 const app = express();
@@ -53,8 +55,31 @@ app.use('/api/auth', authRoutes);
  */
 app.use('/api/educazione', educazioneRoutes);
 
+/**
+ * Routes sentieri — importazione e visualizzazione sentieri.
+ * Prefisso: /api/sentieri
+ */
+app.use('/api/sentieri', sentieriRoutes);
+
+
+
 // --- Avvio server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+ // DEBUG: Ora che il server è acceso, controlliamo le rotte
+  console.log("--- Elenco Rotte Caricate ---");
+  if (app._router && app._router.stack) {
+    app._router.stack.forEach(function(r){
+      if (r.route && r.route.path){
+        console.log(`Rotta base: ${Object.keys(r.route.methods)} ${r.route.path}`);
+      } else if (r.name === 'router'){ 
+         r.handle.stack.forEach(function(handler){
+            if (handler.route) {
+                console.log(`Rotta nel sotto-router: ${Object.keys(handler.route.methods)} ${handler.route.path}`);
+            }
+         });
+      }
+    });
+  }
   console.log(`Server in ascolto sulla porta ${PORT}`);
 });
