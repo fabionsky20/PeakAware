@@ -7,6 +7,7 @@
 
 const jwt = require('jsonwebtoken');
 const Utente = require('../models/Utente');
+const ProgressiUtente = require('../models/ProgressiUtente');
 
 /**
  * Genera un token JWT per l'utente autenticato.
@@ -158,4 +159,87 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { registrati, login }
+/**
+ * GET /api/auth/profilo
+ * Restituisce i dati pubblici dell'utente autenticato e i suoi progressi.
+ * Corrisponde al metodo modificaProfilo() della classe Utente (D2 sezione 2.2).
+ *
+ * @async
+ * @param {Object} req - Richiesta Express (req.utente aggiunto da proteggi)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con email, ruolo, eta, punti, livello
+ */
+const getProfilo = async (req, res) => {
+  try {
+    const utente = await Utente.findById(req.utente._id).select('-password');
+
+    if (!utente) {
+      return res.status(404).json({ successo: false, messaggio: 'Utente non trovato' });
+    }
+
+    const progressi = await ProgressiUtente.findOne({ idUtente: req.utente._id });
+
+    res.status(200).json({
+      successo: true,
+      dati: {
+        email: utente.email,
+        ruolo: utente.ruolo,
+        eta: utente.eta,
+        punti: progressi?.punti ?? 0,
+        livello: progressi?.livello ?? 1,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nel recupero del profilo', errore: error.message });
+  }
+};
+
+/**
+ * PUT /api/auth/cambia-password
+ * Aggiorna la password dell'utente autenticato.
+ * Verifica il constraint OCL #3: la nuova password deve essere diversa da quella attuale.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.body.passwordAttuale - Password corrente in chiaro
+ * @param {string} req.body.nuovaPassword - Nuova password in chiaro
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con esito dell'operazione
+ */
+const cambiaPassword = async (req, res) => {
+  try {
+    const { passwordAttuale, nuovaPassword } = req.body;
+
+    if (!passwordAttuale || !nuovaPassword) {
+      return res.status(400).json({
+        successo: false,
+        messaggio: 'passwordAttuale e nuovaPassword sono obbligatorie',
+      });
+    }
+
+    const utente = await Utente.findById(req.utente._id);
+
+    const passwordCorretta = await utente.verificaPassword(passwordAttuale);
+    if (!passwordCorretta) {
+      return res.status(401).json({ successo: false, messaggio: 'Password attuale non corretta' });
+    }
+
+    // OCL constraint #3: la nuova password deve essere diversa da quella attuale
+    const uguale = await utente.verificaPassword(nuovaPassword);
+    if (uguale) {
+      return res.status(400).json({
+        successo: false,
+        messaggio: 'La nuova password deve essere diversa da quella attuale',
+      });
+    }
+
+    utente.password = nuovaPassword;
+    await utente.save(); // il middleware pre('save') cifra automaticamente
+
+    res.status(200).json({ successo: true, messaggio: 'Password aggiornata con successo' });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nel cambio password', errore: error.message });
+  }
+};
+
+module.exports = { registrati, login, getProfilo, cambiaPassword }

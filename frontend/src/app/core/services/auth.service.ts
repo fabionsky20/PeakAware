@@ -76,6 +76,24 @@ export class AuthService {
   }
 
   /**
+   * Salva l'email dell'utente nel localStorage dopo il login.
+   *
+   * @param email - Email dell'utente autenticato
+   */
+  salvaEmail(email: string): void {
+    localStorage.setItem('peakaware_email', email);
+  }
+
+  /**
+   * Recupera l'email dell'utente dal localStorage.
+   *
+   * @returns L'email o stringa vuota se non presente
+   */
+  getEmail(): string {
+    return localStorage.getItem('peakaware_email') ?? '';
+  }
+
+  /**
    * Recupera il token JWT dal localStorage.
    *
    * @returns Il token JWT o null se non presente
@@ -85,10 +103,11 @@ export class AuthService {
   }
 
   /**
-   * Rimuove il token dal localStorage — effettua il logout.
+   * Rimuove token ed email dal localStorage — effettua il logout.
    */
   logout(): void {
     localStorage.removeItem('peakaware_token');
+    localStorage.removeItem('peakaware_email');
   }
 
   /**

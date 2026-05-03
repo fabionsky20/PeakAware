@@ -7,7 +7,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { registrati, login } = require('../controllers/authController');
+const { registrati, login, getProfilo, cambiaPassword } = require('../controllers/authController');
+const { proteggi } = require('../middleware/auth');
 
 /**
  * POST /api/auth/registrati
@@ -22,5 +23,18 @@ router.post('/registrati', registrati);
  * Body: { email, password }
  */
 router.post('/login', login);
+
+/**
+ * GET /api/auth/profilo
+ * Restituisce i dati dell'utente autenticato e i suoi progressi.
+ */
+router.get('/profilo', proteggi, getProfilo);
+
+/**
+ * PUT /api/auth/cambia-password
+ * Aggiorna la password dell'utente autenticato.
+ * Body: { passwordAttuale, nuovaPassword }
+ */
+router.put('/cambia-password', proteggi, cambiaPassword);
 
 module.exports = router;

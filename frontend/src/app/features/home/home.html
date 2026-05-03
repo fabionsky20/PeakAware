@@ -1,0 +1,107 @@
+<div class="home-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">PeakAware</div>
+    <button class="profilo-btn" (click)="toggleProfilo()">
+      <span class="profilo-iniziale">{{ iniziale }}</span>
+    </button>
+  </header>
+
+  @if (profiloAperto) {
+    <div class="overlay" (click)="toggleProfilo()"></div>
+    <aside class="profilo-panel">
+
+      <div class="profilo-header">
+        <div class="profilo-avatar">{{ iniziale }}</div>
+        <div>
+          <p class="profilo-email">{{ email }}</p>
+          <p class="profilo-ruolo">{{ ruolo }}</p>
+        </div>
+      </div>
+
+      <div class="profilo-stat-riga">
+        <div class="profilo-stat">
+          <span class="stat-valore">{{ punti }}</span>
+          <span class="stat-label">Punti</span>
+        </div>
+        <div class="profilo-stat">
+          <span class="stat-valore">{{ livello }}</span>
+          <span class="stat-label">Livello</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button class="toggle-pw-btn" (click)="toggleCambiaPw()">
+        {{ cambiaPwAperto ? 'Annulla' : 'Cambia password' }}
+      </button>
+
+      @if (cambiaPwAperto) {
+        <form class="pw-form" (ngSubmit)="cambiaPassword()">
+          <input
+            type="password"
+            [(ngModel)]="pwAttuale"
+            name="pwAttuale"
+            placeholder="Password attuale"
+            class="pw-input" />
+          <input
+            type="password"
+            [(ngModel)]="pwNuova"
+            name="pwNuova"
+            placeholder="Nuova password"
+            class="pw-input" />
+          <button
+            type="submit"
+            class="pw-submit-btn"
+            [disabled]="cambiaPwCaricamento">
+            {{ cambiaPwCaricamento ? 'Salvataggio...' : 'Conferma' }}
+          </button>
+        </form>
+
+        @if (cambiaPwErrore) {
+          <p class="pw-errore">{{ cambiaPwErrore }}</p>
+        }
+        @if (cambiaPwSuccesso) {
+          <p class="pw-successo">{{ cambiaPwSuccesso }}</p>
+        }
+      }
+
+      <div class="divider"></div>
+
+      <button class="logout-btn" (click)="logout()">Esci</button>
+
+    </aside>
+  }
+
+  <main class="main-content">
+
+    <h1 class="benvenuto">Benvenuto su PeakAware</h1>
+    <p class="sottotitolo">Scegli una sezione per iniziare</p>
+
+    <div class="card-grid">
+
+      <div class="card" (click)="vaiA('/educazione/quiz')">
+        <div class="card-icon-box educazione-color"></div>
+        <h2 class="card-titolo">Educazione</h2>
+        <p class="card-desc">Quiz interattivi e contenuti formativi sulla montagna</p>
+      </div>
+
+      <div class="card card-disabilitata">
+        <div class="card-icon-box pianificazione-color"></div>
+        <h2 class="card-titolo">Pianificazione</h2>
+        <p class="card-desc">Pianifica la tua escursione in sicurezza</p>
+        <span class="badge-prossimamente">Prossimamente</span>
+      </div>
+
+      <div class="card card-disabilitata">
+        <div class="card-icon-box cicerone-color"></div>
+        <h2 class="card-titolo">Cicerone</h2>
+        <p class="card-desc">Scopri il territorio trentino e dolomitico</p>
+        <span class="badge-prossimamente">Prossimamente</span>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

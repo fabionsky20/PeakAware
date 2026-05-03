@@ -38,7 +38,7 @@ export class Login {
 
   /**
    * Eseguito al submit del form.
-   * Chiama AuthService.login() e naviga alla lista quiz se successo.
+   * Chiama AuthService.login() e naviga alla home se successo.
    */
   onLogin(): void {
     this.errore = '';
@@ -48,10 +48,9 @@ export class Login {
       next: (risposta) => {
         this.caricamento = false;
         if (risposta.successo && risposta.dati) {
-          // Salva il token JWT nel localStorage
           this.authService.salvaToken(risposta.dati.token);
-          // Naviga alla pagina principale
-          this.router.navigate(['/educazione/quiz']);
+          this.authService.salvaEmail(risposta.dati.email);
+          this.router.navigate(['/home']);
         }
       },
       error: (err) => {
