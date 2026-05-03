@@ -20,9 +20,9 @@ const rispostaDataSchema = new mongoose.Schema({
     required: true, // ID della domanda a cui si riferisce
   },
 
-  idRisposta: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true, // ID della risposta scelta dall'utente
+  idRisposte: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: [], // IDs delle risposte scelte dall'utente (array per supportare risposte multiple)
   },
 
   corretta: {

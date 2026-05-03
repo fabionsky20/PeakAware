@@ -1,0 +1,234 @@
+.sessione-container {
+  min-height: 100vh;
+  background: #F4F6F7;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  background: #1B4F72;
+  color: white;
+}
+
+.navbar-brand {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.6);
+  color: white;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+  width: auto;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.stato-messaggio {
+  text-align: center;
+  color: #888;
+  padding: 4rem;
+  font-size: 0.95rem;
+}
+
+.errore-box {
+  background: #FDEDEC;
+  color: #C0392B;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 600px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.main-content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progress-testo {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.timer {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2E86C1;
+}
+
+.timer.urgente {
+  color: #C0392B;
+  font-weight: 700;
+}
+
+.progress-track {
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2E86C1;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.domanda-card {
+  background: white;
+  border-radius: 12px;
+  border: 0.5px solid #e8e8e8;
+  padding: 1.8rem;
+  position: relative;
+}
+
+.punti-badge {
+  display: inline-block;
+  background: #E6F1FB;
+  color: #0C447C;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.domanda-testo {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #1B4F72;
+  margin-bottom: 1.4rem;
+  line-height: 1.5;
+}
+
+.hint-multi {
+  font-size: 0.8rem;
+  color: #2E86C1;
+  margin-bottom: 0.8rem;
+  margin-top: -0.6rem;
+}
+
+.risposte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+
+.risposta-btn {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.risposta-btn:hover:not(:disabled) {
+  border-color: #2E86C1;
+  background: #F0F7FD;
+}
+
+.risposta-btn.selezionata {
+  border-color: #2E86C1;
+  background: #E6F1FB;
+  color: #0C447C;
+}
+
+.risposta-btn.corretta {
+  border-color: #1E8449;
+  background: #EAFAF1;
+  color: #1E8449;
+  font-weight: 500;
+}
+
+.risposta-btn.errata {
+  border-color: #C0392B;
+  background: #FDEDEC;
+  color: #C0392B;
+}
+
+.risposta-btn:disabled {
+  cursor: default;
+}
+
+.btn-conferma {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2E86C1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-conferma:hover:not(:disabled) {
+  background: #1B4F72;
+}
+
+.btn-conferma:disabled {
+  background: #b0c9de;
+  cursor: not-allowed;
+}
+
+.feedback {
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.feedback-corretto {
+  background: #EAFAF1;
+  color: #1E8449;
+}
+
+.feedback-sbagliato {
+  background: #FDEDEC;
+  color: #C0392B;
+}
+
+.btn-prossima {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1B4F72;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-prossima:hover {
+  background: #154060;
+}

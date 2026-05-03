@@ -71,6 +71,7 @@ const avviaSessione = async (req, res) => {
       tipo: d.tipo,
       tempo: d.tempo,
       puntiChevale: d.puntiChevale,
+      numRisposteCorrette: d.risposte.filter((r) => r.eCorretta).length,
       risposte: d.risposte.map((r) => ({
         _id: r._id,
         testo: r.testo,
@@ -105,27 +106,28 @@ const avviaSessione = async (req, res) => {
 
 /**
  * POST /api/educazione/sessione/:id/rispondi
- * Registra la risposta dell'utente a una domanda e restituisce il feedback immediato.
- * Controlla se la risposta è corretta, calcola i punti e aggiorna la sessione.
+ * Registra le risposte dell'utente a una domanda e restituisce il feedback immediato.
+ * Supporta domande con una o più risposte corrette: la domanda è corretta solo se
+ * l'utente seleziona esattamente tutte e sole le risposte corrette.
  * Implementa il requisito US-08 (feedback immediato dopo ogni risposta).
  *
  * @async
  * @param {Object} req - Richiesta Express
  * @param {string} req.params.id - ID della sessione quiz
  * @param {string} req.body.idDomanda - ID della domanda a cui si risponde
- * @param {string} req.body.idRisposta - ID della risposta scelta dall'utente
+ * @param {string[]} req.body.idRisposte - Array di ID delle risposte scelte dall'utente
  * @param {Object} req.utente - Utente autenticato
  * @param {Object} res - Risposta Express
- * @returns {Object} JSON con corretta, puntiOttenuti e testo della risposta corretta
+ * @returns {Object} JSON con corretta, puntiOttenuti e testi delle risposte corrette
  */
 const rispondi = async (req, res) => {
   try {
-    const { idDomanda, idRisposta } = req.body;
+    const { idDomanda, idRisposte } = req.body;
 
-    if (!idDomanda || !idRisposta) {
+    if (!idDomanda || !Array.isArray(idRisposte) || idRisposte.length === 0) {
       return res.status(400).json({
         successo: false,
-        messaggio: 'idDomanda e idRisposta sono obbligatori',
+        messaggio: 'idDomanda e idRisposte (array non vuoto) sono obbligatori',
       });
     }
 
@@ -176,31 +178,34 @@ const rispondi = async (req, res) => {
       });
     }
 
-    const rispostaScelta = domanda.risposte.id(idRisposta);
+    // Calcola quali risposte sono corrette per questa domanda
+    const risposteCorretteIds = domanda.risposte
+      .filter((r) => r.eCorretta)
+      .map((r) => r._id.toString());
 
-    if (!rispostaScelta) {
-      return res.status(404).json({
-        successo: false,
-        messaggio: 'Risposta non trovata nella domanda',
-      });
-    }
+    // La risposta è corretta solo se l'utente ha selezionato esattamente
+    // tutte e sole le risposte corrette (nessuna in più, nessuna in meno)
+    const tutteSelezionateCorrette = idRisposte.every((id) => risposteCorretteIds.includes(id));
+    const tutteCorretteSelezionate = risposteCorretteIds.every((id) => idRisposte.includes(id));
+    const corretta = tutteSelezionateCorrette && tutteCorretteSelezionate;
 
-    const corretta = rispostaScelta.eCorretta;
     const puntiOttenuti = corretta ? domanda.puntiChevale : 0;
 
-    sessione.risposteDate.push({ idDomanda, idRisposta, corretta, puntiOttenuti });
+    sessione.risposteDate.push({ idDomanda, idRisposte, corretta, puntiOttenuti });
     sessione.punteggioOttenuto += puntiOttenuti;
     await sessione.save();
 
-    // Trova il testo della risposta corretta per mostrarlo nel feedback (US-08)
-    const rispostaCorretta = domanda.risposte.find((r) => r.eCorretta);
+    // Restituisce i testi di tutte le risposte corrette per il feedback (US-08)
+    const risposteCorrette = domanda.risposte
+      .filter((r) => r.eCorretta)
+      .map((r) => r.testo);
 
     res.status(200).json({
       successo: true,
       dati: {
         corretta,
         puntiOttenuti,
-        rispostaCorretta: rispostaCorretta.testo,
+        risposteCorrette,
       },
     });
   } catch (error) {
@@ -259,16 +264,17 @@ const terminaSessione = async (req, res) => {
 
     const quiz = await Quiz.findById(sessione.idQuiz);
 
-    // Calcola il punteggio massimo ottenibile sommando i puntiChevale di tutte le domande
-    const punteggioMassimo = quiz.domande.reduce((tot, d) => tot + d.puntiChevale, 0);
+    // Somma i puntiChevale di tutte le domande — usata come denominatore per la proporzione
+    const totalePuntiChevale = quiz.domande.reduce((tot, d) => tot + d.puntiChevale, 0);
+    const puntiGrezzi = Math.max(0, sessione.punteggioOttenuto);
 
-    // OCL constraint #8: il punteggio non può essere negativo
-    const punteggioOttenuto = Math.max(0, sessione.punteggioOttenuto);
-
-    // Aggiorna i punti sul documento Utente
-    await Utente.findByIdAndUpdate(req.utente._id, {
-      $inc: { punti: punteggioOttenuto },
-    });
+    // Scala il risultato sul punteggio massimo del quiz (quello mostrato sulla card).
+    // Questo garantisce coerenza: se quiz.punteggio = 100 e l'utente ha risposto
+    // correttamente a metà del peso totale, ottiene 50 punti. OCL constraint #8.
+    const punteggioMassimo = quiz.punteggio;
+    const punteggioOttenuto = totalePuntiChevale > 0
+      ? Math.round((puntiGrezzi / totalePuntiChevale) * punteggioMassimo)
+      : 0;
 
     // Aggiorna o crea il documento ProgressiUtente per questo utente
     let progressi = await ProgressiUtente.findOne({ idUtente: req.utente._id });
@@ -277,7 +283,18 @@ const terminaSessione = async (req, res) => {
       progressi = new ProgressiUtente({ idUtente: req.utente._id });
     }
 
-    progressi.punti += punteggioOttenuto;
+    // Se il quiz è già stato completato in precedenza non si aggiungono punti,
+    // così l'utente può rifare il quiz senza accumulare punti all'infinito.
+    const giaCompletato = progressi.quizCompletati.some(
+      (q) => q.idQuiz.toString() === sessione.idQuiz.toString()
+    );
+    const puntiDaAggiungere = giaCompletato ? 0 : punteggioOttenuto;
+
+    await Utente.findByIdAndUpdate(req.utente._id, {
+      $inc: { punti: puntiDaAggiungere },
+    });
+
+    progressi.punti += puntiDaAggiungere;
     progressi.livello = calcolaLivello(progressi.punti);
     progressi.dataUltimaAttivita = new Date();
     progressi.quizCompletati.push({
@@ -295,6 +312,7 @@ const terminaSessione = async (req, res) => {
       dati: {
         punteggioOttenuto,
         punteggioMassimo,
+        puntiAggiunti: puntiDaAggiungere,
         riepilogoRisposte: sessione.risposteDate,
         puntiTotali: progressi.punti,
         livello: progressi.livello,

@@ -5,7 +5,7 @@
  * Corrisponde al componente Gestione Contenuti del D2 sezione 1.3.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -47,7 +47,8 @@ export class QuizForm implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -73,10 +74,12 @@ export class QuizForm implements OnInit {
       next: (risposta) => {
         if (risposta.successo) {
           this.quiz = risposta.dati;
+          this.cdr.detectChanges();
         }
       },
       error: () => {
         this.errore = 'Errore nel caricamento del quiz';
+        this.cdr.detectChanges();
       }
     });
   }
@@ -150,7 +153,7 @@ export class QuizForm implements OnInit {
           this.successo = this.isModifica
             ? 'Quiz aggiornato con successo!'
             : 'Quiz creato con successo!';
-          setTimeout(() => this.router.navigate(['/quiz']), 1200);
+          setTimeout(() => this.router.navigate(['/educazione/quiz']), 1200);
         }
       },
       error: (err) => {
@@ -164,6 +167,6 @@ export class QuizForm implements OnInit {
    * Torna alla lista quiz senza salvare.
    */
   annulla(): void {
-    this.router.navigate(['/quiz']);
+    this.router.navigate(['/educazione/quiz']);
   }
 }

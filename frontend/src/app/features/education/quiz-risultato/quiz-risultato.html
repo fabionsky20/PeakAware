@@ -1,0 +1,53 @@
+<div class="risultato-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">PeakAware</div>
+    <button class="logout-btn" (click)="logout()">Esci</button>
+  </header>
+
+  @if (risultato) {
+    <main class="main-content">
+
+      <div class="risultato-card">
+
+        <div class="percentuale" [class.alto]="percentuale >= 80" [class.medio]="percentuale >= 50 && percentuale < 80" [class.basso]="percentuale < 50">
+          {{ percentuale }}%
+        </div>
+
+        <p class="messaggio">{{ messaggio }}</p>
+
+        <div class="punteggio-riga">
+          <span class="punteggio-label">Punteggio</span>
+          <span class="punteggio-valore">{{ risultato.punteggioOttenuto }} / {{ risultato.punteggioMassimo }} pt</span>
+        </div>
+
+        <div class="punteggio-riga">
+          <span class="punteggio-label">Punti guadagnati</span>
+          @if (risultato.puntiAggiunti > 0) {
+            <span class="punteggio-valore punti-positivi">+{{ risultato.puntiAggiunti }} pt</span>
+          } @else {
+            <span class="punteggio-valore punti-zero">+0 pt (quiz già completato)</span>
+          }
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="statistiche">
+          <div class="stat">
+            <span class="stat-valore">{{ risultato.puntiTotali }}</span>
+            <span class="stat-label">Punti totali</span>
+          </div>
+          <div class="stat">
+            <span class="stat-valore">{{ risultato.livello }}</span>
+            <span class="stat-label">Livello</span>
+          </div>
+        </div>
+
+        <button class="btn-torna" (click)="tornaAiQuiz()">Torna ai quiz</button>
+
+      </div>
+
+    </main>
+  }
+
+</div>

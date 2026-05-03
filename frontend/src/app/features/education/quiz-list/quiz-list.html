@@ -2,7 +2,10 @@
 
   <header class="navbar">
     <div class="navbar-brand">⛰️ PeakAware</div>
-    <button class="logout-btn" (click)="logout()">Esci</button>
+    <div class="navbar-info">
+      <span class="punti-badge">🏆 {{ puntiUtente }} pt · Livello {{ livelloUtente }}</span>
+      <button class="logout-btn" (click)="logout()">Esci</button>
+    </div>
   </header>
 
   <main class="main-content">
@@ -45,7 +48,7 @@
 
         <!-- Lista quiz -->
         @for (q of quiz; track q._id) {
-          <div class="quiz-card">
+          <div class="quiz-card" (click)="avviaQuiz(q._id)">
 
             <!-- Pulsanti admin — visibili solo se admin -->
             @if (ruoloUtente === 'admin') {

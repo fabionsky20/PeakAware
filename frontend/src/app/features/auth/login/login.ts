@@ -51,7 +51,7 @@ export class Login {
           // Salva il token JWT nel localStorage
           this.authService.salvaToken(risposta.dati.token);
           // Naviga alla pagina principale
-          this.router.navigate(['/quiz']);
+          this.router.navigate(['/educazione/quiz']);
         }
       },
       error: (err) => {

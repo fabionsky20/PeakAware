@@ -1,0 +1,89 @@
+<div class="sessione-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">PeakAware</div>
+    <button class="logout-btn" (click)="logout()">Esci</button>
+  </header>
+
+  @if (caricamento) {
+    <div class="stato-messaggio">Caricamento quiz...</div>
+  }
+
+  @if (errore) {
+    <div class="errore-box">{{ errore }}</div>
+  }
+
+  @if (!caricamento && !errore && domandaCorrente) {
+    <main class="main-content">
+
+      <div class="progress-header">
+        <span class="progress-testo">Domanda {{ indiceDomanda + 1 }} di {{ domande.length }}</span>
+        @if (domandaCorrente.tempo > 0 && !feedback) {
+          <span class="timer" [class.urgente]="tempoRimasto <= 5">
+            ⏱ {{ tempoRimasto }}s
+          </span>
+        }
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="(indiceDomanda / domande.length) * 100"></div>
+      </div>
+
+      <div class="domanda-card">
+
+        <div class="punti-badge">{{ domandaCorrente.puntiChevale }} pt</div>
+
+        <h2 class="domanda-testo">{{ domandaCorrente.testo }}</h2>
+
+        @if (isMultiRisposta && !feedback) {
+          <p class="hint-multi">Seleziona tutte le risposte corrette</p>
+        }
+
+        <div class="risposte">
+          @for (r of domandaCorrente.risposte; track r._id) {
+            <button
+              class="risposta-btn"
+              [class.selezionata]="isSelezionata(r._id) && !feedback"
+              [class.corretta]="!!feedback && feedback.risposteCorrette.includes(r.testo)"
+              [class.errata]="!!feedback && !feedback.corretta && isSelezionata(r._id) && !feedback.risposteCorrette.includes(r.testo)"
+              [disabled]="!!feedback || invioInCorso"
+              (click)="selezionaRisposta(r._id)">
+              {{ r.testo }}
+            </button>
+          }
+        </div>
+
+        @if (!feedback) {
+          <button
+            class="btn-conferma"
+            [disabled]="risposteSelezionate.length === 0 || invioInCorso"
+            (click)="confermaRisposta()">
+            {{ invioInCorso ? 'Invio...' : 'Conferma risposta' }}
+          </button>
+        }
+
+        @if (feedback) {
+          <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
+            @if (feedback.tempoScaduto) {
+              <strong>⏱ Tempo scaduto</strong>
+            } @else if (feedback.corretta) {
+              <strong>Corretto!</strong>
+            } @else {
+              <span>
+                <strong>Sbagliato.</strong>
+                {{ etichettaRispostaCorretta }}: <em>{{ risposteCorretteTesto }}</em>
+              </span>
+            }
+          </div>
+
+          <button class="btn-prossima" (click)="prossimaDomanda()">
+            {{ isUltimaDomanda ? 'Vedi risultato' : 'Prossima domanda' }}
+          </button>
+        }
+
+      </div>
+
+    </main>
+  }
+
+</div>

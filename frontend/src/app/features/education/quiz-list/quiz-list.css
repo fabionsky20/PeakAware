@@ -18,6 +18,20 @@
   letter-spacing: 0.3px;
 }
 
+.navbar-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.punti-badge {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.12);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+}
+
 .logout-btn {
   background: transparent;
   border: 0.5px solid rgba(255,255,255,0.6);

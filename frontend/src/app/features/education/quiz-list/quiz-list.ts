@@ -39,6 +39,9 @@ export class QuizList implements OnInit {
   /** Ruolo dell'utente loggato — determina se mostrare i controlli admin */
   ruoloUtente: string = 'utente';
 
+  puntiUtente: number = 0;
+  livelloUtente: number = 1;
+
   private apiUrl = 'http://localhost:3000/api/educazione';
 
   constructor(
@@ -49,13 +52,9 @@ export class QuizList implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.authService.isAutenticato()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    // Legge il ruolo dal token JWT salvato
     this.ruoloUtente = this.authService.getRuolo();
     this.caricaQuiz();
+    this.caricaProgressi();
   }
 
   caricaQuiz(): void {
@@ -83,6 +82,27 @@ export class QuizList implements OnInit {
 
   filtra(): void {
     this.caricaQuiz();
+  }
+
+  caricaProgressi(): void {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<any>(`${this.apiUrl}/progressi`, { headers }).subscribe({
+      next: (risposta) => {
+        if (risposta.successo) {
+          this.puntiUtente = risposta.dati.punti;
+          this.livelloUtente = risposta.dati.livello;
+          this.cdr.detectChanges();
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  /** Avvia la sessione quiz navigando al componente sessione */
+  avviaQuiz(id: string): void {
+    this.router.navigate(['/educazione/sessione', id]);
   }
 
   /** Naviga al form di creazione nuovo quiz */
