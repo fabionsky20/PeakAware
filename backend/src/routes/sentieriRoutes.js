@@ -13,7 +13,7 @@ const sentieriController = require('../controllers/sentieriController');
 // Middleware di autenticazione per le rotte protette (toggle visibilità)
 const {proteggi, soloAdmin} = require('../middleware/auth');
 
-// Rotta per forzare l'importazione (da chiamare magari una volta al mese/settimana)
+// Rotta per forzare l'importazione (da chiamare magari una volta al mese/settimana) - api/sentieri/importa
 router.post('/importa', sentieriController.importaSentieriDaOverpass);
 
 // Rotte per visualizzazione e gestione dei sentieri
@@ -22,7 +22,7 @@ router.get('/', sentieriController.getAllSentieri);
 router.get('/:id', sentieriController.getSentieroById);
 
 //controlla che l'utente sia autenticato e admin prima di permettere di cambiare la visibilità del sentiero
-router.patch('/:id/toggle-visibilita',proteggi, soloAdmin, sentieriController.toggleVisibilitaSentiero);
+router.patch('/:id/toggleVisibilita',proteggi, soloAdmin, sentieriController.toggleVisibilita);
 
 
 module.exports = router;
