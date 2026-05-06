@@ -19,7 +19,9 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.5.0",
-    "osmtogeojson": "^3.0.0-beta.5"
+    "osmtogeojson": "^3.0.0-beta.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

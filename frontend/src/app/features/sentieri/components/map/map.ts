@@ -7,6 +7,7 @@
 import { Component, inject, effect, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SentieroService } from '@core/services/sentiero.service';
+import { Sentiero } from '../../../../api'; // Importa l'interfaccia generata
 import * as L from 'leaflet';
 
 @Component({
@@ -70,7 +71,7 @@ export class MapComponent implements AfterViewInit {
     this.map.closePopup();
   }
 
-  private updateMap(sentieri: any[]): void {
+  private updateMap(sentieri: Sentiero[]): void {
     this.geoJsonLayer.clearLayers();
 
     sentieri.forEach(s => {
@@ -81,19 +82,23 @@ export class MapComponent implements AfterViewInit {
       }
 
       // Crea il tracciato
-      const layer = L.geoJSON(s.geometry, {
+      const layer = L.geoJSON(s.geometry as any, {
         style: { color: '#ff4500', weight: 4, opacity: 0.8 }
       }).addTo(this.geoJsonLayer);
 
       const coords = s.geometry.coordinates;
       let startPoint: L.LatLngExpression;
+
       try {
-        if (s.geometry.type === 'Point') {
-          startPoint = [coords[1], coords[0]];
-        } else if (s.geometry.type === 'LineString') {
-          startPoint = [coords[0][1], coords[0][0]];
+        if (s.geometry.type === 'LineString') {
+          const p = coords[0] as unknown as number[];
+        startPoint = [p[1], p[0]];
+        } else if (s.geometry.type === 'MultiLineString') {
+          // coords è un array di linee: [[[lon, lat]]]
+          const p = coords[0][0] as unknown as number[];
+          startPoint = [p[1], p[0]];
         } else {
-          startPoint = [coords[0][0][1], coords[0][0][0]];
+          return; // Tipo geometria non supportato
         }
         
         const marker = L.marker(startPoint).addTo(this.geoJsonLayer);
@@ -114,15 +119,15 @@ export class MapComponent implements AfterViewInit {
             (this.layerSelezionato as L.Path).setStyle({ color: '#ff4500', weight: 4, opacity: 0.8 });
           }
 
-          // Nuova selezione grafia[cite: 16]
+          // Nuova selezione grafia
           this.layerSelezionato = layer;
           (layer as any).setStyle({ color: '#007bff', weight: 8, opacity: 1 });
           (layer as any).bringToFront();
 
-          // Aggiorna Signal nel servizio[cite: 11]
+          // Aggiorna Signal nel servizio
           this.sentieroService.sentieroSelezionato.set(s);
           
-          // Calcolo nome da mostrare (Priorità al nome rispetto al numero)[cite: 13]
+          // Calcolo nome da mostrare (Priorità al nome rispetto al numero)
           const nomeMostrato = s.properties?.name || (s.properties?.ref ? 'Sentiero ' + s.properties.ref : 'Sentiero senza nome');
 
           L.popup()
@@ -131,7 +136,7 @@ export class MapComponent implements AfterViewInit {
             .openOn(this.map);
         };
 
-        // Colleghiamo il click sia alla LINEA che al MARKER[cite: 16]
+        // Colleghiamo il click sia alla LINEA che al MARKER
         layer.on('click', seleziona);
         marker.on('click', seleziona);
       } catch (error) {

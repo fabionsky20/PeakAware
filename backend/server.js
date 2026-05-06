@@ -12,10 +12,39 @@ const connectDB = require('./src/config/database');
 const sentieriRoutes = require('./src/routes/sentieriRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const educazioneRoutes = require('./src/routes/educazioneRoutes');
-
-
-
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'PeakAware API',
+      version: '1.0.0',
+      description: 'API per la gestione dei sentieri, autenticazione e contenuti educativi di PeakAware.',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Server di sviluppo locale',
+      },
+    ],
+  },
+  apis: ['./src/routes/*.js', './src/controllers/*.js', './src/models/*.js', './src/middleware/*.js'], // Percorsi dei file con annotazioni Swagger
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+/**
+ * Espone il JSON della specifica OpenAPI per il generatore del frontend
+ */
+app.get('/api-docs-json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 
 // --- Middleware globali ---
 

@@ -4,6 +4,19 @@ const osmtogeojson = require('osmtogeojson');
 const Sentiero = require('../models/Sentiero');
 
 // 1. Funzione per SCARICARE, FILTRARE e SALVARE i sentieri
+/**
+ * @openapi
+ * /api/sentieri/importa:
+ *   post:
+ *     summary: Forza l'importazione dei sentieri da Overpass API
+ *     tags: [Admin]
+ *      operationId: importaSentieriDaOverpass
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Importazione completata
+ */
 exports.importaSentieriDaOverpass = async (req, res) => {
     console.log("📢 RICHIESTA RICEVUTA SULLA ROTTA IMPORTA!");
     try {
@@ -75,6 +88,23 @@ exports.importaSentieriDaOverpass = async (req, res) => {
 };
 
 // GET /api/sentieri - Recupera i sentieri visibili per la mappa
+/**
+ * @openapi
+ * /api/sentieri:
+ *   get:
+ *     summary: Recupera tutti i sentieri visibili
+ *     tags: [Sentieri]
+ *     operationId: getAllSentieri
+ *     responses:
+ *       200:
+ *         description: Array di sentieri
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Sentiero'
+ */
 exports.getAllSentieri = async (req, res) => {
     try {
         // Restituiamo direttamente l'array di sentieri per compatibilità con il service Angular
@@ -86,6 +116,30 @@ exports.getAllSentieri = async (req, res) => {
 };
 
 // GET /api/sentieri/:id
+/**
+ * @openapi
+ * /api/sentieri/{id}:
+ *   get:
+ *     summary: Recupera un singolo sentiero per osm_id
+ *     tags: [Sentieri]
+ *    operationId: getSentieroById
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: L'osm_id del sentiero
+ *     responses:
+ *       200:
+ *         description: Dati del sentiero
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Sentiero'
+ *       404:
+ *         description: Sentiero non trovato
+ */
 exports.getSentieroById = async (req, res) => {
     try {
         const sentiero = await Sentiero.findOne({ osm_id: req.params.id });
@@ -97,6 +151,31 @@ exports.getSentieroById = async (req, res) => {
 };
 
 // PATCH /api/sentieri/:id/visibilità
+/**
+ * @openapi
+ * /api/sentieri/{id}/toggleVisibilita:
+ *   patch:
+ *     summary: Cambia lo stato di visibilità di un sentiero
+ *     tags: [Admin]
+ *     operationId: toggleVisibilita
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Stato visibilità aggiornato
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 successo: { type: boolean }
+ *                 isVisible: { type: boolean }
+ *                 message: { type: string }
+ */
 exports.toggleVisibilita = async (req, res) => {
     try {
         const sentiero = await Sentiero.findOne({ osm_id: req.params.id });

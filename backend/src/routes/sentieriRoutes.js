@@ -1,28 +1,31 @@
 /**
  * @file sentieriRoutes.js
  * @description Route Express per il Modulo Sentieri.
- * Espone gli endpoint per i sentieri, verranno usati da Leafmap per la visualizzazione.
- * Gli endpoint di lettura sono pubblici.
- * Gli endpoint di scrittura richiedono autenticazione admin (per esempio toggle Visibilità di un sentiero).
  */
 
 const express = require('express');
 const router = express.Router();
 const sentieriController = require('../controllers/sentieriController');
 
-// Middleware di autenticazione per le rotte protette (toggle visibilità)
+// Middleware di autenticazione per le rotte protette
 const {proteggi, soloAdmin} = require('../middleware/auth');
 
-// Rotta per forzare l'importazione (da chiamare magari una volta al mese/settimana) - api/sentieri/importa
-router.post('/importa', sentieriController.importaSentieriDaOverpass);
+/**
+ * @openapi
+ * tags:
+ *   name: Sentieri
+ *   description: Gestione e visualizzazione dei sentieri escursionistici
+ */
 
-// Rotte per visualizzazione e gestione dei sentieri
+// Rotta per l'importazione (Protetta: richiede Token Admin)
+// Nota: aggiungiamo 'security' nel blocco @openapi del controller per questa rotta
+router.post('/importa', proteggi, soloAdmin, sentieriController.importaSentieriDaOverpass);
+
+// Rotte pubbliche per la visualizzazione[cite: 18]
 router.get('/', sentieriController.getAllSentieri);
-
 router.get('/:id', sentieriController.getSentieroById);
 
-//controlla che l'utente sia autenticato e admin prima di permettere di cambiare la visibilità del sentiero
-router.patch('/:id/toggleVisibilita',proteggi, soloAdmin, sentieriController.toggleVisibilita);
-
+// Rotta per cambiare visibilità (Protetta: richiede Token Admin)[cite: 18]
+router.patch('/:id/toggleVisibilita', proteggi, soloAdmin, sentieriController.toggleVisibilita);
 
 module.exports = router;
