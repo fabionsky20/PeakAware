@@ -2,6 +2,7 @@
 const axios = require('axios');
 const osmtogeojson = require('osmtogeojson');
 const Sentiero = require('../models/Sentiero');
+const turf = require('@turf/turf');
 
 // 1. Funzione per SCARICARE, FILTRARE e SALVARE i sentieri
 /**
@@ -9,8 +10,9 @@ const Sentiero = require('../models/Sentiero');
  * /api/sentieri/importa:
  *   post:
  *     summary: Forza l'importazione dei sentieri da Overpass API
- *     tags: [Admin]
- *      operationId: importaSentieriDaOverpass
+ *     tags: 
+ *       - Admin
+ *     operationId: importaSentieriDaOverpass
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -56,18 +58,51 @@ exports.importaSentieriDaOverpass = async (req, res) => {
 
         console.log(`Trovati ${sentieriFiltrati.length} percorsi validi. Salvataggio su MongoDB...`);
 
-        const operazioniDb = sentieriFiltrati.map(feature => ({
-            updateOne: {
-                filter: { osm_id: feature.id },
-                update: {
-                    osm_id: feature.id,
-                    properties: feature.properties,
-                    geometry: feature.geometry,
-                    isVisible: true // Assicuriamoci che siano visibili di default
-                },
-                upsert: true
+        const operazioniDb = sentieriFiltrati.map(feature => {
+            const props = feature.properties;
+
+            let lunghezza = props.distance;
+            if (!lunghezza) {
+                // Se non c'è la distanza, calcoliamola noi con Turf
+                lunghezza = turf.length(feature, { units: 'kilometers' });
             }
-        }));
+            let dislivello = props.ascent ? parseInt(props.ascent) : 0;
+
+            let durataAndata = props['duration:forward'];
+            if (!durataAndata) {
+                // Stima: 5 km/h, aggiungiamo 1 ora ogni 500m di dislivello
+                durataAndata = (lunghezza / 5) + (dislivello / 500);
+            }
+
+            let durataRitorno = props['duration:backward'];
+            if (!durataRitorno) {
+                // Stima simile all'andata, ma con un po' meno tempo per il ritorno
+                durataRitorno = (lunghezza / 5) + (dislivello / 800);
+            }
+
+           
+            
+            const durataMedia = (durataAndata + durataRitorno) / 2; // Stima: 5 km/h
+
+            return {
+                updateOne: {
+                    filter: { osm_id: feature.id },
+                    update: {
+                        osm_id: feature.id,
+                        properties: feature.properties,
+                        geometry: feature.geometry,
+                        lunghezza: parseFloat(lunghezza.toFixed(2)), // Lunghezza in km con 2 decimali
+                        dislivello_positivo: dislivello, // Dislivello in metri
+                        tempoAndata: parseFloat(durataAndata.toFixed(2)), // Tempo in ore con 2 decimali
+                        tempoRitorno: parseFloat(durataRitorno.toFixed(2)),
+                        durataMedia: parseFloat(durataMedia.toFixed(2)),
+                        difficolta: props.difficulty || "Turistico", // Default a "Turistico" se non specificato
+                        isVisible: true // Assicuriamoci che siano visibili di default
+                    },
+                    upsert: true
+                }
+            }
+        });
 
         const risultato = await Sentiero.bulkWrite(operazioniDb);
 
@@ -93,7 +128,8 @@ exports.importaSentieriDaOverpass = async (req, res) => {
  * /api/sentieri:
  *   get:
  *     summary: Recupera tutti i sentieri visibili
- *     tags: [Sentieri]
+ *     tags: 
+ *       - Sentieri
  *     operationId: getAllSentieri
  *     responses:
  *       200:
@@ -108,7 +144,7 @@ exports.importaSentieriDaOverpass = async (req, res) => {
 exports.getAllSentieri = async (req, res) => {
     try {
         // Restituiamo direttamente l'array di sentieri per compatibilità con il service Angular
-        const sentieri = await Sentiero.find({ isVisible: true }).select('osm_id properties geometry isVisible');
+        const sentieri = await Sentiero.find({ isVisible: true }).select('osm_id properties geometry isVisible lunghezza dislivello_positivo tempoAndata tempoRitorno durataMedia difficolta');
         res.status(200).json(sentieri); 
     } catch (error) {
         res.status(500).json({ error: "Errore nel recupero dei sentieri" });
@@ -121,8 +157,9 @@ exports.getAllSentieri = async (req, res) => {
  * /api/sentieri/{id}:
  *   get:
  *     summary: Recupera un singolo sentiero per osm_id
- *     tags: [Sentieri]
- *    operationId: getSentieroById
+ *     tags: 
+ *       - Sentieri
+ *     operationId: getSentieroById
  *     parameters:
  *       - in: path
  *         name: id
@@ -156,7 +193,8 @@ exports.getSentieroById = async (req, res) => {
  * /api/sentieri/{id}/toggleVisibilita:
  *   patch:
  *     summary: Cambia lo stato di visibilità di un sentiero
- *     tags: [Admin]
+ *     tags: 
+ *       - Admin
  *     operationId: toggleVisibilita
  *     parameters:
  *       - in: path
@@ -187,7 +225,7 @@ exports.toggleVisibilita = async (req, res) => {
         res.status(200).json({
             successo: true,
             isVisible: sentiero.isVisible,
-            message: `Sentiero ${sentiero.isVisible ? 'attivato' : 'disattivata'}`
+            message: `Sentiero ${sentiero.isVisible ? 'attivato' : 'disattivato'}`
         });
     } catch (error) {
         res.status(500).json({ error: "Errore nella modifica visibilità" });

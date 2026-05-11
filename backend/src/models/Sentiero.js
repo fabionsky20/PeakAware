@@ -34,6 +34,18 @@ const mongoose = require('mongoose');
  *             description:
  *               type: string
  *               description: Descrizione dettagliata del percorso
+ *             dislivello_positivo:
+ *               type: number
+ *               description: Dislivello positivo del sentiero
+ *             tempoAndata: 
+ *               type: number
+ *               description: Tempo stimato di percorrenza in ore
+ *             tempoRitorno:
+ *               type: number
+ *               description: Tempo stimato di ritorno in ore
+ *             lunghezza:
+ *               type: number
+ *               description: Lunghezza del sentiero in km
  *         geometry:
  *           type: object
  *           description: Dati GeoJSON del tracciato
@@ -69,8 +81,12 @@ const sentieroSchema = new mongoose.Schema({
     properties: { 
         name: String,
         ref: String,
-        difficulty: String,
+        difficulty: {type: String, default: "Turistico"},
         description: String,
+        lunghezza: Number, // Lunghezza del sentiero in km
+        dislivello_positivo: Number, // Dislivello positivo in metri
+        tempoAndata: Number, // Tempo stimato di percorrenza in ore
+        tempoRitorno: Number
         // Potenziali altri campi utili da OSM
     },
     // Salviamo le coordinate geografiche (GeoJSON)
