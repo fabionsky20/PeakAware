@@ -29,5 +29,21 @@ export interface SentieroProperties {
      * Descrizione dettagliata del percorso
      */
     description?: string;
+    /**
+     * Dislivello positivo del sentiero
+     */
+    dislivello_positivo?: number;
+    /**
+     * Tempo stimato di percorrenza in ore
+     */
+    tempoAndata?: number;
+    /**
+     * Tempo stimato di ritorno in ore
+     */
+    tempoRitorno?: number;
+    /**
+     * Lunghezza del sentiero in km
+     */
+    lunghezza?: number;
 }
 

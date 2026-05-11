@@ -1,0 +1,78 @@
+<div class="sidebar-wrapper" #sidebarScroll>
+
+  <div class="sidebar-header">
+    <h2>Sentieri</h2>
+    <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
+  </div>
+
+  <div class="list-container">
+    @for (s of sentieriOrdinati(); track s.osm_id) {
+
+      <!-- #trailCard corrisponde a @ViewChildren('trailCard') nel .ts -->
+      <div class="trail-item"
+           #trailCard
+           [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
+           (click)="seleziona(s)">
+
+        <!-- ── Header sempre visibile ── -->
+        <div class="item-header">
+          <div class="title-row">
+            <h3>{{ s.properties?.name || ('Sentiero ' + (s.properties?.ref || 'Senza Nome')) }}</h3>
+            @if (s.properties?.ref) {
+              <span class="ref-badge">{{ s.properties?.ref }}</span>
+            }
+          </div>
+          <div class="header-meta">
+            <span class="badge difficulty">{{ s.properties?.difficulty || 'T' }}</span>
+            <span class="chevron"
+                  [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">
+              ›
+            </span>
+          </div>
+        </div>
+
+        <!-- ── Dettagli a tendina: visibili solo se selezionato ── -->
+        @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
+          <div class="trail-details" (click)="$event.stopPropagation()">
+
+            <div class="stats-grid">
+              @if (s.properties?.lunghezza) {
+                <div class="stat">
+                  <span class="label">Lunghezza</span>
+                  <span class="value">{{ s.properties?.lunghezza }} km</span>
+                </div>
+              }
+              @if (s.properties?.dislivello_positivo) {
+                <div class="stat">
+                  <span class="label">Dislivello</span>
+                  <span class="value">+{{ s.properties?.dislivello_positivo }} m</span>
+                </div>
+              }
+              @if (s.properties?.tempoAndata) {
+                <div class="stat">
+                  <span class="label">Durata</span>
+                  <span class="value">{{ s.properties?.tempoAndata }}</span>
+                </div>
+              }
+              
+
+            @if (s.properties?.description) {
+              <p class="description">{{ s.properties?.description }}</p>
+            }
+
+            <button class="btn-close"
+                    (click)="sentieroService.sentieroSelezionato.set(null); $event.stopPropagation()">
+              ✕ Chiudi
+            </button>
+
+          </div>
+          </div>
+        }
+
+      </div>
+    } @empty {
+      <p class="empty-msg">Nessun sentiero caricato.</p>
+    }
+  </div>
+
+</div>

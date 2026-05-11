@@ -1,25 +1,21 @@
 /**
  * @file sentieri-shell.ts
- * @description Componente per la rappresentazione della lista dei sentieri.
- * D2 dove?
+ * @description Shell che compone mappa + sidebar sincronizzata.
  */
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapComponent } from './components/map/map'; // Il tuo componente mappa
-import { TrailList } from '@features/sentieri/components/trail-list/trail-list'; // Pannello logica/lista
+import { MapComponent } from './components/map/map';
+import { SidebarComponent } from '@features/sentieri/components/trail-list/sidebar';
 
 @Component({
   selector: 'app-sentieri-shell',
   standalone: true,
-  imports: [CommonModule, MapComponent, TrailList],
+  imports: [CommonModule, MapComponent, SidebarComponent],
   template: `
     <div class="sentieri-container">
-      <!-- Pannello laterale per lista e controlli admin -->
       <aside class="sidebar">
-        <app-trail-list />
+        <app-sidebar />
       </aside>
-
-      <!-- Area principale per la mappa -->
       <main class="map-area">
         <app-map />
       </main>
@@ -28,7 +24,7 @@ import { TrailList } from '@features/sentieri/components/trail-list/trail-list';
   styles: [`
     .sentieri-container {
       display: flex;
-      height: 100vh; /* Tutta l'altezza dello schermo */
+      height: 100vh;
       width: 100vw;
       overflow: hidden;
     }
@@ -38,13 +34,11 @@ import { TrailList } from '@features/sentieri/components/trail-list/trail-list';
       background: #ffffff;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       z-index: 2;
-      overflow-y: auto;
-      padding: 1.5rem;
+      overflow: hidden; /* lo scroll lo gestisce SidebarComponent */
     }
     .map-area {
-      flex: 1; /* Prende tutto lo spazio rimanente */
+      flex: 1;
       height: 100%;
-      background: #e5e5e5;
     }
   `]
 })
