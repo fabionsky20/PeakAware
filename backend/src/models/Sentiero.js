@@ -1,5 +1,6 @@
 // src/models/Sentiero.js
 const mongoose = require('mongoose');
+
 /**
  * @openapi
  * components:
@@ -12,43 +13,31 @@ const mongoose = require('mongoose');
  *       properties:
  *         osm_id:
  *           type: string
- *           description: Identificativo univoco di OpenStreetMap
- *           example: "way/12345678"
+ *           example: "relation/129320"
  *         isVisible:
  *           type: boolean
- *           description: Gestisce la visibilità del sentiero nella mappa
  *           default: true
  *         properties:
  *           type: object
- *           description: Metadati del sentiero recuperati da OSM
- *           properties:
- *             name:
- *               type: string
- *               description: Nome ufficiale del sentiero
- *             ref:
- *               type: string
- *               description: Riferimento numerico (es. SAT 401)
- *             difficulty:
- *               type: string
- *               description: Grado di difficoltà tecnica
- *             description:
- *               type: string
- *               description: Descrizione dettagliata del percorso
- *             dislivello_positivo:
- *               type: number
- *               description: Dislivello positivo del sentiero
- *             tempoAndata: 
- *               type: number
- *               description: Tempo stimato di percorrenza in ore
- *             tempoRitorno:
- *               type: number
- *               description: Tempo stimato di ritorno in ore
- *             lunghezza:
- *               type: number
- *               description: Lunghezza del sentiero in km
+ *           description: Tutti i tag OSM del sentiero (schema libero)
+ *           additionalProperties:
+ *             type: string
+ *         lunghezza:
+ *           type: number
+ *           description: Lunghezza calcolata in km
+ *         dislivello_positivo:
+ *           type: number
+ *           description: Dislivello positivo in metri
+ *         tempoAndata:
+ *           type: number
+ *           description: Tempo stimato andata in ore
+ *         tempoRitorno:
+ *           type: number
+ *           description: Tempo stimato ritorno in ore
+ *         difficolta:
+ *           type: string
  *         geometry:
  *           type: object
- *           description: Dati GeoJSON del tracciato
  *           properties:
  *             type:
  *               type: string
@@ -59,45 +48,32 @@ const mongoose = require('mongoose');
  *                 type: array
  *                 items:
  *                   type: number
- *         createdAt:
- *           type: string
- *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
  */
-// schema di documento che il backend manda al frontend, con tutte le info che servono per visualizzare i sentieri sulla mappa
 const sentieroSchema = new mongoose.Schema({
-    osm_id: { 
-        type: String, 
-        required: true, 
-        unique: true // Evita duplicati se lanci l'importazione due volte
+    osm_id: {
+        type: String,
+        required: true,
+        unique: true
     },
-    isVisible: { // Campo per gestire la visibilità del sentiero sulla mappa
+    isVisible: {
         type: Boolean,
-        default: true 
+        default: true
     },
-    // Salviamo tutte le info (nome, numero, difficoltà) qui dentro
-    properties: { 
-        name: String,
-        ref: String,
-        difficulty: {type: String, default: "Turistico"},
-        description: String,
-        lunghezza: Number, // Lunghezza del sentiero in km
-        dislivello_positivo: Number, // Dislivello positivo in metri
-        tempoAndata: Number, // Tempo stimato di percorrenza in ore
-        tempoRitorno: Number
-        // Potenziali altri campi utili da OSM
+    properties: {
+        type: mongoose.Schema.Types.Mixed,
+        default: {}
     },
-    // Salviamo le coordinate geografiche (GeoJSON)
-    geometry: { 
-        type: {type: String, enum: ['LineString', 'MultiLineString'], required: true},
-            coordinates: {type: Array, required: true} 
-        }
-    
+    lunghezza:            { type: Number },
+    dislivello_positivo:  { type: Number },
+    tempoAndata:          { type: Number },
+    tempoRitorno:         { type: Number },
+    difficolta:           { type: String, default: 'Turistico' },
+    geometry: {
+        type:        { type: String, enum: ['LineString', 'MultiLineString'], required: true },
+        coordinates: { type: Array, required: true }
+    }
 }, { timestamps: true });
 
-// Indice spaziale per future query geografiche
-sentieroSchema.index({ geometry: "2dsphere" });
+sentieroSchema.index({ geometry: '2dsphere' });
 
 module.exports = mongoose.model('Sentiero', sentieroSchema);
