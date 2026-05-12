@@ -8,21 +8,32 @@
  * Do not edit the class manually.
  */
 import { SentieroGeometry } from './sentieroGeometry';
-import { SentieroProperties } from './sentieroProperties';
 
 
 export interface Sentiero { 
-    /**
-     * Identificativo univoco di OpenStreetMap
-     */
     osm_id: string;
-    /**
-     * Gestisce la visibilità del sentiero nella mappa
-     */
     isVisible?: boolean;
-    properties?: SentieroProperties;
+    /**
+     * Tutti i tag OSM del sentiero (schema libero)
+     */
+    properties?: { [key: string]: any; };
+    /**
+     * Lunghezza calcolata in km
+     */
+    lunghezza?: number;
+    /**
+     * Dislivello positivo in metri
+     */
+    dislivello_positivo?: number;
+    /**
+     * Tempo stimato andata in ore
+     */
+    tempoAndata?: number;
+    /**
+     * Tempo stimato ritorno in ore
+     */
+    tempoRitorno?: number;
+    difficolta?: string;
     geometry: SentieroGeometry;
-    createdAt?: string;
-    updatedAt?: string;
 }
 

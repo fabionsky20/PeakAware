@@ -169,8 +169,8 @@ export class MapComponent implements AfterViewInit {
       this.sentieroService.sentieroSelezionato.set(s);
     }
 
-    const nome = s.properties?.name
-      ?? (s.properties?.ref ? 'Sentiero ' + s.properties.ref : 'Sentiero senza nome');
+    const nome = s.properties?.['name']
+      ?? (s.properties?.['ref'] ? 'Sentiero ' + s.properties?.['ref'] : 'Sentiero senza nome');
 
     L.popup()
       .setLatLng(bounds.getCenter())

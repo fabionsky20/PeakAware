@@ -9,9 +9,6 @@
  */
 
 
-/**
- * Dati GeoJSON del tracciato
- */
 export interface SentieroGeometry { 
     type?: SentieroGeometry.TypeEnum;
     coordinates?: Array<Array<number>>;

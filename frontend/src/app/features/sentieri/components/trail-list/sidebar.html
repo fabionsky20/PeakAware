@@ -1,75 +1,108 @@
 <div class="sidebar-wrapper" #sidebarScroll>
 
   <div class="sidebar-header">
-    <h2>Sentieri</h2>
+    <h2>🥾 Sentieri</h2>
     <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
   </div>
 
   <div class="list-container">
     @for (s of sentieriOrdinati(); track s.osm_id) {
 
-      <!-- #trailCard corrisponde a @ViewChildren('trailCard') nel .ts -->
       <div class="trail-item"
            #trailCard
            [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
            (click)="seleziona(s)">
 
-        <!-- ── Header sempre visibile ── -->
         <div class="item-header">
-          <div class="title-row">
-            <h3>{{ s.properties?.name || ('Sentiero ' + (s.properties?.ref || 'Senza Nome')) }}</h3>
-            @if (s.properties?.ref) {
-              <span class="ref-badge">{{ s.properties?.ref }}</span>
+          <div class="title-block">
+            @if (s.properties?.['ref']) {
+              <span class="ref-badge">{{ s.properties?.['ref'] }}</span>
             }
+            <h3>{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
           </div>
-          <div class="header-meta">
-            <span class="badge difficulty">{{ s.properties?.difficulty || 'T' }}</span>
-            <span class="chevron"
-                  [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">
-              ›
+          <div class="header-right">
+            <span class="difficulty-badge" [attr.data-level]="getDifficultyLevel(s.properties?.['cai_scale'])">
+              {{ s.properties?.['cai_scale'] || s.properties?.['difficolta'] || 'T' }}
             </span>
+            <span class="chevron" [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">›</span>
           </div>
         </div>
 
-        <!-- ── Dettagli a tendina: visibili solo se selezionato ── -->
         @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
           <div class="trail-details" (click)="$event.stopPropagation()">
 
-            <div class="stats-grid">
-              @if (s.properties?.lunghezza) {
-                <div class="stat">
-                  <span class="label">Lunghezza</span>
-                  <span class="value">{{ s.properties?.lunghezza }} km</span>
-                </div>
-              }
-              @if (s.properties?.dislivello_positivo) {
-                <div class="stat">
-                  <span class="label">Dislivello</span>
-                  <span class="value">+{{ s.properties?.dislivello_positivo }} m</span>
-                </div>
-              }
-              @if (s.properties?.tempoAndata) {
-                <div class="stat">
-                  <span class="label">Durata</span>
-                  <span class="value">{{ s.properties?.tempoAndata }}</span>
-                </div>
-              }
-              
-
-            @if (s.properties?.description) {
-              <p class="description">{{ s.properties?.description }}</p>
+            <!-- Da → A -->
+            @if (s.properties?.['from'] || s.properties?.['to']) {
+              <div class="route-row">
+                <span class="route-point from">📍 {{ s.properties?.['from'] || '—' }}</span>
+                <span class="route-arrow">→</span>
+                <span class="route-point to">🏁 {{ s.properties?.['to'] || '—' }}</span>
+              </div>
             }
 
-            <button class="btn-close"
-                    (click)="sentieroService.sentieroSelezionato.set(null); $event.stopPropagation()">
-              ✕ Chiudi
-            </button>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-icon">📏</span>
+                <span class="stat-label">Lunghezza</span>
+                <span class="stat-value">{{ s.lunghezza ?? '—' }} km</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">⬆️</span>
+                <span class="stat-label">Salita</span>
+                <span class="stat-value">{{ s.dislivello_positivo ? '+' + s.dislivello_positivo + ' m' : '—' }}</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">⬇️</span>
+                <span class="stat-label">Discesa</span>
+                <span class="stat-value">{{ s.properties?.['descent'] ? '-' + s.properties?.['descent'] + ' m' : '—' }}</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">🕐</span>
+                <span class="stat-label">Andata</span>
+                <span class="stat-value">{{ formatDurata(s.tempoAndata) }}</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">🕑</span>
+                <span class="stat-label">Ritorno</span>
+                <span class="stat-value">{{ formatDurata(s.tempoRitorno) }}</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">🧭</span>
+                <span class="stat-label">Difficoltà</span>
+                <span class="stat-value">{{ s.properties?.['cai_scale'] || s.properties?.['difficolta'] || '—' }}</span>
+              </div>
+            </div>
 
-          </div>
+            @if (s.properties?.['operator']) {
+              <p class="operator">🏔️ {{ s.properties?.['operator'] }}</p>
+            }
+
+            <div class="detail-actions">
+              @if (s.properties?.['website']) {
+                <a class="btn-web"
+                   [href]="s.properties?.['website']"
+                   target="_blank"
+                   (click)="$event.stopPropagation()">
+                  🌐 Sito ufficiale
+                </a>
+              }
+              <a class="btn-osm"
+                 [href]="'https://www.openstreetmap.org/' + s.osm_id"
+                 target="_blank"
+                 (click)="$event.stopPropagation()">
+                🗺️ Apri su OSM
+              </a>
+              <button class="btn-close"
+                      (click)="sentieroService.sentieroSelezionato.set(null); $event.stopPropagation()">
+                ✕ Chiudi
+              </button>
+            </div>
+
           </div>
         }
 
       </div>
+
     } @empty {
       <p class="empty-msg">Nessun sentiero caricato.</p>
     }

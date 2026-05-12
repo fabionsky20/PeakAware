@@ -12,7 +12,6 @@ index.ts
 model/models.ts
 model/sentiero.ts
 model/sentieroGeometry.ts
-model/sentieroProperties.ts
 model/toggleVisibilita200Response.ts
 param.ts
 provide-api.ts

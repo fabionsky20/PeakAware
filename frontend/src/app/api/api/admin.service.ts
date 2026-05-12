@@ -92,7 +92,7 @@ export class AdminService extends BaseService {
     /**
      * Cambia lo stato di visibilità di un sentiero
      * @endpoint patch /api/sentieri/{id}/toggleVisibilita
-     * @param id 
+     * @param id L\&#39;osm_id del sentiero
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
