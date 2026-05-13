@@ -33,7 +33,19 @@ const swaggerOptions = {
   apis: ['./src/routes/*.js', './src/controllers/*.js', './src/models/*.js', './src/middleware/*.js'], // Percorsi dei file con annotazioni Swagger
 };
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
+const cron = require('node-cron');
+const { importaSentieriDaOverpass } = require('./src/services/importaSentieriService');
 
+// --- Cron job per importazione sentieri ---
+cron.schedule('0 3 * * 1', async () => {
+  console.log("Esecuzione cron job: importazione settimanale sentieri da Overpass...");
+  try {
+    const dettagli = await importaSentieriDaOverpass();
+    console.log("Importazione completata con successo!", dettagli);
+  } catch (error) {
+    console.error("Errore durante l'importazione:", error.message);
+  }
+});
 /**
  * Espone il JSON della specifica OpenAPI per il generatore del frontend
  */
