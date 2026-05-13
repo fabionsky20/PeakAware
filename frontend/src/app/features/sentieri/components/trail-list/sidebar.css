@@ -233,3 +233,24 @@
   padding: 2rem;
   font-size: 0.9rem;
 }
+.btn-importa {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #ff4500;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-importa:hover:not(:disabled) { background: #e03d00; }
+.btn-importa:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.importa-esito {
+  margin: 0.3rem 0 0;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.85);
+}

@@ -3,6 +3,17 @@
   <div class="sidebar-header">
     <h2>🥾 Sentieri</h2>
     <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
+    <button class="btn-to-home" (click)="vaiAllaHome()">🏠 Home</button>
+    <button class="btn-refresh" (click)="ricaricaSentieri()">🔄 Ricarica</button>
+
+    @if (isAdmin()) {
+      <button class="btn-import" (click)="avviaImportazione()" [disabled]="importaLoading">
+        {{ importaLoading ? 'Importazione in corso...' : '📥 Importa da OSM' }}
+      </button>
+      @if (importEsito) {
+        <p class="import-result">{{ importEsito }}</p>
+      } 
+  }
   </div>
 
   <div class="list-container">

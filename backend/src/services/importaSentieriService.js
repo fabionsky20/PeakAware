@@ -9,7 +9,7 @@ async function importaSentieriDaOverpass() {
         console.log("Inizio download dati da Overpass...");
 
         const query = `
-            [out:json][timeout:90];
+            [out:json][timeout:180];
             area["name"="Trento"]["admin_level"="8"]->.zona;
             (
                 way["route"="hiking"](area.zona);
@@ -28,7 +28,7 @@ async function importaSentieriDaOverpass() {
                 'Accept': 'application/json',
                 'Accept-Encoding': 'identity'
             },
-            timeout: 300000
+            timeout: 600000
         });
 
         console.log("Dati scaricati. Conversione e filtraggio...");
@@ -110,6 +110,7 @@ async function importaSentieriDaOverpass() {
         console.error("Errore durante l'importazione:", error.message);
         throw new Error("Errore durante l'interazione con Overpass o il DB");
     }
+    
 };
 
 module.exports = { importaSentieriDaOverpass };

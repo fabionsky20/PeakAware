@@ -4,6 +4,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SentieroService } from '@core/services/sentiero.service';
+import { AuthService } from '@core/services/auth.service'; 
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,6 +16,14 @@ import { SentieroService } from '@core/services/sentiero.service';
 })
 export class SidebarComponent {
   protected sentieroService = inject(SentieroService);
+  private authService = inject(AuthService);
+  private http = inject(HttpClient);
+
+  isAdmin = computed(() => this.authService.getRuolo() === 'admin');
+  importaLoading = false;
+  importEsito: string | null = null;
+
+  
 
   @ViewChild('sidebarScroll') sidebarScroll!: ElementRef<HTMLElement>;
   @ViewChildren('trailCard') trailCards!: QueryList<ElementRef<HTMLElement>>;
@@ -67,7 +77,29 @@ export class SidebarComponent {
       default:    return 'unknown';
     }
   }
+  vaiAllaHome() {
+    window.location.href = '/home';
+  }
+  ricaricaSentieri() {
+    window.location.reload();
+  }
 
+  avviaImportazione() {
+    this.importaLoading = true;
+    this.importEsito = null;
+
+    this.http.post('http://localhost:3000/api/sentieri/importa', {}, {headers: {Authorization: `Bearer ${this.authService.getToken()}`}}).subscribe({
+      next: (data) => {
+        this.importEsito = `✅ sentieri importati con successo`;
+        this.importaLoading = false;
+        this.ricaricaSentieri();
+      },
+      error: (error) => {
+        this.importEsito = 'Errore durante l\'importazione.';
+        this.importaLoading = false;
+      }
+    });
+  }
   constructor() {
     effect(() => {
       const selezionato = this.sentieroService.sentieroSelezionato();
