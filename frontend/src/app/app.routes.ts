@@ -13,6 +13,7 @@ import { QuizSessione } from './features/education/quiz-sessione/quiz-sessione';
 import { QuizRisultato } from './features/education/quiz-risultato/quiz-risultato';
 import { QuizForm } from './features/admin/quiz-form/quiz-form';
 import { authGuard } from './core/guards/auth.guard';
+import { SentieriShell } from '@features/sentieri/sentieri-shell';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'risultato', component: QuizRisultato },
     ]
   },
+  { path: 'sentieri', component: SentieriShell },
   { path: 'admin/quiz-form', component: QuizForm },
   { path: 'admin/quiz-form/:id', component: QuizForm },
   { path: '**', redirectTo: 'login' }

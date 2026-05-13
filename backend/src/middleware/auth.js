@@ -1,30 +1,28 @@
 /**
  * @file auth.js
  * @description Middleware di autenticazione JWT.
- * Protegge gli endpoint che richiedono un utente autenticato.
- * Corrisponde all'interfaccia "Autenticazione e autorizzazione" del Backend API (D2 sezione 1.3).
  */
 
 const jwt = require('jsonwebtoken');
 const Utente = require('../models/Utente');
 
 /**
+ * @openapi
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:            # Nome identificativo dello schema
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT    # Specifica che il token è un JSON Web Token
+ *       description: Inserisci il token JWT nel formato "Bearer <token>" per accedere alle rotte protette.
+ */
+
+/**
  * Middleware che verifica il token JWT nella richiesta.
- * Il token deve essere inviato nell'header Authorization nel formato:
- * "Bearer <token>"
- *
- * Se il token è valido, aggiunge l'oggetto utente a req.utente
- * e passa al middleware/controller successivo.
- * Se il token manca o non è valido, risponde con errore 401.
- *
- * @async
- * @param {Object} req - Richiesta Express
- * @param {Object} res - Risposta Express
- * @param {Function} next - Funzione per passare al middleware successivo
+ * Il token deve essere inviato nell'header Authorization nel formato "Bearer <token>".
  */
 const proteggi = async (req, res, next) => {
   try {
-    // Legge il token dall'header Authorization
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -34,14 +32,10 @@ const proteggi = async (req, res, next) => {
       });
     }
 
-    // Estrae il token rimuovendo il prefisso "Bearer "
     const token = authHeader.split(' ')[1];
-
-    // Verifica e decodifica il token usando JWT_SECRET
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Cerca l'utente nel DB tramite l'id contenuto nel token
-    // .select('-password') esclude la password dalla risposta
+    // Esclude la password dalla richiesta per sicurezza
     const utente = await Utente.findById(decoded.id).select('-password');
 
     if (!utente) {
@@ -51,7 +45,6 @@ const proteggi = async (req, res, next) => {
       });
     }
 
-    // Aggiunge l'utente alla richiesta — disponibile nei controller successivi
     req.utente = utente;
     next();
   } catch (error) {
@@ -65,12 +58,7 @@ const proteggi = async (req, res, next) => {
 
 /**
  * Middleware che verifica se l'utente autenticato ha ruolo 'admin'.
- * Da usare dopo 'proteggi' sugli endpoint riservati agli operatori SAT.
- * Corrisponde al controllo dei permessi del componente Gestione Contenuti (D2 sezione 1.3).
- *
- * @param {Object} req - Richiesta Express (deve contenere req.utente)
- * @param {Object} res - Risposta Express
- * @param {Function} next - Funzione per passare al middleware successivo
+ * Da usare dopo 'proteggi' per le operazioni riservate (es. operatori SAT).
  */
 const soloAdmin = (req, res, next) => {
   if (req.utente && req.utente.ruolo === 'admin') {
