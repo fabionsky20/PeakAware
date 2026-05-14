@@ -1,0 +1,87 @@
+<div class="notizie-container">
+
+    <div class="notizie-card">
+
+        <h2>
+            {{ isModifica ? 'Modifica Notizia' : 'Nuova Notizia' }}
+        </h2>
+
+        <!-- Messaggi -->
+        <div *ngIf="errore" class="alert errore">
+            {{ errore }}
+        </div>
+
+        <div *ngIf="successo" class="alert successo">
+            {{ successo }}
+        </div>
+
+        <!-- Form -->
+        <form (ngSubmit)="salva()">
+
+            <!-- Titolo -->
+            <div class="form-group">
+                <label for="titolo">Titolo</label>
+
+                <input
+                    type="text"
+                    id="titolo"
+                    name="titolo"
+                    [(ngModel)]="notizia.titolo"
+                    required
+                    placeholder="Inserisci il titolo della notizia"
+                />
+            </div>
+
+            <!-- Data -->
+            <div class="form-group">
+                <label for="dataPubblicazione">Data pubblicazione</label>
+
+                <input
+                    type="date"
+                    id="dataPubblicazione"
+                    name="dataPubblicazione"
+                    [(ngModel)]="notizia.dataPubblicazione"
+                    required
+                />
+            </div>
+
+            <!-- Contenuto -->
+            <div class="form-group">
+                <label for="contenuto">Contenuto</label>
+
+                <textarea
+                    id="contenuto"
+                    name="contenuto"
+                    rows="8"
+                    [(ngModel)]="notizia.contenuto"
+                    required
+                    placeholder="Scrivi qui il contenuto della notizia..."
+                ></textarea>
+            </div>
+
+            <!-- Bottoni -->
+            <div class="button-group">
+
+                <button
+                    type="submit"
+                    class="btn salva"
+                    [disabled]="caricamento"
+                >
+                    {{ caricamento ? 'Salvataggio...' : 'Salva' }}
+                </button>
+
+                <button
+                    type="button"
+                    class="btn annulla"
+                    (click)="annulla()"
+                >
+                    Annulla
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

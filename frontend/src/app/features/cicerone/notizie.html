@@ -1,0 +1,86 @@
+<div class="page-container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div class="logo-section">
+            <h1>PeakAware News</h1>
+        </div>
+
+        <div class="topbar-actions">
+
+          @if (ruoloUtente === 'admin') {
+            <button class="btn nuova" (click)="nuovaNotizia()">
+                + Nuova Notizia
+            </button>
+           }  
+
+            <button class="btn logout" (click)="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENUTO -->
+    <main class="content">
+
+        <!-- Loading -->
+        <div *ngIf="caricamento" class="loading">
+            Caricamento notizie...
+        </div>
+
+        <!-- Errore -->
+        <div *ngIf="errore" class="errore">
+            {{ errore }}
+        </div>
+
+        <!-- Lista Notizie -->
+        <div class="notizie-grid" *ngIf="!caricamento">
+
+            <div
+                class="notizia-card"
+                *ngFor="let notizia of notizie"
+                (click)="avviaNotizia(notizia._id)"
+            >
+
+                <div class="card-header">
+
+                    <h2>{{ notizia.titolo }}</h2>
+
+                    <span class="data">
+                        {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
+                    </span>
+
+                </div>
+
+                <p class="contenuto">
+                    {{ notizia.contenuto }}
+                </p>
+
+                <div class="card-actions">
+
+                    <button
+                        class="btn modifica"
+                        (click)="modificaNotizia(notizia._id, $event)"
+                    >
+                        Modifica
+                    </button>
+
+                    <button
+                        class="btn elimina"
+                        (click)="eliminaNotizia(notizia._id, $event)"
+                    >
+                        Elimina
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>

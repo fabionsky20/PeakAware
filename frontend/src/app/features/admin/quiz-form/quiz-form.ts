@@ -62,7 +62,7 @@ export class QuizForm implements OnInit {
     this.quizId = this.route.snapshot.paramMap.get('id');
     if (this.quizId) {
       this.isModifica = true;
-      this.caricaQuiz();
+      this.caricaQuiz(); 
     }
   }
 
