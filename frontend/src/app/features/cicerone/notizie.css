@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.page-container {
+    min-height: 100vh;
+    background: #f4f6f9;
+}
+
+/* TOPBAR */
+
+.topbar {
+    width: 100%;
+
+    background: #1e293b;
+
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo-section h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.topbar-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* CONTENUTO */
+
+.content {
+    padding: 40px;
+}
+
+/* GRID */
+
+.notizie-grid {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+    gap: 25px;
+}
+
+/* CARD */
+
+.notizia-card {
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+    transition: 0.25s ease;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.notizia-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    margin-bottom: 18px;
+}
+
+.card-header h2 {
+    font-size: 22px;
+
+    color: #1e293b;
+
+    margin-bottom: 10px;
+}
+
+.data {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.contenuto {
+    color: #374151;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 4;
+
+    -webkit-box-orient: vertical;
+}
+
+/* BOTTONI */
+
+.card-actions {
+    display: flex;
+
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.nuova {
+    background: #2563eb;
+    color: white;
+}
+
+.nuova:hover {
+    background: #1d4ed8;
+}
+
+.logout {
+    background: #ef4444;
+    color: white;
+}
+
+.logout:hover {
+    background: #dc2626;
+}
+
+.modifica {
+    background: #f59e0b;
+    color: white;
+}
+
+.modifica:hover {
+    background: #d97706;
+}
+
+.elimina {
+    background: #ef4444;
+    color: white;
+}
+
+.elimina:hover {
+    background: #dc2626;
+}
+
+/* MESSAGGI */
+
+.loading,
+.errore {
+    margin-bottom: 20px;
+
+    padding: 16px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.loading {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.errore {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .topbar {
+        flex-direction: column;
+        gap: 20px;
+
+        text-align: center;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
