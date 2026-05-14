@@ -2,76 +2,8 @@
 
   <header class="navbar">
     <div class="navbar-brand">PeakAware</div>
-    <button class="profilo-btn" (click)="toggleProfilo()">
-      <span class="profilo-iniziale">{{ iniziale }}</span>
-    </button>
+    <app-profile-button/>
   </header>
-
-  @if (profiloAperto) {
-    <div class="overlay" (click)="toggleProfilo()"></div>
-    <aside class="profilo-panel">
-
-      <div class="profilo-header">
-        <div class="profilo-avatar">{{ iniziale }}</div>
-        <div>
-          <p class="profilo-email">{{ email }}</p>
-          <p class="profilo-ruolo">{{ ruolo }}</p>
-        </div>
-      </div>
-
-      <div class="profilo-stat-riga">
-        <div class="profilo-stat">
-          <span class="stat-valore">{{ punti }}</span>
-          <span class="stat-label">Punti</span>
-        </div>
-        <div class="profilo-stat">
-          <span class="stat-valore">{{ livello }}</span>
-          <span class="stat-label">Livello</span>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <button class="toggle-pw-btn" (click)="toggleCambiaPw()">
-        {{ cambiaPwAperto ? 'Annulla' : 'Cambia password' }}
-      </button>
-
-      @if (cambiaPwAperto) {
-        <form class="pw-form" (ngSubmit)="cambiaPassword()">
-          <input
-            type="password"
-            [(ngModel)]="pwAttuale"
-            name="pwAttuale"
-            placeholder="Password attuale"
-            class="pw-input" />
-          <input
-            type="password"
-            [(ngModel)]="pwNuova"
-            name="pwNuova"
-            placeholder="Nuova password"
-            class="pw-input" />
-          <button
-            type="submit"
-            class="pw-submit-btn"
-            [disabled]="cambiaPwCaricamento">
-            {{ cambiaPwCaricamento ? 'Salvataggio...' : 'Conferma' }}
-          </button>
-        </form>
-
-        @if (cambiaPwErrore) {
-          <p class="pw-errore">{{ cambiaPwErrore }}</p>
-        }
-        @if (cambiaPwSuccesso) {
-          <p class="pw-successo">{{ cambiaPwSuccesso }}</p>
-        }
-      }
-
-      <div class="divider"></div>
-
-      <button class="logout-btn" (click)="logout()">Esci</button>
-
-    </aside>
-  }
 
   <main class="main-content">
 

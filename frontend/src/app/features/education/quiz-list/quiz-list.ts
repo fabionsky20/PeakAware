@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
 
 interface Quiz {
   _id: string;
@@ -25,12 +26,12 @@ interface Quiz {
 @Component({
   selector: 'app-quiz-list',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ProfileButton],
   templateUrl: './quiz-list.html',
   styleUrl: './quiz-list.css'
 })
 export class QuizList implements OnInit {
-
+  
   quiz: Quiz[] = [];
   categoriaSelezionata: string = '';
   caricamento: boolean = false;
@@ -56,7 +57,9 @@ export class QuizList implements OnInit {
     this.caricaQuiz();
     this.caricaProgressi();
   }
-
+  vaiAllaHomepage(): void {
+    this.router.navigate(['/home']);
+  }
   caricaQuiz(): void {
     this.caricamento = true;
     this.errore = '';

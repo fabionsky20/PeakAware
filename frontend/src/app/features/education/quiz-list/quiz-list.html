@@ -4,8 +4,9 @@
     <div class="navbar-brand">⛰️ PeakAware</div>
     <div class="navbar-info">
       <span class="punti-badge">🏆 {{ puntiUtente }} pt · Livello {{ livelloUtente }}</span>
-      <button class="logout-btn" (click)="logout()">Esci</button>
-    </div>
+      <button class="btn-homepage" (click)="vaiAllaHomepage()">🏠</button>
+      <app-profile-button theme="navbar" />
+    </div>   
   </header>
 
   <main class="main-content">
