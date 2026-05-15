@@ -15,7 +15,6 @@ import { QuizForm } from './features/admin/quiz-form/quiz-form';
 import { authGuard } from './core/guards/auth.guard';
 import { SentieriShell } from '@features/sentieri/sentieri-shell';
 import { Notizie } from '@features/cicerone/notizie';
-import { DettaglioNotizia } from './features/cicerone/dettaglio-notizia/dettaglio-notizia';
 import { NotizieForm } from './features/admin/notizie-form/notizie-form';
 
 export const routes: Routes = [
@@ -42,9 +41,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'notizie', pathMatch: 'full' },
       { path: 'notizie', component: Notizie },
-      { path: 'notizie/:id', component: DettaglioNotizia }
     ]
   },
+  
   { path: 'admin/notizie-form', component: NotizieForm },
   { path: 'admin/notizie-form/:id', component: NotizieForm },
   { path: '**', redirectTo: 'login' },

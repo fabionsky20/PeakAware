@@ -1,86 +1,109 @@
-<div class="page-container">
+<div class="notizie-container">
 
-    <!-- HEADER -->
-    <header class="topbar">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Notizie</h1>
 
-        <div class="logo-section">
-            <h1>PeakAware News</h1>
-        </div>
+    <div class="actions-header">
+      <button class="btn-home" (click)="annulla()">
+        Home
+      </button>
 
-        <div class="topbar-actions">
+      <button class="btn-logout" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
 
-          @if (ruoloUtente === 'admin') {
-            <button class="btn nuova" (click)="nuovaNotizia()">
-                + Nuova Notizia
-            </button>
-           }  
+  <!-- FILTRO CATEGORIA -->
+  <div class="filtro-container">
 
-            <button class="btn logout" (click)="logout()">
-                Logout
-            </button>
+    <input
+      type="text"
+      placeholder="Filtra per categoria..."
+      [(ngModel)]="categoriaSelezionata"
+      class="input-filtro"
+    />
 
-        </div>
+    <button class="btn-filtra" (click)="caricaNotizie()">
+      Cerca
+    </button>
 
-    </header>
+    <!-- Bottone admin -->
+    <button
+      *ngIf="ruoloUtente === 'admin'"
+      class="btn-nuova"
+      (click)="nuovaNotizia()"
+    >
+      + Nuova Notizia
+    </button>
 
-    <!-- CONTENUTO -->
-    <main class="content">
+  </div>
 
-        <!-- Loading -->
-        <div *ngIf="caricamento" class="loading">
-            Caricamento notizie...
-        </div>
+  <!-- LOADING -->
+  <div *ngIf="caricamento" class="loading">
+    Caricamento notizie...
+  </div>
 
-        <!-- Errore -->
-        <div *ngIf="errore" class="errore">
-            {{ errore }}
-        </div>
+  <!-- ERRORE -->
+  <div *ngIf="errore" class="errore">
+    {{ errore }}
+  </div>
 
-        <!-- Lista Notizie -->
-        <div class="notizie-grid" *ngIf="!caricamento">
+  <!-- LISTA NOTIZIE -->
+  <div class="lista-notizie" *ngIf="notizie.length > 0">
 
-            <div
-                class="notizia-card"
-                *ngFor="let notizia of notizie"
-                (click)="avviaNotizia(notizia._id)"
-            >
+    <div
+      class="card-notizia"
+      *ngFor="let notizia of notizie"
+      (click)="avviaNotizia(notizia._id)"
+    >
 
-                <div class="card-header">
+      <div class="card-header">
+        <h2>{{ notizia.titolo }}</h2>
 
-                    <h2>{{ notizia.titolo }}</h2>
+        <span class="data">
+          {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
+        </span>
+      </div>
 
-                    <span class="data">
-                        {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
-                    </span>
+      <p class="contenuto">
+        {{ notizia.contenuto }}
+      </p>
 
-                </div>
+      <!-- Pulsanti admin -->
+      <div
+        class="azioni-admin"
+        *ngIf="ruoloUtente === 'admin'"
+      >
 
-                <p class="contenuto">
-                    {{ notizia.contenuto }}
-                </p>
+        <button
+          class="btn-modifica"
+          (click)="modificaNotizia(notizia._id, $event)"
+        >
+          Modifica
+        </button>
 
-                <div class="card-actions">
+        <button
+          class="btn-elimina"
+          (click)="eliminaNotizia(notizia._id, $event)"
+        >
+          Elimina
+        </button>
 
-                    <button
-                        class="btn modifica"
-                        (click)="modificaNotizia(notizia._id, $event)"
-                    >
-                        Modifica
-                    </button>
+      </div>
 
-                    <button
-                        class="btn elimina"
-                        (click)="eliminaNotizia(notizia._id, $event)"
-                    >
-                        Elimina
-                    </button>
+    </div>
 
-                </div>
+  </div>
 
-            </div>
-
-        </div>
-
-    </main>
+  <!-- NESSUNA NOTIZIA -->
+  <div
+    class="nessuna-notizia"
+    *ngIf="!caricamento && notizie.length === 0"
+  >
+    Nessuna notizia disponibile.
+  </div>
 
 </div>
+

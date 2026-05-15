@@ -1,6 +1,6 @@
 <div class="notizie-container">
 
-    <div class="notizie-card">
+    <div class="card-form">
 
         <h2>
             {{ isModifica ? 'Modifica Notizia' : 'Nuova Notizia' }}
@@ -15,13 +15,17 @@
             {{ successo }}
         </div>
 
+        <!-- Loader -->
+        <div *ngIf="caricamento" class="loading">
+            Caricamento...
+        </div>
+
         <!-- Form -->
-        <form (ngSubmit)="salva()">
+        <form *ngIf="!caricamento" (ngSubmit)="salva()">
 
             <!-- Titolo -->
             <div class="form-group">
                 <label for="titolo">Titolo</label>
-
                 <input
                     type="text"
                     id="titolo"
@@ -32,10 +36,22 @@
                 />
             </div>
 
+            <!-- Contenuto -->
+            <div class="form-group">
+                <label for="contenuto">Contenuto</label>
+                <textarea
+                    id="contenuto"
+                    name="contenuto"
+                    [(ngModel)]="notizia.contenuto"
+                    rows="8"
+                    required
+                    placeholder="Scrivi il contenuto della notizia..."
+                ></textarea>
+            </div>
+
             <!-- Data -->
             <div class="form-group">
                 <label for="dataPubblicazione">Data pubblicazione</label>
-
                 <input
                     type="date"
                     id="dataPubblicazione"
@@ -45,29 +61,11 @@
                 />
             </div>
 
-            <!-- Contenuto -->
-            <div class="form-group">
-                <label for="contenuto">Contenuto</label>
-
-                <textarea
-                    id="contenuto"
-                    name="contenuto"
-                    rows="8"
-                    [(ngModel)]="notizia.contenuto"
-                    required
-                    placeholder="Scrivi qui il contenuto della notizia..."
-                ></textarea>
-            </div>
-
-            <!-- Bottoni -->
+            <!-- Pulsanti -->
             <div class="button-group">
 
-                <button
-                    type="submit"
-                    class="btn salva"
-                    [disabled]="caricamento"
-                >
-                    {{ caricamento ? 'Salvataggio...' : 'Salva' }}
+                <button type="submit" class="btn salva">
+                    {{ isModifica ? 'Salva Modifiche' : 'Pubblica Notizia' }}
                 </button>
 
                 <button

@@ -1,151 +1,148 @@
-* {
-    box-sizing: border-box;
-}
-
+/* Container principale */
 .notizie-container {
-    width: 100%;
-    min-height: 100vh;
-
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    padding: 40px;
-
+    align-items: flex-start;
+    padding: 40px 20px;
     background: #f4f6f9;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.notizie-card {
+/* Card */
+.card-form {
+    background: #ffffff;
     width: 100%;
-    max-width: 700px;
-
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 16px;
-
+    max-width: 750px;
+    padding: 30px;
+    border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-.notizie-card h2 {
+/* Titolo */
+.card-form h2 {
     margin-bottom: 25px;
-
+    color: #222;
     text-align: center;
-
-    color: #1f2937;
-
     font-size: 28px;
 }
 
+/* Gruppi form */
 .form-group {
-    margin-bottom: 20px;
-
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
+/* Label */
 .form-group label {
     margin-bottom: 8px;
-
     font-weight: 600;
-
-    color: #374151;
+    color: #444;
 }
 
+/* Input e textarea */
 .form-group input,
 .form-group textarea {
-    width: 100%;
-
-    padding: 14px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 10px;
-
+    padding: 12px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
     font-size: 15px;
-
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease;
+    outline: none;
 }
 
+/* Focus */
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #2563eb;
-
-    outline: none;
-
-    box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+    border-color: #1976d2;
 }
 
-textarea {
+/* Textarea */
+.form-group textarea {
     resize: vertical;
 }
 
+/* Pulsanti */
 .button-group {
     display: flex;
-
-    justify-content: flex-end;
-
     gap: 15px;
-
     margin-top: 25px;
 }
 
+/* Base button */
 .btn {
     border: none;
-
-    padding: 12px 22px;
-
-    border-radius: 10px;
-
-    font-size: 15px;
-
-    font-weight: 600;
-
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-
+    font-size: 15px;
+    font-weight: 600;
     transition: 0.2s ease;
 }
 
-.btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.salva {
-    background: #2563eb;
+/* Bottone salva */
+.btn.salva {
+    background: #1976d2;
     color: white;
 }
 
-.salva:hover {
-    background: #1d4ed8;
+.btn.salva:hover {
+    background: #125aa0;
 }
 
-.annulla {
-    background: #e5e7eb;
-    color: #111827;
+/* Bottone annulla */
+.btn.annulla {
+    background: #e0e0e0;
+    color: #333;
 }
 
-.annulla:hover {
-    background: #d1d5db;
+.btn.annulla:hover {
+    background: #c7c7c7;
 }
 
+/* Alert */
 .alert {
     padding: 14px;
-
-    border-radius: 10px;
-
+    border-radius: 8px;
     margin-bottom: 20px;
-
     font-weight: 500;
 }
 
-.errore {
-    background: #fee2e2;
-    color: #b91c1c;
+/* Errore */
+.alert.errore {
+    background: #ffe5e5;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
 }
 
-.successo {
-    background: #dcfce7;
-    color: #166534;
+/* Successo */
+.alert.successo {
+    background: #e7f8ea;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+
+    .card-form {
+        padding: 20px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
 }

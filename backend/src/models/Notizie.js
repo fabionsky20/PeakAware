@@ -9,8 +9,14 @@ const notiziaSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  autore: {
+  categoria: {
     type: String,
+    enum: ['meteo', 'valanghe', 'orientamento', 'fauna', 'prontoSoccorso', 'generale'],
+    default: 'generale'
+  },
+  idAutore: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utente',
     required: true
   },
   dataPubblicazione: {

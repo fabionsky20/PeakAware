@@ -2,12 +2,13 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NgIf } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-notizie-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './notizie-form.html',
   styleUrl: './notizie-form.css'
 })
@@ -56,11 +57,13 @@ export class NotizieForm implements OnInit {
     }   
     caricaNotizia(): void {
         this.caricamento = true;
-        this.errore = '';   
+        this.errore = '';
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         let url = `${this.apiUrl}/notizie/${this.notiziaId}`;
-        this.http.get<any>(url).subscribe({
+        this.http.get<any>(url, { headers }).subscribe({
             next: (data) => {
-                this.notizia = data;
+                this.notizia = data.dati;
                 this.caricamento = false;
                 this.cdr.detectChanges();
             },
@@ -72,11 +75,24 @@ export class NotizieForm implements OnInit {
         });
     }
 
+    
+
+    aggiungiNotizia(): void {
+        this.notizia = {
+            titolo: '',
+            contenuto: '',
+            dataPubblicazione: new Date().toISOString().substring(0, 10) // formato YYYY-MM-DD
+        };
+        this.router.navigate(['/admin/notizie-form']);
+    }
+
     salva(): void {
         this.caricamento = true;
         this.errore = '';
         this.successo = '';
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
+
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
         if (this.isModifica) {
             // Modifica notizia esistente
@@ -85,7 +101,7 @@ export class NotizieForm implements OnInit {
                     this.successo = 'Notizia modificata con successo!';
                     this.caricamento = false;
                     this.cdr.detectChanges();
-                    setTimeout(() => this.router.navigate(['/cicerone/notizie']), 2000);
+                    setTimeout(() => this.router.navigate(['/cicerone/notizie']), 1200);
                 },
                 error: (error) => {
                     this.errore = 'Errore durante la modifica della notizia.';                      
@@ -99,7 +115,7 @@ export class NotizieForm implements OnInit {
                     this.successo = 'Notizia creata con successo!';
                     this.caricamento = false;
                     this.cdr.detectChanges();
-                    setTimeout(() => this.router.navigate(['/cicerone/notizie']), 2000);
+                    setTimeout(() => this.router.navigate(['/cicerone/notizie']), 1200);
                 },
                 error: (error) => {
                     this.errore = 'Errore durante la creazione della notizia.'; 
@@ -109,6 +125,7 @@ export class NotizieForm implements OnInit {
             });
         }
     }
+
     annulla(): void {
         this.router.navigate(['/cicerone/notizie']);
     }

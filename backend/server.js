@@ -12,6 +12,7 @@ const connectDB = require('./src/config/database');
 const sentieriRoutes = require('./src/routes/sentieriRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const educazioneRoutes = require('./src/routes/educazioneRoutes');
+const ciceroneRoutes = require('./src/routes/ciceroneRoutes');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -101,6 +102,12 @@ app.use('/api/educazione', educazioneRoutes);
  * Prefisso: /api/sentieri
  */
 app.use('/api/sentieri', sentieriRoutes);
+
+/**
+ * Routes cicerone — importazione e visualizzazione cicerone.
+ * Prefisso: /api/cicerone
+ */
+app.use('/api/cicerone', ciceroneRoutes);
 
 
 
