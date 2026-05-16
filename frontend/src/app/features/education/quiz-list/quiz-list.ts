@@ -52,14 +52,25 @@ export class QuizList implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  /**
+   * Inizializza il componente: legge il ruolo dall'utente autenticato,
+   * poi carica quiz e progressi in parallelo.
+   */
   ngOnInit(): void {
     this.ruoloUtente = this.authService.getRuolo();
     this.caricaQuiz();
     this.caricaProgressi();
   }
+
+  /** Torna alla dashboard principale. */
   vaiAllaHomepage(): void {
     this.router.navigate(['/home']);
   }
+
+  /**
+   * Recupera la lista di quiz dal backend applicando il filtro categoria corrente.
+   * Aggiorna il template tramite ChangeDetectorRef perché il componente è OnPush-compatible.
+   */
   caricaQuiz(): void {
     this.caricamento = true;
     this.errore = '';
@@ -83,10 +94,15 @@ export class QuizList implements OnInit {
     });
   }
 
+  /** Richiama caricaQuiz con il filtro categoria aggiornato dal select. */
   filtra(): void {
     this.caricaQuiz();
   }
 
+  /**
+   * Recupera punti e livello dell'utente autenticato dall'endpoint progressi.
+   * Un errore qui non è bloccante: i dati rimangono ai valori di default.
+   */
   caricaProgressi(): void {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
@@ -133,10 +149,18 @@ export class QuizList implements OnInit {
     });
   }
 
+  /**
+   * Genera un array di lunghezza pari alla difficoltà, usato nel template
+   * per renderizzare le stelle con @for.
+   *
+   * @param difficolta - Valore da 1 a 5
+   * @returns Array vuoto di lunghezza difficolta
+   */
   getStelle(difficolta: number): number[] {
     return Array(difficolta).fill(0);
   }
 
+  /** Termina la sessione e reindirizza al login. */
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
