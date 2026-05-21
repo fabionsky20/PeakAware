@@ -9,11 +9,11 @@
 
         <div class="topbar-actions">
 
-          @if (ruoloUtente === 'admin') {
-            <button class="btn nuova" (click)="nuovaNotizia()">
-                + Nuova Notizia
-            </button>
-           }  
+            @if (ruoloUtente === 'admin') {
+                <button class="btn nuova" (click)="nuovaNotizia()">
+                    + Nuova Notizia
+                </button>
+            }
 
             <button class="btn logout" (click)="logout()">
                 Logout
@@ -27,59 +27,66 @@
     <main class="content">
 
         <!-- Loading -->
-        <div *ngIf="caricamento" class="loading">
-            Caricamento notizie...
-        </div>
+        @if (caricamento) {
+            <div class="loading">
+                Caricamento notizie...
+            </div>
+        }
 
         <!-- Errore -->
-        <div *ngIf="errore" class="errore">
-            {{ errore }}
-        </div>
+        @if (errore) {
+            <div class="errore">
+                {{ errore }}
+            </div>
+        }
 
         <!-- Lista Notizie -->
-        <div class="notizie-grid" *ngIf="!caricamento">
+        @if (!caricamento) {
+            <div class="notizie-grid">
 
-            <div
-                class="notizia-card"
-                *ngFor="let notizia of notizie"
-                (click)="avviaNotizia(notizia._id)"
-            >
-
-                <div class="card-header">
-
-                    <h2>{{ notizia.titolo }}</h2>
-
-                    <span class="data">
-                        {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
-                    </span>
-
-                </div>
-
-                <p class="contenuto">
-                    {{ notizia.contenuto }}
-                </p>
-
-                <div class="card-actions">
-
-                    <button
-                        class="btn modifica"
-                        (click)="modificaNotizia(notizia._id, $event)"
+                @for (notizia of notizie; track notizia._id) {
+                    <div
+                        class="notizia-card"
+                        (click)="avviaNotizia(notizia._id)"
                     >
-                        Modifica
-                    </button>
 
-                    <button
-                        class="btn elimina"
-                        (click)="eliminaNotizia(notizia._id, $event)"
-                    >
-                        Elimina
-                    </button>
+                        <div class="card-header">
 
-                </div>
+                            <h2>{{ notizia.titolo }}</h2>
+
+                            <span class="data">
+                                {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
+                            </span>
+
+                        </div>
+
+                        <p class="contenuto">
+                            {{ notizia.contenuto }}
+                        </p>
+
+                        <div class="card-actions">
+
+                            <button
+                                class="btn modifica"
+                                (click)="modificaNotizia(notizia._id, $event)"
+                            >
+                                Modifica
+                            </button>
+
+                            <button
+                                class="btn elimina"
+                                (click)="eliminaNotizia(notizia._id, $event)"
+                            >
+                                Elimina
+                            </button>
+
+                        </div>
+
+                    </div>
+                }
 
             </div>
-
-        </div>
+        }
 
     </main>
 

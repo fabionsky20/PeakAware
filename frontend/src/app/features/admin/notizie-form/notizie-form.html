@@ -7,13 +7,17 @@
         </h2>
 
         <!-- Messaggi -->
-        <div *ngIf="errore" class="alert errore">
-            {{ errore }}
-        </div>
+        @if (errore) {
+            <div class="alert errore">
+                {{ errore }}
+            </div>
+        }
 
-        <div *ngIf="successo" class="alert successo">
-            {{ successo }}
-        </div>
+        @if (successo) {
+            <div class="alert successo">
+                {{ successo }}
+            </div>
+        }
 
         <!-- Form -->
         <form (ngSubmit)="salva()">
