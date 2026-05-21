@@ -230,6 +230,47 @@
   font-weight: 500;
 }
 
+/* US-16: card già completata — bordo verde sottile */
+.quiz-card.completato {
+  border-color: #A9DFBF;
+  background: #FDFFFE;
+}
+
+/* US-16: badge "✓ Completato" */
+.badge-completato {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #1E8449;
+  background: #EAFAF1;
+  border: 0.5px solid #A9DFBF;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* US-05: riga con label difficoltà e punteggio massimo */
+.difficolta-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.difficolta-label {
+  font-size: 0.78rem;
+  color: #666;
+}
+
+.punteggio-max {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #1B4F72;
+  background: #E6F1FB;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+}
+
 /* Controlli admin sulle card */
 .quiz-card {
   position: relative;

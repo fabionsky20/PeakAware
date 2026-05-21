@@ -4,6 +4,7 @@
  * Recupera e mostra la lista dei quiz dal backend.
  * Se l'utente è admin mostra i controlli di gestione.
  * Corrisponde al Modulo Educazione del D2 sezione 1.3.
+ * D4: aggiunta etichetta difficoltà testuale (US-05) e marcatura quiz completati (US-16).
  */
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -21,6 +22,7 @@ interface Quiz {
   difficolta: number;
   punteggio: number;
   tempo: number;
+  numeroDomande?: number;
 }
 
 @Component({
@@ -42,6 +44,9 @@ export class QuizList implements OnInit {
 
   puntiUtente: number = 0;
   livelloUtente: number = 1;
+
+  /** IDs dei quiz già completati dall'utente — usato per US-16 */
+  quizCompletatiIds: Set<string> = new Set();
 
   private apiUrl = 'http://localhost:3000/api/educazione';
 
@@ -112,6 +117,9 @@ export class QuizList implements OnInit {
         if (risposta.successo) {
           this.puntiUtente = risposta.dati.punti;
           this.livelloUtente = risposta.dati.livello;
+          // US-16: costruisce il Set degli ID quiz completati per il lookup O(1) nel template
+          const completati: { idQuiz: string }[] = risposta.dati.quizCompletati || [];
+          this.quizCompletatiIds = new Set(completati.map(q => q.idQuiz));
           this.cdr.detectChanges();
         }
       },
@@ -158,6 +166,26 @@ export class QuizList implements OnInit {
    */
   getStelle(difficolta: number): number[] {
     return Array(difficolta).fill(0);
+  }
+
+  /**
+   * US-05: Restituisce l'etichetta testuale della difficoltà.
+   * @param d - Valore da 1 a 5
+   */
+  getDifficoltaLabel(d: number): string {
+    const labels: Record<number, string> = {
+      1: 'Molto facile',
+      2: 'Facile',
+      3: 'Medio',
+      4: 'Difficile',
+      5: 'Molto difficile',
+    };
+    return labels[d] ?? '';
+  }
+
+  /** US-16: Restituisce true se l'utente ha già completato il quiz. */
+  eCompletato(id: string): boolean {
+    return this.quizCompletatiIds.has(id);
   }
 
   /** Termina la sessione e reindirizza al login. */

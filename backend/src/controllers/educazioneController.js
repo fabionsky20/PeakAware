@@ -32,8 +32,13 @@ const getTuttiIQuiz = async (req, res) => {
     if (req.query.categoria) filtro.categoria = req.query.categoria;
     if (req.query.difficolta) filtro.difficolta = Number(req.query.difficolta);
 
-    const quiz = await Quiz.find(filtro).select('-domande'); // Esclude le domande per alleggerire la risposta
-    
+    // Aggiunge numeroDomande come campo calcolato ed esclude l'array domande dalla risposta
+    const quiz = await Quiz.aggregate([
+      { $match: filtro },
+      { $addFields: { numeroDomande: { $size: '$domande' } } },
+      { $project: { domande: 0 } },
+    ]);
+
     res.status(200).json({
       successo: true,
       totale: quiz.length,

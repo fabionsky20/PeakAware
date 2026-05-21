@@ -49,7 +49,7 @@
 
         <!-- Lista quiz -->
         @for (q of quiz; track q._id) {
-          <div class="quiz-card" (click)="avviaQuiz(q._id)">
+          <div class="quiz-card" [class.completato]="eCompletato(q._id)" (click)="avviaQuiz(q._id)">
 
             <!-- Pulsanti admin — visibili solo se admin -->
             @if (ruoloUtente === 'admin') {
@@ -63,6 +63,11 @@
               </div>
             }
 
+            <!-- US-16: badge visibile solo se già completato -->
+            @if (eCompletato(q._id)) {
+              <div class="badge-completato">✓ Completato</div>
+            }
+
             <div class="quiz-card-header">
               <span class="categoria-badge {{ q.categoria }}">{{ q.categoria }}</span>
               <span class="difficolta">
@@ -71,9 +76,16 @@
             </div>
             <h3>{{ q.titolo }}</h3>
             <p class="argomento">{{ q.argomento }}</p>
+
+            <!-- US-05: etichetta testuale difficoltà -->
+            <div class="difficolta-info">
+              <span class="difficolta-label">{{ getDifficoltaLabel(q.difficolta) }}</span>
+              <span class="punteggio-max">Max {{ q.punteggio }} pt</span>
+            </div>
+
             <div class="quiz-card-footer">
-              <span>🏆 {{ q.punteggio }} pt</span>
-              <span>⏱ {{ q.tempo > 0 ? q.tempo + 's' : 'Nessun limite' }}</span>
+              <span>⏱ {{ q.tempo > 0 ? q.tempo + 's/domanda' : 'Nessun limite' }}</span>
+              <span>{{ q.numeroDomande ?? '?' }} domande</span>
             </div>
 
           </div>
