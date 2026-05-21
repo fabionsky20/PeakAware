@@ -16,6 +16,21 @@
   }
   </div>
 
+  <!-- Badge sbloccati — notifica temporanea -->
+  @if (nuoviBadge().length > 0) {
+    <div class="badge-toast">
+      @for (b of nuoviBadge(); track b.id) {
+        <div class="badge-item">
+          <span class="badge-icona">{{ b.icona }}</span>
+          <div>
+            <strong>Badge sbloccato!</strong>
+            <p>{{ b.nome }} — {{ b.descrizione }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
   <div class="list-container">
     @for (s of sentieriOrdinati(); track s.osm_id) {
 
@@ -24,6 +39,7 @@
            [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
            (click)="seleziona(s)">
 
+        <!-- Header sempre visibile -->
         <div class="item-header">
           <div class="title-block">
             @if (s.properties?.['ref']) {
@@ -32,25 +48,29 @@
             <h3>{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
           </div>
           <div class="header-right">
-            <span class="difficulty-badge" [attr.data-level]="getDifficultyLevel(s.properties?.['cai_scale'])">
-              {{ s.properties?.['cai_scale'] || s.properties?.['difficolta'] || 'T' }}
+            <span class="difficulty-badge"
+                  [attr.data-level]="getDifficultyLevel(s.properties?.['cai_scale'])">
+              {{ s.properties?.['cai_scale'] || s.difficolta || 'T' }}
             </span>
-            <span class="chevron" [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">›</span>
+            <span class="chevron"
+                  [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">›</span>
           </div>
         </div>
 
+        <!-- Dettagli espansi -->
         @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
           <div class="trail-details" (click)="$event.stopPropagation()">
 
             <!-- Da → A -->
             @if (s.properties?.['from'] || s.properties?.['to']) {
               <div class="route-row">
-                <span class="route-point from">📍 {{ s.properties?.['from'] || '—' }}</span>
+                <span class="route-point">📍 {{ s.properties?.['from'] || '—' }}</span>
                 <span class="route-arrow">→</span>
-                <span class="route-point to">🏁 {{ s.properties?.['to'] || '—' }}</span>
+                <span class="route-point">🏁 {{ s.properties?.['to'] || '—' }}</span>
               </div>
             }
 
+            <!-- Statistiche -->
             <div class="stats-grid">
               <div class="stat-card">
                 <span class="stat-icon">📏</span>
@@ -80,9 +100,73 @@
               <div class="stat-card">
                 <span class="stat-icon">🧭</span>
                 <span class="stat-label">Difficoltà</span>
-                <span class="stat-value">{{ s.properties?.['cai_scale'] || s.properties?.['difficolta'] || '—' }}</span>
+                <span class="stat-value">{{ s.properties?.['cai_scale'] || s.difficolta || '—' }}</span>
               </div>
             </div>
+
+            <!-- Consiglio personalizzato (solo se loggato) -->
+            @if (authService.isAutenticato() && consiglio()) {
+              <div class="consiglio" [attr.data-livello]="consiglio()!.livello">
+                <div class="consiglio-header">
+                  <span>{{ consiglio()!.icona }}</span>
+                  <strong>{{ consiglio()!.titolo }}</strong>
+                </div>
+                <p class="consiglio-testo">{{ consiglio()!.messaggio }}</p>
+              </div>
+            }
+
+            @if (!authService.isAutenticato()) {
+              <p class="login-hint">🔒 Accedi per vedere il consiglio personalizzato</p>
+            }
+
+            <!-- GPS Tracking -->
+            @if (authService.isAutenticato()) {
+              <div class="gps-section">
+
+                @if (statoGps() === 'inattivo') {
+                  <button class="btn-gps-start"
+                          (click)="avviaGps(); $event.stopPropagation()">
+                    📍 Inizia questo percorso
+                  </button>
+                }
+
+                @if (statoGps() === 'avvio' || statoGps() === 'tracking') {
+                  <div class="gps-attivo">
+                    <div class="gps-stato">
+                      <span class="gps-pulse"></span>
+                      <span>{{ messaggioGps() }}</span>
+                    </div>
+                    <div class="gps-azioni">
+                      <button class="btn-gps-stop"
+                              (click)="fermaGps(); $event.stopPropagation()">
+                        ✅ Completato
+                      </button>
+                      <button class="btn-gps-annulla"
+                              (click)="annullaGps(); $event.stopPropagation()">
+                        ✕ Annulla
+                      </button>
+                    </div>
+                  </div>
+                }
+
+                @if (statoGps() === 'completato') {
+                  <div class="gps-completato">
+                    <span>🎉 {{ messaggioGps() }}</span>
+                  </div>
+                }
+
+                @if (statoGps() === 'errore') {
+                  <div class="gps-errore">
+                    <span>⚠️ {{ messaggioGps() }}</span>
+                    <button class="btn-gps-start"
+                            (click)="avviaGps(); $event.stopPropagation()">
+                      Riprova
+                    </button>
+                  </div>
+                }
+
+              </div>
+            }
 
             @if (s.properties?.['operator']) {
               <p class="operator">🏔️ {{ s.properties?.['operator'] }}</p>
@@ -111,7 +195,6 @@
 
           </div>
         }
-
       </div>
 
     } @empty {
