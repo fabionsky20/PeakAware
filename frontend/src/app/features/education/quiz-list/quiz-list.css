@@ -188,6 +188,8 @@
   color: #888;
   font-size: 0.85rem;
   margin-bottom: 0.9rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .quiz-card-footer {
