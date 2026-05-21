@@ -217,8 +217,9 @@ export class QuizSessione implements OnInit, OnDestroy {
 
     this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/termina`, {}, { headers }).subscribe({
       next: (risposta) => {
+        // US-10: passa le domande (con testi risposte) per il riepilogo nella schermata risultato
         this.router.navigate(['/educazione/risultato'], {
-          state: { risultato: risposta.dati }
+          state: { risultato: risposta.dati, domande: this.domande }
         });
       },
       error: () => {

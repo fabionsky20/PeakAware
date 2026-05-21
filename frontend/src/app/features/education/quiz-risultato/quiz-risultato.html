@@ -43,6 +43,32 @@
           </div>
         </div>
 
+        <!-- US-10: toggle riepilogo risposte -->
+        @if (riepilogo.length > 0) {
+          <button class="btn-riepilogo" (click)="mostraRiepilogo = !mostraRiepilogo">
+            {{ mostraRiepilogo ? 'Nascondi riepilogo' : 'Vedi riepilogo risposte' }}
+          </button>
+
+          @if (mostraRiepilogo) {
+            <div class="riepilogo">
+              @for (voce of riepilogo; track voce.idDomanda; let i = $index) {
+                <div class="voce-riepilogo" [class.corretta]="voce.corretta" [class.errata]="!voce.corretta">
+                  <div class="voce-header">
+                    <span class="voce-numero">{{ i + 1 }}</span>
+                    <span class="voce-icona">{{ voce.corretta ? '✓' : '✕' }}</span>
+                    <span class="voce-punti">{{ voce.puntiOttenuti }} pt</span>
+                  </div>
+                  <p class="voce-domanda">{{ voce.testoDomanda }}</p>
+                  <p class="voce-risposta-label">La tua risposta:</p>
+                  @for (testo of voce.testiRisposteDate; track testo) {
+                    <p class="voce-risposta">{{ testo }}</p>
+                  }
+                </div>
+              }
+            </div>
+          }
+        }
+
         <button class="btn-torna" (click)="tornaAiQuiz()">Torna ai quiz</button>
 
       </div>
