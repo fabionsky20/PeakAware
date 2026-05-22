@@ -32,10 +32,33 @@ const getTuttiIQuiz = async (req, res) => {
     if (req.query.categoria) filtro.categoria = req.query.categoria;
     if (req.query.difficolta) filtro.difficolta = Number(req.query.difficolta);
 
-    // Aggiunge numeroDomande come campo calcolato ed esclude l'array domande dalla risposta
+    // Aggiunge numeroDomande, risolve videoCollegato (solo titolo e url), esclude l'array domande
     const quiz = await Quiz.aggregate([
       { $match: filtro },
       { $addFields: { numeroDomande: { $size: '$domande' } } },
+      {
+        $lookup: {
+          from: 'videos',
+          localField: 'videoCollegato',
+          foreignField: '_id',
+          as: 'videoCollegato',
+        },
+      },
+      {
+        $addFields: {
+          videoCollegato: {
+            $cond: {
+              if: { $gt: [{ $size: '$videoCollegato' }, 0] },
+              then: {
+                _id: { $arrayElemAt: ['$videoCollegato._id', 0] },
+                titolo: { $arrayElemAt: ['$videoCollegato.titolo', 0] },
+                url: { $arrayElemAt: ['$videoCollegato.url', 0] },
+              },
+              else: null,
+            },
+          },
+        },
+      },
       { $project: { domande: 0 } },
     ]);
 

@@ -34,8 +34,12 @@ export class QuizForm implements OnInit {
     difficolta: 1,
     punteggio: 100,
     tempo: 0,
+    videoCollegato: '',
     domande: []
   };
+
+  /** Lista dei video disponibili per il collegamento */
+  videoDisponibili: { _id: string; titolo: string }[] = [];
 
   errore: string = '';
   successo: string = '';
@@ -52,18 +56,32 @@ export class QuizForm implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Verifica autenticazione
     if (!this.authService.isAutenticato()) {
       this.router.navigate(['/login']);
       return;
     }
 
-    // Controlla se siamo in modalità modifica
+    this.caricaVideo();
+
     this.quizId = this.route.snapshot.paramMap.get('id');
     if (this.quizId) {
       this.isModifica = true;
-      this.caricaQuiz(); 
+      this.caricaQuiz();
     }
+  }
+
+  /** Carica la lista video per il select di collegamento. */
+  caricaVideo(): void {
+    this.http.get<any>(`${this.apiUrl}/video`).subscribe({
+      next: (risposta) => {
+        this.videoDisponibili = (risposta.dati || []).map((v: any) => ({
+          _id: v._id,
+          titolo: v.titolo,
+        }));
+        this.cdr.detectChanges();
+      },
+      error: () => {}
+    });
   }
 
   /**
@@ -73,7 +91,10 @@ export class QuizForm implements OnInit {
     this.http.get<any>(`${this.apiUrl}/quiz/${this.quizId}`).subscribe({
       next: (risposta) => {
         if (risposta.successo) {
-          this.quiz = risposta.dati;
+          const dati = risposta.dati;
+          // Normalizza videoCollegato: se è un oggetto popolato prende solo l'_id
+          dati.videoCollegato = dati.videoCollegato?._id ?? dati.videoCollegato ?? '';
+          this.quiz = dati;
           this.cdr.detectChanges();
         }
       },
@@ -142,9 +163,14 @@ export class QuizForm implements OnInit {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
+    const dati = {
+      ...this.quiz,
+      videoCollegato: this.quiz.videoCollegato || null,
+    };
+
     const richiesta = this.isModifica
-      ? this.http.put<any>(`${this.apiUrl}/quiz/${this.quizId}`, this.quiz, { headers })
-      : this.http.post<any>(`${this.apiUrl}/quiz`, this.quiz, { headers });
+      ? this.http.put<any>(`${this.apiUrl}/quiz/${this.quizId}`, dati, { headers })
+      : this.http.post<any>(`${this.apiUrl}/quiz`, dati, { headers });
 
     richiesta.subscribe({
       next: (risposta) => {

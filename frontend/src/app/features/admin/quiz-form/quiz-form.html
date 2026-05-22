@@ -68,6 +68,17 @@
             <input type="number" [(ngModel)]="quiz.tempo" name="tempo" min="0" />
           </div>
         </div>
+
+        <div class="form-group">
+          <label>Video collegato (opzionale)</label>
+          <select [(ngModel)]="quiz.videoCollegato" name="videoCollegato">
+            <option value="">— Nessun video —</option>
+            @for (v of videoDisponibili; track v._id) {
+              <option [value]="v._id">{{ v.titolo }}</option>
+            }
+          </select>
+        </div>
+
       </div>
 
       <!-- Domande -->
@@ -79,12 +90,12 @@
           </button>
         </div>
 
-        @for (domanda of quiz.domande; track $index) {
+        @for (domanda of quiz.domande; track $index; let di = $index) {
           <div class="domanda-card">
 
             <div class="domanda-header">
-              <span class="domanda-numero">Domanda {{ $index + 1 }}</span>
-              <button type="button" class="btn-rimuovi" (click)="rimuoviDomanda($index)">
+              <span class="domanda-numero">Domanda {{ di + 1 }}</span>
+              <button type="button" class="btn-rimuovi" (click)="rimuoviDomanda(di)">
                 ✕
               </button>
             </div>
@@ -92,7 +103,7 @@
             <div class="form-group">
               <label>Testo della domanda</label>
               <input type="text" [(ngModel)]="domanda.testo"
-                [name]="'domanda_' + $index"
+                [name]="'domanda_' + di"
                 placeholder="es. Quale nuvola indica temporale?" required />
             </div>
 
@@ -100,12 +111,12 @@
               <div class="form-group">
                 <label>Punti</label>
                 <input type="number" [(ngModel)]="domanda.puntiChevale"
-                  [name]="'punti_' + $index" min="0" />
+                  [name]="'punti_' + di" min="0" />
               </div>
               <div class="form-group">
                 <label>Tentativi</label>
                 <input type="number" [(ngModel)]="domanda.tentativi"
-                  [name]="'tentativi_' + $index" min="1" />
+                  [name]="'tentativi_' + di" min="1" />
               </div>
             </div>
 
@@ -114,21 +125,21 @@
               <div class="risposte-header">
                 <label>Risposte</label>
                 <button type="button" class="btn-aggiungi-risposta"
-                  (click)="aggiungiRisposta($index)">+ Risposta</button>
+                  (click)="aggiungiRisposta(di)">+ Risposta</button>
               </div>
 
-              @for (risposta of domanda.risposte; track $index) {
+              @for (risposta of domanda.risposte; track $index; let ri = $index) {
                 <div class="risposta-row">
                   <input type="text" [(ngModel)]="risposta.testo"
-                    [name]="'risposta_' + $index + '_' + $index"
+                    [name]="'risposta_' + di + '_' + ri"
                     placeholder="Testo risposta" />
                   <label class="risposta-corretta">
                     <input type="checkbox" [(ngModel)]="risposta.eCorretta"
-                      [name]="'corretta_' + $index + '_' + $index" />
+                      [name]="'corretta_' + di + '_' + ri" />
                     Corretta
                   </label>
                   <button type="button" class="btn-rimuovi-piccolo"
-                    (click)="rimuoviRisposta($index, $index)">✕</button>
+                    (click)="rimuoviRisposta(di, ri)">✕</button>
                 </div>
               }
             </div>

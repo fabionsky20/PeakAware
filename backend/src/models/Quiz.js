@@ -161,6 +161,13 @@ const quizSchema = new mongoose.Schema(
       default: null,
     },
 
+    // Video didattico collegato a questo quiz (opzionale)
+    videoCollegato: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Video',
+      default: null,
+    },
+
     // Array di domande embedded nel quiz
     domande: [domandaSchema],
   },

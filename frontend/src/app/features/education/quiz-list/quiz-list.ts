@@ -23,6 +23,7 @@ interface Quiz {
   punteggio: number;
   tempo: number;
   numeroDomande?: number;
+  videoCollegato?: { _id: string; titolo: string; url: string } | null;
 }
 
 @Component({
@@ -72,9 +73,15 @@ export class QuizList implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  /** Naviga alla sezione video. */
+  /** Naviga alla lista video. */
   vaiAiVideo(): void {
     this.router.navigate(['/educazione/video']);
+  }
+
+  /** Apre il video collegato al quiz in una nuova tab. */
+  apriVideoCollegato(url: string, event: Event): void {
+    event.stopPropagation();
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   /**

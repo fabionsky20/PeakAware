@@ -88,6 +88,12 @@
               <span class="punteggio-max">Max {{ q.punteggio }} pt</span>
             </div>
 
+            @if (q.videoCollegato) {
+              <button class="btn-vedi-video" (click)="apriVideoCollegato(q.videoCollegato.url, $event)">
+                ▶ Vedi video
+              </button>
+            }
+
             <div class="quiz-card-footer">
               <span>⏱ {{ q.tempo > 0 ? q.tempo + 's/domanda' : 'Nessun limite' }}</span>
               <span>{{ q.numeroDomande ?? '?' }} domande</span>
