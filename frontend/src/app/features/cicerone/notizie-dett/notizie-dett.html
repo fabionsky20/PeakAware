@@ -1,0 +1,66 @@
+<div class="notizie-dett-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <div class="navbar-info">
+      <button class="btn-homepage" (click)="tornaIndietro()">← Notizie</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- LOADING -->
+    <div *ngIf="!notizia && !errore" class="stato-messaggio">
+      Caricamento notizia...
+    </div>
+
+    <!-- ERRORE -->
+    <div *ngIf="errore" class="errore">
+      {{ errore }}
+      <button class="btn-retry" (click)="ricarica()">Riprova</button>
+    </div>
+
+    <!-- ARTICOLO -->
+    <article class="articolo" *ngIf="notizia">
+
+      <div class="articolo-meta-top">
+        <span class="categoria-badge" *ngIf="notizia.categoria">{{ notizia.categoria }}</span>
+        <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
+      </div>
+
+      <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
+
+      <!-- Blocchi EditorJS -->
+      <div class="articolo-corpo">
+        <ng-container *ngFor="let block of notizia.contenuto.blocks">
+
+          <p *ngIf="block.type === 'paragraph'"
+             [innerHTML]="block.data.text">
+          </p>
+
+          <h2 *ngIf="block.type === 'header' && block.data.level === 2"
+              [innerHTML]="block.data.text">
+          </h2>
+          <h3 *ngIf="block.type === 'header' && block.data.level === 3"
+              [innerHTML]="block.data.text">
+          </h3>
+          <h4 *ngIf="block.type === 'header' && (block.data.level === 4 || block.data.level === 1)"
+              [innerHTML]="block.data.text">
+          </h4>
+
+          <figure *ngIf="block.type === 'image'">
+            <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
+            <figcaption *ngIf="block.data.caption">{{ block.data.caption }}</figcaption>
+          </figure>
+
+        </ng-container>
+      </div>
+
+      <div class="articolo-footer">
+        <button class="btn-back" (click)="tornaIndietro()">← Torna alle notizie</button>
+      </div>
+
+    </article>
+
+  </main>
+</div>

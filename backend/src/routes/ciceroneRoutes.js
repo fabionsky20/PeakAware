@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const {getNotizie, getNotiziaById, creaNotizia, eliminaNotizia, aggiornaNotizia} = require('../controllers/ciceroneController');
+const {
+    getNotizie,
+    getNotiziaById, 
+    creaNotizia, 
+    eliminaNotizia, 
+    aggiornaNotizia,
+    avviaNotizia
+} = require('../controllers/ciceroneController');
 const { proteggi, soloAdmin } = require('../middleware/auth');
 
 // GET /api/cicerone/notizie - Pubblica, restituisce tutte le notizie
@@ -17,5 +24,8 @@ router.delete('/notizie/:id', proteggi, soloAdmin, eliminaNotizia);
 
 // PUT /api/cicerone/notizie/:id - Riservato agli admin, aggiorna una notizia
 router.put('/notizie/:id', proteggi, soloAdmin, aggiornaNotizia);
+
+// POST /api/cicerone/notizie/:id Avvia una notizia
+router.post('/notizie/:id', proteggi, avviaNotizia);
 
 module.exports = router;

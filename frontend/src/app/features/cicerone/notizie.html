@@ -1,109 +1,86 @@
 <div class="notizie-container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>Notizie</h1>
-
-    <div class="actions-header">
-      <button class="btn-home" (click)="annulla()">
-        Home
-      </button>
-
-      <button class="btn-logout" (click)="logout()">
-        Logout
-      </button>
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <div class="navbar-info">
+      <button class="btn-homepage" (click)="annulla()">🏠</button>
+      <button class="logout-btn" (click)="logout()">Esci</button>
     </div>
-  </div>
+  </header>
 
-  <!-- FILTRO CATEGORIA -->
-  <div class="filtro-container">
+  <main class="main-content">
 
-    <input
-      type="text"
-      placeholder="Filtra per categoria..."
-      [(ngModel)]="categoriaSelezionata"
-      class="input-filtro"
-    />
+    <div class="page-header">
+      <h2>Notizie</h2>
+      <p>Aggiornamenti e comunicazioni dalla redazione</p>
+    </div>
 
-    <button class="btn-filtra" (click)="caricaNotizie()">
-      Cerca
-    </button>
-
-    <!-- Bottone admin -->
-    <button
-      *ngIf="ruoloUtente === 'admin'"
-      class="btn-nuova"
-      (click)="nuovaNotizia()"
-    >
-      + Nuova Notizia
-    </button>
-
-  </div>
-
-  <!-- LOADING -->
-  <div *ngIf="caricamento" class="loading">
-    Caricamento notizie...
-  </div>
-
-  <!-- ERRORE -->
-  <div *ngIf="errore" class="errore">
-    {{ errore }}
-  </div>
-
-  <!-- LISTA NOTIZIE -->
-  <div class="lista-notizie" *ngIf="notizie.length > 0">
-
-    <div
-      class="card-notizia"
-      *ngFor="let notizia of notizie"
-      (click)="avviaNotizia(notizia._id)"
-    >
-
-      <div class="card-header">
-        <h2>{{ notizia.titolo }}</h2>
-
-        <span class="data">
-          {{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}
-        </span>
-      </div>
-
-      <p class="contenuto">
-        {{ notizia.contenuto }}
-      </p>
-
-      <!-- Pulsanti admin -->
-      <div
-        class="azioni-admin"
+    <!-- FILTRO -->
+    <div class="filtri">
+      <input
+        type="text"
+        placeholder="Filtra per categoria..."
+        [(ngModel)]="categoriaSelezionata"
+        class="input-filtro"
+      />
+      <button class="btn-filtra" (click)="caricaNotizie()">Cerca</button>
+      <button
         *ngIf="ruoloUtente === 'admin'"
-      >
-
-        <button
-          class="btn-modifica"
-          (click)="modificaNotizia(notizia._id, $event)"
-        >
-          Modifica
-        </button>
-
-        <button
-          class="btn-elimina"
-          (click)="eliminaNotizia(notizia._id, $event)"
-        >
-          Elimina
-        </button>
-
-      </div>
-
+        class="btn-nuova"
+        (click)="nuovaNotizia()"
+      >+ Nuova Notizia</button>
     </div>
 
-  </div>
+    <!-- LOADING -->
+    <div *ngIf="caricamento" class="stato-messaggio">Caricamento notizie...</div>
 
-  <!-- NESSUNA NOTIZIA -->
-  <div
-    class="nessuna-notizia"
-    *ngIf="!caricamento && notizie.length === 0"
-  >
-    Nessuna notizia disponibile.
-  </div>
+    <!-- ERRORE -->
+    <div *ngIf="errore" class="errore">{{ errore }}</div>
 
+    <!-- FEED -->
+    <div class="feed" *ngIf="!caricamento && !errore && notizie.length > 0">
+      <div
+        class="post-card"
+        *ngFor="let notizia of notizie"
+        (click)="avviaNotizia(notizia._id)"
+      >
+        <!-- Immagine -->
+        <div class="post-img-wrapper" *ngIf="getPrimaImmagine(notizia)">
+          <img [src]="getPrimaImmagine(notizia)" [alt]="notizia.titolo" class="post-img" />
+        </div>
+        <div class="post-img-placeholder" *ngIf="!getPrimaImmagine(notizia)">
+          📰
+        </div>
+
+        <!-- Corpo -->
+        <div class="post-body">
+          <div class="post-meta-top">
+            <span class="categoria-badge" *ngIf="notizia.categoria">{{ notizia.categoria }}</span>
+            <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          <h3 class="post-titolo">{{ notizia.titolo }}</h3>
+          <p class="post-preview">{{ getPrimaDescrizione(notizia) }}</p>
+
+          <div class="post-footer">
+            <span class="leggi-tutto">Leggi tutto →</span>
+            <div class="azioni-admin" *ngIf="ruoloUtente === 'admin'" (click)="$event.stopPropagation()">
+              <button class="btn-modifica" (click)="modificaNotizia(notizia._id, $event)">✏️ Modifica</button>
+              <button class="btn-elimina" (click)="eliminaNotizia(notizia._id, $event)">✕ Elimina</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NESSUNA NOTIZIA -->
+    <div
+      class="stato-messaggio"
+      *ngIf="!caricamento && !errore && notizie.length === 0"
+    >
+      Nessuna notizia disponibile al momento.
+    </div>
+
+  </main>
 </div>
-

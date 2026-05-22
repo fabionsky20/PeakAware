@@ -6,7 +6,7 @@ const notiziaSchema = new mongoose.Schema({
     required: true
   },
   contenuto: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   categoria: {

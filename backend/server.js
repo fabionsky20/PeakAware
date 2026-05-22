@@ -13,6 +13,7 @@ const sentieriRoutes = require('./src/routes/sentieriRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const educazioneRoutes = require('./src/routes/educazioneRoutes');
 const ciceroneRoutes = require('./src/routes/ciceroneRoutes');
+const uploadRoutes = require('./src/routes/upload');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -73,6 +74,16 @@ app.use(cors());
  */
 app.use(express.json());
 
+app.use(
+  '/uploads',
+  express.static('uploads')
+);
+
+app.use(
+    '/api/admin/upload',
+    uploadRoutes
+);
+
 // --- Connessione al database ---
 connectDB();
 
@@ -110,6 +121,11 @@ app.use('/api/sentieri', sentieriRoutes);
 app.use('/api/cicerone', ciceroneRoutes);
 
 
+const pulisciUploads = require('./src/utils/pulisciUploads');
+
+// Esegui subito all'avvio e poi ogni ora
+pulisciUploads();
+setInterval(pulisciUploads, 60 * 60 * 1000);
 
 // --- Avvio server ---
 const PORT = process.env.PORT || 3000;

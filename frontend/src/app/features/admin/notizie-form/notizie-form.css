@@ -1,148 +1,133 @@
-/* Container principale */
-.notizie-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 40px 20px;
-    background: #f4f6f9;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-/* Card */
-.card-form {
-    background: #ffffff;
-    width: 100%;
-    max-width: 750px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+.page {
+  min-height: 100vh;
+
+  background: #0f172a;
+
+  padding: 40px;
+
+  color: white;
 }
 
-/* Titolo */
-.card-form h2 {
-    margin-bottom: 25px;
-    color: #222;
-    text-align: center;
-    font-size: 28px;
+.card {
+  max-width: 1000px;
+
+  margin: auto;
+
+  background: #1e293b;
+
+  padding: 30px;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* Gruppi form */
+h1 {
+  margin-bottom: 30px;
+
+  font-size: 32px;
+}
+
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
-/* Label */
-.form-group label {
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #444;
+label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-weight: bold;
 }
 
-/* Input e textarea */
-.form-group input,
-.form-group textarea {
-    padding: 12px;
-    border: 1px solid #d0d5dd;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: border-color 0.2s ease;
-    outline: none;
+input,
+select {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #334155;
+
+  color: white;
+
+  font-size: 16px;
 }
 
-/* Focus */
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #1976d2;
+#editorjs {
+  background: white;
+
+  color: black;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  min-height: 400px;
 }
 
-/* Textarea */
-.form-group textarea {
-    resize: vertical;
+.buttons {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 30px;
 }
 
-/* Pulsanti */
-.button-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 25px;
+button {
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.2s;
 }
 
-/* Base button */
-.btn {
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.2s ease;
+button:hover {
+  transform: translateY(-2px);
 }
 
-/* Bottone salva */
-.btn.salva {
-    background: #1976d2;
-    color: white;
+.save-btn {
+  background: #22c55e;
+
+  color: white;
 }
 
-.btn.salva:hover {
-    background: #125aa0;
+.cancel-btn {
+  background: #ef4444;
+
+  color: white;
 }
 
-/* Bottone annulla */
-.btn.annulla {
-    background: #e0e0e0;
-    color: #333;
-}
-
-.btn.annulla:hover {
-    background: #c7c7c7;
-}
-
-/* Alert */
 .alert {
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-weight: 500;
+  padding: 15px;
+
+  border-radius: 10px;
+
+  margin-bottom: 20px;
+
+  font-weight: bold;
 }
 
-/* Errore */
-.alert.errore {
-    background: #ffe5e5;
-    color: #c62828;
-    border: 1px solid #ef9a9a;
+.error {
+  background: #7f1d1d;
 }
 
-/* Successo */
-.alert.successo {
-    background: #e7f8ea;
-    color: #2e7d32;
-    border: 1px solid #a5d6a7;
-}
-
-/* Loading */
-.loading {
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    color: #555;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-
-    .card-form {
-        padding: 20px;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-    }
+.success {
+  background: #14532d;
 }
