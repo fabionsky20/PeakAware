@@ -68,6 +68,13 @@
   margin-bottom: 1.2rem;
 }
 
+.page-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
 .page-header h2 {
   font-size: 1.4rem;
   font-weight: 500;
@@ -78,6 +85,24 @@
 .page-header p {
   color: #888;
   font-size: 0.9rem;
+}
+
+.btn-lista-video {
+  background: white;
+  border: 0.5px solid #2E86C1;
+  color: #2E86C1;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s;
+  width: auto;
+}
+
+.btn-lista-video:hover {
+  background: #EAF2FB;
 }
 
 .filtri {

@@ -1,0 +1,67 @@
+<div class="video-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <div class="navbar-info">
+      <button class="btn-nav" (click)="vaiAiQuiz()">Quiz</button>
+      <app-profile-button theme="navbar" />
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h2>Video Educativi</h2>
+      <p>Approfondisci la tua conoscenza della montagna</p>
+    </div>
+
+    <!-- US-12: filtro per modulo -->
+    <div class="filtri">
+      <select [(ngModel)]="moduloSelezionato" (change)="filtra()" name="modulo">
+        <option value="">Tutti i moduli</option>
+        <option value="educazione">Educazione</option>
+        <option value="divulgazione">Divulgazione</option>
+      </select>
+    </div>
+
+    @if (caricamento) {
+      <div class="stato-messaggio">Caricamento video...</div>
+    }
+
+    @if (errore) {
+      <div class="errore">{{ errore }}</div>
+    }
+
+    @if (!caricamento && !errore) {
+      <div class="video-grid">
+
+        @for (v of video; track v._id) {
+          <div class="video-card" (click)="apriVideo(v.url)">
+
+            <div class="video-card-header">
+              <span class="modulo-badge {{ v.modulo }}">{{ v.modulo }}</span>
+              <span class="durata">⏱ {{ formatDurata(v.durata) }}</span>
+            </div>
+
+            <h3>{{ v.titolo }}</h3>
+
+            <!-- US-13: descrizione visibile prima di aprire il video -->
+            <p class="descrizione">{{ v.descrizione || 'Nessuna descrizione disponibile.' }}</p>
+
+            <div class="video-card-footer">
+              <span class="argomento">{{ v.argomento }}</span>
+              <span class="ente">{{ v.entePubblicatore }}</span>
+            </div>
+
+          </div>
+        }
+
+      </div>
+
+      @if (video.length === 0) {
+        <div class="stato-messaggio">Nessun video disponibile al momento.</div>
+      }
+    }
+
+  </main>
+</div>

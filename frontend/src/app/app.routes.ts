@@ -11,6 +11,7 @@ import { Home } from './features/home/home';
 import { QuizList } from './features/education/quiz-list/quiz-list';
 import { QuizSessione } from './features/education/quiz-sessione/quiz-sessione';
 import { QuizRisultato } from './features/education/quiz-risultato/quiz-risultato';
+import { VideoList } from './features/education/video-list/video-list';
 import { QuizForm } from './features/admin/quiz-form/quiz-form';
 import { authGuard } from './core/guards/auth.guard';
 import { SentieriShell } from '@features/sentieri/sentieri-shell';
@@ -29,6 +30,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'quiz', pathMatch: 'full' },
       { path: 'quiz', component: QuizList },
+      { path: 'video', component: VideoList },
       { path: 'sessione/:quizId', component: QuizSessione },
       { path: 'risultato', component: QuizRisultato },
     ]

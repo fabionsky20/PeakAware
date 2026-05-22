@@ -72,6 +72,11 @@ export class QuizList implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  /** Naviga alla sezione video. */
+  vaiAiVideo(): void {
+    this.router.navigate(['/educazione/video']);
+  }
+
   /**
    * Recupera la lista di quiz dal backend applicando il filtro categoria corrente.
    * Aggiorna il template tramite ChangeDetectorRef perché il componente è OnPush-compatible.
