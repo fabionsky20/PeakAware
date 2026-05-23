@@ -9,7 +9,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../../core/services/auth.service';
 import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
 
 interface Video {
@@ -37,16 +38,19 @@ export class VideoList implements OnInit {
   moduloSelezionato: string = '';
   caricamento: boolean = false;
   errore: string = '';
+  ruoloUtente: string = 'utente';
 
   private apiUrl = 'http://localhost:3000/api/educazione';
 
   constructor(
     private http: HttpClient,
     private router: Router,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.ruoloUtente = this.authService.getRuolo();
     this.caricaVideo();
   }
 
@@ -83,6 +87,26 @@ export class VideoList implements OnInit {
 
   vaiAiQuiz(): void {
     this.router.navigate(['/educazione/quiz']);
+  }
+
+  nuovoVideo(): void {
+    this.router.navigate(['/admin/video-form']);
+  }
+
+  modificaVideo(id: string, event: Event): void {
+    event.stopPropagation();
+    this.router.navigate(['/admin/video-form', id]);
+  }
+
+  eliminaVideo(id: string, event: Event): void {
+    event.stopPropagation();
+    if (!confirm('Sei sicuro di voler eliminare questo video?')) return;
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.delete<any>(`${this.apiUrl}/video/${id}`, { headers }).subscribe({
+      next: () => this.caricaVideo(),
+      error: () => alert('Errore nella eliminazione del video'),
+    });
   }
 
   /**

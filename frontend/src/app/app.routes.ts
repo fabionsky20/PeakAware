@@ -12,6 +12,7 @@ import { QuizList } from './features/education/quiz-list/quiz-list';
 import { QuizSessione } from './features/education/quiz-sessione/quiz-sessione';
 import { QuizRisultato } from './features/education/quiz-risultato/quiz-risultato';
 import { VideoList } from './features/education/video-list/video-list';
+import { VideoForm } from './features/admin/video-form/video-form';
 import { QuizForm } from './features/admin/quiz-form/quiz-form';
 import { authGuard } from './core/guards/auth.guard';
 import { SentieriShell } from '@features/sentieri/sentieri-shell';
@@ -49,5 +50,7 @@ export const routes: Routes = [
   },
   { path: 'admin/notizie-form', component: NotizieForm },
   { path: 'admin/notizie-form/:id', component: NotizieForm },
+  { path: 'admin/video-form', component: VideoForm },
+  { path: 'admin/video-form/:id', component: VideoForm },
   { path: '**', redirectTo: 'login' },
 ];

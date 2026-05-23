@@ -35,8 +35,24 @@
     @if (!caricamento && !errore) {
       <div class="video-grid">
 
+        <!-- Card aggiungi — visibile solo agli admin -->
+        @if (ruoloUtente === 'admin') {
+          <div class="video-card card-aggiungi" (click)="nuovoVideo()">
+            <div class="aggiungi-icon">+</div>
+            <p>Nuovo Video</p>
+          </div>
+        }
+
         @for (v of video; track v._id) {
           <div class="video-card" (click)="apriVideo(v.url)">
+
+            <!-- Controlli admin -->
+            @if (ruoloUtente === 'admin') {
+              <div class="admin-controls">
+                <button class="btn-modifica" (click)="modificaVideo(v._id, $event)">✏️</button>
+                <button class="btn-elimina" (click)="eliminaVideo(v._id, $event)">✕</button>
+              </div>
+            }
 
             <div class="video-card-header">
               <span class="modulo-badge {{ v.modulo }}">{{ v.modulo }}</span>

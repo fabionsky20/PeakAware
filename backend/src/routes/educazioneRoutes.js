@@ -17,7 +17,10 @@ const {
   aggiornaQuiz,
   eliminaQuiz,
   getTuttiIVideo,
+  getVideoById,
   creaVideo,
+  aggiornaVideo,
+  eliminaVideo,
 } = require('../controllers/educazioneController');
 const {
   avviaSessione,
@@ -74,10 +77,28 @@ router.delete('/quiz/:id', proteggi, soloAdmin, eliminaQuiz);
 router.get('/video', getTuttiIVideo);
 
 /**
+ * GET /api/educazione/video/:id
+ * Pubblica — restituisce un singolo video.
+ */
+router.get('/video/:id', getVideoById);
+
+/**
  * POST /api/educazione/video
  * Protetta — solo admin/SAT possono aggiungere video.
  */
 router.post('/video', proteggi, soloAdmin, creaVideo);
+
+/**
+ * PUT /api/educazione/video/:id
+ * Protetta — solo admin/SAT possono modificare video.
+ */
+router.put('/video/:id', proteggi, soloAdmin, aggiornaVideo);
+
+/**
+ * DELETE /api/educazione/video/:id
+ * Protetta — solo admin/SAT possono eliminare video.
+ */
+router.delete('/video/:id', proteggi, soloAdmin, eliminaVideo);
 
 // ========================
 // ROUTES SESSIONE QUIZ

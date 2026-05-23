@@ -167,6 +167,37 @@
   overflow: hidden;
 }
 
+/* Card aggiungi nuovo video */
+.card-aggiungi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed #2E86C1;
+  background: #F8FBFF;
+  min-height: 160px;
+  transition: background 0.2s;
+}
+.card-aggiungi:hover { background: #E6F1FB; }
+.aggiungi-icon { font-size: 2.5rem; color: #2E86C1; font-weight: 300; margin-bottom: 0.5rem; }
+.card-aggiungi p { color: #2E86C1; font-size: 0.9rem; font-weight: 500; }
+
+/* Controlli admin */
+.video-card { position: relative; }
+.admin-controls { position: absolute; top: 0.8rem; right: 0.8rem; display: flex; gap: 0.4rem; }
+.btn-modifica, .btn-elimina {
+  background: white;
+  border: 0.5px solid #ddd;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  width: auto;
+  transition: background 0.2s;
+}
+.btn-modifica:hover { background: #EAF2FB; }
+.btn-elimina:hover { background: #FDEDEC; color: #C0392B; }
+
 .video-card-footer {
   display: flex;
   justify-content: space-between;
