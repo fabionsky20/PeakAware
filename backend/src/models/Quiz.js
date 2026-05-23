@@ -22,7 +22,13 @@ const rispostaSchema = new mongoose.Schema({
   eCorretta: {
     type: Boolean,
     required: true,
-    default: false, // Solo una risposta per domanda avrà eCorretta: true
+    default: false,
+  },
+
+  // Usato solo per domande di tipo riordinamento: indica la posizione corretta (1-based)
+  posizione: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -41,7 +47,7 @@ const domandaSchema = new mongoose.Schema({
 
   tipo: {
     type: String,
-    enum: ['multipla', 'veroFalso', 'aperta'],
+    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento'],
     default: 'multipla',
   },
 
@@ -73,6 +79,8 @@ const domandaSchema = new mongoose.Schema({
     type: [rispostaSchema],
     validate: {
       validator: function (risposte) {
+        // Per il riordinamento l'ordine è definito da posizione, non da eCorretta
+        if (this.tipo === 'riordinamento') return risposte.length >= 2;
         // OCL constraint #5: almeno una risposta corretta per domanda
         return risposte.some((r) => r.eCorretta === true);
       },

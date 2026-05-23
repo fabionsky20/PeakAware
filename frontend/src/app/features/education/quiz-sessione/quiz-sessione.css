@@ -232,3 +232,76 @@
 .btn-prossima:hover {
   background: #154060;
 }
+
+/* ── Riordinamento drag & drop ─────────────────────────────── */
+
+.hint-riordina {
+  font-size: 0.8rem;
+  color: #2E86C1;
+  margin-bottom: 0.8rem;
+  margin-top: -0.6rem;
+}
+
+.riordina-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.riordina-voce {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+}
+
+.riordina-voce:active {
+  cursor: grabbing;
+}
+
+.riordina-voce.dragging {
+  opacity: 0.4;
+}
+
+.riordina-voce.drag-over {
+  border-color: #2E86C1;
+  background: #EBF5FB;
+}
+
+.drag-handle {
+  font-size: 1.1rem;
+  color: #bbb;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.riordina-numero {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #aaa;
+  min-width: 1.2rem;
+  flex-shrink: 0;
+}
+
+.riordina-testo {
+  font-size: 0.9rem;
+  color: #333;
+  flex: 1;
+}
+
+.ordine-corretto {
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.ordine-corretto li {
+  margin-bottom: 0.2rem;
+}

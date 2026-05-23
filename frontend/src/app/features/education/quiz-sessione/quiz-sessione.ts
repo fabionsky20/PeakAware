@@ -51,6 +51,11 @@ export class QuizSessione implements OnInit, OnDestroy {
   risposteSelezionate: string[] = [];
   feedback: Feedback | null = null;
 
+  // Riordinamento: lista corrente nell'ordine scelto dall'utente
+  ordineRiordinamento: { _id: string; testo: string }[] = [];
+  dragItemIndice: number = -1;
+  dragOverIndice: number = -1;
+
   tempoRimasto: number = 0;
   private timerInterval: any = null;
 
@@ -94,6 +99,10 @@ export class QuizSessione implements OnInit, OnDestroy {
     return (this.domandaCorrente?.numRisposteCorrette ?? 1) > 1;
   }
 
+  get isRiordinamento(): boolean {
+    return this.domandaCorrente?.tipo === 'riordinamento';
+  }
+
   /**
    * Testo della risposta/e corrette da mostrare nel feedback errore.
    *
@@ -128,6 +137,7 @@ export class QuizSessione implements OnInit, OnDestroy {
         this.sessioneId = risposta.dati.sessioneId;
         this.domande = risposta.dati.domande;
         this.caricamento = false;
+        this.inizializzaRiordinamento();
         this.cdr.detectChanges();
         this.avviaTimer();
       },
@@ -170,15 +180,21 @@ export class QuizSessione implements OnInit, OnDestroy {
    * Implementa US-08.
    */
   confermaRisposta(): void {
-    if (this.risposteSelezionate.length === 0 || this.invioInCorso || !this.domandaCorrente) return;
+    if (this.invioInCorso || !this.domandaCorrente) return;
+    if (!this.isRiordinamento && this.risposteSelezionate.length === 0) return;
     this.fermaTimer();
     this.invioInCorso = true;
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    const body = {
-      idDomanda: this.domandaCorrente._id,
-      idRisposte: this.risposteSelezionate,
-    };
+    const body = this.isRiordinamento
+      ? {
+          idDomanda: this.domandaCorrente._id,
+          ordine: this.ordineRiordinamento.map((r) => r._id),
+        }
+      : {
+          idDomanda: this.domandaCorrente._id,
+          idRisposte: this.risposteSelezionate,
+        };
 
     this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/rispondi`, body, { headers }).subscribe({
       next: (risposta) => {
@@ -205,6 +221,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     this.indiceDomanda++;
     this.risposteSelezionate = [];
     this.feedback = null;
+    this.inizializzaRiordinamento();
     this.avviaTimer();
   }
 
@@ -253,6 +270,47 @@ export class QuizSessione implements OnInit, OnDestroy {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
     }
+  }
+
+  // ── Riordinamento ──────────────────────────────────────────
+
+  private inizializzaRiordinamento(): void {
+    if (this.domandaCorrente?.tipo === 'riordinamento') {
+      this.ordineRiordinamento = [...(this.domandaCorrente.risposte ?? [])];
+    }
+  }
+
+  onDragStart(indice: number): void {
+    this.dragItemIndice = indice;
+  }
+
+  onDragOver(indice: number, event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverIndice = indice;
+  }
+
+  onDragLeave(): void {
+    this.dragOverIndice = -1;
+  }
+
+  onDrop(targetIndice: number, event: DragEvent): void {
+    event.preventDefault();
+    if (this.dragItemIndice === -1 || this.dragItemIndice === targetIndice) {
+      this.dragItemIndice = -1;
+      this.dragOverIndice = -1;
+      return;
+    }
+    const items = [...this.ordineRiordinamento];
+    const [dragged] = items.splice(this.dragItemIndice, 1);
+    items.splice(targetIndice, 0, dragged);
+    this.ordineRiordinamento = items;
+    this.dragItemIndice = -1;
+    this.dragOverIndice = -1;
+  }
+
+  onDragEnd(): void {
+    this.dragItemIndice = -1;
+    this.dragOverIndice = -1;
   }
 
   logout(): void {

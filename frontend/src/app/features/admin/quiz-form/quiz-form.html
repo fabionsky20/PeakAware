@@ -100,11 +100,21 @@
               </button>
             </div>
 
-            <div class="form-group">
-              <label>Testo della domanda</label>
-              <input type="text" [(ngModel)]="domanda.testo"
-                [name]="'domanda_' + di"
-                placeholder="es. Quale nuvola indica temporale?" required />
+            <div class="form-row">
+              <div class="form-group">
+                <label>Testo della domanda</label>
+                <input type="text" [(ngModel)]="domanda.testo"
+                  [name]="'domanda_' + di"
+                  placeholder="es. Quale nuvola indica temporale?" required />
+              </div>
+              <div class="form-group">
+                <label>Tipo domanda</label>
+                <select [(ngModel)]="domanda.tipo" [name]="'tipo_' + di">
+                  <option value="multipla">Risposta multipla</option>
+                  <option value="veroFalso">Vero / Falso</option>
+                  <option value="riordinamento">Riordinamento</option>
+                </select>
+              </div>
             </div>
 
             <div class="form-row">
@@ -113,31 +123,42 @@
                 <input type="number" [(ngModel)]="domanda.puntiChevale"
                   [name]="'punti_' + di" min="0" />
               </div>
-              <div class="form-group">
-                <label>Tentativi</label>
-                <input type="number" [(ngModel)]="domanda.tentativi"
-                  [name]="'tentativi_' + di" min="1" />
-              </div>
+              @if (domanda.tipo !== 'riordinamento') {
+                <div class="form-group">
+                  <label>Tentativi</label>
+                  <input type="number" [(ngModel)]="domanda.tentativi"
+                    [name]="'tentativi_' + di" min="1" />
+                </div>
+              }
             </div>
 
             <!-- Risposte -->
             <div class="risposte-section">
               <div class="risposte-header">
-                <label>Risposte</label>
+                @if (domanda.tipo === 'riordinamento') {
+                  <label>Voci (nell'ordine corretto — verranno mescolate per l'utente)</label>
+                } @else {
+                  <label>Risposte</label>
+                }
                 <button type="button" class="btn-aggiungi-risposta"
-                  (click)="aggiungiRisposta(di)">+ Risposta</button>
+                  (click)="aggiungiRisposta(di)">+ Voce</button>
               </div>
 
               @for (risposta of domanda.risposte; track $index; let ri = $index) {
                 <div class="risposta-row">
+                  @if (domanda.tipo === 'riordinamento') {
+                    <span class="posizione-numero">{{ ri + 1 }}.</span>
+                  }
                   <input type="text" [(ngModel)]="risposta.testo"
                     [name]="'risposta_' + di + '_' + ri"
-                    placeholder="Testo risposta" />
-                  <label class="risposta-corretta">
-                    <input type="checkbox" [(ngModel)]="risposta.eCorretta"
-                      [name]="'corretta_' + di + '_' + ri" />
-                    Corretta
-                  </label>
+                    placeholder="{{ domanda.tipo === 'riordinamento' ? 'Voce ' + (ri + 1) : 'Testo risposta' }}" />
+                  @if (domanda.tipo !== 'riordinamento') {
+                    <label class="risposta-corretta">
+                      <input type="checkbox" [(ngModel)]="risposta.eCorretta"
+                        [name]="'corretta_' + di + '_' + ri" />
+                      Corretta
+                    </label>
+                  }
                   <button type="button" class="btn-rimuovi-piccolo"
                     (click)="rimuoviRisposta(di, ri)">✕</button>
                 </div>

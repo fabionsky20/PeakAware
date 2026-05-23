@@ -65,19 +65,26 @@ const avviaSessione = async (req, res) => {
     });
 
     // Costruisce le domande da inviare al client rimuovendo eCorretta da ogni risposta
-    const domandePerClient = quiz.domande.map((d) => ({
-      _id: d._id,
-      testo: d.testo,
-      tipo: d.tipo,
-      tempo: d.tempo,
-      puntiChevale: d.puntiChevale,
-      numRisposteCorrette: d.risposte.filter((r) => r.eCorretta).length,
-      risposte: d.risposte.map((r) => ({
-        _id: r._id,
-        testo: r.testo,
-        // eCorretta non viene incluso: il client non deve conoscere la risposta
-      })),
-    }));
+    const domandePerClient = quiz.domande.map((d) => {
+      // Per il riordinamento mescola le voci prima di inviarle (non rivela l'ordine corretto)
+      let risposteClient = d.risposte.map((r) => ({ _id: r._id, testo: r.testo }));
+      if (d.tipo === 'riordinamento') {
+        for (let i = risposteClient.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [risposteClient[i], risposteClient[j]] = [risposteClient[j], risposteClient[i]];
+        }
+      }
+
+      return {
+        _id: d._id,
+        testo: d.testo,
+        tipo: d.tipo,
+        tempo: d.tempo,
+        puntiChevale: d.puntiChevale,
+        numRisposteCorrette: d.tipo === 'riordinamento' ? 0 : d.risposte.filter((r) => r.eCorretta).length,
+        risposte: risposteClient,
+      };
+    });
 
     res.status(201).json({
       successo: true,
@@ -122,12 +129,15 @@ const avviaSessione = async (req, res) => {
  */
 const rispondi = async (req, res) => {
   try {
-    const { idDomanda, idRisposte } = req.body;
+    const { idDomanda, idRisposte, ordine } = req.body;
 
-    if (!idDomanda || !Array.isArray(idRisposte) || idRisposte.length === 0) {
+    const hasRisposte = Array.isArray(idRisposte) && idRisposte.length > 0;
+    const hasOrdine = Array.isArray(ordine) && ordine.length > 0;
+
+    if (!idDomanda || (!hasRisposte && !hasOrdine)) {
       return res.status(400).json({
         successo: false,
-        messaggio: 'idDomanda e idRisposte (array non vuoto) sono obbligatori',
+        messaggio: 'idDomanda e idRisposte (o ordine per riordinamento) sono obbligatori',
       });
     }
 
@@ -182,6 +192,50 @@ const rispondi = async (req, res) => {
     const risposteCorretteIds = domanda.risposte
       .filter((r) => r.eCorretta)
       .map((r) => r._id.toString());
+    
+    // Valutazione diversa in base al tipo di domanda
+    if (domanda.tipo === 'riordinamento') {
+      const ordineDato = req.body.ordine; // array di id nell'ordine scelto dal client
+
+      if (!Array.isArray(ordineDato) || ordineDato.length === 0) {
+        return res.status(400).json({ successo: false, messaggio: 'ordine (array) è obbligatorio per il riordinamento' });
+      }
+
+      // ordine corretto: risposte ordinate per posizione crescente
+      const ordineCorretto = [...domanda.risposte]
+        .sort((a, b) => (a.posizione ?? 0) - (b.posizione ?? 0))
+        .map((r) => r._id.toString());
+
+      const corretta = ordineDato.length === ordineCorretto.length &&
+        ordineDato.every((id, i) => id === ordineCorretto[i]);
+
+      const puntiOttenuti = corretta ? domanda.puntiChevale : 0;
+
+      sessione.risposteDate.push({
+        idDomanda: domanda._id,
+        idRisposte: ordineDato, // salva l'ordine dato dall'utente
+        corretta,
+        puntiOttenuti,
+        tipo: 'riordinamento',
+      });
+      sessione.punteggioOttenuto += puntiOttenuti;
+      await sessione.save();
+
+      // Restituisce l'ordine corretto con i testi, utile per il feedback
+      const vociOrdinate = ordineCorretto.map((id) => {
+        const r = domanda.risposte.find((r) => r._id.toString() === id);
+        return r ? r.testo : id;
+      });
+
+      return res.status(200).json({
+        successo: true,
+        dati: {
+          corretta,
+          puntiOttenuti,
+          risposteCorrette: vociOrdinate,
+        },
+      });
+    }
 
     // La risposta è corretta solo se l'utente ha selezionato esattamente
     // tutte e sole le risposte corrette (nessuna in più, nessuna in meno)

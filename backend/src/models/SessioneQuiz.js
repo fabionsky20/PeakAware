@@ -36,6 +36,11 @@ const rispostaDataSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
+
+  tipo: {
+    type: String,
+    default: 'multipla'
+  }
 });
 
 /**

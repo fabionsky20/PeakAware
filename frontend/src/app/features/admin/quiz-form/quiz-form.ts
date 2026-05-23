@@ -166,6 +166,14 @@ export class QuizForm implements OnInit {
     const dati = {
       ...this.quiz,
       videoCollegato: this.quiz.videoCollegato || null,
+      // Auto-assegna posizione per le domande di tipo riordinamento
+      domande: this.quiz.domande.map((d: any) => {
+        if (d.tipo !== 'riordinamento') return d;
+        return {
+          ...d,
+          risposte: d.risposte.map((r: any, i: number) => ({ ...r, posizione: i + 1 })),
+        };
+      }),
     };
 
     const richiesta = this.isModifica
