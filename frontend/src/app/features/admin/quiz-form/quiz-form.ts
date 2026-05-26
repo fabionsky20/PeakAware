@@ -115,8 +115,8 @@ export class QuizForm implements OnInit {
       puntiChevale: 10,
       tentativi: 1,
       risposte: [
-        { testo: '', eCorretta: false },
-        { testo: '', eCorretta: false }
+        { testo: '', eCorretta: false, coppia: '' },
+        { testo: '', eCorretta: false, coppia: '' }
       ]
     });
   }
@@ -138,7 +138,8 @@ export class QuizForm implements OnInit {
   aggiungiRisposta(domandaIndex: number): void {
     this.quiz.domande[domandaIndex].risposte.push({
       testo: '',
-      eCorretta: false
+      eCorretta: false,
+      coppia: ''
     });
   }
 
@@ -166,13 +167,22 @@ export class QuizForm implements OnInit {
     const dati = {
       ...this.quiz,
       videoCollegato: this.quiz.videoCollegato || null,
-      // Auto-assegna posizione per le domande di tipo riordinamento
       domande: this.quiz.domande.map((d: any) => {
-        if (d.tipo !== 'riordinamento') return d;
-        return {
-          ...d,
-          risposte: d.risposte.map((r: any, i: number) => ({ ...r, posizione: i + 1 })),
-        };
+        if (d.tipo === 'riordinamento') {
+          // Auto-assegna posizione in base all'ordine inserito dall'admin
+          return {
+            ...d,
+            risposte: d.risposte.map((r: any, i: number) => ({ ...r, posizione: i + 1 })),
+          };
+        }
+        if (d.tipo === 'collegamento') {
+          // Rimuove campi non usati dal collegamento
+          return {
+            ...d,
+            risposte: d.risposte.map((r: any) => ({ testo: r.testo, eCorretta: false, coppia: r.coppia })),
+          };
+        }
+        return d;
       }),
     };
 

@@ -27,6 +27,14 @@ interface Domanda {
   puntiChevale: number;
   numRisposteCorrette: number;
   risposte: Risposta[];
+  opzioniDestra?: string[];
+}
+
+interface DettaglioCollegamento {
+  sinistra: string;
+  destra: string;
+  corretto: boolean;
+  coppiaCorretta: string;
 }
 
 interface Feedback {
@@ -34,6 +42,7 @@ interface Feedback {
   puntiOttenuti: number;
   risposteCorrette: string[];
   tempoScaduto?: boolean;
+  dettaglio?: DettaglioCollegamento[];
 }
 
 @Component({
@@ -55,6 +64,11 @@ export class QuizSessione implements OnInit, OnDestroy {
   ordineRiordinamento: { _id: string; testo: string }[] = [];
   dragItemIndice: number = -1;
   dragOverIndice: number = -1;
+
+  // Collegamento: coppie formate dall'utente e item sinistro attualmente selezionato
+  coppieSelezionate: { sinistroId: string; sinistroTesto: string; destroTesto: string; colore: string }[] = [];
+  sinistroSelezionato: string | null = null;
+  private readonly COLORI_COLLEGAMENTO = ['#2E86C1', '#1E8449', '#D35400', '#7D3C98', '#C0392B', '#117A65'];
 
   tempoRimasto: number = 0;
   private timerInterval: any = null;
@@ -103,6 +117,19 @@ export class QuizSessione implements OnInit, OnDestroy {
     return this.domandaCorrente?.tipo === 'riordinamento';
   }
 
+  get isCollegamento(): boolean {
+    return this.domandaCorrente?.tipo === 'collegamento';
+  }
+
+  get isNormale(): boolean {
+    return !this.isRiordinamento && !this.isCollegamento;
+  }
+
+  get tutteAccoppiate(): boolean {
+    return !!this.domandaCorrente?.risposte?.length &&
+      this.coppieSelezionate.length === this.domandaCorrente.risposte.length;
+  }
+
   /**
    * Testo della risposta/e corrette da mostrare nel feedback errore.
    *
@@ -138,6 +165,7 @@ export class QuizSessione implements OnInit, OnDestroy {
         this.domande = risposta.dati.domande;
         this.caricamento = false;
         this.inizializzaRiordinamento();
+        this.inizializzaCollegamento();
         this.cdr.detectChanges();
         this.avviaTimer();
       },
@@ -181,20 +209,23 @@ export class QuizSessione implements OnInit, OnDestroy {
    */
   confermaRisposta(): void {
     if (this.invioInCorso || !this.domandaCorrente) return;
-    if (!this.isRiordinamento && this.risposteSelezionate.length === 0) return;
+    if (this.isNormale && this.risposteSelezionate.length === 0) return;
+    if (this.isCollegamento && !this.tutteAccoppiate) return;
     this.fermaTimer();
     this.invioInCorso = true;
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    const body = this.isRiordinamento
-      ? {
-          idDomanda: this.domandaCorrente._id,
-          ordine: this.ordineRiordinamento.map((r) => r._id),
-        }
-      : {
-          idDomanda: this.domandaCorrente._id,
-          idRisposte: this.risposteSelezionate,
-        };
+    let body: any;
+    if (this.isRiordinamento) {
+      body = { idDomanda: this.domandaCorrente._id, ordine: this.ordineRiordinamento.map((r) => r._id) };
+    } else if (this.isCollegamento) {
+      body = {
+        idDomanda: this.domandaCorrente._id,
+        coppie: this.coppieSelezionate.map((c) => ({ sinistra: c.sinistroId, destra: c.destroTesto })),
+      };
+    } else {
+      body = { idDomanda: this.domandaCorrente._id, idRisposte: this.risposteSelezionate };
+    }
 
     this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/rispondi`, body, { headers }).subscribe({
       next: (risposta) => {
@@ -222,6 +253,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     this.risposteSelezionate = [];
     this.feedback = null;
     this.inizializzaRiordinamento();
+    this.inizializzaCollegamento();
     this.avviaTimer();
   }
 
@@ -311,6 +343,48 @@ export class QuizSessione implements OnInit, OnDestroy {
   onDragEnd(): void {
     this.dragItemIndice = -1;
     this.dragOverIndice = -1;
+  }
+
+  // ── Collegamento ───────────────────────────────────────────
+
+  private inizializzaCollegamento(): void {
+    this.coppieSelezionate = [];
+    this.sinistroSelezionato = null;
+  }
+
+  clicSinistra(id: string): void {
+    if (this.feedback || this.invioInCorso) return;
+    const pairIdx = this.coppieSelezionate.findIndex((c) => c.sinistroId === id);
+    if (pairIdx !== -1) {
+      this.coppieSelezionate = this.coppieSelezionate.filter((_, i) => i !== pairIdx);
+      return;
+    }
+    this.sinistroSelezionato = this.sinistroSelezionato === id ? null : id;
+  }
+
+  clicDestra(testo: string): void {
+    if (this.feedback || this.invioInCorso) return;
+    const pairIdx = this.coppieSelezionate.findIndex((c) => c.destroTesto === testo);
+    if (pairIdx !== -1) {
+      this.coppieSelezionate = this.coppieSelezionate.filter((_, i) => i !== pairIdx);
+      return;
+    }
+    if (!this.sinistroSelezionato) return;
+    const sinistroTesto = this.domandaCorrente?.risposte.find((r) => r._id === this.sinistroSelezionato)?.testo ?? '';
+    const colore = this.COLORI_COLLEGAMENTO[this.coppieSelezionate.length % this.COLORI_COLLEGAMENTO.length];
+    this.coppieSelezionate = [
+      ...this.coppieSelezionate,
+      { sinistroId: this.sinistroSelezionato, sinistroTesto, destroTesto: testo, colore },
+    ];
+    this.sinistroSelezionato = null;
+  }
+
+  getColoreSinistra(id: string): string {
+    return this.coppieSelezionate.find((c) => c.sinistroId === id)?.colore ?? '';
+  }
+
+  getColoreDestra(testo: string): string {
+    return this.coppieSelezionate.find((c) => c.destroTesto === testo)?.colore ?? '';
   }
 
   logout(): void {

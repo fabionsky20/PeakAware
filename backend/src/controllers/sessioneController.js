@@ -66,12 +66,28 @@ const avviaSessione = async (req, res) => {
 
     // Costruisce le domande da inviare al client rimuovendo eCorretta da ogni risposta
     const domandePerClient = quiz.domande.map((d) => {
-      // Per il riordinamento mescola le voci prima di inviarle (non rivela l'ordine corretto)
       let risposteClient = d.risposte.map((r) => ({ _id: r._id, testo: r.testo }));
+      let opzioniDestra;
+
       if (d.tipo === 'riordinamento') {
+        // Mescola le voci prima di inviarle (non rivela l'ordine corretto)
         for (let i = risposteClient.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [risposteClient[i], risposteClient[j]] = [risposteClient[j], risposteClient[i]];
+        }
+      }
+
+      if (d.tipo === 'collegamento') {
+        // Mescola il lato sinistro
+        for (let i = risposteClient.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [risposteClient[i], risposteClient[j]] = [risposteClient[j], risposteClient[i]];
+        }
+        // Raccoglie i valori del lato destro (coppia) e li mescola separatamente
+        opzioniDestra = d.risposte.map((r) => r.coppia);
+        for (let i = opzioniDestra.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [opzioniDestra[i], opzioniDestra[j]] = [opzioniDestra[j], opzioniDestra[i]];
         }
       }
 
@@ -81,8 +97,9 @@ const avviaSessione = async (req, res) => {
         tipo: d.tipo,
         tempo: d.tempo,
         puntiChevale: d.puntiChevale,
-        numRisposteCorrette: d.tipo === 'riordinamento' ? 0 : d.risposte.filter((r) => r.eCorretta).length,
+        numRisposteCorrette: (d.tipo === 'riordinamento' || d.tipo === 'collegamento') ? 0 : d.risposte.filter((r) => r.eCorretta).length,
         risposte: risposteClient,
+        ...(opzioniDestra !== undefined && { opzioniDestra }),
       };
     });
 
@@ -131,10 +148,12 @@ const rispondi = async (req, res) => {
   try {
     const { idDomanda, idRisposte, ordine } = req.body;
 
+    const { coppie } = req.body;
     const hasRisposte = Array.isArray(idRisposte) && idRisposte.length > 0;
     const hasOrdine = Array.isArray(ordine) && ordine.length > 0;
+    const hasCoppie = Array.isArray(coppie) && coppie.length > 0;
 
-    if (!idDomanda || (!hasRisposte && !hasOrdine)) {
+    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie)) {
       return res.status(400).json({
         successo: false,
         messaggio: 'idDomanda e idRisposte (o ordine per riordinamento) sono obbligatori',
@@ -236,6 +255,48 @@ const rispondi = async (req, res) => {
         },
       });
     }
+
+    if (domanda.tipo === 'collegamento') {
+
+      const coppieDate = req.body.coppie;
+      // es. [{ sinistra: 'id_aquila', destra: 'Verso: fischio acuto' }, ...]
+
+      // per ogni coppia formata dal bambino, verifico se corrisponde a quella salvata nel DB
+      let tutteCorrette = true;
+      const dettaglio = coppieDate.map(coppia => {
+        const risposta = domanda.risposte.find(r => r._id.toString() === coppia.sinistra);
+
+        const correttaQuestaCopp = risposta && risposta.coppia.trim().toLowerCase() === coppia.destra.trim().toLowerCase();
+
+        if (!correttaQuestaCopp) tutteCorrette = false;
+          return {
+            sinistra: risposta?.testo || coppia.sinistra,
+            destra: coppia.destra,
+            corretto: correttaQuestaCopp,
+            coppiaCorrtta: risposta?.coppia // per il feedback
+          };
+        });
+
+        const puntiCollegamento = tutteCorrette ? domanda.puntiChevale : 0;
+        sessione.risposteDate.push({
+          idDomanda: domanda._id,
+          corretta: tutteCorrette,
+          puntiOttenuti: puntiCollegamento,
+          tipo: 'collegamento'
+        });
+        sessione.punteggioOttenuto += puntiCollegamento;
+        await sessione.save();
+
+        return res.status(200).json({
+          successo: true,
+          dati: {
+            corretta: tutteCorrette,
+            puntiOttenuti: puntiCollegamento,
+            dettaglio,
+          },
+        });
+    }
+  
 
     // La risposta è corretta solo se l'utente ha selezionato esattamente
     // tutte e sole le risposte corrette (nessuna in più, nessuna in meno)

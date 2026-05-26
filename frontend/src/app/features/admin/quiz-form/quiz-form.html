@@ -113,6 +113,7 @@
                   <option value="multipla">Risposta multipla</option>
                   <option value="veroFalso">Vero / Falso</option>
                   <option value="riordinamento">Riordinamento</option>
+                  <option value="collegamento">Collegamento</option>
                 </select>
               </div>
             </div>
@@ -123,7 +124,7 @@
                 <input type="number" [(ngModel)]="domanda.puntiChevale"
                   [name]="'punti_' + di" min="0" />
               </div>
-              @if (domanda.tipo !== 'riordinamento') {
+              @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento') {
                 <div class="form-group">
                   <label>Tentativi</label>
                   <input type="number" [(ngModel)]="domanda.tentativi"
@@ -137,6 +138,8 @@
               <div class="risposte-header">
                 @if (domanda.tipo === 'riordinamento') {
                   <label>Voci (nell'ordine corretto — verranno mescolate per l'utente)</label>
+                } @else if (domanda.tipo === 'collegamento') {
+                  <label>Coppie (sinistra → destra, verranno mescolate per l'utente)</label>
                 } @else {
                   <label>Risposte</label>
                 }
@@ -151,8 +154,14 @@
                   }
                   <input type="text" [(ngModel)]="risposta.testo"
                     [name]="'risposta_' + di + '_' + ri"
-                    placeholder="{{ domanda.tipo === 'riordinamento' ? 'Voce ' + (ri + 1) : 'Testo risposta' }}" />
-                  @if (domanda.tipo !== 'riordinamento') {
+                    placeholder="{{ domanda.tipo === 'riordinamento' ? 'Voce ' + (ri + 1) : domanda.tipo === 'collegamento' ? 'Elemento sinistra' : 'Testo risposta' }}" />
+                  @if (domanda.tipo === 'collegamento') {
+                    <span class="coppia-freccia">→</span>
+                    <input type="text" [(ngModel)]="risposta.coppia"
+                      [name]="'coppia_' + di + '_' + ri"
+                      placeholder="Elemento destra" />
+                  }
+                  @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento') {
                     <label class="risposta-corretta">
                       <input type="checkbox" [(ngModel)]="risposta.eCorretta"
                         [name]="'corretta_' + di + '_' + ri" />

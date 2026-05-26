@@ -79,8 +79,63 @@
           }
         }
 
+        <!-- Collegamento: due colonne click-to-pair -->
+        @if (isCollegamento) {
+          @if (!feedback) {
+            <p class="hint-collega">Clicca un elemento a sinistra, poi uno a destra per formare la coppia</p>
+            <div class="collegamento-griglia">
+              <div class="collegamento-colonna">
+                @for (r of domandaCorrente.risposte; track r._id) {
+                  <button
+                    class="collegamento-voce"
+                    [class.col-selezionato]="sinistroSelezionato === r._id"
+                    [style.background]="getColoreSinistra(r._id) || ''"
+                    [style.color]="getColoreSinistra(r._id) ? 'white' : ''"
+                    [style.borderColor]="getColoreSinistra(r._id) || ''"
+                    (click)="clicSinistra(r._id)">
+                    {{ r.testo }}
+                  </button>
+                }
+              </div>
+              <div class="collegamento-colonna">
+                @for (opzione of domandaCorrente.opzioniDestra; track opzione) {
+                  <button
+                    class="collegamento-voce"
+                    [style.background]="getColoreDestra(opzione) || ''"
+                    [style.color]="getColoreDestra(opzione) ? 'white' : ''"
+                    [style.borderColor]="getColoreDestra(opzione) || ''"
+                    (click)="clicDestra(opzione)">
+                    {{ opzione }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          @if (feedback) {
+            <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
+              @if (feedback.tempoScaduto) {
+                <strong>⏱ Tempo scaduto</strong>
+              } @else if (feedback.corretta) {
+                <strong>Tutte le coppie corrette!</strong>
+              } @else {
+                <div>
+                  <strong>Alcune coppie errate.</strong> Soluzione:
+                  <ul class="coppia-lista">
+                    @for (d of feedback.dettaglio; track d.sinistra) {
+                      <li [class.coppia-giusta]="d.corretto">
+                        {{ d.sinistra }} → {{ d.coppiaCorretta }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        }
+
         <!-- Risposta classica: singola o multipla -->
-        @if (!isRiordinamento) {
+        @if (isNormale) {
           @if (isMultiRisposta && !feedback) {
             <p class="hint-multi">Seleziona tutte le risposte corrette</p>
           }
@@ -118,7 +173,7 @@
         @if (!feedback) {
           <button
             class="btn-conferma"
-            [disabled]="(!isRiordinamento && risposteSelezionate.length === 0) || invioInCorso"
+            [disabled]="(isNormale && risposteSelezionate.length === 0) || (isCollegamento && !tutteAccoppiate) || invioInCorso"
             (click)="confermaRisposta()">
             {{ invioInCorso ? 'Invio...' : 'Conferma risposta' }}
           </button>

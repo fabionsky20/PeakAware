@@ -30,6 +30,12 @@ const rispostaSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
+
+  //Per domande di tipo collegamento
+  coppia: {
+    type: String,
+    default: null 
+  }
 });
 
 /**
@@ -47,7 +53,7 @@ const domandaSchema = new mongoose.Schema({
 
   tipo: {
     type: String,
-    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento'],
+    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento'],
     default: 'multipla',
   },
 
@@ -79,8 +85,8 @@ const domandaSchema = new mongoose.Schema({
     type: [rispostaSchema],
     validate: {
       validator: function (risposte) {
-        // Per il riordinamento l'ordine è definito da posizione, non da eCorretta
-        if (this.tipo === 'riordinamento') return risposte.length >= 2;
+        // Per riordinamento e collegamento la correttezza non si basa su eCorretta
+        if (this.tipo === 'riordinamento' || this.tipo === 'collegamento') return risposte.length >= 2;
         // OCL constraint #5: almeno una risposta corretta per domanda
         return risposte.some((r) => r.eCorretta === true);
       },
