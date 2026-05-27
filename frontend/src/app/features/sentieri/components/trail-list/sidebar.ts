@@ -1,10 +1,15 @@
-import { Component, inject, computed, ViewChild, ViewChildren, QueryList, ElementRef, effect, signal} from '@angular/core';
+import {
+  Component, inject, computed,
+  ViewChild, ViewChildren, QueryList, ElementRef, effect, signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SentieroService } from '@core/services/sentiero.service';
 import { AuthService } from '@core/services/auth.service';
 import { UtenteService } from '@core/services/utente.service';
-import { valutaCompatibilita, ConsiglioSentiero } from '../trail-list/trail-advisor';
-import { HttpClient } from '@angular/common/http';
+import { valutaCompatibilita, ConsiglioSentiero } from './trail-advisor';
+import { suggerisciAttrezzatura, SuggerimentoAttrezzatura } from './equipment-advisor';
 import * as turf from '@turf/turf';
 
 type StatoGps = 'inattivo' | 'avvio' | 'tracking' | 'completato' | 'errore';
@@ -16,28 +21,60 @@ type StatoGps = 'inattivo' | 'avvio' | 'tracking' | 'completato' | 'errore';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css'
 })
-
 export class SidebarComponent {
   protected sentieroService = inject(SentieroService);
   protected authService     = inject(AuthService);
   private   utenteService   = inject(UtenteService);
-  private http = inject(HttpClient);
-
-  isAdmin = computed(() => this.authService.getRuolo() === 'admin');
-  importaLoading = false;
-  importEsito: string | null = null;
+  private   router          = inject(Router);
+  private   http            = inject(HttpClient);
 
   @ViewChild('sidebarScroll') sidebarScroll!: ElementRef<HTMLElement>;
   @ViewChildren('trailCard')  trailCards!: QueryList<ElementRef<HTMLElement>>;
 
-  sentieriOrdinati = computed(() => [...this.sentieroService.sentieri()]);
-  // ── Consiglio ──────────────────────────────────────────────────────────────
+  private apiUrl = 'http://localhost:3000/api';
 
+  sentieriOrdinati = computed(() => [...this.sentieroService.sentieri()]);
+
+  // ── Admin ──────────────────────────────────────────────────────────────────
+  importaLoading = false;
+  importEsito    = '';
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  vaiAllaHome(): void {
+    this.router.navigate(['/']);
+  }
+
+  ricaricaSentieri(): void {
+    this.sentieroService.loadSentieri();
+  }
+
+  avviaImportazione(): void {
+    this.importaLoading = true;
+    this.importEsito    = '';
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authService.getToken()}`
+    });
+    this.http.post<any>(`${this.apiUrl}/sentieri/importa`, {}, { headers }).subscribe({
+      next: (res) => {
+        this.importaLoading = false;
+        this.importEsito = `✅ ${res.dettagli?.salvati_filtrati ?? 0} sentieri importati`;
+        this.sentieroService.loadSentieri();
+      },
+      error: () => {
+        this.importaLoading = false;
+        this.importEsito = '❌ Errore durante l\'importazione';
+      }
+    });
+  }
+
+  // ── Consiglio ──────────────────────────────────────────────────────────────
   consiglio = computed<ConsiglioSentiero | null>(() => {
     const s      = this.sentieroService.sentieroSelezionato();
     const utente = this.authService.utente();
     if (!s || !utente) return null;
-
     return valutaCompatibilita(
       s.properties?.['cai_scale'] ?? s.difficolta,
       s.lunghezza,
@@ -46,16 +83,30 @@ export class SidebarComponent {
     );
   });
 
-  // ── GPS tracking ───────────────────────────────────────────────────────────
-  statoGps         = signal<StatoGps>('inattivo');
-  nuoviBadge       = signal<{id:string; nome: string; icona: string; descrizione: string }[]>([]);
-  messaggioGps     = signal<string>('');
+  // ── Attrezzatura ──────────────────────────────────────────────────────────
+  attrezzatura = computed<SuggerimentoAttrezzatura[]>(() => {
+    const s = this.sentieroService.sentieroSelezionato();
+    if (!s) return [];
+    return suggerisciAttrezzatura(
+      s.properties?.['cai_scale'] ?? s.difficolta,
+      s.lunghezza,
+      s.dislivello_positivo
+    );
+  });
+
+  // ── GPS ────────────────────────────────────────────────────────────────────
+  statoGps     = signal<StatoGps>('inattivo');
+  nuoviBadge   = signal<{ id: string; nome: string; icona: string; descrizione: string }[]>([]);
+  messaggioGps = signal<string>('');
+
+  attrezzaturaAperta = false;
+
+  toggleAttrezzatura(): void {
+    this.attrezzaturaAperta = !this.attrezzaturaAperta;
+  }
 
   private watchId: number | null = null;
   private posizioniRaccolte: GeolocationPosition[] = [];
-  private inizioTracking: number | null = null;
-
-  get sentieroAttivo() { return this.sentieroService.sentieroSelezionato(); }
 
   avviaGps(): void {
     if (!navigator.geolocation) {
@@ -63,24 +114,21 @@ export class SidebarComponent {
       this.messaggioGps.set('GPS non supportato dal browser');
       return;
     }
-
     this.statoGps.set('avvio');
     this.posizioniRaccolte = [];
-    this.inizioTracking = Date.now();
     this.messaggioGps.set('Acquisizione segnale GPS...');
 
     this.watchId = navigator.geolocation.watchPosition(
       (pos) => {
         this.posizioniRaccolte.push(pos);
         this.statoGps.set('tracking');
-        this.messaggioGps.set(
-          `📍 Tracking attivo — ${this.posizioniRaccolte.length} punti registrati`
-        );
+        this.messaggioGps.set(`📍 Tracking attivo — ${this.posizioniRaccolte.length} punti`);
       },
       (err) => {
         this.statoGps.set('errore');
         this.messaggioGps.set(`Errore GPS: ${err.message}`);
-      },  { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
+      },
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
     );
   }
 
@@ -89,39 +137,29 @@ export class SidebarComponent {
       navigator.geolocation.clearWatch(this.watchId);
       this.watchId = null;
     }
-    const s = this.sentieroAttivo
-
+    const s = this.sentieroService.sentieroSelezionato();
     if (!s || this.posizioniRaccolte.length < 2) {
       this.statoGps.set('inattivo');
       this.messaggioGps.set('');
       return;
     }
-
-    // Calcola km percorsi dalla traccia GPS raccolta
-    const coords = this.posizioniRaccolte.map(p => [
-      p.coords.longitude, p.coords.latitude
-    ]);
-    const linea  = turf.lineString(coords);
-    const km     = parseFloat(turf.length(linea, { units: 'kilometers' }).toFixed(2));
+    const coords = this.posizioniRaccolte.map(p => [p.coords.longitude, p.coords.latitude]);
+    const km     = parseFloat(turf.length(turf.lineString(coords), { units: 'kilometers' }).toFixed(2));
     const nome   = s.properties?.['name'] ?? 'Sentiero senza nome';
 
     this.statoGps.set('completato');
     this.messaggioGps.set(`Percorso completato — ${km} km registrati`);
-    this.utenteService.completaSentiero(
-      s.osm_id,
-      nome,
-      km,
-      s.dislivello_positivo ?? 0
-    ).subscribe({
-      next: (res) => {
-        if (res.nuoviBadge?.length > 0) {
-          this.nuoviBadge.set(res.nuoviBadge);
-          // Auto-nasconde i badge dopo 8 secondi
-          setTimeout(() => this.nuoviBadge.set([]), 8000);
-        }
-      },
-      error: () => this.messaggioGps.set('Percorso salvato localmente (errore server)')
-    });
+
+    this.utenteService.completaSentiero(s.osm_id, nome, km, s.dislivello_positivo ?? 0)
+      .subscribe({
+        next: (res) => {
+          if (res.nuoviBadge?.length > 0) {
+            this.nuoviBadge.set(res.nuoviBadge);
+            setTimeout(() => this.nuoviBadge.set([]), 8000);
+          }
+        },
+        error: () => this.messaggioGps.set('Percorso salvato localmente (errore server)')
+      });
   }
 
   annullaGps(): void {
@@ -138,6 +176,7 @@ export class SidebarComponent {
     if (corrente?.osm_id === sentiero.osm_id) {
       this.sentieroService.sentieroSelezionato.set(null);
       this.annullaGps();
+      this.attrezzaturaAperta = false;
     } else {
       this.sentieroService.sentieroSelezionato.set(sentiero);
       this.statoGps.set('inattivo');
@@ -156,7 +195,6 @@ export class SidebarComponent {
       if (isNaN(n)) return '—';
       totalMinuti = Math.round(n * 60);
     }
-
     const h = Math.floor(totalMinuti / 60);
     const m = totalMinuti % 60;
     if (h === 0) return `${m} min`;
@@ -174,39 +212,13 @@ export class SidebarComponent {
     }
   }
 
-  vaiAllaHome() {
-    window.location.href = '/home';
-  }
-
-  ricaricaSentieri() {
-    window.location.reload();
-  }
-
-  avviaImportazione() {
-    this.importaLoading = true;
-    this.importEsito = null;
-    this.http.post('http://localhost:3000/api/sentieri/importa', {}, {headers: {Authorization: `Bearer ${this.authService.getToken()}`}}).subscribe({
-      next: (data) => {
-        this.importEsito = `✅ sentieri importati con successo`;
-        this.importaLoading = false;
-        this.ricaricaSentieri();
-      },
-      error: (error) => {
-        this.importEsito = 'Errore durante l\'importazione.';
-        this.importaLoading = false;
-      }
-    });
-  }
-
   constructor() {
-    // Carica progressione utente all'avvio se autenticato
     effect(() => {
       if (this.authService.isAutenticato()) {
-       this.utenteService.caricaProgressione().subscribe();
+        this.utenteService.caricaProgressione().subscribe();
       }
     });
 
-    // Scroll alla card selezionata
     effect(() => {
       const selezionato = this.sentieroService.sentieroSelezionato();
       if (!selezionato) return;

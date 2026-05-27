@@ -1,22 +1,30 @@
 <div class="sidebar-wrapper" #sidebarScroll>
 
   <div class="sidebar-header">
-    <h2>🥾 Sentieri</h2>
-    <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
-    <button class="btn-to-home" (click)="vaiAllaHome()">🏠 Home</button>
-    <button class="btn-refresh" (click)="ricaricaSentieri()">🔄 Ricarica</button>
-
-    @if (isAdmin()) {
-      <button class="btn-import" (click)="avviaImportazione()" [disabled]="importaLoading">
-        {{ importaLoading ? 'Importazione in corso...' : '📥 Importa da OSM' }}
-      </button>
-      @if (importEsito) {
-        <p class="import-result">{{ importEsito }}</p>
-      } 
-  }
+    <div class="header-top">
+      <div>
+        <h2>🥾 Sentieri</h2>
+        <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" title="Home" (click)="vaiAllaHome()">🏠</button>
+        <button class="btn-icon" title="Ricarica" (click)="ricaricaSentieri()">🔄</button>
+        @if (isAdmin()) {
+          <button class="btn-icon btn-import"
+                  title="Importa da OSM"
+                  (click)="avviaImportazione()"
+                  [disabled]="importaLoading">
+            {{ importaLoading ? '⏳' : '📥' }}
+          </button>
+        }
+      </div>
+    </div>
+    @if (importEsito) {
+      <p class="import-result">{{ importEsito }}</p>
+    }
   </div>
 
-  <!-- Badge sbloccati — notifica temporanea -->
+  <!-- Badge toast -->
   @if (nuoviBadge().length > 0) {
     <div class="badge-toast">
       @for (b of nuoviBadge(); track b.id) {
@@ -39,7 +47,7 @@
            [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
            (click)="seleziona(s)">
 
-        <!-- Header sempre visibile -->
+        <!-- Header card -->
         <div class="item-header">
           <div class="title-block">
             @if (s.properties?.['ref']) {
@@ -104,7 +112,7 @@
               </div>
             </div>
 
-            <!-- Consiglio personalizzato (solo se loggato) -->
+            <!-- Consiglio personalizzato -->
             @if (authService.isAutenticato() && consiglio()) {
               <div class="consiglio" [attr.data-livello]="consiglio()!.livello">
                 <div class="consiglio-header">
@@ -114,22 +122,55 @@
                 <p class="consiglio-testo">{{ consiglio()!.messaggio }}</p>
               </div>
             }
-
             @if (!authService.isAutenticato()) {
               <p class="login-hint">🔒 Accedi per vedere il consiglio personalizzato</p>
+            }
+
+            <!-- Attrezzatura consigliata -->
+            @if (attrezzatura().length > 0) {
+              <div class="attrezzatura-section">
+                <div class="attrezzatura-header" (click)="toggleAttrezzatura()">
+                  <span>🎒 Attrezzatura consigliata</span>
+                  <span class="chevron" [class.open]="attrezzaturaAperta">›</span>
+                </div>
+
+                @if (attrezzaturaAperta) {
+                  <div class="attrezzatura-body">
+                    @for (cat of attrezzatura(); track cat.categoria) {
+                      <div class="equip-categoria">
+                        <p class="equip-cat-titolo">
+                          {{ cat.icona }} {{ cat.categoria }}
+                        </p>
+                        <ul class="equip-lista">
+                          @for (item of cat.items; track item.nome) {
+                            <li [class.obbligatorio]="item.obbligatorio">
+                              <span class="equip-dot">{{ item.obbligatorio ? '●' : '○' }}</span>
+                              {{ item.nome }}
+                              @if (item.obbligatorio) {
+                                <span class="equip-tag">essenziale</span>
+                              }
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                    <p class="equip-nota">
+                      ● essenziale &nbsp;○ consigliato in base alle condizioni
+                    </p>
+                  </div>
+                }
+              </div>
             }
 
             <!-- GPS Tracking -->
             @if (authService.isAutenticato()) {
               <div class="gps-section">
-
                 @if (statoGps() === 'inattivo') {
                   <button class="btn-gps-start"
                           (click)="avviaGps(); $event.stopPropagation()">
                     📍 Inizia questo percorso
                   </button>
                 }
-
                 @if (statoGps() === 'avvio' || statoGps() === 'tracking') {
                   <div class="gps-attivo">
                     <div class="gps-stato">
@@ -148,13 +189,11 @@
                     </div>
                   </div>
                 }
-
                 @if (statoGps() === 'completato') {
                   <div class="gps-completato">
                     <span>🎉 {{ messaggioGps() }}</span>
                   </div>
                 }
-
                 @if (statoGps() === 'errore') {
                   <div class="gps-errore">
                     <span>⚠️ {{ messaggioGps() }}</span>
@@ -164,7 +203,6 @@
                     </button>
                   </div>
                 }
-
               </div>
             }
 
