@@ -44,7 +44,7 @@ export class SidebarComponent {
   }
 
   vaiAllaHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   ricaricaSentieri(): void {
