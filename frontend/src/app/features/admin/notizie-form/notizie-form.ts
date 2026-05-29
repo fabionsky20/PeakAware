@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgIf } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
@@ -12,7 +11,7 @@ import ImageTool from '@editorjs/image';
 @Component({
   selector: 'app-notizie-form',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule],
   templateUrl: './notizie-form.html',
   styleUrl: './notizie-form.css'
 })
