@@ -6,85 +6,140 @@
       <span class="punti-badge">🏆 {{ puntiUtente }} pt · Livello {{ livelloUtente }}</span>
       <button class="btn-homepage" (click)="vaiAllaHomepage()">🏠</button>
       <app-profile-button theme="navbar" />
-    </div>   
+    </div>
   </header>
 
   <main class="main-content">
 
-    <div class="page-header">
-      <h2>Quiz Educativi</h2>
-      <p>Metti alla prova le tue conoscenze sulla montagna</p>
-    </div>
+    <!-- Colonna sinistra: quiz -->
+    <div class="quiz-area">
 
-    <div class="filtri">
-      <select [(ngModel)]="categoriaSelezionata" (change)="filtra()" name="categoria">
-        <option value="">Tutte le categorie</option>
-        <option value="meteo">Meteo</option>
-        <option value="valanghe">Valanghe</option>
-        <option value="orientamento">Orientamento</option>
-        <option value="fauna">Fauna</option>
-        <option value="prontoSoccorso">Pronto Soccorso</option>
-        <option value="generale">Generale</option>
-      </select>
-    </div>
-
-    @if (caricamento) {
-      <div class="stato-messaggio">Caricamento quiz...</div>
-    }
-
-    @if (errore) {
-      <div class="errore">{{ errore }}</div>
-    }
-
-    @if (!caricamento && !errore) {
-      <div class="quiz-grid">
-
-        <!-- Card aggiungi — visibile solo agli admin -->
-        @if (ruoloUtente === 'admin') {
-          <div class="quiz-card card-aggiungi" (click)="nuovoQuiz()">
-            <div class="aggiungi-icon">+</div>
-            <p>Nuovo Quiz</p>
+      <div class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h2>Quiz Educativi</h2>
+            <p>Metti alla prova le tue conoscenze sulla montagna</p>
           </div>
-        }
-
-        <!-- Lista quiz -->
-        @for (q of quiz; track q._id) {
-          <div class="quiz-card" (click)="avviaQuiz(q._id)">
-
-            <!-- Pulsanti admin — visibili solo se admin -->
-            @if (ruoloUtente === 'admin') {
-              <div class="admin-controls">
-                <button class="btn-modifica" (click)="modificaQuiz(q._id, $event)">
-                  ✏️
-                </button>
-                <button class="btn-elimina" (click)="eliminaQuiz(q._id, $event)">
-                  ✕
-                </button>
-              </div>
-            }
-
-            <div class="quiz-card-header">
-              <span class="categoria-badge {{ q.categoria }}">{{ q.categoria }}</span>
-              <span class="difficolta">
-                @for (stella of getStelle(q.difficolta); track stella) {⭐}
-              </span>
-            </div>
-            <h3>{{ q.titolo }}</h3>
-            <p class="argomento">{{ q.argomento }}</p>
-            <div class="quiz-card-footer">
-              <span>🏆 {{ q.punteggio }} pt</span>
-              <span>⏱ {{ q.tempo > 0 ? q.tempo + 's' : 'Nessun limite' }}</span>
-            </div>
-
-          </div>
-        }
-
+          <button class="btn-lista-video" (click)="vaiAiVideo()">▶ Lista dei video</button>
+        </div>
       </div>
 
-      @if (quiz.length === 0 && ruoloUtente !== 'admin') {
-        <div class="stato-messaggio">Nessun quiz disponibile al momento.</div>
+      <div class="filtri">
+        <select [(ngModel)]="categoriaSelezionata" (change)="filtra()" name="categoria">
+          <option value="">Tutte le categorie</option>
+          <option value="meteo">Meteo</option>
+          <option value="valanghe">Valanghe</option>
+          <option value="orientamento">Orientamento</option>
+          <option value="fauna">Fauna</option>
+          <option value="prontoSoccorso">Pronto Soccorso</option>
+          <option value="generale">Generale</option>
+        </select>
+      </div>
+
+      @if (caricamento) {
+        <div class="stato-messaggio">Caricamento quiz...</div>
       }
-    }
+
+      @if (errore) {
+        <div class="errore">{{ errore }}</div>
+      }
+
+      @if (!caricamento && !errore) {
+        <div class="quiz-grid">
+
+          <!-- Card aggiungi — visibile solo agli admin -->
+          @if (ruoloUtente === 'admin') {
+            <div class="quiz-card card-aggiungi" (click)="nuovoQuiz()">
+              <div class="aggiungi-icon">+</div>
+              <p>Nuovo Quiz</p>
+            </div>
+          }
+
+          <!-- Lista quiz -->
+          @for (q of quiz; track q._id) {
+            <div class="quiz-card" [class.completato]="eCompletato(q._id)" (click)="avviaQuiz(q._id)">
+
+              @if (ruoloUtente === 'admin') {
+                <div class="admin-controls">
+                  <button class="btn-modifica" (click)="modificaQuiz(q._id, $event)">✏️</button>
+                  <button class="btn-elimina" (click)="eliminaQuiz(q._id, $event)">✕</button>
+                </div>
+              }
+
+              @if (eCompletato(q._id)) {
+                <div class="badge-completato">✓ Completato</div>
+              }
+
+              <div class="quiz-card-header">
+                <span class="categoria-badge {{ q.categoria }}">{{ q.categoria }}</span>
+                <span class="difficolta">
+                  @for (stella of getStelle(q.difficolta); track stella) {⭐}
+                </span>
+              </div>
+              <h3>{{ q.titolo }}</h3>
+              <p class="argomento">{{ q.argomento }}</p>
+
+              <div class="difficolta-info">
+                <span class="difficolta-label">{{ getDifficoltaLabel(q.difficolta) }}</span>
+                <span class="punteggio-max">Max {{ q.punteggio }} pt</span>
+              </div>
+
+              @if (q.videoCollegato) {
+                <button class="btn-vedi-video" (click)="apriVideoCollegato(q.videoCollegato.url, $event)">
+                  ▶ Vedi video
+                </button>
+              }
+
+              <div class="quiz-card-footer">
+                <span>⏱ {{ q.tempo > 0 ? q.tempo + 's/domanda' : 'Nessun limite' }}</span>
+                <span>{{ q.numeroDomande ?? '?' }} domande</span>
+              </div>
+
+            </div>
+          }
+
+        </div>
+
+        @if (quiz.length === 0 && ruoloUtente !== 'admin') {
+          <div class="stato-messaggio">Nessun quiz disponibile al momento.</div>
+        }
+      }
+
+    </div>
+
+    <!-- Colonna destra: badge sidebar -->
+    <aside class="badge-sidebar">
+
+      <div class="sidebar-header">
+        <span class="sidebar-titolo">🏅 Badge</span>
+        <span class="sidebar-counter">{{ badgeOttenuti }}/{{ badges.length }}</span>
+        @if (ruoloUtente === 'admin') {
+          <button class="btn-gestisci" (click)="vaiBadge()">Gestisci</button>
+        }
+      </div>
+
+      @if (badges.length === 0) {
+        <p class="sidebar-vuoto">Nessun badge ancora creato.</p>
+      }
+
+      <div class="badge-lista">
+        @for (b of badges; track b._id) {
+          <div class="badge-item" [class.badge-ottenuto]="b.ottenuto" [title]="b.descrizione">
+            <div class="badge-icona-sm" [class.icona-grigia]="!b.ottenuto">{{ b.icona }}</div>
+            <div class="badge-info">
+              <span class="badge-nome-sm">{{ b.nome }}</span>
+              <div class="badge-progress-track">
+                <div class="badge-progress-fill" [style.width.%]="b.percentuale"></div>
+              </div>
+              <span class="badge-pct">
+                @if (b.ottenuto) { ✓ } @else { {{ b.percentuale }}% }
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+
+    </aside>
 
   </main>
 </div>

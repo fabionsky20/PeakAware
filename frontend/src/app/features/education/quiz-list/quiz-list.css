@@ -59,13 +59,190 @@
   color: #D5DBDB;
 }
 .main-content {
-  max-width: 900px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 1.8rem 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* ── Colonna quiz ─────────────────────────────────────────── */
+
+.quiz-area {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Sidebar badge ────────────────────────────────────────── */
+
+.badge-sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: white;
+  border: 0.5px solid #e8e8e8;
+  border-radius: 14px;
+  padding: 1rem;
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.sidebar-titolo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1B4F72;
+  flex: 1;
+}
+
+.sidebar-counter {
+  font-size: 0.75rem;
+  color: #888;
+  background: #F0F0F0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+}
+
+.btn-gestisci {
+  font-size: 0.7rem;
+  color: #2E86C1;
+  background: transparent;
+  border: 0.5px solid #2E86C1;
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  cursor: pointer;
+  width: auto;
+  transition: background 0.15s;
+}
+
+.btn-gestisci:hover {
+  background: #E6F1FB;
+}
+
+.sidebar-vuoto {
+  font-size: 0.8rem;
+  color: #aaa;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.badge-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+  opacity: 0.6;
+  filter: grayscale(60%);
+  transition: opacity 0.2s, filter 0.2s;
+}
+
+.badge-item.badge-ottenuto {
+  opacity: 1;
+  filter: none;
+  border-color: #A9DFBF;
+  background: #FDFFFE;
+}
+
+.badge-icona-sm {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.icona-grigia {
+  filter: grayscale(100%);
+}
+
+.badge-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.badge-nome-sm {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #1B4F72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-progress-track {
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.badge-progress-fill {
+  height: 100%;
+  background: #2E86C1;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.badge-item.badge-ottenuto .badge-progress-fill {
+  background: #1E8449;
+}
+
+.badge-pct {
+  font-size: 0.68rem;
+  color: #aaa;
+}
+
+.badge-item.badge-ottenuto .badge-pct {
+  color: #1E8449;
+  font-weight: 600;
+}
+
+/* Mobile: sidebar va sotto i quiz */
+@media (max-width: 720px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .badge-sidebar {
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
+
+  .badge-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
 }
 
 .page-header {
   margin-bottom: 1.2rem;
+}
+
+.page-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
 }
 
 .page-header h2 {
@@ -79,6 +256,25 @@
   color: #888;
   font-size: 0.9rem;
 }
+
+.btn-lista-video {
+  background: white;
+  border: 0.5px solid #2E86C1;
+  color: #2E86C1;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s;
+  width: auto;
+}
+
+.btn-lista-video:hover {
+  background: #EAF2FB;
+}
+
 
 .filtri {
   margin-bottom: 1.4rem;
@@ -188,6 +384,29 @@
   color: #888;
   font-size: 0.85rem;
   margin-bottom: 0.9rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.btn-vedi-video {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0;
+  margin-bottom: 0.75rem;
+  background: #F0F7FF;
+  border: 0.5px solid #AED6F1;
+  border-radius: 8px;
+  color: #1A6FA8;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+  width: auto;
+}
+
+.btn-vedi-video:hover {
+  background: #D6EAF8;
 }
 
 .quiz-card-footer {
@@ -228,6 +447,47 @@
   color: #2E86C1;
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+/* US-16: card già completata — bordo verde sottile */
+.quiz-card.completato {
+  border-color: #A9DFBF;
+  background: #FDFFFE;
+}
+
+/* US-16: badge "✓ Completato" */
+.badge-completato {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #1E8449;
+  background: #EAFAF1;
+  border: 0.5px solid #A9DFBF;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* US-05: riga con label difficoltà e punteggio massimo */
+.difficolta-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.difficolta-label {
+  font-size: 0.78rem;
+  color: #666;
+}
+
+.punteggio-max {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #1B4F72;
+  background: #E6F1FB;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
 }
 
 /* Controlli admin sulle card */

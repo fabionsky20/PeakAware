@@ -4,6 +4,7 @@
  * Recupera e mostra la lista dei quiz dal backend.
  * Se l'utente è admin mostra i controlli di gestione.
  * Corrisponde al Modulo Educazione del D2 sezione 1.3.
+ * D4: aggiunta etichetta difficoltà testuale (US-05) e marcatura quiz completati (US-16).
  */
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -21,6 +22,17 @@ interface Quiz {
   difficolta: number;
   punteggio: number;
   tempo: number;
+  numeroDomande?: number;
+  videoCollegato?: { _id: string; titolo: string; url: string } | null;
+}
+
+interface BadgeSidebar {
+  _id: string;
+  nome: string;
+  icona: string;
+  descrizione: string;
+  percentuale: number;
+  ottenuto: boolean;
 }
 
 @Component({
@@ -33,6 +45,7 @@ interface Quiz {
 export class QuizList implements OnInit {
   
   quiz: Quiz[] = [];
+  badges: BadgeSidebar[] = [];
   categoriaSelezionata: string = '';
   caricamento: boolean = false;
   errore: string = '';
@@ -42,6 +55,9 @@ export class QuizList implements OnInit {
 
   puntiUtente: number = 0;
   livelloUtente: number = 1;
+
+  /** IDs dei quiz già completati dall'utente — usato per US-16 */
+  quizCompletatiIds: Set<string> = new Set();
 
   private apiUrl = 'http://localhost:3000/api/educazione';
 
@@ -60,11 +76,44 @@ export class QuizList implements OnInit {
     this.ruoloUtente = this.authService.getRuolo();
     this.caricaQuiz();
     this.caricaProgressi();
+    this.caricaBadge();
   }
 
   /** Torna alla dashboard principale. */
   vaiAllaHomepage(): void {
     this.router.navigate(['/home']);
+  }
+
+  /** Naviga alla lista video. */
+  vaiAiVideo(): void {
+    this.router.navigate(['/educazione/video']);
+  }
+
+  /** Naviga alla pagina badge (gestione admin). */
+  vaiBadge(): void {
+    this.router.navigate(['/educazione/badge']);
+  }
+
+  /** Carica i badge con la percentuale di avanzamento dell'utente. */
+  caricaBadge(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.get<any>(`${this.apiUrl}/badge`, { headers }).subscribe({
+      next: (risposta) => {
+        this.badges = risposta.dati || [];
+        this.cdr.detectChanges();
+      },
+      error: () => {}
+    });
+  }
+
+  get badgeOttenuti(): number {
+    return this.badges.filter(b => b.ottenuto).length;
+  }
+
+  /** Apre il video collegato al quiz in una nuova tab. */
+  apriVideoCollegato(url: string, event: Event): void {
+    event.stopPropagation();
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   /**
@@ -112,6 +161,9 @@ export class QuizList implements OnInit {
         if (risposta.successo) {
           this.puntiUtente = risposta.dati.punti;
           this.livelloUtente = risposta.dati.livello;
+          // US-16: costruisce il Set degli ID quiz completati per il lookup O(1) nel template
+          const completati: { idQuiz: string }[] = risposta.dati.quizCompletati || [];
+          this.quizCompletatiIds = new Set(completati.map(q => q.idQuiz));
           this.cdr.detectChanges();
         }
       },
@@ -158,6 +210,26 @@ export class QuizList implements OnInit {
    */
   getStelle(difficolta: number): number[] {
     return Array(difficolta).fill(0);
+  }
+
+  /**
+   * US-05: Restituisce l'etichetta testuale della difficoltà.
+   * @param d - Valore da 1 a 5
+   */
+  getDifficoltaLabel(d: number): string {
+    const labels: Record<number, string> = {
+      1: 'Molto facile',
+      2: 'Facile',
+      3: 'Medio',
+      4: 'Difficile',
+      5: 'Molto difficile',
+    };
+    return labels[d] ?? '';
+  }
+
+  /** US-16: Restituisce true se l'utente ha già completato il quiz. */
+  eCompletato(id: string): boolean {
+    return this.quizCompletatiIds.has(id);
   }
 
   /** Termina la sessione e reindirizza al login. */

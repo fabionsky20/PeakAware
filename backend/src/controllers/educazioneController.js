@@ -32,8 +32,36 @@ const getTuttiIQuiz = async (req, res) => {
     if (req.query.categoria) filtro.categoria = req.query.categoria;
     if (req.query.difficolta) filtro.difficolta = Number(req.query.difficolta);
 
-    const quiz = await Quiz.find(filtro).select('-domande'); // Esclude le domande per alleggerire la risposta
-    
+    // Aggiunge numeroDomande, risolve videoCollegato (solo titolo e url), esclude l'array domande
+    const quiz = await Quiz.aggregate([
+      { $match: filtro },
+      { $addFields: { numeroDomande: { $size: '$domande' } } },
+      {
+        $lookup: {
+          from: 'videos',
+          localField: 'videoCollegato',
+          foreignField: '_id',
+          as: 'videoCollegato',
+        },
+      },
+      {
+        $addFields: {
+          videoCollegato: {
+            $cond: {
+              if: { $gt: [{ $size: '$videoCollegato' }, 0] },
+              then: {
+                _id: { $arrayElemAt: ['$videoCollegato._id', 0] },
+                titolo: { $arrayElemAt: ['$videoCollegato.titolo', 0] },
+                url: { $arrayElemAt: ['$videoCollegato.url', 0] },
+              },
+              else: null,
+            },
+          },
+        },
+      },
+      { $project: { domande: 0 } },
+    ]);
+
     res.status(200).json({
       successo: true,
       totale: quiz.length,
@@ -237,6 +265,54 @@ const getTuttiIVideo = async (req, res) => {
 };
 
 /**
+ * GET /api/educazione/video/:id
+ * Restituisce un singolo video completo.
+ */
+const getVideoById = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) {
+      return res.status(404).json({ successo: false, messaggio: 'Video non trovato' });
+    }
+    res.status(200).json({ successo: true, dati: video });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nel recupero del video', errore: error.message });
+  }
+};
+
+/**
+ * PUT /api/educazione/video/:id
+ * Aggiorna un video esistente. Accessibile solo agli admin.
+ */
+const aggiornaVideo = async (req, res) => {
+  try {
+    const video = await Video.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!video) {
+      return res.status(404).json({ successo: false, messaggio: 'Video non trovato' });
+    }
+    res.status(200).json({ successo: true, messaggio: 'Video aggiornato con successo', dati: video });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nell\'aggiornamento del video', errore: error.message });
+  }
+};
+
+/**
+ * DELETE /api/educazione/video/:id
+ * Elimina un video. Accessibile solo agli admin.
+ */
+const eliminaVideo = async (req, res) => {
+  try {
+    const video = await Video.findByIdAndDelete(req.params.id);
+    if (!video) {
+      return res.status(404).json({ successo: false, messaggio: 'Video non trovato' });
+    }
+    res.status(200).json({ successo: true, messaggio: 'Video eliminato con successo' });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nell\'eliminazione del video', errore: error.message });
+  }
+};
+
+/**
  * POST /api/educazione/video
  * Crea un nuovo video nel database.
  * Accessibile solo agli utenti con ruolo admin.
@@ -280,5 +356,8 @@ module.exports = {
   aggiornaQuiz,
   eliminaQuiz,
   getTuttiIVideo,
+  getVideoById,
   creaVideo,
+  aggiornaVideo,
+  eliminaVideo,
 };

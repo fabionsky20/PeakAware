@@ -122,6 +122,186 @@
   color: #aaa;
 }
 
+/* Badge aggiornati */
+.badge-aggiornati {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.badge-aggiornati-titolo {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1B4F72;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.badge-riga {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+  margin-bottom: 0.4rem;
+}
+
+.badge-riga.badge-ottenuto {
+  border-color: #A9DFBF;
+  background: #FDFFFE;
+}
+
+.badge-icona-ris {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.badge-info-ris {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.badge-nome-ris {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1B4F72;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.badge-nuovo {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #1E8449;
+  background: #EAFAF1;
+  border: 0.5px solid #A9DFBF;
+  border-radius: 20px;
+  padding: 0.1rem 0.5rem;
+}
+
+.badge-track {
+  height: 5px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.badge-fill {
+  height: 100%;
+  background: #2E86C1;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.badge-riga.badge-ottenuto .badge-fill {
+  background: #1E8449;
+}
+
+.badge-pct-ris {
+  font-size: 0.68rem;
+  color: #aaa;
+}
+
+.badge-riga.badge-ottenuto .badge-pct-ris {
+  color: #1E8449;
+  font-weight: 600;
+}
+
+/* US-10: pulsante toggle riepilogo */
+.btn-riepilogo {
+  width: 100%;
+  padding: 0.6rem;
+  background: transparent;
+  color: #2E86C1;
+  border: 0.5px solid #2E86C1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 0.8rem;
+  transition: background 0.2s;
+}
+
+.btn-riepilogo:hover {
+  background: #EAF2FB;
+}
+
+/* US-10: lista riepilogo */
+.riepilogo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.voce-riepilogo {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 0.5px solid;
+}
+
+.voce-riepilogo.corretta {
+  background: #EAFAF1;
+  border-color: #A9DFBF;
+}
+
+.voce-riepilogo.errata {
+  background: #FDEDEC;
+  border-color: #F5B7B1;
+}
+
+.voce-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.voce-numero {
+  font-size: 0.75rem;
+  color: #888;
+  min-width: 1.2rem;
+}
+
+.voce-icona {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.voce-riepilogo.corretta .voce-icona { color: #1E8449; }
+.voce-riepilogo.errata  .voce-icona { color: #C0392B; }
+
+.voce-punti {
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.voce-domanda {
+  font-size: 0.85rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.voce-risposta-label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.15rem;
+}
+
+.voce-risposta {
+  font-size: 0.82rem;
+  color: #444;
+}
+
 .btn-torna {
   width: 100%;
   padding: 0.75rem;

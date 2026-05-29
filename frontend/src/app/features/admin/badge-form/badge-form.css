@@ -1,0 +1,203 @@
+.badge-form-container {
+  min-height: 100vh;
+  background: #F4F6F7;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  background: #1B4F72;
+  color: white;
+}
+
+.navbar-brand { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.3px; }
+
+.logout-btn {
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.6);
+  color: white;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+  width: auto;
+}
+.logout-btn:hover { background: rgba(255,255,255,0.12); }
+
+.main-content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem;
+}
+
+.page-header { margin-bottom: 1.5rem; }
+.page-header h2 { font-size: 1.4rem; font-weight: 600; color: #1B4F72; margin: 0 0 0.2rem; }
+.page-header p { font-size: 0.88rem; color: #888; margin: 0; }
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  border: 0.5px solid #e8e8e8;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+.form-card h3 { font-size: 0.95rem; font-weight: 600; color: #1B4F72; margin: 0 0 1.1rem; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.form-group label { font-size: 0.82rem; font-weight: 500; color: #444; }
+
+.form-group-icona { position: relative; }
+.icona-preview {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.55rem;
+  font-size: 1.3rem;
+  pointer-events: none;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 0.55rem 0.85rem;
+  border: 0.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+input:focus { border-color: #2E86C1; }
+
+/* ── Tipo condizione ─────────────────────────────────────────── */
+
+.tipo-radio {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #555;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.radio-option.attivo {
+  border-color: #2E86C1;
+  background: #E6F1FB;
+  color: #0C447C;
+  font-weight: 500;
+}
+
+.radio-option input { display: none; }
+
+/* ── Categorie chips ─────────────────────────────────────────── */
+
+.hint-label { font-weight: 400; color: #aaa; }
+
+.categorie-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.chip {
+  padding: 0.35rem 0.85rem;
+  border: 1.5px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  color: #555;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.chip.chip-attivo {
+  border-color: #1B4F72;
+  background: #1B4F72;
+  color: white;
+}
+
+.condizione-anteprima {
+  font-size: 0.8rem;
+  color: #2E86C1;
+  margin: 0.5rem 0 0;
+  background: #E6F1FB;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.form-group-punti input { max-width: 200px; }
+
+/* ── Messaggi ────────────────────────────────────────────────── */
+
+.errore {
+  background: #FDEDEC;
+  color: #C0392B;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+
+.successo {
+  background: #EAFAF1;
+  color: #1E8449;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Azioni ──────────────────────────────────────────────────── */
+
+.form-azioni {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn-annulla {
+  padding: 0.6rem 1.2rem;
+  background: white;
+  border: 0.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.btn-salva {
+  padding: 0.6rem 1.4rem;
+  background: #1B4F72;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-salva:hover:not(:disabled) { background: #154060; }
+.btn-salva:disabled { background: #b0c9de; cursor: not-allowed; }

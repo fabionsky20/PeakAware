@@ -232,3 +232,139 @@
 .btn-prossima:hover {
   background: #154060;
 }
+
+/* ── Riordinamento drag & drop ─────────────────────────────── */
+
+.hint-riordina {
+  font-size: 0.8rem;
+  color: #2E86C1;
+  margin-bottom: 0.8rem;
+  margin-top: -0.6rem;
+}
+
+.riordina-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.riordina-voce {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+}
+
+.riordina-voce:active {
+  cursor: grabbing;
+}
+
+.riordina-voce.dragging {
+  opacity: 0.4;
+}
+
+.riordina-voce.drag-over {
+  border-color: #2E86C1;
+  background: #EBF5FB;
+}
+
+.drag-handle {
+  font-size: 1.1rem;
+  color: #bbb;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.riordina-numero {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #aaa;
+  min-width: 1.2rem;
+  flex-shrink: 0;
+}
+
+.riordina-testo {
+  font-size: 0.9rem;
+  color: #333;
+  flex: 1;
+}
+
+.ordine-corretto {
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.ordine-corretto li {
+  margin-bottom: 0.2rem;
+}
+
+/* ── Collegamento ──────────────────────────────────────────── */
+
+.hint-collega {
+  font-size: 0.8rem;
+  color: #2E86C1;
+  margin-bottom: 0.8rem;
+  margin-top: -0.6rem;
+}
+
+.collegamento-griglia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.collegamento-colonna {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.collegamento-voce {
+  padding: 0.7rem 0.8rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  width: 100%;
+  line-height: 1.35;
+}
+
+.collegamento-voce:hover {
+  border-color: #2E86C1;
+  background: #F0F7FD;
+}
+
+.collegamento-voce.col-selezionato {
+  border-color: #2E86C1;
+  outline: 2px solid #2E86C1;
+  outline-offset: 1px;
+  background: #E6F1FB;
+}
+
+.coppia-lista {
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+  font-size: 0.88rem;
+}
+
+.coppia-lista li {
+  margin-bottom: 0.25rem;
+  color: #C0392B;
+}
+
+.coppia-lista li.coppia-giusta {
+  color: #1E8449;
+}

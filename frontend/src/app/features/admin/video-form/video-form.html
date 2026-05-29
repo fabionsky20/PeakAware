@@ -1,0 +1,96 @@
+<div class="quiz-form-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <button class="logout-btn" (click)="annulla()">← Torna ai video</button>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h2>{{ isModifica ? 'Modifica Video' : 'Nuovo Video' }}</h2>
+      <p>{{ isModifica ? 'Aggiorna i metadati del video' : 'Aggiungi un nuovo video educativo' }}</p>
+    </div>
+
+    <form (ngSubmit)="salva()">
+
+      <div class="form-card">
+        <h3>Dati generali</h3>
+
+        <div class="form-group">
+          <label>Titolo *</label>
+          <input type="text" [(ngModel)]="video.titolo" name="titolo"
+            placeholder="es. Come leggere una carta topografica" required />
+        </div>
+
+        <div class="form-group">
+          <label>URL del video *</label>
+          <input type="url" [(ngModel)]="video.url" name="url"
+            placeholder="https://www.youtube.com/watch?v=..." required />
+        </div>
+
+        <div class="form-group">
+          <label>Descrizione</label>
+          <textarea [(ngModel)]="video.descrizione" name="descrizione"
+            placeholder="Breve descrizione del contenuto..." rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Modulo</label>
+            <select [(ngModel)]="video.modulo" name="modulo">
+              <option value="educazione">Educazione</option>
+              <option value="divulgazione">Divulgazione</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Livello (1-5)</label>
+            <input type="number" [(ngModel)]="video.livello" name="livello" min="1" max="5" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ente pubblicatore</label>
+            <input type="text" [(ngModel)]="video.entePubblicatore" name="entePubblicatore"
+              placeholder="es. CAI, PeakAware, AINEVA..." />
+          </div>
+          <div class="form-group">
+            <label>Argomento</label>
+            <input type="text" [(ngModel)]="video.argomento" name="argomento"
+              placeholder="es. orientamento, valanghe..." />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Durata (secondi)</label>
+            <input type="number" [(ngModel)]="video.durata" name="durata" min="0"
+              placeholder="es. 480 = 8 minuti" />
+          </div>
+          <div class="form-group">
+            <label>Tag (separati da virgola)</label>
+            <input type="text" [(ngModel)]="video.tagInput" name="tagInput"
+              placeholder="es. neve, bussola, meteo" />
+          </div>
+        </div>
+      </div>
+
+      @if (errore) {
+        <div class="errore">{{ errore }}</div>
+      }
+      @if (successo) {
+        <div class="successo">{{ successo }}</div>
+      }
+
+      <div class="form-azioni">
+        <button type="button" class="btn-annulla" (click)="annulla()">Annulla</button>
+        <button type="submit" class="btn-salva" [disabled]="caricamento">
+          {{ caricamento ? 'Salvataggio...' : isModifica ? 'Aggiorna' : 'Aggiungi Video' }}
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+</div>

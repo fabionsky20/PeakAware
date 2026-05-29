@@ -22,8 +22,20 @@ const rispostaSchema = new mongoose.Schema({
   eCorretta: {
     type: Boolean,
     required: true,
-    default: false, // Solo una risposta per domanda avrà eCorretta: true
+    default: false,
   },
+
+  // Usato solo per domande di tipo riordinamento: indica la posizione corretta (1-based)
+  posizione: {
+    type: Number,
+    default: null,
+  },
+
+  //Per domande di tipo collegamento
+  coppia: {
+    type: String,
+    default: null 
+  }
 });
 
 /**
@@ -41,7 +53,7 @@ const domandaSchema = new mongoose.Schema({
 
   tipo: {
     type: String,
-    enum: ['multipla', 'veroFalso', 'aperta'],
+    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento'],
     default: 'multipla',
   },
 
@@ -73,6 +85,8 @@ const domandaSchema = new mongoose.Schema({
     type: [rispostaSchema],
     validate: {
       validator: function (risposte) {
+        // Per riordinamento e collegamento la correttezza non si basa su eCorretta
+        if (this.tipo === 'riordinamento' || this.tipo === 'collegamento') return risposte.length >= 2;
         // OCL constraint #5: almeno una risposta corretta per domanda
         return risposte.some((r) => r.eCorretta === true);
       },
@@ -158,6 +172,13 @@ const quizSchema = new mongoose.Schema(
     idAutore: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Utente',
+      default: null,
+    },
+
+    // Video didattico collegato a questo quiz (opzionale)
+    videoCollegato: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Video',
       default: null,
     },
 

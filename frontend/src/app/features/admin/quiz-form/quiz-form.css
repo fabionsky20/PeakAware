@@ -233,6 +233,20 @@
   cursor: pointer;
 }
 
+.coppia-freccia {
+  color: #888;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.posizione-numero {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #aaa;
+  flex-shrink: 0;
+  min-width: 1.2rem;
+}
+
 .btn-rimuovi-piccolo {
   background: transparent;
   border: none;

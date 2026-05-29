@@ -1,0 +1,116 @@
+<!--
+  @file badge-form.html
+  @description Form admin per creazione e modifica badge educazione.
+-->
+
+<div class="badge-form-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <button class="logout-btn" (click)="annulla()">← Torna ai badge</button>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <h2>{{ isModifica ? 'Modifica Badge' : 'Nuovo Badge' }}</h2>
+      <p>{{ isModifica ? 'Aggiorna i dati del badge' : 'Crea un nuovo badge per gli utenti' }}</p>
+    </div>
+
+    <form (ngSubmit)="salva()">
+
+      <div class="form-card">
+        <h3>Dati generali</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" [(ngModel)]="badge.nome" name="nome"
+              placeholder="es. Esperto di fauna" required />
+          </div>
+          <div class="form-group form-group-icona">
+            <label>Icona (emoji)</label>
+            <input type="text" [(ngModel)]="badge.icona" name="icona"
+              placeholder="incolla emoji" />
+            <span class="icona-preview">{{ badge.icona || '?' }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Descrizione</label>
+          <input type="text" [(ngModel)]="badge.descrizione" name="descrizione"
+            placeholder="es. Hai completato tutti i quiz sulla fauna alpina" />
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Condizione di sblocco</h3>
+
+        <div class="form-group">
+          <label>Tipo condizione</label>
+          <div class="tipo-radio">
+            <label class="radio-option" [class.attivo]="badge.condizione.tipo === 'categoria'">
+              <input type="radio" [(ngModel)]="badge.condizione.tipo" name="tipoCondizione" value="categoria" />
+              Completa quiz per categoria
+            </label>
+            <label class="radio-option" [class.attivo]="badge.condizione.tipo === 'punti'">
+              <input type="radio" [(ngModel)]="badge.condizione.tipo" name="tipoCondizione" value="punti" />
+              Raggiungi punteggio
+            </label>
+          </div>
+        </div>
+
+        @if (badge.condizione.tipo === 'categoria') {
+          <div class="form-group">
+            <label>Categorie richieste <span class="hint-label">(seleziona una o più)</span></label>
+            <div class="categorie-chips">
+              @for (cat of CATEGORIE; track cat) {
+                <button
+                  type="button"
+                  class="chip"
+                  [class.chip-attivo]="categoriaSelezionata(cat)"
+                  (click)="toggleCategoria(cat)">
+                  {{ cat }}
+                </button>
+              }
+            </div>
+            @if (badge.condizione.categorie.length > 0) {
+              <p class="condizione-anteprima">
+                Completa tutti i quiz di: <strong>{{ badge.condizione.categorie.join(', ') }}</strong>
+              </p>
+            }
+          </div>
+        }
+
+        @if (badge.condizione.tipo === 'punti') {
+          <div class="form-group form-group-punti">
+            <label>Soglia punti</label>
+            <input type="number" [(ngModel)]="badge.condizione.sogliaPunti" name="sogliaPunti"
+              min="1" placeholder="es. 500" />
+            @if (badge.condizione.sogliaPunti > 0) {
+              <p class="condizione-anteprima">
+                Raggiungi <strong>{{ badge.condizione.sogliaPunti }} punti</strong> totali
+              </p>
+            }
+          </div>
+        }
+      </div>
+
+      @if (errore) {
+        <div class="errore">{{ errore }}</div>
+      }
+      @if (successo) {
+        <div class="successo">{{ successo }}</div>
+      }
+
+      <div class="form-azioni">
+        <button type="button" class="btn-annulla" (click)="annulla()">Annulla</button>
+        <button type="submit" class="btn-salva" [disabled]="caricamento">
+          {{ caricamento ? 'Salvataggio...' : isModifica ? 'Aggiorna' : 'Crea Badge' }}
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+</div>
