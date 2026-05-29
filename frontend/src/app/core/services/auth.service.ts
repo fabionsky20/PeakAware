@@ -5,13 +5,10 @@
  * Corrisponde al componente Gestione Utenti del D2 sezione 1.3.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
-/**
- * Interfaccia che rappresenta la risposta del backend dopo login/registrazione.
- */
 interface AuthResponse {
   successo: boolean;
   messaggio: string;
@@ -24,118 +21,87 @@ interface AuthResponse {
   };
 }
 
-@Injectable({
-  providedIn: 'root' // Disponibile in tutta l'applicazione
-})
+export interface UtenteCorrente {
+  id: string;
+  email: string;
+  ruolo: string;
+  punti: number;
+  esperienza?: {
+    livelloComplessivo: number;
+    livelloTeorico: number;
+    livelloPratico: number;
+    kmTotali: number;
+    dislivelloTotale: number;
+  };
+}
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  /** URL base del backend — corrisponde alla porta di Express */
   private apiUrl = 'http://localhost:3000/api/auth';
+
+  // Signal con i dati utente — null se non autenticato
+  utente = signal<UtenteCorrente | null>(this.caricaDaLocalStorage());
+
+  isAutenticato = computed(() => this.utente() !== null);
+  isAdmin       = computed(() => this.utente()?.ruolo === 'admin');
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Registra un nuovo utente sulla piattaforma.
-   * Chiama POST /api/auth/registrati
-   *
-   * @param email - Email del nuovo utente
-   * @param password - Password in chiaro
-   * @param eta - Età opzionale
-   * @returns Observable con la risposta del backend
-   */
   registrati(email: string, password: string, eta?: number): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/registrati`, {
-      email,
-      password,
-      eta
-    });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/registrati`, { email, password, eta });
   }
 
-  /**
-   * Autentica un utente esistente.
-   * Chiama POST /api/auth/login
-   *
-   * @param email - Email dell'utente
-   * @param password - Password in chiaro
-   * @returns Observable con la risposta del backend incluso il token JWT
-   */
   login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, {
-      email,
-      password
-    });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap(res => {
+        if (res.successo && res.dati) {
+          const u: UtenteCorrente = {
+            id:    res.dati.id,
+            email: res.dati.email,
+            ruolo: res.dati.ruolo,
+            punti: res.dati.punti,
+          };
+          localStorage.setItem('peakaware_token', res.dati.token);
+          localStorage.setItem('peakaware_utente', JSON.stringify(u));
+          this.utente.set(u);
+        }
+      })
+    );
   }
 
   /**
-   * Salva il token JWT nel localStorage dopo il login.
-   *
-   * @param token - Token JWT ricevuto dal backend
+   * Aggiorna il signal utente con i dati di progressione
+   * (chiamato da UtenteService dopo aver caricato /api/auth/progressione)
    */
-  salvaToken(token: string): void {
-    localStorage.setItem('peakaware_token', token);
+  aggiornaUtente(dati: Partial<UtenteCorrente>): void {
+    const corrente = this.utente();
+    if (!corrente) return;
+    const aggiornato = { ...corrente, ...dati };
+    localStorage.setItem('peakaware_utente', JSON.stringify(aggiornato));
+    this.utente.set(aggiornato);
   }
 
-  /**
-   * Salva l'email dell'utente nel localStorage dopo il login.
-   *
-   * @param email - Email dell'utente autenticato
-   */
-  salvaEmail(email: string): void {
-    localStorage.setItem('peakaware_email', email);
+  logout(): void {
+    localStorage.removeItem('peakaware_token');
+    localStorage.removeItem('peakaware_utente');
+    this.utente.set(null);
   }
 
-  /**
-   * Recupera l'email dell'utente dal localStorage.
-   *
-   * @returns L'email o stringa vuota se non presente
-   */
-  getEmail(): string {
-    return localStorage.getItem('peakaware_email') ?? '';
-  }
-
-  /**
-   * Recupera il token JWT dal localStorage.
-   *
-   * @returns Il token JWT o null se non presente
-   */
   getToken(): string | null {
     return localStorage.getItem('peakaware_token');
   }
 
-  /**
-   * Rimuove token ed email dal localStorage — effettua il logout.
-   */
-  logout(): void {
-    localStorage.removeItem('peakaware_token');
-    localStorage.removeItem('peakaware_email');
-  }
+  // Metodi legacy mantenuti per compatibilità
+  salvaToken(token: string): void { localStorage.setItem('peakaware_token', token); }
+  salvaEmail(email: string): void { localStorage.setItem('peakaware_email', email); }
+  getEmail(): string { return this.utente()?.email ?? localStorage.getItem('peakaware_email') ?? ''; }
+  getRuolo(): string { return this.utente()?.ruolo ?? 'utente'; }
 
-  /**
-   * Verifica se l'utente è autenticato controllando la presenza del token.
-   *
-   * @returns true se il token è presente, false altrimenti
-   */
-  isAutenticato(): boolean {
-    return this.getToken() !== null;
-  }
-
-    /**
-     * Legge il ruolo dell'utente dal token JWT salvato.
-     * Decodifica il payload del token senza librerie esterne.
-     *
-     * @returns Il ruolo dell'utente ('utente' o 'admin') o 'utente' se non trovato
-     */
-    getRuolo(): string {
-    const token = this.getToken();
-    if (!token) return 'utente';
-
+  private caricaDaLocalStorage(): UtenteCorrente | null {
     try {
-        // Il token JWT è diviso in tre parti da punti: header.payload.firma
-        // Il payload è la seconda parte, codificato in base64
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.ruolo || 'utente';
-    } catch {
-        return 'utente';
-    }
-    }
+      const raw = localStorage.getItem('peakaware_utente');
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  }
 }

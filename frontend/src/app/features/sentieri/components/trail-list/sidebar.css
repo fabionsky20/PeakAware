@@ -9,6 +9,41 @@
 }
 
 /* ── Header fisso ───────────────────────────────────────────────── */
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.header-actions {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.btn-icon:hover { background: rgba(255,255,255,0.25); }
+.btn-icon:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-import { background: rgba(255,165,0,0.3); }
+.import-result {
+  margin: 0.3rem 0 0;
+  font-size: 0.73rem;
+  opacity: 0.85;
+}
+
 .sidebar-header {
   padding: 1rem 1rem 0.6rem;
   background: #1a1a2e;
@@ -233,24 +268,260 @@
   padding: 2rem;
   font-size: 0.9rem;
 }
-.btn-importa {
-  margin-top: 0.5rem;
+
+/* ── Consiglio personalizzato ───────────────────────────────────── */
+.consiglio {
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.75rem;
+  border-left: 4px solid;
+}
+.consiglio[data-livello="consigliato"] {
+  background: #f0fdf4;
+  border-color: #22c55e;
+}
+.consiglio[data-livello="fattibile"] {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+.consiglio[data-livello="sconsigliato"] {
+  background: #fff1f2;
+  border-color: #ef4444;
+}
+.consiglio[data-livello="ferrata"] {
+  background: #1e1b4b;
+  border-color: #6366f1;
+  color: #e0e7ff;
+}
+.consiglio[data-livello="sconosciuto"] {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+.consiglio-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+.consiglio-icona {
+  font-size: 1rem;
+}
+.consiglio-titolo {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.consiglio-testo {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* ── Badge toast ────────────────────────────────────────────────── */
+.badge-toast {
+  position: sticky;
+  top: 56px;
+  z-index: 20;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.badge-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #1a1a2e;
+  color: white;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  border-left: 4px solid #f59e0b;
+  animation: slideDown 0.3s ease;
+}
+.badge-icona { font-size: 1.5rem; flex-shrink: 0; }
+.badge-item strong { font-size: 0.8rem; display: block; }
+.badge-item p { margin: 0.1rem 0 0; font-size: 0.73rem; opacity: 0.8; }
+
+/* ── Login hint ─────────────────────────────────────────────────── */
+.login-hint {
+  font-size: 0.75rem;
+  color: #888;
+  text-align: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+/* ── GPS section ────────────────────────────────────────────────── */
+.gps-section {
+  margin-bottom: 0.75rem;
+}
+.btn-gps-start {
   width: 100%;
-  padding: 0.4rem 0.6rem;
-  border-radius: 7px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  background: #ff4500;
+  padding: 0.6rem;
+  background: #16a34a;
   color: white;
   border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
 }
-.btn-importa:hover:not(:disabled) { background: #e03d00; }
-.btn-importa:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-gps-start:hover { background: #15803d; }
 
-.importa-esito {
-  margin: 0.3rem 0 0;
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.85);
+.gps-attivo {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.gps-stato {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #166534;
+}
+.gps-pulse {
+  width: 10px;
+  height: 10px;
+  background: #16a34a;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(1.3); }
+}
+.gps-azioni {
+  display: flex;
+  gap: 0.4rem;
+}
+.btn-gps-stop {
+  flex: 2;
+  padding: 0.4rem;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-gps-annulla {
+  flex: 1;
+  padding: 0.4rem;
+  background: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.gps-completato {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.78rem;
+  color: #166534;
+  font-weight: 600;
+}
+.gps-errore {
+  background: #fff1f2;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.78rem;
+  color: #991b1b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ── Attrezzatura ───────────────────────────────────────────────── */
+.attrezzatura-section {
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+.attrezzatura-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  user-select: none;
+  transition: background 0.15s;
+}
+.attrezzatura-header:hover { background: #f0f0f4; }
+.attrezzatura-header .chevron {
+  color: #aaa;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+}
+.attrezzatura-header .chevron.open { transform: rotate(90deg); color: #ff4500; }
+
+.attrezzatura-body {
+  padding: 0.6rem 0.8rem 0.8rem;
+  animation: slideDown 0.2s ease;
+}
+.equip-categoria { margin-bottom: 0.7rem; }
+.equip-cat-titolo {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.35rem;
+}
+.equip-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.equip-lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.77rem;
+  color: #444;
+}
+.equip-lista li.obbligatorio { color: #1a1a2e; font-weight: 500; }
+.equip-dot {
+  font-size: 0.5rem;
+  flex-shrink: 0;
+  color: #aaa;
+}
+.equip-lista li.obbligatorio .equip-dot { color: #ff4500; }
+.equip-tag {
+  margin-left: auto;
+  font-size: 0.65rem;
+  background: #fff3e0;
+  color: #e65100;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.equip-nota {
+  margin: 0.5rem 0 0;
+  font-size: 0.68rem;
+  color: #aaa;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 0.4rem;
 }
