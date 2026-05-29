@@ -1,91 +1,113 @@
-<div class="notizie-container">
+<div class="page">
 
-    <div class="notizie-card">
+  <div class="card">
 
-        <h2>
-            {{ isModifica ? 'Modifica Notizia' : 'Nuova Notizia' }}
-        </h2>
+    <h1>
+      {{ isModifica ? 'Modifica Notizia' : 'Nuova Notizia' }}
+    </h1>
 
-        <!-- Messaggi -->
-        @if (errore) {
-            <div class="alert errore">
-                {{ errore }}
-            </div>
-        }
+    <!-- Messaggi -->
+    @if (errore) {
+      <div class="alert errore">{{ errore }}</div>
+    }
+    @if (successo) {
+      <div class="alert successo">{{ successo }}</div>
+    }
 
-        @if (successo) {
-            <div class="alert successo">
-                {{ successo }}
-            </div>
-        }
+    <!-- FORM -->
 
-        <!-- Form -->
-        <form (ngSubmit)="salva()">
+    <div class="form-group">
 
-            <!-- Titolo -->
-            <div class="form-group">
-                <label for="titolo">Titolo</label>
+      <label>Titolo</label>
 
-                <input
-                    type="text"
-                    id="titolo"
-                    name="titolo"
-                    [(ngModel)]="notizia.titolo"
-                    required
-                    placeholder="Inserisci il titolo della notizia"
-                />
-            </div>
-
-            <!-- Data -->
-            <div class="form-group">
-                <label for="dataPubblicazione">Data pubblicazione</label>
-
-                <input
-                    type="date"
-                    id="dataPubblicazione"
-                    name="dataPubblicazione"
-                    [(ngModel)]="notizia.dataPubblicazione"
-                    required
-                />
-            </div>
-
-            <!-- Contenuto -->
-            <div class="form-group">
-                <label for="contenuto">Contenuto</label>
-
-                <textarea
-                    id="contenuto"
-                    name="contenuto"
-                    rows="8"
-                    [(ngModel)]="notizia.contenuto"
-                    required
-                    placeholder="Scrivi qui il contenuto della notizia..."
-                ></textarea>
-            </div>
-
-            <!-- Bottoni -->
-            <div class="button-group">
-
-                <button
-                    type="submit"
-                    class="btn salva"
-                    [disabled]="caricamento"
-                >
-                    {{ caricamento ? 'Salvataggio...' : 'Salva' }}
-                </button>
-
-                <button
-                    type="button"
-                    class="btn annulla"
-                    (click)="annulla()"
-                >
-                    Annulla
-                </button>
-
-            </div>
-
-        </form>
+      <input
+        type="text"
+        [(ngModel)]="notizia.titolo"
+        placeholder="Titolo notizia"
+      />
 
     </div>
+
+    <div class="form-group">
+
+      <label>Categoria</label>
+
+      <select [(ngModel)]="notizia.categoria">
+
+        <option value="generale">
+          Generale
+        </option>
+        <option value="meteo">
+          Meteo
+        </option>
+        <option value="valanghe">
+          Valanghe
+        </option>
+        <option value="orientamento">
+          Orientamento
+        </option>
+        <option value="fauna">
+          Fauna
+        </option>
+        <option value="prontoSoccorso">
+          Pronto Soccorso
+        </option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Data pubblicazione</label>
+
+      <input
+        type="date"
+        [(ngModel)]="notizia.dataPubblicazione"
+      />
+
+    </div>
+
+    <!-- EDITOR -->
+
+    <div class="form-group">
+
+      <label>Contenuto</label>
+
+      <div id="editorjs"></div>
+
+    </div>
+
+    <!-- BOTTONI -->
+
+    <div class="buttons">
+
+      <button
+        class="save-btn"
+        (click)="salva()"
+        [disabled]="caricamento"
+      >
+
+        {{
+          caricamento
+            ? 'Salvataggio...'
+            : (
+              isModifica
+                ? 'Salva modifiche'
+                : 'Pubblica'
+            )
+        }}
+
+      </button>
+
+      <button
+        class="cancel-btn"
+        (click)="annulla()"
+      >
+        Annulla
+      </button>
+
+    </div>
+
+  </div>
 
 </div>

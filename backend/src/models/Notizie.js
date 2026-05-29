@@ -6,11 +6,17 @@ const notiziaSchema = new mongoose.Schema({
     required: true
   },
   contenuto: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
-  autore: {
+  categoria: {
     type: String,
+    enum: ['meteo', 'valanghe', 'orientamento', 'fauna', 'prontoSoccorso', 'generale'],
+    default: 'generale'
+  },
+  idAutore: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Utente',
     required: true
   },
   dataPubblicazione: {

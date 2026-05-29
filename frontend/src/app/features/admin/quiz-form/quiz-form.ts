@@ -157,10 +157,10 @@ export class QuizForm implements OnInit {
    * Salva il quiz — crea o aggiorna in base a isModifica.
    */
   salva(): void {
+    this.caricamento = true;
     this.errore = '';
     this.successo = '';
-    this.caricamento = true;
-
+    
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 

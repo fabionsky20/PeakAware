@@ -183,7 +183,7 @@ const quizSchema = new mongoose.Schema(
     },
 
     // Array di domande embedded nel quiz
-    domande: [domandaSchema],
+    domande: [domandaSchema], 
   },
   {
     timestamps: true, // createdAt e updatedAt automatici
