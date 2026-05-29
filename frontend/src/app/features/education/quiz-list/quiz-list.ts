@@ -26,6 +26,15 @@ interface Quiz {
   videoCollegato?: { _id: string; titolo: string; url: string } | null;
 }
 
+interface BadgeSidebar {
+  _id: string;
+  nome: string;
+  icona: string;
+  descrizione: string;
+  percentuale: number;
+  ottenuto: boolean;
+}
+
 @Component({
   selector: 'app-quiz-list',
   standalone: true,
@@ -36,6 +45,7 @@ interface Quiz {
 export class QuizList implements OnInit {
   
   quiz: Quiz[] = [];
+  badges: BadgeSidebar[] = [];
   categoriaSelezionata: string = '';
   caricamento: boolean = false;
   errore: string = '';
@@ -66,6 +76,7 @@ export class QuizList implements OnInit {
     this.ruoloUtente = this.authService.getRuolo();
     this.caricaQuiz();
     this.caricaProgressi();
+    this.caricaBadge();
   }
 
   /** Torna alla dashboard principale. */
@@ -76,6 +87,27 @@ export class QuizList implements OnInit {
   /** Naviga alla lista video. */
   vaiAiVideo(): void {
     this.router.navigate(['/educazione/video']);
+  }
+
+  /** Naviga alla pagina badge (gestione admin). */
+  vaiBadge(): void {
+    this.router.navigate(['/educazione/badge']);
+  }
+
+  /** Carica i badge con la percentuale di avanzamento dell'utente. */
+  caricaBadge(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.get<any>(`${this.apiUrl}/badge`, { headers }).subscribe({
+      next: (risposta) => {
+        this.badges = risposta.dati || [];
+        this.cdr.detectChanges();
+      },
+      error: () => {}
+    });
+  }
+
+  get badgeOttenuti(): number {
+    return this.badges.filter(b => b.ottenuto).length;
   }
 
   /** Apre il video collegato al quiz in una nuova tab. */

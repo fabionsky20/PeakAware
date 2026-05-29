@@ -43,6 +43,31 @@
           </div>
         </div>
 
+        <!-- Badge aggiornati da questo quiz -->
+        @if (badgeAggiornati.length > 0) {
+          <div class="badge-aggiornati">
+            <p class="badge-aggiornati-titolo">🏅 Progressi badge</p>
+            @for (b of badgeAggiornati; track b._id) {
+              <div class="badge-riga" [class.badge-ottenuto]="b.ottenuto">
+                <span class="badge-icona-ris">{{ b.icona }}</span>
+                <div class="badge-info-ris">
+                  <div class="badge-nome-ris">
+                    {{ b.nome }}
+                    @if (b.ottenuto) { <span class="badge-nuovo">Ottenuto!</span> }
+                  </div>
+                  <div class="badge-track">
+                    <div class="badge-fill" [style.width.%]="b.percentuale"></div>
+                  </div>
+                  <span class="badge-pct-ris">
+                    @if (b.ottenuto) { ✓ 100% } @else { {{ b.percentuale }}% }
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+          <div class="divider"></div>
+        }
+
         <!-- US-10: toggle riepilogo risposte -->
         @if (riepilogo.length > 0) {
           <button class="btn-riepilogo" (click)="mostraRiepilogo = !mostraRiepilogo">

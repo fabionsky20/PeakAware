@@ -14,6 +14,8 @@ import { QuizRisultato } from './features/education/quiz-risultato/quiz-risultat
 import { VideoList } from './features/education/video-list/video-list';
 import { VideoForm } from './features/admin/video-form/video-form';
 import { QuizForm } from './features/admin/quiz-form/quiz-form';
+import { BadgeList } from './features/education/badge-list/badge-list';
+import { BadgeForm } from './features/admin/badge-form/badge-form';
 import { authGuard } from './core/guards/auth.guard';
 import { SentieriShell } from '@features/sentieri/sentieri-shell';
 import { Notizie } from '@features/cicerone/notizie';
@@ -34,6 +36,7 @@ export const routes: Routes = [
       { path: 'video', component: VideoList },
       { path: 'sessione/:quizId', component: QuizSessione },
       { path: 'risultato', component: QuizRisultato },
+      { path: 'badge', component: BadgeList },
     ]
   },
   { path: 'sentieri', component: SentieriShell },
@@ -52,5 +55,7 @@ export const routes: Routes = [
   { path: 'admin/notizie-form/:id', component: NotizieForm },
   { path: 'admin/video-form', component: VideoForm },
   { path: 'admin/video-form/:id', component: VideoForm },
+  { path: 'admin/badge-form', component: BadgeForm },
+  { path: 'admin/badge-form/:id', component: BadgeForm },
   { path: '**', redirectTo: 'login' },
 ];

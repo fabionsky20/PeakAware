@@ -19,6 +19,14 @@ interface VoceRiepilogo {
   testiRisposteDate: string[];
 }
 
+interface BadgeAggiornato {
+  _id: string;
+  nome: string;
+  icona: string;
+  percentuale: number;
+  ottenuto: boolean;
+}
+
 interface Risultato {
   punteggioOttenuto: number;
   punteggioMassimo: number;
@@ -26,6 +34,7 @@ interface Risultato {
   puntiTotali: number;
   livello: number;
   riepilogoRisposte: { idDomanda: string; idRisposte: string[]; corretta: boolean; puntiOttenuti: number }[];
+  badgeAggiornati?: BadgeAggiornato[];
 }
 
 interface DomandaSessione {
@@ -45,6 +54,7 @@ export class QuizRisultato implements OnInit {
 
   risultato: Risultato | null = null;
   riepilogo: VoceRiepilogo[] = [];
+  badgeAggiornati: BadgeAggiornato[] = [];
   mostraRiepilogo: boolean = false;
 
   constructor(
@@ -56,6 +66,7 @@ export class QuizRisultato implements OnInit {
     const state = history.state as { risultato?: Risultato; domande?: DomandaSessione[] };
     if (state?.risultato) {
       this.risultato = state.risultato;
+      this.badgeAggiornati = state.risultato.badgeAggiornati ?? [];
       this.costruisciRiepilogo(state.risultato.riepilogoRisposte ?? [], state.domande ?? []);
     } else {
       this.router.navigate(['/educazione/quiz']);

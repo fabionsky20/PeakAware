@@ -7,6 +7,7 @@
  */
 
 const Quiz = require('../models/Quiz');
+const Badge = require('../models/Badge');
 const Utente = require('../models/Utente');
 const SessioneQuiz = require('../models/SessioneQuiz');
 const ProgressiUtente = require('../models/ProgressiUtente');
@@ -421,6 +422,46 @@ const terminaSessione = async (req, res) => {
 
     await progressi.save();
 
+    // Calcola aggiornamenti badge rilevanti per questo quiz (punti o stessa categoria)
+    let badgeAggiornati = [];
+    try {
+      const badgesRilevanti = await Badge.find({
+        $or: [
+          { 'condizione.tipo': 'punti' },
+          { 'condizione.tipo': 'categoria', 'condizione.categorie': quiz.categoria },
+        ],
+      });
+
+      const quizCompletatiPerfetti = progressi.quizCompletati.filter(
+        (q) => q.punteggioMassimo > 0 && q.punteggio >= q.punteggioMassimo
+      );
+      const completatiIds = [...new Set(quizCompletatiPerfetti.map((q) => q.idQuiz.toString()))];
+
+      const badgeCalcolati = await Promise.all(
+        badgesRilevanti.map(async (badge) => {
+          let percentuale = 0;
+          if (badge.condizione.tipo === 'punti') {
+            percentuale =
+              badge.condizione.sogliaPunti > 0
+                ? Math.min(100, Math.round((progressi.punti / badge.condizione.sogliaPunti) * 100))
+                : 0;
+          } else {
+            const totale = await Quiz.countDocuments({ categoria: { $in: badge.condizione.categorie } });
+            if (totale > 0) {
+              const fatto = await Quiz.countDocuments({
+                _id: { $in: completatiIds },
+                categoria: { $in: badge.condizione.categorie },
+              });
+              percentuale = Math.min(100, Math.round((fatto / totale) * 100));
+            }
+          }
+          return { _id: badge._id, nome: badge.nome, icona: badge.icona, percentuale, ottenuto: percentuale >= 100 };
+        })
+      );
+
+      badgeAggiornati = badgeCalcolati.filter((b) => b.percentuale > 0);
+    } catch (_) {}
+
     res.status(200).json({
       successo: true,
       messaggio: 'Sessione terminata',
@@ -431,6 +472,7 @@ const terminaSessione = async (req, res) => {
         riepilogoRisposte: sessione.risposteDate,
         puntiTotali: progressi.punti,
         livello: progressi.livello,
+        badgeAggiornati,
       },
     });
   } catch (error) {

@@ -28,6 +28,12 @@ const {
   terminaSessione,
   getProgressi,
 } = require('../controllers/sessioneController');
+const {
+  getTuttiBadge,
+  creaBadge,
+  aggiornaBadge,
+  eliminaBadge,
+} = require('../controllers/badgeController');
 const { proteggi, soloAdmin } = require('../middleware/auth');
 
 // ========================
@@ -131,5 +137,34 @@ router.post('/sessione/:id/termina', proteggi, terminaSessione);
  * Protetta — restituisce punti, livello e quiz completati dell'utente autenticato.
  */
 router.get('/progressi', proteggi, getProgressi);
+
+// ========================
+// ROUTES BADGE
+// ========================
+
+/**
+ * GET /api/educazione/badge
+ * Protetta — restituisce tutti i badge con la percentuale di avanzamento dell'utente.
+ * Usato anche dal Cicerone per conoscere gli interessi dell'utente.
+ */
+router.get('/badge', proteggi, getTuttiBadge);
+
+/**
+ * POST /api/educazione/badge
+ * Protetta — solo admin possono creare badge.
+ */
+router.post('/badge', proteggi, soloAdmin, creaBadge);
+
+/**
+ * PUT /api/educazione/badge/:id
+ * Protetta — solo admin possono modificare badge.
+ */
+router.put('/badge/:id', proteggi, soloAdmin, aggiornaBadge);
+
+/**
+ * DELETE /api/educazione/badge/:id
+ * Protetta — solo admin possono eliminare badge.
+ */
+router.delete('/badge/:id', proteggi, soloAdmin, eliminaBadge);
 
 module.exports = router;

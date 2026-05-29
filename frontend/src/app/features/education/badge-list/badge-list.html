@@ -1,0 +1,82 @@
+<!--
+  @file badge-list.html
+  @description Pagina badge utente. Mostra tutti i badge con avanzamento.
+  Badge ottenuti (100%) sono colorati, gli altri in grigio.
+  Implementa US-15.
+-->
+
+<div class="badge-container">
+
+  <header class="navbar">
+    <div class="navbar-brand">⛰️ PeakAware</div>
+    <button class="logout-btn" (click)="torna()">← Torna ai quiz</button>
+  </header>
+
+  <main class="main-content">
+
+    <div class="page-header">
+      <div class="header-top">
+        <div>
+          <h2>I miei badge</h2>
+          <p class="sottotitolo">
+            {{ badgeOttenuti }} / {{ badges.length }} badge ottenuti
+          </p>
+        </div>
+        @if (isAdmin()) {
+          <button class="btn-nuovo" (click)="nuovoBadge()">+ Nuovo badge</button>
+        }
+      </div>
+    </div>
+
+    @if (caricamento) {
+      <div class="stato-messaggio">Caricamento badge...</div>
+    }
+
+    @if (errore) {
+      <div class="errore-box">{{ errore }}</div>
+    }
+
+    @if (!caricamento && !errore) {
+
+      @if (badges.length === 0) {
+        <div class="stato-messaggio">Nessun badge disponibile al momento.</div>
+      }
+
+      <div class="badge-griglia">
+        @for (b of badges; track b._id) {
+          <div class="badge-card" [class.ottenuto]="b.ottenuto">
+
+            @if (isAdmin()) {
+              <div class="badge-admin-actions">
+                <button class="btn-edit" (click)="modificaBadge(b._id)">✏️</button>
+                <button class="btn-delete" (click)="eliminaBadge(b._id)">✕</button>
+              </div>
+            }
+
+            <div class="badge-icona" [class.icona-grigia]="!b.ottenuto">
+              {{ b.icona }}
+            </div>
+
+            <div class="badge-nome">{{ b.nome }}</div>
+            <div class="badge-descrizione">{{ b.descrizione }}</div>
+            <div class="badge-condizione">{{ testoCondizione(b) }}</div>
+
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="b.percentuale"></div>
+            </div>
+            <div class="progress-label">
+              @if (b.ottenuto) {
+                <span class="label-ottenuto">✓ Ottenuto</span>
+              } @else {
+                <span>{{ b.percentuale }}%</span>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+    }
+
+  </main>
+
+</div>
