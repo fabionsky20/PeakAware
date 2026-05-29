@@ -6,23 +6,13 @@
       {{ isModifica ? 'Modifica Notizia' : 'Nuova Notizia' }}
     </h1>
 
-    <!-- ERRORE -->
-
-    <div
-      *ngIf="errore"
-      class="alert error"
-    >
-      {{ errore }}
-    </div>
-
-    <!-- SUCCESSO -->
-
-    <div
-      *ngIf="successo"
-      class="alert success"
-    >
-      {{ successo }}
-    </div>
+    <!-- Messaggi -->
+    @if (errore) {
+      <div class="alert errore">{{ errore }}</div>
+    }
+    @if (successo) {
+      <div class="alert successo">{{ successo }}</div>
+    }
 
     <!-- FORM -->
 

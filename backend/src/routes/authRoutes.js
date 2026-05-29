@@ -1,40 +1,33 @@
 /**
  * @file authRoutes.js
- * @description Route Express per l'autenticazione.
- * Espone gli endpoint pubblici di registrazione e login.
- * Corrisponde all'interfaccia "Autenticazione e autorizzazione" del Backend API (D2 sezione 1.3).
+ * @description Route Express per autenticazione e progressione utente.
  */
 
 const express = require('express');
 const router = express.Router();
-const { registrati, login, getProfilo, cambiaPassword } = require('../controllers/authController');
+
+const {
+  registrati, login, getProfilo, cambiaPassword
+} = require('../controllers/authController');
+
+const {
+  completaSentiero, completaQuiz, getBadge, getProgressione
+} = require('../controllers/utenteController');
+
 const { proteggi } = require('../middleware/auth');
 
-/**
- * POST /api/auth/registrati
- * Endpoint pubblico — non richiede token.
- * Body: { email, password, eta }
- */
+// ── Autenticazione (pubbliche) ────────────────────────────────────────────────
 router.post('/registrati', registrati);
+router.post('/login',      login);
 
-/**
- * POST /api/auth/login
- * Endpoint pubblico — non richiede token.
- * Body: { email, password }
- */
-router.post('/login', login);
+// ── Profilo (protette) ────────────────────────────────────────────────────────
+router.get ('/profilo',         proteggi, getProfilo);
+router.put ('/cambia-password', proteggi, cambiaPassword);
+router.get ('/progressione',    proteggi, getProgressione);
 
-/**
- * GET /api/auth/profilo
- * Restituisce i dati dell'utente autenticato e i suoi progressi.
- */
-router.get('/profilo', proteggi, getProfilo);
-
-/**
- * PUT /api/auth/cambia-password
- * Aggiorna la password dell'utente autenticato.
- * Body: { passwordAttuale, nuovaPassword }
- */
-router.put('/cambia-password', proteggi, cambiaPassword);
+// ── Progressione (protette) ───────────────────────────────────────────────────
+router.post('/sentiero', proteggi, completaSentiero); // registra sentiero percorso
+router.post('/quiz',     proteggi, completaQuiz);     // registra quiz completato
+router.get ('/badge',    proteggi, getBadge);         // lista badge (tutti + sbloccati)
 
 module.exports = router;
