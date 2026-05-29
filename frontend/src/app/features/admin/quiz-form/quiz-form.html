@@ -114,6 +114,7 @@
                   <option value="veroFalso">Vero / Falso</option>
                   <option value="riordinamento">Riordinamento</option>
                   <option value="collegamento">Collegamento</option>
+                  <option value="puntaImmagine">Individua il punto</option>
                 </select>
               </div>
             </div>
@@ -124,16 +125,56 @@
                 <input type="number" [(ngModel)]="domanda.puntiChevale"
                   [name]="'punti_' + di" min="0" />
               </div>
-              @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento') {
+              @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento' && domanda.tipo !== 'puntaImmagine') {
                 <div class="form-group">
                   <label>Tentativi</label>
                   <input type="number" [(ngModel)]="domanda.tentativi"
                     [name]="'tentativi_' + di" min="1" />
                 </div>
               }
+              @if (domanda.tipo === 'puntaImmagine') {
+                <div class="form-group">
+                  <label>Margine tolleranza (%)</label>
+                  <input type="number" [(ngModel)]="domanda.margine"
+                    [name]="'margine_' + di" min="1" max="50" />
+                </div>
+              }
             </div>
 
-            <!-- Risposte -->
+            <!-- UI specifica per puntaImmagine -->
+            @if (domanda.tipo === 'puntaImmagine') {
+              <div class="risposte-section">
+                <div class="form-group">
+                  <label>Immagine della domanda</label>
+                  <input type="file" accept="image/*"
+                    [name]="'img_' + di"
+                    (change)="onFileChange(di, $event)"
+                    class="input-file" />
+                </div>
+                @if (domanda.immagineUrl) {
+                  <div class="form-group">
+                    <label>
+                      Clicca sull'immagine per impostare il punto corretto
+                      @if (domanda.puntoCorretto) {
+                        <span class="punto-ok">✓ Impostato ({{ domanda.puntoCorretto.x }}%, {{ domanda.puntoCorretto.y }}%)</span>
+                      }
+                    </label>
+                    <div class="immagine-click-wrapper" (click)="impostaUltimoClick(di, $event)">
+                      <img [src]="domanda.immagineUrl" class="immagine-punta" />
+                      @if (domanda.puntoCorretto) {
+                        <div class="marker-admin"
+                             [style.left.%]="domanda.puntoCorretto.x"
+                             [style.top.%]="domanda.puntoCorretto.y">
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Risposte (nascoste per puntaImmagine) -->
+            @if (domanda.tipo !== 'puntaImmagine') {
             <div class="risposte-section">
               <div class="risposte-header">
                 @if (domanda.tipo === 'riordinamento') {
@@ -173,6 +214,7 @@
                 </div>
               }
             </div>
+            }
 
           </div>
         }

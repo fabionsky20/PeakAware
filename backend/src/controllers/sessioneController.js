@@ -92,6 +92,21 @@ const avviaSessione = async (req, res) => {
         }
       }
 
+      // puntaImmagine: manda URL e margine, mai il puntoCorretto
+      if (d.tipo === 'puntaImmagine') {
+        return {
+          _id: d._id,
+          testo: d.testo,
+          tipo: d.tipo,
+          tempo: d.tempo,
+          puntiChevale: d.puntiChevale,
+          numRisposteCorrette: 0,
+          risposte: [],
+          immagineUrl: d.immagineUrl,
+          margine: d.margine,
+        };
+      }
+
       return {
         _id: d._id,
         testo: d.testo,
@@ -147,14 +162,13 @@ const avviaSessione = async (req, res) => {
  */
 const rispondi = async (req, res) => {
   try {
-    const { idDomanda, idRisposte, ordine } = req.body;
-
-    const { coppie } = req.body;
+    const { idDomanda, idRisposte, ordine, coppie, punto } = req.body;
     const hasRisposte = Array.isArray(idRisposte) && idRisposte.length > 0;
     const hasOrdine = Array.isArray(ordine) && ordine.length > 0;
     const hasCoppie = Array.isArray(coppie) && coppie.length > 0;
+    const hasPunto = punto && typeof punto.x === 'number' && typeof punto.y === 'number';
 
-    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie)) {
+    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie && !hasPunto)) {
       return res.status(400).json({
         successo: false,
         messaggio: 'idDomanda e idRisposte (o ordine per riordinamento) sono obbligatori',
@@ -298,7 +312,37 @@ const rispondi = async (req, res) => {
           },
         });
     }
-  
+
+    if (domanda.tipo === 'puntaImmagine') {
+      if (!hasPunto) {
+        return res.status(400).json({ successo: false, messaggio: 'punto {x, y} obbligatorio per puntaImmagine' });
+      }
+      const px = domanda.puntoCorretto?.x ?? 0;
+      const py = domanda.puntoCorretto?.y ?? 0;
+      const distanza = Math.sqrt((punto.x - px) ** 2 + (punto.y - py) ** 2);
+      const correttaPunto = distanza <= (domanda.margine ?? 10);
+      const puntiPunto = correttaPunto ? domanda.puntiChevale : 0;
+
+      sessione.risposteDate.push({
+        idDomanda: domanda._id,
+        corretta: correttaPunto,
+        puntiOttenuti: puntiPunto,
+        tipo: 'puntaImmagine',
+      });
+      sessione.punteggioOttenuto += puntiPunto;
+      await sessione.save();
+
+      return res.status(200).json({
+        successo: true,
+        dati: {
+          corretta: correttaPunto,
+          puntiOttenuti: puntiPunto,
+          puntoCorretto: { x: px, y: py },
+          margine: domanda.margine ?? 10,
+          distanza: Math.round(distanza * 10) / 10,
+        },
+      });
+    }
 
     // La risposta è corretta solo se l'utente ha selezionato esattamente
     // tutte e sole le risposte corrette (nessuna in più, nessuna in meno)

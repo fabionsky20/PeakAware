@@ -368,3 +368,76 @@
 .coppia-lista li.coppia-giusta {
   color: #1E8449;
 }
+
+/* ── PuntaImmagine ────────────────────────────────────────── */
+
+.hint-punta {
+  font-size: 0.88rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.punta-ok {
+  color: #1E8449;
+  font-weight: 600;
+  margin-left: 0.4rem;
+}
+
+.immagine-wrapper {
+  position: relative;
+  display: block;
+  cursor: crosshair;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid #ddd;
+  user-select: none;
+}
+
+.immagine-quiz {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Punto cliccato dall'utente */
+.marker-utente {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2E86C1;
+  border: 3px solid white;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  transition: background 0.2s;
+}
+
+.marker-utente.marker-sbagliato {
+  background: #E74C3C;
+}
+
+/* Punto corretto (mostrato solo dopo risposta sbagliata) */
+.marker-corretto {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1E8449;
+  border: 3px solid white;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+/* Alone verde che mostra il margine di tolleranza */
+.marker-area-corretta {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(30, 132, 73, 0.18);
+  border: 1.5px dashed #1E8449;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}

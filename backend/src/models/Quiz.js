@@ -53,9 +53,17 @@ const domandaSchema = new mongoose.Schema({
 
   tipo: {
     type: String,
-    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento'],
+    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento', 'puntaImmagine'],
     default: 'multipla',
   },
+
+  // Campi usati solo per tipo 'puntaImmagine'
+  immagineUrl: { type: String, default: null },
+  puntoCorretto: {
+    x: { type: Number, default: null },
+    y: { type: Number, default: null },
+  },
+  margine: { type: Number, default: 10, min: 1 }, // tolleranza in % del lato immagine
 
   tempo: {
     type: Number,
@@ -85,8 +93,9 @@ const domandaSchema = new mongoose.Schema({
     type: [rispostaSchema],
     validate: {
       validator: function (risposte) {
-        // Per riordinamento e collegamento la correttezza non si basa su eCorretta
         if (this.tipo === 'riordinamento' || this.tipo === 'collegamento') return risposte.length >= 2;
+        // puntaImmagine non usa risposte
+        if (this.tipo === 'puntaImmagine') return true;
         // OCL constraint #5: almeno una risposta corretta per domanda
         return risposte.some((r) => r.eCorretta === true);
       },

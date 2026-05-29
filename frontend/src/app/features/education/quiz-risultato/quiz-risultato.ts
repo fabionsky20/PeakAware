@@ -94,7 +94,9 @@ export class QuizRisultato implements OnInit {
       const domanda = domande.find((d) => d._id === r.idDomanda);
       let testiRisposte: string[];
 
-      if (r.tipo === 'collegamento') {
+      if (r.tipo === 'puntaImmagine') {
+        testiRisposte = [r.corretta ? '✓ Punto individuato correttamente' : '✗ Punto non corretto'];
+      } else if (r.tipo === 'collegamento') {
         testiRisposte = (r.coppie ?? []).map((c) => `${c.sinistra} → ${c.destra}`);
       } else {
         testiRisposte = (r.idRisposte ?? []).map((idR) => {

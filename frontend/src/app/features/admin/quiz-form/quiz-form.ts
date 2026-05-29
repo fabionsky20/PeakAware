@@ -114,11 +114,42 @@ export class QuizForm implements OnInit {
       tipo: 'multipla',
       puntiChevale: 10,
       tentativi: 1,
+      immagineUrl: '',
+      puntoCorretto: null,
+      margine: 10,
       risposte: [
         { testo: '', eCorretta: false, coppia: '' },
         { testo: '', eCorretta: false, coppia: '' }
       ]
     });
+  }
+
+  onFileChange(di: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+    const formData = new FormData();
+    formData.append('image', input.files[0]);
+    this.http.post<any>(
+      'http://localhost:3000/api/admin/upload',
+      formData,
+      { headers: new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` }) }
+    ).subscribe({
+      next: (r) => {
+        if (r.success === 1) {
+          this.quiz.domande[di].immagineUrl = r.file.url;
+          this.cdr.detectChanges();
+        }
+      },
+      error: () => { this.errore = 'Errore caricamento immagine'; }
+    });
+  }
+
+  impostaUltimoClick(di: number, event: MouseEvent): void {
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = Math.round(((event.clientX - rect.left) / rect.width) * 1000) / 10;
+    const y = Math.round(((event.clientY - rect.top) / rect.height) * 1000) / 10;
+    this.quiz.domande[di].puntoCorretto = { x, y };
+    this.cdr.detectChanges();
   }
 
   /**
@@ -169,17 +200,26 @@ export class QuizForm implements OnInit {
       videoCollegato: this.quiz.videoCollegato || null,
       domande: this.quiz.domande.map((d: any) => {
         if (d.tipo === 'riordinamento') {
-          // Auto-assegna posizione in base all'ordine inserito dall'admin
           return {
             ...d,
             risposte: d.risposte.map((r: any, i: number) => ({ ...r, posizione: i + 1 })),
           };
         }
         if (d.tipo === 'collegamento') {
-          // Rimuove campi non usati dal collegamento
           return {
             ...d,
             risposte: d.risposte.map((r: any) => ({ testo: r.testo, eCorretta: false, coppia: r.coppia })),
+          };
+        }
+        if (d.tipo === 'puntaImmagine') {
+          return {
+            testo: d.testo,
+            tipo: d.tipo,
+            puntiChevale: d.puntiChevale,
+            immagineUrl: d.immagineUrl,
+            puntoCorretto: d.puntoCorretto,
+            margine: d.margine ?? 10,
+            risposte: [],
           };
         }
         return d;

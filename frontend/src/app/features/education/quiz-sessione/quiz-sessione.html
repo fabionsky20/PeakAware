@@ -134,6 +134,63 @@
           }
         }
 
+        <!-- PuntaImmagine: click sull'immagine -->
+        @if (isPuntaImmagine) {
+          @if (!feedback) {
+            <p class="hint-punta">
+              Clicca sul punto che pensi sia corretto
+              @if (puntoSelezionato) { <span class="punta-ok">✓ Punto selezionato</span> }
+            </p>
+            <div class="immagine-wrapper" (click)="clicImmagine($event)">
+              <img [src]="domandaCorrente.immagineUrl" class="immagine-quiz" />
+              @if (puntoSelezionato) {
+                <div class="marker-utente"
+                     [style.left.%]="puntoSelezionato.x"
+                     [style.top.%]="puntoSelezionato.y">
+                </div>
+              }
+            </div>
+          }
+
+          @if (feedback) {
+            <div class="immagine-wrapper">
+              <img [src]="domandaCorrente.immagineUrl" class="immagine-quiz" />
+              @if (puntoSelezionato) {
+                <div class="marker-utente"
+                     [class.marker-sbagliato]="!feedback.corretta"
+                     [style.left.%]="puntoSelezionato.x"
+                     [style.top.%]="puntoSelezionato.y">
+                </div>
+              }
+              @if (!feedback.corretta && feedback.puntoCorretto) {
+                <div class="marker-area-corretta"
+                     [style.left.%]="feedback.puntoCorretto.x"
+                     [style.top.%]="feedback.puntoCorretto.y"
+                     [style.width.%]="(feedback.margine ?? 10) * 2"
+                     [style.height.%]="(feedback.margine ?? 10) * 2">
+                </div>
+                <div class="marker-corretto"
+                     [style.left.%]="feedback.puntoCorretto.x"
+                     [style.top.%]="feedback.puntoCorretto.y">
+                </div>
+              }
+            </div>
+            <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
+              @if (feedback.tempoScaduto) {
+                <strong>⏱ Tempo scaduto</strong>
+              } @else if (feedback.corretta) {
+                <strong>Ottimo! Hai individuato la zona giusta.</strong>
+              } @else {
+                <strong>Non esatto.</strong>
+                Il punto corretto è indicato in verde.
+                @if (feedback.distanza !== undefined) {
+                  Distanza: {{ feedback.distanza }}%.
+                }
+              }
+            </div>
+          }
+        }
+
         <!-- Risposta classica: singola o multipla -->
         @if (isNormale) {
           @if (isMultiRisposta && !feedback) {
@@ -173,7 +230,7 @@
         @if (!feedback) {
           <button
             class="btn-conferma"
-            [disabled]="(isNormale && risposteSelezionate.length === 0) || (isCollegamento && !tutteAccoppiate) || invioInCorso"
+            [disabled]="(isNormale && risposteSelezionate.length === 0) || (isCollegamento && !tutteAccoppiate) || (isPuntaImmagine && !puntoSelezionato) || invioInCorso"
             (click)="confermaRisposta()">
             {{ invioInCorso ? 'Invio...' : 'Conferma risposta' }}
           </button>

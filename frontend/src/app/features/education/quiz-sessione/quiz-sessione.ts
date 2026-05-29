@@ -28,6 +28,8 @@ interface Domanda {
   numRisposteCorrette: number;
   risposte: Risposta[];
   opzioniDestra?: string[];
+  immagineUrl?: string;
+  margine?: number;
 }
 
 interface DettaglioCollegamento {
@@ -43,6 +45,9 @@ interface Feedback {
   risposteCorrette: string[];
   tempoScaduto?: boolean;
   dettaglio?: DettaglioCollegamento[];
+  puntoCorretto?: { x: number; y: number };
+  margine?: number;
+  distanza?: number;
 }
 
 @Component({
@@ -68,6 +73,9 @@ export class QuizSessione implements OnInit, OnDestroy {
   // Collegamento: coppie formate dall'utente e item sinistro attualmente selezionato
   coppieSelezionate: { sinistroId: string; sinistroTesto: string; destroTesto: string; colore: string }[] = [];
   sinistroSelezionato: string | null = null;
+
+  // PuntaImmagine: coordinate cliccate dall'utente (in %)
+  puntoSelezionato: { x: number; y: number } | null = null;
   private readonly COLORI_COLLEGAMENTO = ['#2E86C1', '#1E8449', '#D35400', '#7D3C98', '#C0392B', '#117A65'];
 
   tempoRimasto: number = 0;
@@ -121,8 +129,12 @@ export class QuizSessione implements OnInit, OnDestroy {
     return this.domandaCorrente?.tipo === 'collegamento';
   }
 
+  get isPuntaImmagine(): boolean {
+    return this.domandaCorrente?.tipo === 'puntaImmagine';
+  }
+
   get isNormale(): boolean {
-    return !this.isRiordinamento && !this.isCollegamento;
+    return !this.isRiordinamento && !this.isCollegamento && !this.isPuntaImmagine;
   }
 
   get tutteAccoppiate(): boolean {
@@ -211,6 +223,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     if (this.invioInCorso || !this.domandaCorrente) return;
     if (this.isNormale && this.risposteSelezionate.length === 0) return;
     if (this.isCollegamento && !this.tutteAccoppiate) return;
+    if (this.isPuntaImmagine && !this.puntoSelezionato) return;
     this.fermaTimer();
     this.invioInCorso = true;
 
@@ -223,6 +236,8 @@ export class QuizSessione implements OnInit, OnDestroy {
         idDomanda: this.domandaCorrente._id,
         coppie: this.coppieSelezionate.map((c) => ({ sinistra: c.sinistroId, destra: c.destroTesto })),
       };
+    } else if (this.isPuntaImmagine) {
+      body = { idDomanda: this.domandaCorrente._id, punto: this.puntoSelezionato };
     } else {
       body = { idDomanda: this.domandaCorrente._id, idRisposte: this.risposteSelezionate };
     }
@@ -252,6 +267,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     this.indiceDomanda++;
     this.risposteSelezionate = [];
     this.feedback = null;
+    this.puntoSelezionato = null;
     this.inizializzaRiordinamento();
     this.inizializzaCollegamento();
     this.avviaTimer();
@@ -385,6 +401,17 @@ export class QuizSessione implements OnInit, OnDestroy {
 
   getColoreDestra(testo: string): string {
     return this.coppieSelezionate.find((c) => c.destroTesto === testo)?.colore ?? '';
+  }
+
+  // ── PuntaImmagine ──────────────────────────────────────────
+
+  clicImmagine(event: MouseEvent): void {
+    if (this.feedback || this.invioInCorso) return;
+    const img = event.currentTarget as HTMLElement;
+    const rect = img.getBoundingClientRect();
+    const x = Math.round(((event.clientX - rect.left) / rect.width) * 1000) / 10;
+    const y = Math.round(((event.clientY - rect.top) / rect.height) * 1000) / 10;
+    this.puntoSelezionato = { x, y };
   }
 
   logout(): void {

@@ -319,3 +319,47 @@
   background: #aaa;
   cursor: not-allowed;
 }
+
+/* ── puntaImmagine admin ───────────────────────────────────── */
+
+.input-file {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.immagine-click-wrapper {
+  position: relative;
+  display: block;
+  cursor: crosshair;
+  border: 1.5px solid #2E86C1;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.immagine-punta {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.marker-admin {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #E74C3C;
+  border: 2.5px solid white;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.punto-ok {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1E8449;
+  margin-left: 0.5rem;
+}
