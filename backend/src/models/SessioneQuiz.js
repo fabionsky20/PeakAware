@@ -40,7 +40,13 @@ const rispostaDataSchema = new mongoose.Schema({
   tipo: {
     type: String,
     default: 'multipla'
-  }
+  },
+
+  // Coppie formate dall'utente per domande di tipo collegamento
+  coppie: {
+    type: [{ sinistra: String, destra: String }],
+    default: [],
+  },
 });
 
 /**

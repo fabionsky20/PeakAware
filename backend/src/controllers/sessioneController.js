@@ -274,7 +274,7 @@ const rispondi = async (req, res) => {
             sinistra: risposta?.testo || coppia.sinistra,
             destra: coppia.destra,
             corretto: correttaQuestaCopp,
-            coppiaCorrtta: risposta?.coppia // per il feedback
+            coppiaCorretta: risposta?.coppia,
           };
         });
 
@@ -283,7 +283,8 @@ const rispondi = async (req, res) => {
           idDomanda: domanda._id,
           corretta: tutteCorrette,
           puntiOttenuti: puntiCollegamento,
-          tipo: 'collegamento'
+          tipo: 'collegamento',
+          coppie: dettaglio.map((d) => ({ sinistra: d.sinistra, destra: d.destra })),
         });
         sessione.punteggioOttenuto += puntiCollegamento;
         await sessione.save();

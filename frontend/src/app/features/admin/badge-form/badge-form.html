@@ -31,8 +31,8 @@
           <div class="form-group form-group-icona">
             <label>Icona (emoji)</label>
             <input type="text" [(ngModel)]="badge.icona" name="icona"
-              placeholder="🏅" />
-            <span class="icona-preview">{{ badge.icona }}</span>
+              placeholder="incolla emoji" />
+            <span class="icona-preview">{{ badge.icona || '?' }}</span>
           </div>
         </div>
 

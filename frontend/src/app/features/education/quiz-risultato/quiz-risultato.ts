@@ -27,13 +27,22 @@ interface BadgeAggiornato {
   ottenuto: boolean;
 }
 
+interface RispostaDaRiepilogo {
+  idDomanda: string;
+  idRisposte: string[];
+  corretta: boolean;
+  puntiOttenuti: number;
+  tipo?: string;
+  coppie?: { sinistra: string; destra: string }[];
+}
+
 interface Risultato {
   punteggioOttenuto: number;
   punteggioMassimo: number;
   puntiAggiunti: number;
   puntiTotali: number;
   livello: number;
-  riepilogoRisposte: { idDomanda: string; idRisposte: string[]; corretta: boolean; puntiOttenuti: number }[];
+  riepilogoRisposte: RispostaDaRiepilogo[];
   badgeAggiornati?: BadgeAggiornato[];
 }
 
@@ -78,15 +87,22 @@ export class QuizRisultato implements OnInit {
    * della domanda e delle risposte date, ricevuti dalla sessione via router state.
    */
   private costruisciRiepilogo(
-    risposte: Risultato['riepilogoRisposte'],
+    risposte: RispostaDaRiepilogo[],
     domande: DomandaSessione[]
   ): void {
     this.riepilogo = risposte.map((r) => {
       const domanda = domande.find((d) => d._id === r.idDomanda);
-      const testiRisposte = (r.idRisposte ?? []).map((idR) => {
-        const trovata = domanda?.risposte.find((ris) => ris._id === idR);
-        return trovata?.testo ?? '—';
-      });
+      let testiRisposte: string[];
+
+      if (r.tipo === 'collegamento') {
+        testiRisposte = (r.coppie ?? []).map((c) => `${c.sinistra} → ${c.destra}`);
+      } else {
+        testiRisposte = (r.idRisposte ?? []).map((idR) => {
+          const trovata = domanda?.risposte.find((ris) => ris._id === idR);
+          return trovata?.testo ?? '—';
+        });
+      }
+
       return {
         idDomanda: r.idDomanda,
         corretta: r.corretta,
