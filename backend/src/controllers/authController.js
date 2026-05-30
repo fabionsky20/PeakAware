@@ -42,41 +42,38 @@ const generaToken = (id, ruolo) => {
  */
 const registrati = async (req, res) => {
   try {
-    const { email, password, eta } = req.body;
+    const { username, email, password, eta } = req.body;
 
-    // Verifica che email e password siano presenti
-    if (!email || !password) {
+    if (!username || !email || !password) {
       return res.status(400).json({
         successo: false,
-        messaggio: 'Email e password sono obbligatorie',
+        messaggio: 'Username, email e password sono obbligatori',
       });
     }
 
-    // Verifica che l'email non sia già registrata
-    const utenteEsistente = await Utente.findOne({ email });
+    const utenteEsistente = await Utente.findOne({ $or: [{ email }, { username }] });
     if (utenteEsistente) {
       return res.status(400).json({
         successo: false,
-        messaggio: 'Email già registrata',
+        messaggio: utenteEsistente.email === email ? 'Email già registrata' : 'Username già in uso',
       });
     }
 
-    // Crea il nuovo utente — la password viene cifrata dal middleware pre('save')
     const nuovoUtente = await Utente.create({
+      username,
       email,
       password,
       eta: eta || null,
     });
 
-    // Genera il token JWT per la sessione
-  const token = generaToken(nuovoUtente._id, nuovoUtente.ruolo);
+    const token = generaToken(nuovoUtente._id, nuovoUtente.ruolo);
 
-    // Risponde con i dati pubblici dell'utente (mai restituire la password)
     res.status(201).json({
       successo: true,
       messaggio: 'Registrazione avvenuta con successo',
       dati: {
         id: nuovoUtente._id,
+        username: nuovoUtente.username,
         email: nuovoUtente.email,
         ruolo: nuovoUtente.ruolo,
         punti: nuovoUtente.punti,
@@ -138,12 +135,12 @@ const login = async (req, res) => {
     // Genera il token JWT per la sessione
     const token = generaToken(utente._id, utente.ruolo);
 
-    // Risponde con i dati pubblici dell'utente (mai restituire la password)
     res.status(200).json({
       successo: true,
       messaggio: 'Login effettuato con successo',
       dati: {
         id: utente._id,
+        username: utente.username,
         email: utente.email,
         ruolo: utente.ruolo,
         punti: utente.punti,
@@ -182,6 +179,7 @@ const getProfilo = async (req, res) => {
     res.status(200).json({
       successo: true,
       dati: {
+        username: utente.username,
         email: utente.email,
         ruolo: utente.ruolo,
         eta: utente.eta,

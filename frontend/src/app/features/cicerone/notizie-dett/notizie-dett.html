@@ -1,66 +1,79 @@
-<div class="notizie-dett-container">
+<div class="dett-root">
 
-  <header class="navbar">
-    <div class="navbar-brand">⛰️ PeakAware</div>
-    <div class="navbar-info">
-      <button class="btn-homepage" (click)="tornaIndietro()">← Notizie</button>
-    </div>
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <button class="btn-back-nav" (click)="tornaIndietro()">
+        <i class="ti ti-arrow-left"></i> Notizie
+      </button>
+    </nav>
   </header>
 
-  <main class="main-content">
+  <div class="page-inner">
 
-    <!-- LOADING -->
-    <div *ngIf="!notizia && !errore" class="stato-messaggio">
-      Caricamento notizia...
-    </div>
+    @if (!notizia && !errore) {
+      <div class="stato-msg">Caricamento notizia...</div>
+    }
 
-    <!-- ERRORE -->
-    <div *ngIf="errore" class="errore">
-      {{ errore }}
-      <button class="btn-retry" (click)="ricarica()">Riprova</button>
-    </div>
-
-    <!-- ARTICOLO -->
-    <article class="articolo" *ngIf="notizia">
-
-      <div class="articolo-meta-top">
-        <span class="categoria-badge" *ngIf="notizia.categoria">{{ notizia.categoria }}</span>
-        <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
+    @if (errore) {
+      <div class="errore-msg">
+        {{ errore }}
+        <button class="btn-retry" (click)="ricarica()">Riprova</button>
       </div>
+    }
 
-      <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
+    @if (notizia) {
+      <article class="articolo">
 
-      <!-- Blocchi EditorJS -->
-      <div class="articolo-corpo">
-        <ng-container *ngFor="let block of notizia.contenuto.blocks">
+        <div class="articolo-meta-top">
+          @if (notizia.categoria) {
+            <span class="cat-tag {{ notizia.categoria }}">{{ notizia.categoria }}</span>
+          }
+          <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
+        </div>
 
-          <p *ngIf="block.type === 'paragraph'"
-             [innerHTML]="block.data.text">
-          </p>
+        <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
 
-          <h2 *ngIf="block.type === 'header' && block.data.level === 2"
-              [innerHTML]="block.data.text">
-          </h2>
-          <h3 *ngIf="block.type === 'header' && block.data.level === 3"
-              [innerHTML]="block.data.text">
-          </h3>
-          <h4 *ngIf="block.type === 'header' && (block.data.level === 4 || block.data.level === 1)"
-              [innerHTML]="block.data.text">
-          </h4>
+        <div class="articolo-corpo">
+          @for (block of notizia.contenuto.blocks; track $index) {
 
-          <figure *ngIf="block.type === 'image'">
-            <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
-            <figcaption *ngIf="block.data.caption">{{ block.data.caption }}</figcaption>
-          </figure>
+            @if (block.type === 'paragraph') {
+              <p [innerHTML]="block.data.text"></p>
+            }
 
-        </ng-container>
-      </div>
+            @if (block.type === 'header' && block.data.level === 2) {
+              <h2 [innerHTML]="block.data.text"></h2>
+            }
+            @if (block.type === 'header' && block.data.level === 3) {
+              <h3 [innerHTML]="block.data.text"></h3>
+            }
+            @if (block.type === 'header' && (block.data.level === 4 || block.data.level === 1)) {
+              <h4 [innerHTML]="block.data.text"></h4>
+            }
 
-      <div class="articolo-footer">
-        <button class="btn-back" (click)="tornaIndietro()">← Torna alle notizie</button>
-      </div>
+            @if (block.type === 'image') {
+              <figure>
+                <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
+                @if (block.data.caption) {
+                  <figcaption>{{ block.data.caption }}</figcaption>
+                }
+              </figure>
+            }
 
-    </article>
+          }
+        </div>
 
-  </main>
+        <div class="articolo-footer">
+          <button class="btn-torna" (click)="tornaIndietro()">
+            <i class="ti ti-arrow-left"></i> Torna alle notizie
+          </button>
+        </div>
+
+      </article>
+    }
+
+  </div>
 </div>

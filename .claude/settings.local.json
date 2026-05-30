@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\frontend\\\\src\\\\assets\" -Recurse)",
+      "Bash(Select-Object FullName)",
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\frontend\\\\public\" -Force | ForEach-Object { $_.FullName })",
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\frontend\\\\public\\\\images\" -Force | ForEach-Object { $_.Name })",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

@@ -38,6 +38,14 @@ const numeriEmergenzaSchema = new mongoose.Schema({
 // ─── Schema principale ───────────────────────────────────────────────────────
 const utenteSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: [true, 'Username obbligatorio'],
+      unique: true,
+      trim: true,
+      minlength: [3, "L'username deve avere almeno 3 caratteri"],
+    },
+
     email: {
       type: String,
       required: [true, 'Email obbligatoria'],

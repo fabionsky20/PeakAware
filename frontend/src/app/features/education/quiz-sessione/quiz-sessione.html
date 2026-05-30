@@ -1,12 +1,19 @@
-<div class="sessione-container">
+<div class="sess-root">
 
-  <header class="navbar">
-    <div class="navbar-brand">PeakAware</div>
-    <button class="logout-btn" (click)="logout()">Esci</button>
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <button class="btn-esci" (click)="logout()">
+        <i class="ti ti-logout"></i> Esci
+      </button>
+    </nav>
   </header>
 
   @if (caricamento) {
-    <div class="stato-messaggio">Caricamento quiz...</div>
+    <div class="stato-msg">Caricamento quiz...</div>
   }
 
   @if (errore) {
@@ -20,7 +27,7 @@
         <span class="progress-testo">Domanda {{ indiceDomanda + 1 }} di {{ domande.length }}</span>
         @if (domandaCorrente.tempo > 0 && !feedback) {
           <span class="timer" [class.urgente]="tempoRimasto <= 5">
-            ⏱ {{ tempoRimasto }}s
+            <i class="ti ti-clock"></i> {{ tempoRimasto }}s
           </span>
         }
       </div>
@@ -62,16 +69,14 @@
           @if (feedback) {
             <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
               @if (feedback.tempoScaduto) {
-                <strong>⏱ Tempo scaduto</strong>
+                <strong><i class="ti ti-clock"></i> Tempo scaduto</strong>
               } @else if (feedback.corretta) {
                 <strong>Ordine corretto!</strong>
               } @else {
                 <div>
                   <strong>Ordine errato.</strong> Ordine corretto:
                   <ol class="ordine-corretto">
-                    @for (v of feedback.risposteCorrette; track v) {
-                      <li>{{ v }}</li>
-                    }
+                    @for (v of feedback.risposteCorrette; track v) { <li>{{ v }}</li> }
                   </ol>
                 </div>
               }
@@ -115,7 +120,7 @@
           @if (feedback) {
             <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
               @if (feedback.tempoScaduto) {
-                <strong>⏱ Tempo scaduto</strong>
+                <strong><i class="ti ti-clock"></i> Tempo scaduto</strong>
               } @else if (feedback.corretta) {
                 <strong>Tutte le coppie corrette!</strong>
               } @else {
@@ -123,9 +128,7 @@
                   <strong>Alcune coppie errate.</strong> Soluzione:
                   <ul class="coppia-lista">
                     @for (d of feedback.dettaglio; track d.sinistra) {
-                      <li [class.coppia-giusta]="d.corretto">
-                        {{ d.sinistra }} → {{ d.coppiaCorretta }}
-                      </li>
+                      <li [class.coppia-giusta]="d.corretto">{{ d.sinistra }} → {{ d.coppiaCorretta }}</li>
                     }
                   </ul>
                 </div>
@@ -146,8 +149,7 @@
               @if (puntoSelezionato) {
                 <div class="marker-utente"
                      [style.left.%]="puntoSelezionato.x"
-                     [style.top.%]="puntoSelezionato.y">
-                </div>
+                     [style.top.%]="puntoSelezionato.y"></div>
               }
             </div>
           }
@@ -159,33 +161,28 @@
                 <div class="marker-utente"
                      [class.marker-sbagliato]="!feedback.corretta"
                      [style.left.%]="puntoSelezionato.x"
-                     [style.top.%]="puntoSelezionato.y">
-                </div>
+                     [style.top.%]="puntoSelezionato.y"></div>
               }
               @if (!feedback.corretta && feedback.puntoCorretto) {
                 <div class="marker-area-corretta"
                      [style.left.%]="feedback.puntoCorretto.x"
                      [style.top.%]="feedback.puntoCorretto.y"
                      [style.width.%]="(feedback.margine ?? 10) * 2"
-                     [style.height.%]="(feedback.margine ?? 10) * 2">
-                </div>
+                     [style.height.%]="(feedback.margine ?? 10) * 2"></div>
                 <div class="marker-corretto"
                      [style.left.%]="feedback.puntoCorretto.x"
-                     [style.top.%]="feedback.puntoCorretto.y">
-                </div>
+                     [style.top.%]="feedback.puntoCorretto.y"></div>
               }
             </div>
             <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
               @if (feedback.tempoScaduto) {
-                <strong>⏱ Tempo scaduto</strong>
+                <strong><i class="ti ti-clock"></i> Tempo scaduto</strong>
               } @else if (feedback.corretta) {
                 <strong>Ottimo! Hai individuato la zona giusta.</strong>
               } @else {
                 <strong>Non esatto.</strong>
                 Il punto corretto è indicato in verde.
-                @if (feedback.distanza !== undefined) {
-                  Distanza: {{ feedback.distanza }}%.
-                }
+                @if (feedback.distanza !== undefined) { Distanza: {{ feedback.distanza }}%. }
               }
             </div>
           }
@@ -214,14 +211,11 @@
           @if (feedback) {
             <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
               @if (feedback.tempoScaduto) {
-                <strong>⏱ Tempo scaduto</strong>
+                <strong><i class="ti ti-clock"></i> Tempo scaduto</strong>
               } @else if (feedback.corretta) {
                 <strong>Corretto!</strong>
               } @else {
-                <span>
-                  <strong>Sbagliato.</strong>
-                  {{ etichettaRispostaCorretta }}: <em>{{ risposteCorretteTesto }}</em>
-                </span>
+                <span><strong>Sbagliato.</strong> {{ etichettaRispostaCorretta }}: <em>{{ risposteCorretteTesto }}</em></span>
               }
             </div>
           }
@@ -238,12 +232,11 @@
 
         @if (feedback) {
           <button class="btn-prossima" (click)="prossimaDomanda()">
-            {{ isUltimaDomanda ? 'Vedi risultato' : 'Prossima domanda' }}
+            {{ isUltimaDomanda ? 'Vedi risultato →' : 'Prossima domanda →' }}
           </button>
         }
 
       </div>
-
     </main>
   }
 

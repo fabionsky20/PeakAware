@@ -43,7 +43,12 @@ interface BadgeSidebar {
   styleUrl: './quiz-list.css'
 })
 export class QuizList implements OnInit {
-  
+
+  readonly badgeBg = [
+    'linear-gradient(rgba(25,58,56,0.72), rgba(25,58,56,0.72))',
+    'url(images/badge-mountain.jpg) center/cover no-repeat',
+  ].join(', ');
+
   quiz: Quiz[] = [];
   badges: BadgeSidebar[] = [];
   categoriaSelezionata: string = '';
@@ -77,6 +82,10 @@ export class QuizList implements OnInit {
     this.caricaQuiz();
     this.caricaProgressi();
     this.caricaBadge();
+  }
+
+  vaiA(path: string): void {
+    this.router.navigate([path]);
   }
 
   /** Torna alla dashboard principale. */

@@ -1,53 +1,59 @@
 <button class="profilo-btn" (click)="toggleProfilo()">
-  <span class="profilo-iniziale">{{ iniziale }}</span>
+  <span class="profilo-iniziale">{{ iniziali }}</span>
 </button>
 
 @if (profiloAperto) {
-  <div class="overlay" (click)="toggleProfilo()"></div>
+  <div class="overlay" (click)="chiudiProfilo()"></div>
   <aside class="profilo-panel">
 
-    <div class="profilo-header">
-      <div class="profilo-avatar">{{ iniziale }}</div>
-      <div>
-        <p class="profilo-email">{{ email }}</p>
-        <p class="profilo-ruolo">{{ ruolo }}</p>
+    <div class="panel-top">
+      <div class="panel-avatar">{{ iniziali }}</div>
+      <div class="panel-identity">
+        <div class="panel-username">{{ username || email }}</div>
+        <div class="panel-ruolo">{{ ruolo }}</div>
+      </div>
+      <button class="panel-close" (click)="chiudiProfilo()" aria-label="Chiudi">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div class="panel-stats">
+      <div class="panel-stat">
+        <span class="panel-stat-val">{{ punti }}</span>
+        <span class="panel-stat-lbl">Punti</span>
+      </div>
+      <div class="panel-stat">
+        <span class="panel-stat-val">Liv. {{ livello }}</span>
+        <span class="panel-stat-lbl">{{ nomeLivello }}</span>
       </div>
     </div>
 
-    <div class="profilo-stat-riga">
-      <div class="profilo-stat">
-        <span class="stat-valore">{{ punti }}</span>
-        <span class="stat-label">Punti</span>
-      </div>
-      <div class="profilo-stat">
-        <span class="stat-valore">{{ livello }}</span>
-        <span class="stat-label">Livello</span>
-      </div>
-    </div>
+    <div class="panel-divider"></div>
 
-    <div class="divider"></div>
-
-    <button class="toggle-pw-btn" (click)="toggleCambiaPw()">
+    <button class="panel-pw-toggle" (click)="toggleCambiaPw()">
+      <i class="ti ti-lock"></i>
       {{ cambiaPwAperto ? 'Annulla' : 'Cambia password' }}
     </button>
 
     @if (cambiaPwAperto) {
-      <form class="pw-form" (ngSubmit)="cambiaPassword()">
+      <form class="panel-pw-form" (ngSubmit)="cambiaPassword()">
         <input type="password" [(ngModel)]="pwAttuale" name="pwAttuale"
-               placeholder="Password attuale" class="pw-input" />
+               placeholder="Password attuale" class="panel-input" />
         <input type="password" [(ngModel)]="pwNuova" name="pwNuova"
-               placeholder="Nuova password" class="pw-input" />
-        <button type="submit" class="pw-submit-btn" [disabled]="cambiaPwCaricamento">
+               placeholder="Nuova password" class="panel-input" />
+        <button type="submit" class="panel-pw-submit" [disabled]="cambiaPwCaricamento">
           {{ cambiaPwCaricamento ? 'Salvataggio...' : 'Conferma' }}
         </button>
       </form>
-      @if (cambiaPwErrore) { <p class="pw-errore">{{ cambiaPwErrore }}</p> }
-      @if (cambiaPwSuccesso) { <p class="pw-successo">{{ cambiaPwSuccesso }}</p> }
+      @if (cambiaPwErrore) { <p class="panel-errore">{{ cambiaPwErrore }}</p> }
+      @if (cambiaPwSuccesso) { <p class="panel-successo">{{ cambiaPwSuccesso }}</p> }
     }
 
-    <div class="divider"></div>
+    <div class="panel-divider"></div>
 
-    <button class="logout-btn" (click)="logout()">Esci</button>
+    <button class="panel-logout" (click)="logout()">
+      <i class="ti ti-logout"></i> Esci
+    </button>
 
   </aside>
 }

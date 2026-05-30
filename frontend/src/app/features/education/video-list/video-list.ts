@@ -85,6 +85,10 @@ export class VideoList implements OnInit {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
+  vaiA(path: string): void {
+    this.router.navigate([path]);
+  }
+
   vaiAiQuiz(): void {
     this.router.navigate(['/educazione/quiz']);
   }

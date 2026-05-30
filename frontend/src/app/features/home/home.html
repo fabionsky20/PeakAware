@@ -1,37 +1,164 @@
-<div class="home-container">
+<div class="root">
 
-  <header class="navbar">
-    <div class="navbar-brand">PeakAware</div>
-    <app-profile-button/>
+  <!-- HEADER BAR: separato dal hero, vetro smerigliato -->
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link active">Home</span>
+        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Educazione</span>
+        <span class="nav-link" (click)="vaiA('/sentieri')">Sentieri</span>
+        <span class="nav-link" (click)="vaiA('/cicerone/notizie')">Cicerone</span>
+        <app-profile-button />
+      </div>
+    </nav>
   </header>
 
-  <main class="main-content">
+  <!-- HERO: inizia sotto l'header -->
+  <div class="hero-wrap">
+    <div class="hero-img" [style.background]="heroBg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Bentornato, {{ username }}</div>
+      <h1 class="hero-title">La montagna<br>inizia da <em>qui</em></h1>
+    </div>
+  </div>
 
-    <h1 class="benvenuto">Benvenuto su PeakAware</h1>
-    <p class="sottotitolo">Scegli una sezione per iniziare</p>
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="inner">
+      <div class="stat">
+        <span class="stat-val">{{ punti }}</span>
+        <span class="stat-label">Punti totali</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">Liv. {{ livello }}</span>
+        <span class="stat-label">{{ nomeLivello }}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">{{ numeroQuizCompletati }}</span>
+        <span class="stat-label">Quiz completati</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">{{ livello < 5 ? (puntiAlProssimo + ' pt') : 'MAX' }}</span>
+        <span class="stat-label">{{ livello < 5 ? ('Al livello ' + (livello + 1)) : 'Livello massimo' }}</span>
+      </div>
+    </div>
+  </div>
 
-    <div class="card-grid">
+  <!-- PROGRESS BAR -->
+  <div class="prog-strip">
+    <div class="inner">
+      <span class="prog-label">
+        {{ livello < 5 ? ('Progressione livello ' + (livello + 1)) : 'Livello massimo raggiunto' }}
+      </span>
+      <div class="prog-bar">
+        <div class="prog-fill" [style.width.%]="percentualeLivello"></div>
+      </div>
+      <span class="prog-val">{{ punti }} / {{ puntiTargetLivello }}</span>
+      <span class="lv-badge">Liv. {{ livello }}</span>
+    </div>
+  </div>
 
-      <div class="card" (click)="vaiA('/educazione/quiz')">
-        <div class="card-icon-box educazione-color"></div>
-        <h2 class="card-titolo">Educazione</h2>
-        <p class="card-desc">Quiz interattivi e contenuti formativi sulla montagna</p>
+  <!-- EDUCAZIONE — card sinistra (78% width) -->
+  <div class="section">
+    <div class="inner">
+      <div class="sec-header">
+        <span class="sec-title">Educazione</span>
+      </div>
+      <div class="edu-card card-left" [style.background]="eduCardBg">
+        <div class="edu-card-content">
+          <div class="edu-tag">Impara prima di salire</div>
+          <div class="edu-title">Quiz &amp;<br>Micro-learning</div>
+          <p class="edu-desc">Impara a riconoscere rischi reali: meteo, valanghe, orientamento, fauna. Accumula punti e sali di livello.</p>
+          <button class="btn-go" (click)="vaiA('/educazione/quiz')">
+            <i class="ti ti-player-play"></i> Inizia un quiz
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIANIFICAZIONE — card destra (78% width, testo a destra) -->
+  <div class="section section-mt">
+    <div class="inner">
+      <div class="sec-header sec-header--right">
+        <span class="sec-title">Pianificazione</span>
+      </div>
+      <div class="plan-card card-right" [style.background]="planCardBg">
+        <div class="plan-card-top">
+          <i class="ti ti-map-2 plan-icon-big"></i>
+          <div class="plan-text">
+            <div class="plan-tag">Sicurezza prima di tutto</div>
+            <div class="plan-title">Pianifica la tua<br>escursione</div>
+            <p class="plan-desc">Scegli un sentiero, ricevi consigli sull'attrezzatura e condividi il tuo itinerario con chi vuoi tu. Così qualcuno sa sempre dove sei.</p>
+          </div>
+        </div>
+        <div class="plan-features plan-features--right">
+          <div class="plan-feat"><i class="ti ti-list-check"></i> Checklist attrezzatura</div>
+          <div class="plan-feat"><i class="ti ti-share"></i> Condividi itinerario</div>
+          <div class="plan-feat"><i class="ti ti-alert-triangle"></i> Valutazione rischi</div>
+          <div class="plan-feat"><i class="ti ti-clock"></i> Tempi e dislivelli</div>
+        </div>
+        <div class="plan-btn-wrap">
+          <button class="btn-plan" (click)="vaiA('/sentieri')">
+            <i class="ti ti-arrow-right"></i> Esplora i sentieri
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIZIE DAL TERRITORIO -->
+  <div class="notizie-wrap">
+    <div class="notizie-bg" [style.background]="notizieBg"></div>
+
+    <div class="inner">
+      <div class="notizie-header">
+        <div>
+          <div class="notizie-title-big">Notizie dal <span>territorio</span></div>
+          <div class="notizie-sub">Guide, aggiornamenti e curiosità sul Trentino</div>
+        </div>
+        <span class="sec-action" (click)="vaiA('/cicerone/notizie')">Tutte le notizie →</span>
       </div>
 
-      <div class="card" (click)="vaiA('/sentieri') ">
-        <div class="card-icon-box pianificazione-color"></div>
-        <h2 class="card-titolo">Pianificazione</h2>
-        <p class="card-desc">Pianifica la tua escursione in sicurezza</p>
-      </div>
-
-      <div class="card" (click)="vaiA('/cicerone/notizie')">
-        <div class="card-icon-box cicerone-color"></div>
-        <h2 class="card-titolo">Cicerone</h2>
-        <p class="card-desc">Scopri il territorio trentino e dolomitico</p>
-      </div>
-
+      @if (notizie.length > 0) {
+        <div class="carousel-outer">
+          <button class="carousel-btn prev" (click)="prevSlide()"
+            [style.opacity]="prevDisabled ? '0.3' : '1'" aria-label="Precedente">
+            <i class="ti ti-chevron-left"></i>
+          </button>
+          <div class="carousel-track-wrap">
+            <div class="carousel-track" [style.transform]="carouselTranslate">
+              @for (notizia of notizie; track notizia._id) {
+                <div class="news-card" (click)="vaiA('/cicerone/notizia/' + notizia._id)">
+                  <div class="news-card-img" [style.background]="cardBg(notizia.categoria)">
+                    <svg viewBox="0 0 196 108" width="196" height="108" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="0,108 50,55 90,80 130,30 170,65 196,45 196,108" fill="rgba(216,208,137,0.15)"/>
+                    </svg>
+                  </div>
+                  <div class="news-card-body">
+                    <span class="news-cat" [style.color]="cardAccent(notizia.categoria)">{{ notizia.categoria }}</span>
+                    <div class="news-ttl">{{ notizia.titolo }}</div>
+                    <div class="news-date">{{ formatData(notizia.dataPubblicazione) }}</div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          <button class="carousel-btn next" (click)="nextSlide()"
+            [style.opacity]="nextDisabled ? '0.3' : '1'" aria-label="Successivo">
+            <i class="ti ti-chevron-right"></i>
+          </button>
+        </div>
+      } @else {
+        <div class="notizie-vuote">Nessuna notizia disponibile al momento.</div>
+      }
     </div>
 
-  </main>
+    <div class="notizie-spacer"></div>
+  </div>
 
 </div>

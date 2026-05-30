@@ -13,11 +13,12 @@ import { Router } from '@angular/router';
   styleUrl: './profile-button.css'
 })
 export class ProfileButton implements OnInit {
-  @Input() theme: 'navbar' | 'map' = 'navbar'; // ← default navbar
+  @Input() theme: 'navbar' | 'map' = 'navbar';
   private authService = inject(AuthService);
   private http = inject(HttpClient);
   private router = inject(Router);
 
+  username = '';
   email = '';
   ruolo = '';
   punti = 0;
@@ -32,27 +33,51 @@ export class ProfileButton implements OnInit {
 
   private apiUrl = 'http://localhost:3000/api/auth';
 
-  get iniziale(): string {
-    return this.email ? this.email[0].toUpperCase() : '?';
+  readonly nomiLivello = ['', 'Principiante', 'Base', 'Esperto base', 'Esperto', 'Maestro'];
+
+  get iniziali(): string {
+    const u = this.username || this.email;
+    if (!u) return '?';
+    return u.length >= 2 ? u.substring(0, 2).toUpperCase() : u.toUpperCase();
+  }
+
+  get nomeLivello(): string {
+    return this.nomiLivello[this.livello] ?? '';
   }
 
   ngOnInit() {
-    this.email = this.authService.getEmail();
-    this.ruolo = this.authService.getRuolo();
+    const utente = this.authService.utente();
+    this.username = utente?.username ?? '';
+    this.email    = utente?.email    ?? this.authService.getEmail();
+    this.ruolo    = this.authService.getRuolo();
     this.caricaProfilo();
   }
 
   private caricaProfilo() {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
     this.http.get<any>(`${this.apiUrl}/profilo`, { headers }).subscribe({
-      next: (r) => { if (r.successo) { this.punti = r.dati.punti; this.livello = r.dati.livello; } },
+      next: (r) => {
+        if (r.successo) {
+          this.punti   = r.dati.punti;
+          this.livello = r.dati.livello;
+        }
+      },
       error: () => {}
     });
   }
 
   toggleProfilo() {
     this.profiloAperto = !this.profiloAperto;
-    if (!this.profiloAperto) { this.cambiaPwAperto = false; this.resetCambiaPw(); }
+    if (!this.profiloAperto) {
+      this.cambiaPwAperto = false;
+      this.resetCambiaPw();
+    }
+  }
+
+  chiudiProfilo() {
+    this.profiloAperto = false;
+    this.cambiaPwAperto = false;
+    this.resetCambiaPw();
   }
 
   toggleCambiaPw() {
@@ -61,7 +86,10 @@ export class ProfileButton implements OnInit {
   }
 
   cambiaPassword() {
-    if (!this.pwAttuale || !this.pwNuova) { this.cambiaPwErrore = 'Compila entrambi i campi.'; return; }
+    if (!this.pwAttuale || !this.pwNuova) {
+      this.cambiaPwErrore = 'Compila entrambi i campi.';
+      return;
+    }
     this.cambiaPwCaricamento = true;
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
     this.http.put<any>(`${this.apiUrl}/cambia-password`, {
@@ -69,8 +97,13 @@ export class ProfileButton implements OnInit {
     }, { headers }).subscribe({
       next: (r) => {
         this.cambiaPwCaricamento = false;
-        if (r.successo) { this.cambiaPwSuccesso = 'Password aggiornata.'; this.pwAttuale = ''; this.pwNuova = ''; }
-        else { this.cambiaPwErrore = r.messaggio; }
+        if (r.successo) {
+          this.cambiaPwSuccesso = 'Password aggiornata.';
+          this.pwAttuale = '';
+          this.pwNuova = '';
+        } else {
+          this.cambiaPwErrore = r.messaggio;
+        }
       },
       error: (err) => {
         this.cambiaPwCaricamento = false;
@@ -85,8 +118,10 @@ export class ProfileButton implements OnInit {
   }
 
   private resetCambiaPw() {
-    this.pwAttuale = ''; this.pwNuova = '';
-    this.cambiaPwErrore = ''; this.cambiaPwSuccesso = '';
+    this.pwAttuale = '';
+    this.pwNuova = '';
+    this.cambiaPwErrore = '';
+    this.cambiaPwSuccesso = '';
     this.cambiaPwCaricamento = false;
   }
 }

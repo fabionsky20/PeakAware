@@ -1,31 +1,38 @@
-<div class="quiz-container">
+<div class="ql-root">
 
-  <header class="navbar">
-    <div class="navbar-brand">⛰️ PeakAware</div>
-    <div class="navbar-info">
-      <span class="punti-badge">🏆 {{ puntiUtente }} pt · Livello {{ livelloUtente }}</span>
-      <button class="btn-homepage" (click)="vaiAllaHomepage()">🏠</button>
-      <app-profile-button theme="navbar" />
-    </div>
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link" (click)="vaiA('/home')">Home</span>
+        <span class="nav-link active">Educazione</span>
+        <span class="nav-link" (click)="vaiA('/sentieri')">Sentieri</span>
+        <span class="nav-link" (click)="vaiA('/cicerone/notizie')">Cicerone</span>
+        <span class="punti-pill">{{ puntiUtente }} pt · Liv. {{ livelloUtente }}</span>
+        <app-profile-button />
+      </div>
+    </nav>
   </header>
 
-  <main class="main-content">
+  <div class="page-layout">
 
-    <!-- Colonna sinistra: quiz -->
-    <div class="quiz-area">
+    <!-- Colonna sinistra: scorre -->
+    <div class="main-col">
 
-      <div class="page-header">
-        <div class="page-header-top">
-          <div>
-            <h2>Quiz Educativi</h2>
-            <p>Metti alla prova le tue conoscenze sulla montagna</p>
-          </div>
-          <button class="btn-lista-video" (click)="vaiAiVideo()">▶ Lista dei video</button>
-        </div>
+      <div class="page-hero">
+        <div class="page-eyebrow">Educazione</div>
+        <h1 class="page-title">Quiz &amp; Micro-learning</h1>
+        <p class="page-sub">Metti alla prova le tue conoscenze sulla montagna. Accumula punti e sali di livello.</p>
+        <button class="btn-video" (click)="vaiAiVideo()">
+          <i class="ti ti-player-play"></i> Video educativi
+        </button>
       </div>
 
-      <div class="filtri">
-        <select [(ngModel)]="categoriaSelezionata" (change)="filtra()" name="categoria">
+      <div class="filtri-bar">
+        <select [(ngModel)]="categoriaSelezionata" (change)="filtra()" name="categoria" class="filtro-select">
           <option value="">Tutte le categorie</option>
           <option value="meteo">Meteo</option>
           <option value="valanghe">Valanghe</option>
@@ -37,61 +44,63 @@
       </div>
 
       @if (caricamento) {
-        <div class="stato-messaggio">Caricamento quiz...</div>
+        <div class="stato-msg">Caricamento quiz...</div>
       }
-
       @if (errore) {
-        <div class="errore">{{ errore }}</div>
+        <div class="errore-msg">{{ errore }}</div>
       }
 
       @if (!caricamento && !errore) {
         <div class="quiz-grid">
 
-          <!-- Card aggiungi — visibile solo agli admin -->
           @if (ruoloUtente === 'admin') {
             <div class="quiz-card card-aggiungi" (click)="nuovoQuiz()">
-              <div class="aggiungi-icon">+</div>
+              <i class="ti ti-plus aggiungi-icon"></i>
               <p>Nuovo Quiz</p>
             </div>
           }
 
-          <!-- Lista quiz -->
           @for (q of quiz; track q._id) {
             <div class="quiz-card" [class.completato]="eCompletato(q._id)" (click)="avviaQuiz(q._id)">
 
               @if (ruoloUtente === 'admin') {
                 <div class="admin-controls">
-                  <button class="btn-modifica" (click)="modificaQuiz(q._id, $event)">✏️</button>
-                  <button class="btn-elimina" (click)="eliminaQuiz(q._id, $event)">✕</button>
+                  <button class="btn-admin-edit" (click)="modificaQuiz(q._id, $event)">
+                    <i class="ti ti-pencil"></i>
+                  </button>
+                  <button class="btn-admin-del" (click)="eliminaQuiz(q._id, $event)">
+                    <i class="ti ti-x"></i>
+                  </button>
                 </div>
               }
 
               @if (eCompletato(q._id)) {
-                <div class="badge-completato">✓ Completato</div>
+                <div class="badge-completato">
+                  <i class="ti ti-check"></i> Completato
+                </div>
               }
 
-              <div class="quiz-card-header">
-                <span class="categoria-badge {{ q.categoria }}">{{ q.categoria }}</span>
-                <span class="difficolta">
-                  @for (stella of getStelle(q.difficolta); track stella) {⭐}
-                </span>
+              <div class="card-top">
+                <span class="cat-tag {{ q.categoria }}">{{ q.categoria }}</span>
+                <span class="stelle">@for (s of getStelle(q.difficolta); track s) {★}</span>
               </div>
-              <h3>{{ q.titolo }}</h3>
-              <p class="argomento">{{ q.argomento }}</p>
 
-              <div class="difficolta-info">
-                <span class="difficolta-label">{{ getDifficoltaLabel(q.difficolta) }}</span>
-                <span class="punteggio-max">Max {{ q.punteggio }} pt</span>
+              <h3 class="card-title">{{ q.titolo }}</h3>
+              <p class="card-sub">{{ q.argomento }}</p>
+
+              <div class="card-diff-row">
+                <span class="diff-label">{{ getDifficoltaLabel(q.difficolta) }}</span>
+                <span class="pt-badge">{{ q.punteggio }} pt</span>
               </div>
 
               @if (q.videoCollegato) {
-                <button class="btn-vedi-video" (click)="apriVideoCollegato(q.videoCollegato.url, $event)">
-                  ▶ Vedi video
+                <button class="btn-video-card" (click)="apriVideoCollegato(q.videoCollegato.url, $event)">
+                  <i class="ti ti-player-play"></i> Vedi video
                 </button>
               }
 
-              <div class="quiz-card-footer">
-                <span>⏱ {{ q.tempo > 0 ? q.tempo + 's/domanda' : 'Nessun limite' }}</span>
+              <div class="card-footer">
+                <span><i class="ti ti-clock"></i> {{ q.tempo > 0 ? q.tempo + 's/dom.' : 'Nessun limite' }}</span>
                 <span>{{ q.numeroDomande ?? '?' }} domande</span>
               </div>
 
@@ -101,45 +110,51 @@
         </div>
 
         @if (quiz.length === 0 && ruoloUtente !== 'admin') {
-          <div class="stato-messaggio">Nessun quiz disponibile al momento.</div>
+          <div class="stato-msg">Nessun quiz disponibile al momento.</div>
         }
       }
 
     </div>
 
-    <!-- Colonna destra: badge sidebar -->
+    <!-- Colonna destra: sidebar badge fissa, riempie tutta l'altezza -->
     <aside class="badge-sidebar">
+      <div class="badge-bg" [style.background]="badgeBg"></div>
 
-      <div class="sidebar-header">
-        <span class="sidebar-titolo">🏅 Badge</span>
-        <span class="sidebar-counter">{{ badgeOttenuti }}/{{ badges.length }}</span>
+      <div class="badge-scroll">
+
+        <div class="sidebar-head">
+          <span class="sidebar-titolo"><i class="ti ti-medal"></i> Badge</span>
+          <span class="sidebar-counter">{{ badgeOttenuti }}/{{ badges.length }}</span>
+        </div>
+
         @if (ruoloUtente === 'admin') {
-          <button class="btn-gestisci" (click)="vaiBadge()">Gestisci</button>
+          <button class="btn-gestisci" (click)="vaiBadge()">
+            <i class="ti ti-settings"></i> Gestisci badge
+          </button>
         }
-      </div>
 
-      @if (badges.length === 0) {
-        <p class="sidebar-vuoto">Nessun badge ancora creato.</p>
-      }
+        @if (badges.length === 0) {
+          <p class="sidebar-vuoto">Nessun badge ancora creato.</p>
+        }
 
-      <div class="badge-lista">
-        @for (b of badges; track b._id) {
-          <div class="badge-item" [class.badge-ottenuto]="b.ottenuto" [title]="b.descrizione">
-            <div class="badge-icona-sm" [class.icona-grigia]="!b.ottenuto">{{ b.icona }}</div>
-            <div class="badge-info">
-              <span class="badge-nome-sm">{{ b.nome }}</span>
-              <div class="badge-progress-track">
-                <div class="badge-progress-fill" [style.width.%]="b.percentuale"></div>
+        <div class="badge-lista">
+          @for (b of badges; track b._id) {
+            <div class="badge-item" [class.ottenuto]="b.ottenuto" [title]="b.descrizione">
+              <span class="badge-ico" [class.grigio]="!b.ottenuto">{{ b.icona }}</span>
+              <div class="badge-info">
+                <span class="badge-nome">{{ b.nome }}</span>
+                <div class="badge-track">
+                  <div class="badge-fill" [style.width.%]="b.percentuale"></div>
+                </div>
+                <span class="badge-pct">@if (b.ottenuto) { ✓ Ottenuto } @else { {{ b.percentuale }}% }</span>
               </div>
-              <span class="badge-pct">
-                @if (b.ottenuto) { ✓ } @else { {{ b.percentuale }}% }
-              </span>
             </div>
-          </div>
-        }
-      </div>
+          }
+        </div>
 
+      </div>
     </aside>
 
-  </main>
+  </div>
+
 </div>

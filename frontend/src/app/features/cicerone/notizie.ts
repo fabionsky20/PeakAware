@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule, DatePipe } from '@angular/common';
+import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
 
 interface Notizia {
   _id: string;
@@ -16,7 +17,7 @@ interface Notizia {
 @Component({
   selector: 'app-notizie',
   standalone: true,
-    imports: [FormsModule, CommonModule, DatePipe],
+    imports: [FormsModule, CommonModule, DatePipe, ProfileButton],
     templateUrl: './notizie.html',
     styleUrl: './notizie.css'
 })
@@ -107,6 +108,10 @@ export class Notizie implements OnInit {
                 }
             }); 
         }
+    }
+
+    vaiA(path: string): void {
+        this.router.navigate([path]);
     }
 
     annulla(): void {

@@ -19,13 +19,9 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Registrazione {
 
-  /** Valore del campo email nel form */
+  username: string = '';
   email: string = '';
-
-  /** Valore del campo password nel form */
   password: string = '';
-
-  /** Valore del campo età nel form */
   eta: number | null = null;
 
   /** Messaggio di errore da mostrare all'utente */
@@ -52,17 +48,16 @@ export class Registrazione {
     this.caricamento = true;
 
     this.authService.registrati(
+      this.username,
       this.email,
       this.password,
       this.eta ?? undefined
     ).subscribe({
       next: (risposta) => {
         this.caricamento = false;
-        if (risposta.successo && risposta.dati) {
-          // Salva token e naviga direttamente alla lista quiz
-          this.authService.salvaToken(risposta.dati.token);
+        if (risposta.successo) {
           this.successo = 'Registrazione avvenuta! Reindirizzamento...';
-          setTimeout(() => this.router.navigate(['/quiz']), 1500);
+          setTimeout(() => this.router.navigate(['/home']), 1500);
         }
       },
       error: (err) => {

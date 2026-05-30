@@ -1,525 +1,309 @@
-.quiz-container {
-  min-height: 100vh;
-  background: #F4F6F7;
+:host { display: block; }
+* { box-sizing: border-box; }
+
+/* ── ROOT: tutta la pagina è alta 100vh, non scorre globalmente ── */
+
+.ql-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1f4240;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+
+.header-bar {
+  flex-shrink: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.9rem 1.5rem;
-  background: #1B4F72;
-  color: white;
+  padding: 0 5%; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
 }
 
-.navbar-brand {
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px;
+  background: #D8D089; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #1f4240; font-size: 17px;
+}
+.logo-text { color: white; font-size: 18px; font-weight: 500; letter-spacing: 0.3px; }
+.logo-text span { color: #D8D089; }
+
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-link { color: rgba(255,255,255,0.45); font-size: 15px; cursor: pointer; transition: color 0.15s; }
+.nav-link:hover { color: rgba(255,255,255,0.75); }
+.nav-link.active { color: white; font-weight: 500; }
+
+.punti-pill {
+  font-size: 13px; color: rgba(255,255,255,0.65);
+  background: rgba(216,208,137,0.12);
+  border: 0.5px solid rgba(216,208,137,0.3);
+  padding: 4px 14px; border-radius: 20px;
 }
 
-.navbar-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+/* ── LAYOUT PRINCIPALE: due colonne, riempie lo spazio sotto l'header ── */
 
-.punti-badge {
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.9);
-  background: rgba(255,255,255,0.12);
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-}
-
-.logout-btn {
-  background: transparent;
-  border: 0.5px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s;
-  width: auto;
-}
-
-.logout-btn:hover {
-  background: rgba(255,255,255,0.12);
-}
-.btn-homepage {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.btn-homepage:hover {
-  color: #D5DBDB;
-}
-.main-content {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 1.8rem 1.5rem;
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-/* ── Colonna quiz ─────────────────────────────────────────── */
-
-.quiz-area {
+.page-layout {
   flex: 1;
-  min-width: 0;
+  display: flex;
+  overflow: hidden;
 }
 
-/* ── Sidebar badge ────────────────────────────────────────── */
+/* ── COLONNA SINISTRA: scorre indipendentemente ─────────────── */
 
-.badge-sidebar {
-  width: 230px;
-  flex-shrink: 0;
-  background: white;
-  border: 0.5px solid #e8e8e8;
-  border-radius: 14px;
-  padding: 1rem;
-  position: sticky;
-  top: 1.5rem;
-  max-height: calc(100vh - 5rem);
+.main-col {
+  flex: 1;
   overflow-y: auto;
+  padding: 0 5% 4rem;
 }
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.9rem;
-  flex-wrap: wrap;
+/* ── PAGE HERO ─────────────────────────────────────────────── */
+
+.page-hero { padding: 3.5rem 0 2.5rem; }
+
+.page-eyebrow {
+  font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  color: #D8D089; margin-bottom: 12px;
 }
 
-.sidebar-titolo {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1B4F72;
-  flex: 1;
+.page-title {
+  font-size: 62px; font-weight: 600; color: white;
+  line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 14px;
 }
 
-.sidebar-counter {
-  font-size: 0.75rem;
-  color: #888;
-  background: #F0F0F0;
-  padding: 0.1rem 0.5rem;
-  border-radius: 20px;
+.page-sub {
+  font-size: 17px; color: rgba(255,255,255,0.5);
+  margin-bottom: 1.75rem; max-width: 500px; line-height: 1.6;
 }
 
-.btn-gestisci {
-  font-size: 0.7rem;
-  color: #2E86C1;
-  background: transparent;
-  border: 0.5px solid #2E86C1;
-  border-radius: 6px;
-  padding: 0.15rem 0.5rem;
-  cursor: pointer;
-  width: auto;
+.btn-video {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #D8D089;
+  border: 0.5px solid rgba(216,208,137,0.4);
+  border-radius: 8px; padding: 11px 24px;
+  font-size: 15px; font-weight: 500; cursor: pointer;
   transition: background 0.15s;
 }
+.btn-video:hover { background: rgba(216,208,137,0.08); }
 
-.btn-gestisci:hover {
-  background: #E6F1FB;
+/* ── FILTRI ────────────────────────────────────────────────── */
+
+.filtri-bar { margin-bottom: 1.75rem; }
+
+.filtro-select {
+  padding: 0.65rem 1.1rem;
+  background: #2B5C59;
+  border: 0.5px solid rgba(151,168,149,0.3);
+  color: white; border-radius: 8px;
+  font-size: 0.95rem; cursor: pointer; outline: none;
+}
+.filtro-select:focus { border-color: rgba(216,208,137,0.5); }
+.filtro-select option { background: #2B5C59; }
+
+/* ── STATO ─────────────────────────────────────────────────── */
+
+.stato-msg {
+  text-align: center; color: rgba(255,255,255,0.4);
+  padding: 3rem; font-size: 1rem;
 }
 
-.sidebar-vuoto {
-  font-size: 0.8rem;
-  color: #aaa;
-  text-align: center;
-  padding: 1rem 0;
+.errore-msg {
+  background: rgba(192,57,43,0.12);
+  border: 0.5px solid rgba(192,57,43,0.35);
+  color: #EF9F27; padding: 0.85rem 1rem;
+  border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem;
 }
 
-.badge-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-}
-
-.badge-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.55rem 0.6rem;
-  border-radius: 10px;
-  border: 1px solid #f0f0f0;
-  background: #fafafa;
-  opacity: 0.6;
-  filter: grayscale(60%);
-  transition: opacity 0.2s, filter 0.2s;
-}
-
-.badge-item.badge-ottenuto {
-  opacity: 1;
-  filter: none;
-  border-color: #A9DFBF;
-  background: #FDFFFE;
-}
-
-.badge-icona-sm {
-  font-size: 1.6rem;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.icona-grigia {
-  filter: grayscale(100%);
-}
-
-.badge-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.badge-nome-sm {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #1B4F72;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.badge-progress-track {
-  height: 4px;
-  background: #e0e0e0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.badge-progress-fill {
-  height: 100%;
-  background: #2E86C1;
-  border-radius: 4px;
-  transition: width 0.4s ease;
-}
-
-.badge-item.badge-ottenuto .badge-progress-fill {
-  background: #1E8449;
-}
-
-.badge-pct {
-  font-size: 0.68rem;
-  color: #aaa;
-}
-
-.badge-item.badge-ottenuto .badge-pct {
-  color: #1E8449;
-  font-weight: 600;
-}
-
-/* Mobile: sidebar va sotto i quiz */
-@media (max-width: 720px) {
-  .main-content {
-    flex-direction: column;
-  }
-
-  .badge-sidebar {
-    width: 100%;
-    position: static;
-    max-height: none;
-  }
-
-  .badge-lista {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-}
-
-.page-header {
-  margin-bottom: 1.2rem;
-}
-
-.page-header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1rem;
-}
-
-.page-header h2 {
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #1B4F72;
-  margin-bottom: 0.2rem;
-}
-
-.page-header p {
-  color: #888;
-  font-size: 0.9rem;
-}
-
-.btn-lista-video {
-  background: white;
-  border: 0.5px solid #2E86C1;
-  color: #2E86C1;
-  padding: 0.45rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background 0.2s;
-  width: auto;
-}
-
-.btn-lista-video:hover {
-  background: #EAF2FB;
-}
-
-
-.filtri {
-  margin-bottom: 1.4rem;
-}
-
-.filtri select {
-  padding: 0.55rem 1rem;
-  border: 0.5px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: #333;
-  background: white;
-  cursor: pointer;
-}
-
-.filtri select:focus {
-  outline: none;
-  border-color: #2E86C1;
-}
-
-.stato-messaggio {
-  text-align: center;
-  color: #888;
-  padding: 3rem;
-  font-size: 0.95rem;
-}
-
-.errore {
-  background: #FDEDEC;
-  color: #C0392B;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
+/* ── QUIZ GRID ─────────────────────────────────────────────── */
 
 .quiz-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.2rem;
+  gap: 1.4rem;
 }
+
+/* ── QUIZ CARD ─────────────────────────────────────────────── */
 
 .quiz-card {
-  background: white;
-  border-radius: 12px;
-  border: 0.5px solid #e8e8e8;
-  padding: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  background: #2B5C59;
+  border-radius: 14px;
+  border: 0.5px solid rgba(151,168,149,0.2);
+  padding: 1.5rem;
+  cursor: pointer; position: relative;
+  transition: transform 0.15s, border-color 0.15s;
 }
+.quiz-card:hover { transform: translateY(-3px); border-color: rgba(216,208,137,0.45); }
+.quiz-card.completato { border-color: rgba(76,175,130,0.4); }
 
-.quiz-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-
-.quiz-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.7rem;
-}
-
-.categoria-badge {
-  display: inline-block;
-  padding: 0.2rem 0.7rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: capitalize;
-  background: #E6F1FB;
-  color: #0C447C;
-}
-
-.categoria-badge.valanghe {
-  background: #FAEEDA;
-  color: #854F0B;
-}
-
-.categoria-badge.fauna {
-  background: #EAF3DE;
-  color: #3B6D11;
-}
-
-.categoria-badge.prontoSoccorso {
-  background: #FCEBEB;
-  color: #A32D2D;
-}
-
-.categoria-badge.orientamento {
-  background: #EEEDFE;
-  color: #3C3489;
-}
-
-.difficolta {
-  font-size: 0.8rem;
-}
-
-.quiz-card h3 {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #1B4F72;
-  margin-bottom: 0.3rem;
-}
-
-.argomento {
-  color: #888;
-  font-size: 0.85rem;
-  margin-bottom: 0.9rem;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.btn-vedi-video {
-  display: block;
-  width: 100%;
-  padding: 0.45rem 0;
-  margin-bottom: 0.75rem;
-  background: #F0F7FF;
-  border: 0.5px solid #AED6F1;
-  border-radius: 8px;
-  color: #1A6FA8;
-  font-size: 0.82rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-align: center;
-  width: auto;
-}
-
-.btn-vedi-video:hover {
-  background: #D6EAF8;
-}
-
-.quiz-card-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: #aaa;
-  border-top: 0.5px solid #f0f0f0;
-  padding-top: 0.75rem;
-}
-
-/* Card aggiungi nuovo quiz */
-.card-aggiungi {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px dashed #2E86C1;
-  background: #F8FBFF;
-  cursor: pointer;
-  min-height: 160px;
-  transition: background 0.2s;
-}
-
-.card-aggiungi:hover {
-  background: #E6F1FB;
-}
-
-.aggiungi-icon {
-  font-size: 2.5rem;
-  color: #2E86C1;
-  font-weight: 300;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-
-.card-aggiungi p {
-  color: #2E86C1;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* US-16: card già completata — bordo verde sottile */
-.quiz-card.completato {
-  border-color: #A9DFBF;
-  background: #FDFFFE;
-}
-
-/* US-16: badge "✓ Completato" */
 .badge-completato {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: #1E8449;
-  background: #EAFAF1;
-  border: 0.5px solid #A9DFBF;
-  border-radius: 20px;
-  padding: 0.15rem 0.6rem;
-  margin-bottom: 0.5rem;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.75rem; font-weight: 500; color: #4CAF82;
+  background: rgba(76,175,130,0.1); border: 0.5px solid rgba(76,175,130,0.35);
+  border-radius: 20px; padding: 0.2rem 0.7rem; margin-bottom: 0.65rem;
 }
 
-/* US-05: riga con label difficoltà e punteggio massimo */
-.difficolta-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.8rem;
+.card-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.85rem;
 }
 
-.difficolta-label {
-  font-size: 0.78rem;
-  color: #666;
+.cat-tag {
+  display: inline-block; padding: 0.25rem 0.8rem;
+  border-radius: 20px; font-size: 0.75rem; font-weight: 500;
+  text-transform: capitalize;
+  background: rgba(216,208,137,0.15); color: #D8D089;
+  border: 0.5px solid rgba(216,208,137,0.3);
+}
+.cat-tag.valanghe       { background: rgba(185,122,83,0.15); color: #B97A53; border-color: rgba(185,122,83,0.3); }
+.cat-tag.fauna          { background: rgba(76,175,130,0.12); color: #4CAF82; border-color: rgba(76,175,130,0.3); }
+.cat-tag.prontoSoccorso { background: rgba(239,101,101,0.12); color: #EF6565; border-color: rgba(239,101,101,0.3); }
+.cat-tag.orientamento   { background: rgba(160,154,232,0.12); color: #A09AE8; border-color: rgba(160,154,232,0.3); }
+
+.stelle { font-size: 0.85rem; color: #D8D089; letter-spacing: 1px; }
+
+.card-title { font-size: 1.1rem; font-weight: 600; color: white; margin-bottom: 0.4rem; line-height: 1.3; }
+.card-sub { font-size: 0.88rem; color: rgba(255,255,255,0.45); margin-bottom: 1rem; line-height: 1.4; }
+
+.card-diff-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; }
+.diff-label { font-size: 0.82rem; color: rgba(255,255,255,0.45); }
+.pt-badge {
+  font-size: 0.78rem; font-weight: 600; color: #D8D089;
+  background: rgba(216,208,137,0.12); border: 0.5px solid rgba(216,208,137,0.3);
+  padding: 0.2rem 0.65rem; border-radius: 12px;
 }
 
-.punteggio-max {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #1B4F72;
-  background: #E6F1FB;
-  padding: 0.15rem 0.55rem;
-  border-radius: 12px;
+.btn-video-card {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 0.55rem 0; margin-bottom: 0.9rem;
+  background: rgba(255,255,255,0.06); border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 8px; color: rgba(255,255,255,0.65); font-size: 0.85rem; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-video-card:hover { background: rgba(255,255,255,0.10); }
+
+.card-footer {
+  display: flex; justify-content: space-between;
+  font-size: 0.82rem; color: rgba(255,255,255,0.3);
+  border-top: 0.5px solid rgba(151,168,149,0.15); padding-top: 0.8rem;
 }
 
-/* Controlli admin sulle card */
-.quiz-card {
+.card-aggiungi {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1.5px dashed rgba(216,208,137,0.3); background: rgba(216,208,137,0.04);
+  min-height: 180px; transition: background 0.15s, border-color 0.15s;
+}
+.card-aggiungi:hover { background: rgba(216,208,137,0.08); border-color: rgba(216,208,137,0.5); }
+.aggiungi-icon { font-size: 2.2rem; color: #D8D089; margin-bottom: 0.6rem; }
+.card-aggiungi p { color: #D8D089; font-size: 1rem; font-weight: 600; }
+
+.admin-controls { position: absolute; top: 0.85rem; right: 0.85rem; display: flex; gap: 0.4rem; }
+.btn-admin-edit, .btn-admin-del {
+  background: rgba(255,255,255,0.08); border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 6px; padding: 0.25rem 0.55rem; font-size: 0.82rem; cursor: pointer;
+  color: rgba(255,255,255,0.6); width: auto; transition: background 0.15s;
+}
+.btn-admin-edit:hover { background: rgba(216,208,137,0.12); color: #D8D089; }
+.btn-admin-del:hover  { background: rgba(192,57,43,0.15); color: #EF6565; }
+
+/* ── BADGE SIDEBAR: colonna destra, riempie tutta l'altezza ── */
+
+.badge-sidebar {
+  width: 300px;
+  flex-shrink: 0;
   position: relative;
+  overflow: hidden;
+  border-left: 0.5px solid rgba(151,168,149,0.2);
 }
 
-.admin-controls {
+/* Immagine di sfondo — copre tutta la sidebar e non scorre mai */
+.badge-bg {
   position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  display: flex;
-  gap: 0.4rem;
+  inset: 0;
+  background-size: cover !important;
+  background-position: center !important;
 }
 
-.btn-modifica,
-.btn-elimina {
-  background: white;
-  border: 0.5px solid #ddd;
-  border-radius: 6px;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.8rem;
-  cursor: pointer;
-  width: auto;
-  transition: background 0.2s;
+/* Contenuto scrollabile sopra l'immagine */
+.badge-scroll {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1rem;
 }
 
-.btn-modifica:hover {
-  background: #EAF2FB;
+.badge-scroll::-webkit-scrollbar { width: 4px; }
+.badge-scroll::-webkit-scrollbar-track { background: transparent; }
+.badge-scroll::-webkit-scrollbar-thumb { background: rgba(216,208,137,0.25); border-radius: 4px; }
+
+.sidebar-head { display: flex; align-items: center; gap: 0.5rem; }
+.sidebar-titolo { font-size: 1rem; font-weight: 700; color: #D8D089; flex: 1; display: flex; align-items: center; gap: 6px; }
+.sidebar-counter {
+  font-size: 0.78rem; color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.15);
+  padding: 0.15rem 0.6rem; border-radius: 20px;
 }
 
-.btn-elimina:hover {
-  background: #FDEDEC;
-  color: #C0392B;
+.btn-gestisci {
+  width: 100%; padding: 0.8rem 1rem;
+  background: rgba(216,208,137,0.15); border: 0.5px solid rgba(216,208,137,0.45);
+  color: #D8D089; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.15s;
+}
+.btn-gestisci:hover { background: rgba(216,208,137,0.25); }
+
+.sidebar-vuoto { font-size: 0.85rem; color: rgba(255,255,255,0.4); text-align: center; padding: 1.5rem 0; }
+
+.badge-lista { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.badge-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.9rem 1rem; border-radius: 12px;
+  border: 0.5px solid rgba(151,168,149,0.2);
+  background: rgba(20,50,48,0.80);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0.65; filter: grayscale(55%);
+  transition: opacity 0.2s, filter 0.2s, border-color 0.2s;
+}
+.badge-item.ottenuto {
+  opacity: 1; filter: none;
+  border-color: rgba(76,175,130,0.4);
+  background: rgba(20,50,48,0.88);
+}
+
+.badge-ico { font-size: 1.9rem; line-height: 1; flex-shrink: 0; }
+.badge-ico.grigio { filter: grayscale(100%); }
+
+.badge-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.28rem; }
+.badge-nome { font-size: 0.87rem; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.badge-track { height: 4px; background: rgba(255,255,255,0.12); border-radius: 4px; overflow: hidden; }
+.badge-fill { height: 100%; background: rgba(216,208,137,0.65); border-radius: 4px; transition: width 0.4s ease; }
+.badge-item.ottenuto .badge-fill { background: #4CAF82; }
+
+.badge-pct { font-size: 0.73rem; color: rgba(255,255,255,0.4); }
+.badge-item.ottenuto .badge-pct { color: #4CAF82; font-weight: 600; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .ql-root { height: auto; overflow: visible; }
+  .page-layout { flex-direction: column; overflow: visible; }
+  .main-col { overflow-y: visible; padding: 0 1.25rem 2rem; }
+  .page-title { font-size: 38px; }
+  .badge-sidebar { width: 100%; height: 60vh; border-left: none; border-top: 0.5px solid rgba(151,168,149,0.2); }
+  .nav-link { display: none; }
+  .nav-link.active { display: block; }
+  .punti-pill { display: none; }
 }

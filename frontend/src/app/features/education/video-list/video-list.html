@@ -1,23 +1,32 @@
-<div class="video-container">
+<div class="vl-root">
 
-  <header class="navbar">
-    <div class="navbar-brand">⛰️ PeakAware</div>
-    <div class="navbar-info">
-      <button class="btn-nav" (click)="vaiAiQuiz()">Quiz</button>
-      <app-profile-button theme="navbar" />
-    </div>
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link" (click)="vaiA('/home')">Home</span>
+        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Quiz</span>
+        <span class="nav-link active">Video</span>
+        <span class="nav-link" (click)="vaiA('/sentieri')">Sentieri</span>
+        <span class="nav-link" (click)="vaiA('/cicerone/notizie')">Cicerone</span>
+        <app-profile-button />
+      </div>
+    </nav>
   </header>
 
-  <main class="main-content">
+  <div class="page-body">
 
-    <div class="page-header">
-      <h2>Video Educativi</h2>
-      <p>Approfondisci la tua conoscenza della montagna</p>
+    <div class="page-hero">
+      <div class="page-eyebrow">Educazione</div>
+      <h1 class="page-title">Video Educativi</h1>
+      <p class="page-sub">Approfondisci la tua conoscenza della montagna con contenuti selezionati.</p>
     </div>
 
-    <!-- US-12: filtro per modulo -->
-    <div class="filtri">
-      <select [(ngModel)]="moduloSelezionato" (change)="filtra()" name="modulo">
+    <div class="filtri-bar">
+      <select [(ngModel)]="moduloSelezionato" (change)="filtra()" name="modulo" class="filtro-select">
         <option value="">Tutti i moduli</option>
         <option value="educazione">Educazione</option>
         <option value="divulgazione">Divulgazione</option>
@@ -25,20 +34,18 @@
     </div>
 
     @if (caricamento) {
-      <div class="stato-messaggio">Caricamento video...</div>
+      <div class="stato-msg">Caricamento video...</div>
     }
-
     @if (errore) {
-      <div class="errore">{{ errore }}</div>
+      <div class="errore-msg">{{ errore }}</div>
     }
 
     @if (!caricamento && !errore) {
       <div class="video-grid">
 
-        <!-- Card aggiungi — visibile solo agli admin -->
         @if (ruoloUtente === 'admin') {
           <div class="video-card card-aggiungi" (click)="nuovoVideo()">
-            <div class="aggiungi-icon">+</div>
+            <i class="ti ti-plus aggiungi-icon"></i>
             <p>Nuovo Video</p>
           </div>
         }
@@ -46,27 +53,34 @@
         @for (v of video; track v._id) {
           <div class="video-card" (click)="apriVideo(v.url)">
 
-            <!-- Controlli admin -->
             @if (ruoloUtente === 'admin') {
               <div class="admin-controls">
-                <button class="btn-modifica" (click)="modificaVideo(v._id, $event)">✏️</button>
-                <button class="btn-elimina" (click)="eliminaVideo(v._id, $event)">✕</button>
+                <button class="btn-admin-edit" (click)="modificaVideo(v._id, $event)">
+                  <i class="ti ti-pencil"></i>
+                </button>
+                <button class="btn-admin-del" (click)="eliminaVideo(v._id, $event)">
+                  <i class="ti ti-x"></i>
+                </button>
               </div>
             }
 
-            <div class="video-card-header">
-              <span class="modulo-badge {{ v.modulo }}">{{ v.modulo }}</span>
-              <span class="durata">⏱ {{ formatDurata(v.durata) }}</span>
+            <div class="card-thumb">
+              <i class="ti ti-player-play-filled thumb-icon"></i>
             </div>
 
-            <h3>{{ v.titolo }}</h3>
+            <div class="card-body">
+              <div class="card-top">
+                <span class="mod-tag {{ v.modulo }}">{{ v.modulo }}</span>
+                <span class="durata"><i class="ti ti-clock"></i> {{ formatDurata(v.durata) }}</span>
+              </div>
 
-            <!-- US-13: descrizione visibile prima di aprire il video -->
-            <p class="descrizione">{{ v.descrizione || 'Nessuna descrizione disponibile.' }}</p>
+              <h3 class="card-title">{{ v.titolo }}</h3>
+              <p class="card-desc">{{ v.descrizione || 'Nessuna descrizione disponibile.' }}</p>
 
-            <div class="video-card-footer">
-              <span class="argomento">{{ v.argomento }}</span>
-              <span class="ente">{{ v.entePubblicatore }}</span>
+              <div class="card-footer">
+                <span class="argomento">{{ v.argomento }}</span>
+                <span class="ente">{{ v.entePubblicatore }}</span>
+              </div>
             </div>
 
           </div>
@@ -75,9 +89,11 @@
       </div>
 
       @if (video.length === 0) {
-        <div class="stato-messaggio">Nessun video disponibile al momento.</div>
+        <div class="stato-msg">Nessun video disponibile al momento.</div>
       }
     }
 
-  </main>
+    <div style="height: 4rem"></div>
+  </div>
+
 </div>

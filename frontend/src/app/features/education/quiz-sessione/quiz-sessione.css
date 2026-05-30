@@ -1,443 +1,284 @@
-.sessione-container {
+:host { display: block; background: #1f4240; }
+* { box-sizing: border-box; }
+
+.sess-root {
   min-height: 100vh;
-  background: #F4F6F7;
+  background: #1f4240;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+
+.header-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.9rem 1.5rem;
-  background: #1B4F72;
-  color: white;
+  padding: 0 5%; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
 }
 
-.navbar-brand {
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px;
+  background: #D8D089; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #1f4240; font-size: 17px;
 }
+.logo-text { color: white; font-size: 18px; font-weight: 500; letter-spacing: 0.3px; }
+.logo-text span { color: #D8D089; }
 
-.logout-btn {
-  background: transparent;
-  border: 0.5px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s;
-  width: auto;
+.btn-esci {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: rgba(255,255,255,0.55);
+  border: 0.5px solid rgba(255,255,255,0.2);
+  border-radius: 8px; padding: 8px 16px;
+  font-size: 14px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
 }
+.btn-esci:hover { color: white; border-color: rgba(255,255,255,0.4); }
 
-.logout-btn:hover {
-  background: rgba(255,255,255,0.12);
-}
+/* ── STATO ─────────────────────────────────────────────────── */
 
-.stato-messaggio {
-  text-align: center;
-  color: #888;
-  padding: 4rem;
-  font-size: 0.95rem;
-}
-
+.stato-msg { text-align: center; color: rgba(255,255,255,0.4); padding: 4rem; font-size: 0.95rem; }
 .errore-box {
-  background: #FDEDEC;
-  color: #C0392B;
-  padding: 1rem 1.5rem;
-  margin: 1.5rem auto;
-  max-width: 600px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  background: rgba(192,57,43,0.12);
+  border: 0.5px solid rgba(192,57,43,0.35);
+  color: #EF9F27; padding: 1rem 1.5rem;
+  margin: 1.5rem auto; max-width: 600px;
+  border-radius: 8px; font-size: 0.9rem;
 }
+
+/* ── MAIN ──────────────────────────────────────────────────── */
 
 .main-content {
   max-width: 640px;
   margin: 0 auto;
-  padding: 1.8rem 1.5rem;
+  padding: 2rem 1.5rem 4rem;
 }
 
+/* ── PROGRESS HEADER ───────────────────────────────────────── */
+
 .progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.progress-testo {
-  font-size: 0.85rem;
-  color: #888;
-}
+.progress-testo { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
 
 .timer {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #2E86C1;
+  font-size: 0.9rem; font-weight: 500; color: #D8D089;
+  background: rgba(216,208,137,0.1);
+  border: 0.5px solid rgba(216,208,137,0.3);
+  padding: 3px 10px; border-radius: 20px;
 }
-
 .timer.urgente {
-  color: #C0392B;
+  color: #EF6565;
+  background: rgba(239,101,101,0.12);
+  border-color: rgba(239,101,101,0.4);
   font-weight: 700;
 }
 
 .progress-track {
-  height: 4px;
-  background: #e0e0e0;
-  border-radius: 4px;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
+  height: 3px; background: rgba(151,168,149,0.2);
+  border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: #D8D089;
+  border-radius: 4px; transition: width 0.3s ease;
 }
 
-.progress-fill {
-  height: 100%;
-  background: #2E86C1;
-  border-radius: 4px;
-  transition: width 0.3s ease;
-}
+/* ── DOMANDA CARD ──────────────────────────────────────────── */
 
 .domanda-card {
-  background: white;
-  border-radius: 12px;
-  border: 0.5px solid #e8e8e8;
+  background: #2B5C59;
+  border-radius: 14px;
+  border: 0.5px solid rgba(151,168,149,0.2);
   padding: 1.8rem;
   position: relative;
 }
 
 .punti-badge {
   display: inline-block;
-  background: #E6F1FB;
-  color: #0C447C;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.2rem 0.7rem;
-  border-radius: 20px;
-  margin-bottom: 1rem;
+  background: rgba(216,208,137,0.12);
+  border: 0.5px solid rgba(216,208,137,0.3);
+  color: #D8D089; font-size: 0.75rem; font-weight: 500;
+  padding: 0.2rem 0.7rem; border-radius: 20px; margin-bottom: 1rem;
 }
 
 .domanda-testo {
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: #1B4F72;
-  margin-bottom: 1.4rem;
-  line-height: 1.5;
+  font-size: 1.15rem; font-weight: 500; color: white;
+  margin-bottom: 1.4rem; line-height: 1.55;
 }
 
-.hint-multi {
-  font-size: 0.8rem;
-  color: #2E86C1;
-  margin-bottom: 0.8rem;
-  margin-top: -0.6rem;
+/* ── RISPOSTE ──────────────────────────────────────────────── */
+
+.hint-multi, .hint-riordina, .hint-collega, .hint-punta {
+  font-size: 0.8rem; color: rgba(255,255,255,0.45);
+  margin-bottom: 0.8rem; margin-top: -0.4rem;
 }
 
-.risposte {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  margin-bottom: 1.2rem;
-}
+.risposte { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.2rem; }
 
 .risposta-btn {
-  text-align: left;
-  padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  color: #333;
-  font-size: 0.9rem;
-  cursor: pointer;
+  text-align: left; padding: 0.85rem 1rem;
+  border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 10px;
+  background: rgba(31,66,64,0.6); color: rgba(255,255,255,0.8);
+  font-size: 0.9rem; cursor: pointer; width: 100%;
   transition: border-color 0.15s, background 0.15s;
-  width: 100%;
 }
-
 .risposta-btn:hover:not(:disabled) {
-  border-color: #2E86C1;
-  background: #F0F7FD;
+  border-color: rgba(216,208,137,0.45);
+  background: rgba(216,208,137,0.07);
 }
-
 .risposta-btn.selezionata {
-  border-color: #2E86C1;
-  background: #E6F1FB;
-  color: #0C447C;
-}
-
-.risposta-btn.corretta {
-  border-color: #1E8449;
-  background: #EAFAF1;
-  color: #1E8449;
-  font-weight: 500;
-}
-
-.risposta-btn.errata {
-  border-color: #C0392B;
-  background: #FDEDEC;
-  color: #C0392B;
-}
-
-.risposta-btn:disabled {
-  cursor: default;
-}
-
-.btn-conferma {
-  width: 100%;
-  padding: 0.75rem;
-  background: #2E86C1;
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(216,208,137,0.12);
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
 }
+.risposta-btn.corretta {
+  border-color: rgba(76,175,130,0.6);
+  background: rgba(76,175,130,0.12);
+  color: #4CAF82; font-weight: 500;
+}
+.risposta-btn.errata {
+  border-color: rgba(239,101,101,0.5);
+  background: rgba(239,101,101,0.1);
+  color: #EF6565;
+}
+.risposta-btn:disabled { cursor: default; }
 
-.btn-conferma:hover:not(:disabled) {
-  background: #1B4F72;
-}
-
-.btn-conferma:disabled {
-  background: #b0c9de;
-  cursor: not-allowed;
-}
+/* ── FEEDBACK ──────────────────────────────────────────────── */
 
 .feedback {
-  padding: 0.85rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  padding: 0.85rem 1rem; border-radius: 10px;
+  margin-bottom: 1rem; font-size: 0.9rem;
 }
-
 .feedback-corretto {
-  background: #EAFAF1;
-  color: #1E8449;
+  background: rgba(76,175,130,0.1);
+  border: 0.5px solid rgba(76,175,130,0.35);
+  color: #4CAF82;
+}
+.feedback-sbagliato {
+  background: rgba(239,101,101,0.1);
+  border: 0.5px solid rgba(239,101,101,0.35);
+  color: #EF6565;
 }
 
-.feedback-sbagliato {
-  background: #FDEDEC;
-  color: #C0392B;
+/* ── BOTTONI AZIONE ────────────────────────────────────────── */
+
+.btn-conferma {
+  width: 100%; padding: 0.85rem;
+  background: #D8D089; color: #1f4240;
+  border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
 }
+.btn-conferma:hover:not(:disabled) { background: #c9c97a; }
+.btn-conferma:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .btn-prossima {
-  width: 100%;
-  padding: 0.75rem;
-  background: #1B4F72;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
+  width: 100%; padding: 0.85rem;
+  background: transparent; color: #D8D089;
+  border: 0.5px solid rgba(216,208,137,0.4);
+  border-radius: 10px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+  transition: background 0.15s;
 }
+.btn-prossima:hover { background: rgba(216,208,137,0.08); }
 
-.btn-prossima:hover {
-  background: #154060;
-}
+/* ── RIORDINAMENTO ─────────────────────────────────────────── */
 
-/* ── Riordinamento drag & drop ─────────────────────────────── */
-
-.hint-riordina {
-  font-size: 0.8rem;
-  color: #2E86C1;
-  margin-bottom: 0.8rem;
-  margin-top: -0.6rem;
-}
-
-.riordina-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.2rem;
-}
+.riordina-lista { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
 
 .riordina-voce {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  display: flex; align-items: center; gap: 0.75rem;
   padding: 0.75rem 1rem;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  cursor: grab;
-  user-select: none;
+  background: rgba(31,66,64,0.6);
+  border: 0.5px solid rgba(151,168,149,0.2);
+  border-radius: 10px; cursor: grab; user-select: none;
   transition: border-color 0.15s, background 0.15s, opacity 0.15s;
 }
-
-.riordina-voce:active {
-  cursor: grabbing;
-}
-
-.riordina-voce.dragging {
-  opacity: 0.4;
-}
-
+.riordina-voce:active { cursor: grabbing; }
+.riordina-voce.dragging { opacity: 0.35; }
 .riordina-voce.drag-over {
-  border-color: #2E86C1;
-  background: #EBF5FB;
+  border-color: rgba(216,208,137,0.5);
+  background: rgba(216,208,137,0.07);
 }
 
-.drag-handle {
-  font-size: 1.1rem;
-  color: #bbb;
-  line-height: 1;
-  flex-shrink: 0;
-}
+.drag-handle { font-size: 1.1rem; color: rgba(255,255,255,0.25); flex-shrink: 0; }
+.riordina-numero { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.3); min-width: 1.2rem; }
+.riordina-testo { font-size: 0.9rem; color: rgba(255,255,255,0.8); flex: 1; }
 
-.riordina-numero {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #aaa;
-  min-width: 1.2rem;
-  flex-shrink: 0;
-}
+.ordine-corretto { margin: 0.4rem 0 0 1.2rem; font-size: 0.85rem; }
+.ordine-corretto li { margin-bottom: 0.2rem; }
 
-.riordina-testo {
-  font-size: 0.9rem;
-  color: #333;
-  flex: 1;
-}
-
-.ordine-corretto {
-  margin: 0.4rem 0 0 1.2rem;
-  padding: 0;
-  font-size: 0.88rem;
-}
-
-.ordine-corretto li {
-  margin-bottom: 0.2rem;
-}
-
-/* ── Collegamento ──────────────────────────────────────────── */
-
-.hint-collega {
-  font-size: 0.8rem;
-  color: #2E86C1;
-  margin-bottom: 0.8rem;
-  margin-top: -0.6rem;
-}
+/* ── COLLEGAMENTO ──────────────────────────────────────────── */
 
 .collegamento-griglia {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
   margin-bottom: 1.2rem;
 }
-
-.collegamento-colonna {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+.collegamento-colonna { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .collegamento-voce {
   padding: 0.7rem 0.8rem;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  color: #333;
-  font-size: 0.88rem;
-  cursor: pointer;
-  text-align: left;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
-  width: 100%;
-  line-height: 1.35;
+  border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 10px;
+  background: rgba(31,66,64,0.6); color: rgba(255,255,255,0.75);
+  font-size: 0.85rem; cursor: pointer; text-align: left;
+  width: 100%; line-height: 1.35;
+  transition: border-color 0.15s, background 0.15s;
 }
-
 .collegamento-voce:hover {
-  border-color: #2E86C1;
-  background: #F0F7FD;
+  border-color: rgba(216,208,137,0.4);
+  background: rgba(216,208,137,0.06);
 }
-
 .collegamento-voce.col-selezionato {
-  border-color: #2E86C1;
-  outline: 2px solid #2E86C1;
-  outline-offset: 1px;
-  background: #E6F1FB;
+  border-color: rgba(216,208,137,0.7);
+  background: rgba(216,208,137,0.14);
+  outline: none;
 }
 
-.coppia-lista {
-  margin: 0.4rem 0 0 1.2rem;
-  padding: 0;
-  font-size: 0.88rem;
-}
+.coppia-lista { margin: 0.4rem 0 0 1.2rem; font-size: 0.85rem; }
+.coppia-lista li { margin-bottom: 0.25rem; color: #EF6565; }
+.coppia-lista li.coppia-giusta { color: #4CAF82; }
 
-.coppia-lista li {
-  margin-bottom: 0.25rem;
-  color: #C0392B;
-}
+/* ── PUNTA IMMAGINE ────────────────────────────────────────── */
 
-.coppia-lista li.coppia-giusta {
-  color: #1E8449;
-}
-
-/* ── PuntaImmagine ────────────────────────────────────────── */
-
-.hint-punta {
-  font-size: 0.88rem;
-  color: #555;
-  margin-bottom: 0.75rem;
-  text-align: center;
-}
-
-.punta-ok {
-  color: #1E8449;
-  font-weight: 600;
-  margin-left: 0.4rem;
-}
+.punta-ok { color: #4CAF82; font-weight: 600; margin-left: 0.4rem; }
 
 .immagine-wrapper {
-  position: relative;
-  display: block;
-  cursor: crosshair;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1.5px solid #ddd;
+  position: relative; display: block; cursor: crosshair;
+  border-radius: 10px; overflow: hidden;
+  border: 0.5px solid rgba(151,168,149,0.25);
   user-select: none;
 }
+.immagine-quiz { display: block; width: 100%; height: auto; pointer-events: none; }
 
-.immagine-quiz {
-  display: block;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-}
-
-/* Punto cliccato dall'utente */
 .marker-utente {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #2E86C1;
-  border: 3px solid white;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  position: absolute; width: 20px; height: 20px; border-radius: 50%;
+  background: #D8D089; border: 3px solid white;
+  transform: translate(-50%, -50%); pointer-events: none;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.5);
   transition: background 0.2s;
 }
+.marker-utente.marker-sbagliato { background: #EF6565; }
 
-.marker-utente.marker-sbagliato {
-  background: #E74C3C;
-}
-
-/* Punto corretto (mostrato solo dopo risposta sbagliata) */
 .marker-corretto {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #1E8449;
-  border: 3px solid white;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  position: absolute; width: 20px; height: 20px; border-radius: 50%;
+  background: #4CAF82; border: 3px solid white;
+  transform: translate(-50%, -50%); pointer-events: none;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.5);
 }
 
-/* Alone verde che mostra il margine di tolleranza */
 .marker-area-corretta {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(30, 132, 73, 0.18);
-  border: 1.5px dashed #1E8449;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  position: absolute; border-radius: 50%;
+  background: rgba(76,175,130,0.15);
+  border: 1.5px dashed rgba(76,175,130,0.6);
+  transform: translate(-50%, -50%); pointer-events: none;
 }

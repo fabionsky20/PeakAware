@@ -1,8 +1,15 @@
-<div class="risultato-container">
+<div class="ris-root">
 
-  <header class="navbar">
-    <div class="navbar-brand">PeakAware</div>
-    <button class="logout-btn" (click)="logout()">Esci</button>
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <button class="btn-esci" (click)="logout()">
+        <i class="ti ti-logout"></i> Esci
+      </button>
+    </nav>
   </header>
 
   @if (risultato) {
@@ -10,67 +17,73 @@
 
       <div class="risultato-card">
 
-        <div class="percentuale" [class.alto]="percentuale >= 80" [class.medio]="percentuale >= 50 && percentuale < 80" [class.basso]="percentuale < 50">
-          {{ percentuale }}%
-        </div>
-
-        <p class="messaggio">{{ messaggio }}</p>
-
-        <div class="punteggio-riga">
-          <span class="punteggio-label">Punteggio</span>
-          <span class="punteggio-valore">{{ risultato.punteggioOttenuto }} / {{ risultato.punteggioMassimo }} pt</span>
-        </div>
-
-        <div class="punteggio-riga">
-          <span class="punteggio-label">Punti guadagnati</span>
-          @if (risultato.puntiAggiunti > 0) {
-            <span class="punteggio-valore punti-positivi">+{{ risultato.puntiAggiunti }} pt</span>
-          } @else {
-            <span class="punteggio-valore punti-zero">+0 pt (quiz già completato)</span>
-          }
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="statistiche">
-          <div class="stat">
-            <span class="stat-valore">{{ risultato.puntiTotali }}</span>
-            <span class="stat-label">Punti totali</span>
+        <!-- Punteggio grande -->
+        <div class="score-ring">
+          <div class="percentuale" [class.alto]="percentuale >= 80" [class.medio]="percentuale >= 50 && percentuale < 80" [class.basso]="percentuale < 50">
+            {{ percentuale }}%
           </div>
-          <div class="stat">
-            <span class="stat-valore">{{ risultato.livello }}</span>
-            <span class="stat-label">Livello</span>
+          <p class="messaggio">{{ messaggio }}</p>
+        </div>
+
+        <!-- Righe punteggio -->
+        <div class="punteggio-rows">
+          <div class="punteggio-riga">
+            <span class="punteggio-label">Punteggio quiz</span>
+            <span class="punteggio-valore">{{ risultato.punteggioOttenuto }} / {{ risultato.punteggioMassimo }} pt</span>
+          </div>
+          <div class="punteggio-riga">
+            <span class="punteggio-label">Punti guadagnati</span>
+            @if (risultato.puntiAggiunti > 0) {
+              <span class="punteggio-valore punti-pos">+{{ risultato.puntiAggiunti }} pt</span>
+            } @else {
+              <span class="punteggio-valore punti-zero">+0 pt (già completato)</span>
+            }
           </div>
         </div>
 
-        <!-- Badge aggiornati da questo quiz -->
+        <div class="panel-divider"></div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-val">{{ risultato.puntiTotali }}</span>
+            <span class="stat-lbl">Punti totali</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">{{ risultato.livello }}</span>
+            <span class="stat-lbl">Livello</span>
+          </div>
+        </div>
+
+        <!-- Badge aggiornati -->
         @if (badgeAggiornati.length > 0) {
+          <div class="panel-divider"></div>
           <div class="badge-aggiornati">
-            <p class="badge-aggiornati-titolo">🏅 Progressi badge</p>
+            <p class="badge-sez-titolo"><i class="ti ti-medal"></i> Progressi badge</p>
             @for (b of badgeAggiornati; track b._id) {
-              <div class="badge-riga" [class.badge-ottenuto]="b.ottenuto">
-                <span class="badge-icona-ris">{{ b.icona }}</span>
-                <div class="badge-info-ris">
-                  <div class="badge-nome-ris">
+              <div class="badge-riga" [class.ottenuto]="b.ottenuto">
+                <span class="badge-ico">{{ b.icona }}</span>
+                <div class="badge-info">
+                  <div class="badge-nome">
                     {{ b.nome }}
                     @if (b.ottenuto) { <span class="badge-nuovo">Ottenuto!</span> }
                   </div>
                   <div class="badge-track">
                     <div class="badge-fill" [style.width.%]="b.percentuale"></div>
                   </div>
-                  <span class="badge-pct-ris">
-                    @if (b.ottenuto) { ✓ 100% } @else { {{ b.percentuale }}% }
-                  </span>
+                  <span class="badge-pct">@if (b.ottenuto) { ✓ 100% } @else { {{ b.percentuale }}% }</span>
                 </div>
               </div>
             }
           </div>
-          <div class="divider"></div>
         }
 
-        <!-- US-10: toggle riepilogo risposte -->
+        <div class="panel-divider"></div>
+
+        <!-- Riepilogo risposte -->
         @if (riepilogo.length > 0) {
           <button class="btn-riepilogo" (click)="mostraRiepilogo = !mostraRiepilogo">
+            <i class="ti ti-list"></i>
             {{ mostraRiepilogo ? 'Nascondi riepilogo' : 'Vedi riepilogo risposte' }}
           </button>
 
@@ -94,7 +107,9 @@
           }
         }
 
-        <button class="btn-torna" (click)="tornaAiQuiz()">Torna ai quiz</button>
+        <button class="btn-torna" (click)="tornaAiQuiz()">
+          <i class="ti ti-arrow-left"></i> Torna ai quiz
+        </button>
 
       </div>
 

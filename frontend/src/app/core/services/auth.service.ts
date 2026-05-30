@@ -14,6 +14,7 @@ interface AuthResponse {
   messaggio: string;
   dati?: {
     id: string;
+    username: string;
     email: string;
     ruolo: string;
     punti: number;
@@ -23,6 +24,7 @@ interface AuthResponse {
 
 export interface UtenteCorrente {
   id: string;
+  username: string;
   email: string;
   ruolo: string;
   punti: number;
@@ -48,8 +50,23 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  registrati(email: string, password: string, eta?: number): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/registrati`, { email, password, eta });
+  registrati(username: string, email: string, password: string, eta?: number): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/registrati`, { username, email, password, eta }).pipe(
+      tap(res => {
+        if (res.successo && res.dati) {
+          const u: UtenteCorrente = {
+            id:       res.dati.id,
+            username: res.dati.username,
+            email:    res.dati.email,
+            ruolo:    res.dati.ruolo,
+            punti:    res.dati.punti,
+          };
+          localStorage.setItem('peakaware_token', res.dati.token);
+          localStorage.setItem('peakaware_utente', JSON.stringify(u));
+          this.utente.set(u);
+        }
+      })
+    );
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
@@ -57,10 +74,11 @@ export class AuthService {
       tap(res => {
         if (res.successo && res.dati) {
           const u: UtenteCorrente = {
-            id:    res.dati.id,
-            email: res.dati.email,
-            ruolo: res.dati.ruolo,
-            punti: res.dati.punti,
+            id:       res.dati.id,
+            username: res.dati.username,
+            email:    res.dati.email,
+            ruolo:    res.dati.ruolo,
+            punti:    res.dati.punti,
           };
           localStorage.setItem('peakaware_token', res.dati.token);
           localStorage.setItem('peakaware_utente', JSON.stringify(u));
