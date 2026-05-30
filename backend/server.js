@@ -121,12 +121,6 @@ app.use('/api/sentieri', sentieriRoutes);
 app.use('/api/cicerone', ciceroneRoutes);
 
 
-const pulisciUploads = require('./src/utils/pulisciUploads');
-
-// Esegui subito all'avvio e poi ogni ora
-pulisciUploads();
-setInterval(pulisciUploads, 60 * 60 * 1000);
-
 // --- Avvio server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

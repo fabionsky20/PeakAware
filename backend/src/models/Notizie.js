@@ -22,6 +22,11 @@ const notiziaSchema = new mongoose.Schema({
   dataPubblicazione: {
     type: Date,
     default: Date.now
+  },
+  preferanza: {
+    type: String,
+    enum: ['alta', 'media', 'bassa'],
+    default: 'bassa'
   }
 });
 

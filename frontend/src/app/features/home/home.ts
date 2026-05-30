@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
 
@@ -10,6 +12,7 @@ interface Notizia {
   titolo: string;
   categoria: string;
   dataPubblicazione: string;
+  contenuto?: { blocks?: { type: string; data?: { file?: { url?: string } } }[] };
 }
 
 @Component({
@@ -19,7 +22,7 @@ interface Notizia {
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home implements OnInit {
+export class Home implements OnInit, OnDestroy {
 
   punti = 0;
   livello = 1;
@@ -53,6 +56,8 @@ export class Home implements OnInit {
     'url(images/escursione-mountain.jpg) center/cover no-repeat',
   ].join(', ');
 
+  private navSub!: Subscription;
+
   private readonly soglie = [0, 100, 300, 600, 1000];
 
   private readonly cardColori: Record<string, { bg: string; accent: string }> = {
@@ -74,6 +79,17 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.caricaProgressi();
     this.caricaNotizie();
+
+    this.navSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd && (e as NavigationEnd).urlAfterRedirects === '/home')
+    ).subscribe(() => {
+      this.caricaProgressi();
+      this.caricaNotizie();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.navSub?.unsubscribe();
   }
 
   get username(): string {
@@ -132,6 +148,7 @@ export class Home implements OnInit {
           this.punti = res.dati.punti;
           this.livello = res.dati.livello;
           this.numeroQuizCompletati = res.dati.numeroQuizCompletati ?? res.dati.quizCompletati?.length ?? 0;
+          this.cdr.detectChanges();
         }
       },
       error: () => {}
@@ -163,6 +180,11 @@ export class Home implements OnInit {
 
   vaiA(path: string): void {
     this.router.navigate([path]);
+  }
+
+  getPrimaImmagine(notizia: Notizia): string | null {
+    const block = (notizia.contenuto?.blocks ?? []).find(b => b.type === 'image');
+    return block?.data?.file?.url ?? null;
   }
 
   formatData(iso: string): string {
