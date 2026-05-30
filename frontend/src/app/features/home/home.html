@@ -135,9 +135,15 @@
               @for (notizia of notizie; track notizia._id) {
                 <div class="news-card" (click)="vaiA('/cicerone/notizia/' + notizia._id)">
                   <div class="news-card-img" [style.background]="cardBg(notizia.categoria)">
-                    <svg viewBox="0 0 196 108" width="196" height="108" xmlns="http://www.w3.org/2000/svg">
-                      <polygon points="0,108 50,55 90,80 130,30 170,65 196,45 196,108" fill="rgba(216,208,137,0.15)"/>
-                    </svg>
+                    @if (getPrimaImmagine(notizia)) {
+                      <div class="post-img-wrap">
+                        <img [src]="getPrimaImmagine(notizia)" [alt]="notizia.titolo" class="post-img" />
+                      </div>
+                    } @else {
+                      <svg viewBox="0 0 196 108" width="196" height="108" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0,108 50,55 90,80 130,30 170,65 196,45 196,108" fill="rgba(216,208,137,0.15)"/>
+                      </svg>
+                    }
                   </div>
                   <div class="news-card-body">
                     <span class="news-cat" [style.color]="cardAccent(notizia.categoria)">{{ notizia.categoria }}</span>
