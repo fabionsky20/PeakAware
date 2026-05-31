@@ -93,6 +93,22 @@ const avviaSessione = async (req, res) => {
         }
       }
 
+      // indovinaParola: manda solo la prima lettera + puntini (non rivela la parola)
+      if (d.tipo === 'indovinaParola') {
+        return {
+          _id: d._id,
+          testo: d.testo,
+          tipo: d.tipo,
+          tempo: d.tempo,
+          puntiChevale: d.puntiChevale,
+          numRisposteCorrette: 0,
+          risposte: d.risposte.map(r => ({
+            _id: r._id,
+            testo: r.testo.charAt(0) + '.'.repeat(Math.max(0, r.testo.length - 1)),
+          })),
+        };
+      }
+
       // puntaImmagine: manda URL e margine, mai il puntoCorretto
       if (d.tipo === 'puntaImmagine') {
         return {
@@ -163,13 +179,14 @@ const avviaSessione = async (req, res) => {
  */
 const rispondi = async (req, res) => {
   try {
-    const { idDomanda, idRisposte, ordine, coppie, punto } = req.body;
+    const { idDomanda, idRisposte, ordine, coppie, punto, paroleDiGitate } = req.body;
     const hasRisposte = Array.isArray(idRisposte) && idRisposte.length > 0;
     const hasOrdine = Array.isArray(ordine) && ordine.length > 0;
     const hasCoppie = Array.isArray(coppie) && coppie.length > 0;
     const hasPunto = punto && typeof punto.x === 'number' && typeof punto.y === 'number';
+    const hasParole = Array.isArray(paroleDiGitate) && paroleDiGitate.length > 0;
 
-    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie && !hasPunto)) {
+    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie && !hasPunto && !hasParole)) {
       return res.status(400).json({
         successo: false,
         messaggio: 'idDomanda e idRisposte (o ordine per riordinamento) sono obbligatori',
@@ -342,6 +359,31 @@ const rispondi = async (req, res) => {
           margine: domanda.margine ?? 10,
           distanza: Math.round(distanza * 10) / 10,
         },
+      });
+    }
+
+    if (domanda.tipo === 'indovinaParola') {
+      const paroleCorrette = domanda.risposte;
+      const dettaglio = paroleCorrette.map((r, i) => {
+        const digitata = (paroleDiGitate[i] ?? '').trim().toLowerCase();
+        const corretto = digitata === r.testo.trim().toLowerCase();
+        return { indice: i, corretto, parolaCorretta: r.testo };
+      });
+      const tutteCorrette = dettaglio.every(d => d.corretto);
+      const puntiIndovina = tutteCorrette ? domanda.puntiChevale : 0;
+
+      sessione.risposteDate.push({
+        idDomanda: domanda._id,
+        corretta: tutteCorrette,
+        puntiOttenuti: puntiIndovina,
+        tipo: 'indovinaParola',
+      });
+      sessione.punteggioOttenuto += puntiIndovina;
+      await sessione.save();
+
+      return res.status(200).json({
+        successo: true,
+        dati: { corretta: tutteCorrette, puntiOttenuti: puntiIndovina, dettaglioIndovina: dettaglio },
       });
     }
 

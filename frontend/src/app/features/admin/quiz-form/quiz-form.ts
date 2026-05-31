@@ -249,6 +249,12 @@ export class QuizForm implements OnInit {
             risposte: [],
           };
         }
+        if (d.tipo === 'indovinaParola') {
+          return {
+            ...d,
+            risposte: d.risposte.map((r: any) => ({ testo: r.testo, eCorretta: true })),
+          };
+        }
         return d;
       }),
     };

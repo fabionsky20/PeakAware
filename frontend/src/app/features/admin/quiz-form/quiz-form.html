@@ -115,6 +115,7 @@
                   <option value="riordinamento">Riordinamento</option>
                   <option value="collegamento">Collegamento</option>
                   <option value="puntaImmagine">Individua il punto</option>
+                  <option value="indovinaParola">Indovina le parole</option>
                 </select>
               </div>
             </div>
@@ -125,7 +126,7 @@
                 <input type="number" [(ngModel)]="domanda.puntiChevale"
                   [name]="'punti_' + di" min="0" />
               </div>
-              @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento' && domanda.tipo !== 'puntaImmagine') {
+              @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento' && domanda.tipo !== 'puntaImmagine' && domanda.tipo !== 'indovinaParola') {
                 <div class="form-group">
                   <label>Tentativi</label>
                   <input type="number" [(ngModel)]="domanda.tentativi"
@@ -186,6 +187,8 @@
                   <label>Voci (nell'ordine corretto — verranno mescolate per l'utente)</label>
                 } @else if (domanda.tipo === 'collegamento') {
                   <label>Coppie (sinistra → destra, verranno mescolate per l'utente)</label>
+                } @else if (domanda.tipo === 'indovinaParola') {
+                  <label>Parole in ordine di importanza (la prima lettera sarà mostrata come suggerimento)</label>
                 } @else {
                   <label>Risposte</label>
                 }
@@ -214,7 +217,7 @@
                       [name]="'coppia_' + di + '_' + ri"
                       placeholder="Elemento destra" />
                   }
-                  @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento') {
+                  @if (domanda.tipo !== 'riordinamento' && domanda.tipo !== 'collegamento' && domanda.tipo !== 'indovinaParola') {
                     <label class="risposta-corretta">
                       <input type="checkbox" [(ngModel)]="risposta.eCorretta"
                         [name]="'corretta_' + di + '_' + ri" />

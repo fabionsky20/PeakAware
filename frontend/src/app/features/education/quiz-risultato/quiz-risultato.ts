@@ -98,6 +98,8 @@ export class QuizRisultato implements OnInit {
 
       if (r.tipo === 'puntaImmagine') {
         testiRisposte = [r.corretta ? '✓ Punto individuato correttamente' : '✗ Punto non corretto'];
+      } else if (r.tipo === 'indovinaParola') {
+        testiRisposte = [r.corretta ? '✓ Tutte le parole indovinate correttamente' : '✗ Non tutte le parole indovinate'];
       } else if (r.tipo === 'collegamento') {
         testiRisposte = (r.coppie ?? []).map((c) => `${c.sinistra} → ${c.destra}`);
       } else {
