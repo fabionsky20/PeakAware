@@ -1,50 +1,94 @@
+/* badge-form.css — dark mountain theme */
+
 .badge-form-container {
   min-height: 100vh;
-  background: #F4F6F7;
+  background: #1f4240;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ── NAVBAR ─────────────────────────────────────────────────── */
+
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.9rem 1.5rem;
-  background: #1B4F72;
-  color: white;
+  padding: 0 5%;
+  height: 60px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
 }
 
-.navbar-brand { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.3px; }
+.navbar-brand {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
 
 .logout-btn {
   background: transparent;
-  border: 0.5px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
+  border: 0.5px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.75);
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
   width: auto;
 }
-.logout-btn:hover { background: rgba(255,255,255,0.12); }
+.logout-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────────── */
 
 .main-content {
   max-width: 640px;
   margin: 0 auto;
-  padding: 1.8rem 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
 .page-header { margin-bottom: 1.5rem; }
-.page-header h2 { font-size: 1.4rem; font-weight: 600; color: #1B4F72; margin: 0 0 0.2rem; }
-.page-header p { font-size: 0.88rem; color: #888; margin: 0; }
+
+.page-header h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #D8D089;
+  margin: 0 0 0.2rem;
+}
+
+.page-header p {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+}
+
+/* ── CARD ────────────────────────────────────────────────────── */
 
 .form-card {
-  background: white;
+  background: #2B5C59;
   border-radius: 12px;
-  border: 0.5px solid #e8e8e8;
+  border: 0.5px solid rgba(151,168,149,0.2);
   padding: 1.5rem;
   margin-bottom: 1.2rem;
 }
-.form-card h3 { font-size: 0.95rem; font-weight: 600; color: #1B4F72; margin: 0 0 1.1rem; }
+
+.form-card h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin: 0 0 1.1rem;
+}
+
+/* ── FORM ────────────────────────────────────────────────────── */
 
 .form-row {
   display: grid;
@@ -53,10 +97,21 @@
   margin-bottom: 1rem;
 }
 
-.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.form-group label { font-size: 0.82rem; font-weight: 500; color: #444; }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+}
 
 .form-group-icona { position: relative; }
+
 .icona-preview {
   position: absolute;
   right: 0.6rem;
@@ -68,18 +123,29 @@
 input[type="text"],
 input[type="number"] {
   padding: 0.55rem 0.85rem;
-  border: 0.5px solid #ccc;
+  border: 0.5px solid rgba(151,168,149,0.3);
   border-radius: 8px;
   font-size: 0.88rem;
-  background: white;
+  background: rgba(255,255,255,0.07);
+  color: white;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
   width: 100%;
   box-sizing: border-box;
+  font-family: inherit;
 }
-input:focus { border-color: #2E86C1; }
 
-/* ── Tipo condizione ─────────────────────────────────────────── */
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: rgba(255,255,255,0.25);
+}
+
+input:focus {
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(255,255,255,0.10);
+}
+
+/* ── TIPO CONDIZIONE ─────────────────────────────────────────── */
 
 .tipo-radio {
   display: flex;
@@ -92,26 +158,29 @@ input:focus { border-color: #2E86C1; }
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 1rem;
-  border: 1.5px solid #ddd;
+  border: 0.5px solid rgba(151,168,149,0.3);
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
-  color: #555;
-  transition: border-color 0.15s, background 0.15s;
+  color: rgba(255,255,255,0.55);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 
 .radio-option.attivo {
-  border-color: #2E86C1;
-  background: #E6F1FB;
-  color: #0C447C;
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(216,208,137,0.12);
+  color: #D8D089;
   font-weight: 500;
 }
 
 .radio-option input { display: none; }
 
-/* ── Categorie chips ─────────────────────────────────────────── */
+/* ── CATEGORIE CHIPS ─────────────────────────────────────────── */
 
-.hint-label { font-weight: 400; color: #aaa; }
+.hint-label {
+  font-weight: 400;
+  color: rgba(255,255,255,0.3);
+}
 
 .categorie-chips {
   display: flex;
@@ -122,37 +191,41 @@ input:focus { border-color: #2E86C1; }
 
 .chip {
   padding: 0.35rem 0.85rem;
-  border: 1.5px solid #ddd;
+  border: 0.5px solid rgba(151,168,149,0.3);
   border-radius: 20px;
-  background: white;
-  color: #555;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
   font-size: 0.82rem;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
+  width: auto;
 }
 
 .chip.chip-attivo {
-  border-color: #1B4F72;
-  background: #1B4F72;
-  color: white;
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(216,208,137,0.15);
+  color: #D8D089;
+  font-weight: 500;
 }
 
 .condizione-anteprima {
   font-size: 0.8rem;
-  color: #2E86C1;
+  color: rgba(216,208,137,0.75);
   margin: 0.5rem 0 0;
-  background: #E6F1FB;
+  background: rgba(216,208,137,0.08);
+  border: 0.5px solid rgba(216,208,137,0.2);
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
 }
 
 .form-group-punti input { max-width: 200px; }
 
-/* ── Messaggi ────────────────────────────────────────────────── */
+/* ── MESSAGGI ────────────────────────────────────────────────── */
 
 .errore {
-  background: #FDEDEC;
-  color: #C0392B;
+  background: rgba(239,101,101,0.12);
+  color: #EFA0A0;
+  border: 0.5px solid rgba(239,101,101,0.3);
   padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 0.88rem;
@@ -160,15 +233,16 @@ input:focus { border-color: #2E86C1; }
 }
 
 .successo {
-  background: #EAFAF1;
-  color: #1E8449;
+  background: rgba(76,175,130,0.12);
+  color: #7ED8B0;
+  border: 0.5px solid rgba(76,175,130,0.3);
   padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 0.88rem;
   margin-bottom: 1rem;
 }
 
-/* ── Azioni ──────────────────────────────────────────────────── */
+/* ── AZIONI ──────────────────────────────────────────────────── */
 
 .form-azioni {
   display: flex;
@@ -179,25 +253,35 @@ input:focus { border-color: #2E86C1; }
 
 .btn-annulla {
   padding: 0.6rem 1.2rem;
-  background: white;
-  border: 0.5px solid #ccc;
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.2);
   border-radius: 8px;
   font-size: 0.88rem;
-  color: #555;
+  color: rgba(255,255,255,0.55);
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  width: auto;
+}
+.btn-annulla:hover {
+  background: rgba(255,255,255,0.06);
+  color: white;
 }
 
 .btn-salva {
   padding: 0.6rem 1.4rem;
-  background: #1B4F72;
-  color: white;
+  background: #D8D089;
+  color: #1f4240;
   border: none;
   border-radius: 8px;
   font-size: 0.88rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  width: auto;
 }
-
-.btn-salva:hover:not(:disabled) { background: #154060; }
-.btn-salva:disabled { background: #b0c9de; cursor: not-allowed; }
+.btn-salva:hover:not(:disabled) { background: #c9c97a; }
+.btn-salva:disabled {
+  background: rgba(216,208,137,0.25);
+  color: rgba(31,66,64,0.5);
+  cursor: not-allowed;
+}
