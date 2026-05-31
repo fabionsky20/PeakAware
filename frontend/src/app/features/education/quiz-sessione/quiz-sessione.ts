@@ -81,6 +81,12 @@ export class QuizSessione implements OnInit, OnDestroy {
   tempoRimasto: number = 0;
   private timerInterval: any = null;
 
+  // Timer globale del quiz (quiz.tempo)
+  quizTempoTotale: number = 0;
+  quizTempoRimasto: number = 0;
+  tempoQuizScaduto: boolean = false;
+  private quizTimerInterval: any = null;
+
   caricamento: boolean = true;
   invioInCorso: boolean = false;
   errore: string = '';
@@ -102,6 +108,7 @@ export class QuizSessione implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.fermaTimer();
+    this.fermaTimerQuiz();
   }
 
   get domandaCorrente(): Domanda | null {
@@ -180,6 +187,8 @@ export class QuizSessione implements OnInit, OnDestroy {
         this.inizializzaCollegamento();
         this.cdr.detectChanges();
         this.avviaTimer();
+        const tempoQuiz = risposta.dati.quiz?.tempo ?? 0;
+        if (tempoQuiz > 0) this.avviaTimerQuiz(tempoQuiz);
       },
       error: () => {
         this.caricamento = false;
@@ -318,6 +327,49 @@ export class QuizSessione implements OnInit, OnDestroy {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
     }
+  }
+
+  private avviaTimerQuiz(secondi: number): void {
+    this.quizTempoTotale = secondi;
+    this.quizTempoRimasto = secondi;
+    this.quizTimerInterval = setInterval(() => {
+      this.quizTempoRimasto--;
+      this.cdr.detectChanges();
+      if (this.quizTempoRimasto <= 0) {
+        this.fermaTimerQuiz();
+        this.fermaTimer();
+        this.tempoQuizScaduto = true;
+        this.cdr.detectChanges();
+        this.terminaPerTempoScaduto();
+      }
+    }, 1000);
+  }
+
+  private fermaTimerQuiz(): void {
+    if (this.quizTimerInterval) {
+      clearInterval(this.quizTimerInterval);
+      this.quizTimerInterval = null;
+    }
+  }
+
+  private terminaPerTempoScaduto(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/termina`, {}, { headers }).subscribe({
+      next: (risposta) => {
+        this.router.navigate(['/educazione/risultato'], {
+          state: { risultato: { ...risposta.dati, tempoScaduto: true }, domande: this.domande }
+        });
+      },
+      error: () => {
+        this.router.navigate(['/educazione/quiz']);
+      }
+    });
+  }
+
+  get quizTempoFormattato(): string {
+    const m = Math.floor(this.quizTempoRimasto / 60);
+    const s = this.quizTempoRimasto % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
   }
 
   // ── Riordinamento ──────────────────────────────────────────

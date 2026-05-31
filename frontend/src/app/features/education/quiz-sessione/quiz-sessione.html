@@ -20,16 +20,34 @@
     <div class="errore-box">{{ errore }}</div>
   }
 
+  @if (tempoQuizScaduto) {
+    <div class="quiz-scaduto-overlay">
+      <div class="quiz-scaduto-box">
+        <i class="ti ti-clock-x quiz-scaduto-icon"></i>
+        <h2>Tempo scaduto!</h2>
+        <p>Il tempo a disposizione per questo quiz è terminato.</p>
+        <p class="quiz-scaduto-sub">Calcolo del punteggio in corso...</p>
+      </div>
+    </div>
+  }
+
   @if (!caricamento && !errore && domandaCorrente) {
     <main class="main-content">
 
       <div class="progress-header">
         <span class="progress-testo">Domanda {{ indiceDomanda + 1 }} di {{ domande.length }}</span>
-        @if (domandaCorrente.tempo > 0 && !feedback) {
-          <span class="timer" [class.urgente]="tempoRimasto <= 5">
-            <i class="ti ti-clock"></i> {{ tempoRimasto }}s
-          </span>
-        }
+        <div class="timer-gruppo">
+          @if (quizTempoTotale > 0) {
+            <span class="timer timer-quiz" [class.urgente]="quizTempoRimasto <= 30">
+              <i class="ti ti-hourglass"></i> {{ quizTempoFormattato }}
+            </span>
+          }
+          @if (domandaCorrente.tempo > 0 && !feedback) {
+            <span class="timer" [class.urgente]="tempoRimasto <= 5">
+              <i class="ti ti-clock"></i> {{ tempoRimasto }}s
+            </span>
+          }
+        </div>
       </div>
 
       <div class="progress-track">

@@ -70,6 +70,8 @@
 
 .progress-testo { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
 
+.timer-gruppo { display: flex; align-items: center; gap: 0.5rem; }
+
 .timer {
   font-size: 0.9rem; font-weight: 500; color: #D8D089;
   background: rgba(216,208,137,0.1);
@@ -82,6 +84,32 @@
   border-color: rgba(239,101,101,0.4);
   font-weight: 700;
 }
+.timer-quiz {
+  font-size: 1rem; font-weight: 600;
+  padding: 4px 14px;
+}
+
+/* ── OVERLAY TEMPO SCADUTO ─────────────────────────────────── */
+
+.quiz-scaduto-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(20,45,43,0.92);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+}
+.quiz-scaduto-box {
+  text-align: center; padding: 3rem 2.5rem;
+  background: #2B5C59;
+  border: 0.5px solid rgba(239,101,101,0.4);
+  border-radius: 20px;
+  max-width: 380px;
+}
+.quiz-scaduto-icon {
+  font-size: 3.5rem; color: #EF6565; display: block; margin-bottom: 1.2rem;
+}
+.quiz-scaduto-box h2 { color: white; font-size: 1.5rem; margin-bottom: 0.6rem; }
+.quiz-scaduto-box p { color: rgba(255,255,255,0.55); font-size: 0.95rem; margin-bottom: 0.3rem; }
+.quiz-scaduto-sub { font-size: 0.8rem !important; color: rgba(255,255,255,0.3) !important; }
 
 .progress-track {
   height: 3px; background: rgba(151,168,149,0.2);

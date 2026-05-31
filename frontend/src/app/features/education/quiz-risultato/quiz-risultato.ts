@@ -65,6 +65,7 @@ export class QuizRisultato implements OnInit {
   riepilogo: VoceRiepilogo[] = [];
   badgeAggiornati: BadgeAggiornato[] = [];
   mostraRiepilogo: boolean = false;
+  tempoScaduto: boolean = false;
 
   constructor(
     private router: Router,
@@ -75,6 +76,7 @@ export class QuizRisultato implements OnInit {
     const state = history.state as { risultato?: Risultato; domande?: DomandaSessione[] };
     if (state?.risultato) {
       this.risultato = state.risultato;
+      this.tempoScaduto = !!(state.risultato as any).tempoScaduto;
       this.badgeAggiornati = state.risultato.badgeAggiornati ?? [];
       this.costruisciRiepilogo(state.risultato.riepilogoRisposte ?? [], state.domande ?? []);
     } else {
