@@ -162,6 +162,11 @@
                     <div class="immagine-click-wrapper" (click)="impostaUltimoClick(di, $event)">
                       <img [src]="domanda.immagineUrl" class="immagine-punta" />
                       @if (domanda.puntoCorretto) {
+                        <div class="margine-ring"
+                             [style.left.%]="domanda.puntoCorretto.x"
+                             [style.top.%]="domanda.puntoCorretto.y"
+                             [style.width.%]="domanda.margine * 2">
+                        </div>
                         <div class="marker-admin"
                              [style.left.%]="domanda.puntoCorretto.x"
                              [style.top.%]="domanda.puntoCorretto.y">
@@ -189,8 +194,15 @@
               </div>
 
               @for (risposta of domanda.risposte; track $index; let ri = $index) {
-                <div class="risposta-row">
+                <div class="risposta-row"
+                     [attr.draggable]="domanda.tipo === 'riordinamento' ? 'true' : null"
+                     (dragstart)="onRiordinamentoDragStart(di, ri)"
+                     (dragover)="onRiordinamentoDragOver($event)"
+                     (drop)="onRiordinamentoDrop(di, ri)"
+                     (dragend)="onDragEnd()"
+                     [class.dragging-src]="dragSrcDi === di && dragSrcRi === ri">
                   @if (domanda.tipo === 'riordinamento') {
+                    <span class="drag-handle" title="Trascina per riordinare">⠿</span>
                     <span class="posizione-numero">{{ ri + 1 }}.</span>
                   }
                   <input type="text" [(ngModel)]="risposta.testo"
@@ -230,6 +242,9 @@
 
       <!-- Azioni -->
       <div class="form-azioni">
+        <button type="button" class="btn-aggiungi-domanda" (click)="aggiungiDomanda()">
+          + Aggiungi domanda
+        </button>
         <button type="button" class="btn-annulla" (click)="annulla()">Annulla</button>
         <button type="submit" class="btn-salva" [disabled]="caricamento">
           {{ caricamento ? 'Salvataggio...' : isModifica ? 'Aggiorna' : 'Crea Quiz' }}

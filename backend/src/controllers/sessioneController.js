@@ -11,6 +11,7 @@ const Badge = require('../models/Badge');
 const Utente = require('../models/Utente');
 const SessioneQuiz = require('../models/SessioneQuiz');
 const ProgressiUtente = require('../models/ProgressiUtente');
+const Livello = require('../models/Livello');
 
 // ========================
 // HELPER
@@ -18,16 +19,16 @@ const ProgressiUtente = require('../models/ProgressiUtente');
 
 /**
  * Calcola il livello dell'utente in base ai punti totali accumulati.
- * Corrisponde al metodo calcolaLivello() di ProgressiUtente (D2 sezione 2.2).
+ * Usa le soglie definite nella collection Livello (gestibili dall'admin).
  *
  * @param {number} punti - Punti totali dell'utente
- * @returns {number} Livello da 1 a 5
+ * @returns {Promise<number>} Numero del livello raggiunto
  */
-const calcolaLivello = (punti) => {
-  if (punti >= 1000) return 5;
-  if (punti >= 600)  return 4;
-  if (punti >= 300)  return 3;
-  if (punti >= 100)  return 2;
+const calcolaLivello = async (punti) => {
+  const livelli = await Livello.find().sort({ puntiNecessari: -1 });
+  for (const l of livelli) {
+    if (punti >= l.puntiNecessari) return l.numero;
+  }
   return 1;
 };
 
@@ -456,7 +457,7 @@ const terminaSessione = async (req, res) => {
     });
 
     progressi.punti += puntiDaAggiungere;
-    progressi.livello = calcolaLivello(progressi.punti);
+    progressi.livello = await calcolaLivello(progressi.punti);
     progressi.dataUltimaAttivita = new Date();
     progressi.quizCompletati.push({
       idQuiz: sessione.idQuiz,

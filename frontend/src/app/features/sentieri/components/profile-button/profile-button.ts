@@ -23,6 +23,7 @@ export class ProfileButton implements OnInit {
   ruolo = '';
   punti = 0;
   livello = 1;
+  nomeLivello = '';
   profiloAperto = false;
   cambiaPwAperto = false;
   pwAttuale = '';
@@ -47,16 +48,10 @@ export class ProfileButton implements OnInit {
 
   private apiUrl = 'http://localhost:3000/api/auth';
 
-  readonly nomiLivello = ['', 'Principiante', 'Base', 'Esperto base', 'Esperto', 'Maestro'];
-
   get iniziali(): string {
     const u = this.username || this.email;
     if (!u) return '?';
     return u.length >= 2 ? u.substring(0, 2).toUpperCase() : u.toUpperCase();
-  }
-
-  get nomeLivello(): string {
-    return this.nomiLivello[this.livello] ?? '';
   }
 
   ngOnInit() {
@@ -72,14 +67,13 @@ export class ProfileButton implements OnInit {
     this.http.get<any>(`${this.apiUrl}/profilo`, { headers }).subscribe({
       next: (r) => {
         if (r.successo) {
-          this.punti   = r.dati.punti;
-          this.livello = r.dati.livello;
-          
-          // Carica i contatti di emergenza
+          this.punti       = r.dati.punti;
+          this.livello     = r.dati.livello;
+          this.nomeLivello = r.dati.nomeLivello ?? '';
+
           if (r.dati.contattiEmergenza && Array.isArray(r.dati.contattiEmergenza)) {
             this.contattiEmergenza = r.dati.contattiEmergenza;
           } else if (r.dati.contattiEmergenza) {
-            // Fallback se per caso ne è stato salvato solo uno come oggetto
             this.contattiEmergenza = [r.dati.contattiEmergenza];
           }
         }
@@ -176,26 +170,22 @@ export class ProfileButton implements OnInit {
       condividiItinerario: this.emergenzaCondividi
     };
 
-    // Prepariamo l'array aggiornato
     let contattiAggiornati = [...this.contattiEmergenza];
 
     if (this.indiceInModifica !== null) {
-      // Aggiorniamo il contatto esistente
       contattiAggiornati[this.indiceInModifica] = nuovoContatto;
     } else {
-      // Aggiungiamo un nuovo contatto
       contattiAggiornati.push(nuovoContatto);
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    
-    // Inviamo L'INTERO ARRAY al backend
+
     this.http.put<any>(`${this.apiUrl}/contatto-emergenza`, { contattiEmergenza: contattiAggiornati }, { headers }).subscribe({
       next: (res) => {
         this.emergenzaCaricamento = false;
         this.emergenzaSuccesso = 'Contatto salvato con successo.';
-        this.contattiEmergenza = contattiAggiornati; // Aggiorna la vista istantaneamente
-        
+        this.contattiEmergenza = contattiAggiornati;
+
         setTimeout(() => {
           this.contattoAperto = false;
           this.resetContattoState();
@@ -206,6 +196,11 @@ export class ProfileButton implements OnInit {
         this.emergenzaErrore = err.error?.message || 'Impossibile salvare il contatto.';
       }
     });
+  }
+
+  vaiGestisciLivelli() {
+    this.chiudiProfilo();
+    this.router.navigate(['/admin/livelli']);
   }
 
   logout() {

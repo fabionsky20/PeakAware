@@ -278,8 +278,13 @@
 .form-azioni {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 1rem;
   margin-top: 0.5rem;
+}
+
+.form-azioni .btn-aggiungi-domanda {
+  margin-right: auto;
 }
 
 .btn-annulla {
@@ -362,4 +367,37 @@
   font-weight: 600;
   color: #1E8449;
   margin-left: 0.5rem;
+}
+
+.margine-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed rgba(231,76,60,0.7);
+  background: rgba(231,76,60,0.10);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ── drag-and-drop riordinamento ──────────────────────────── */
+
+.drag-handle {
+  cursor: grab;
+  color: #aaa;
+  font-size: 1rem;
+  flex-shrink: 0;
+  user-select: none;
+  padding: 0 2px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.risposta-row[draggable="true"] {
+  cursor: default;
+}
+
+.risposta-row.dragging-src {
+  opacity: 0.4;
 }

@@ -1,0 +1,133 @@
+<div class="lv-root">
+
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link" (click)="vaiA('/home')">Home</span>
+        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Educazione</span>
+        <span class="nav-link active">Gestione Livelli</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-inner">
+
+    <div class="page-hero">
+      <div class="page-eyebrow">Admin</div>
+      <h1 class="page-title">Gestione Livelli</h1>
+      <p class="page-sub">Definisci quanti livelli esistono e quanti punti sono necessari per raggiungerli. Il livello massimo non ha limite superiore.</p>
+    </div>
+
+    @if (errore) {
+      <div class="errore-msg">{{ errore }}</div>
+    }
+    @if (caricamento) {
+      <div class="stato-msg">Caricamento...</div>
+    }
+
+    @if (!caricamento) {
+      <div class="livelli-list">
+
+        @for (l of livelli; track l._id) {
+          <div class="livello-row" [class.editing]="editingId === l._id">
+
+            <div class="lv-numero">
+              <span class="lv-num-badge">{{ l.numero }}</span>
+              @if (isLast(l)) {
+                <span class="max-tag">MAX</span>
+              }
+            </div>
+
+            @if (editingId === l._id) {
+
+              <div class="lv-edit-fields">
+                <div class="field-wrap">
+                  <label class="field-label">Nome livello</label>
+                  <input class="lv-input" type="text" [(ngModel)]="editNome" name="editNome" placeholder="es. Esperto" />
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label">Punti necessari</label>
+                  @if (l.numero === 1) {
+                    <input class="lv-input" type="number" [value]="0" disabled title="Il livello 1 parte sempre da 0 punti" />
+                  } @else {
+                    <input class="lv-input" type="number" [(ngModel)]="editPunti" name="editPunti" min="1" />
+                  }
+                </div>
+              </div>
+
+              <div class="lv-actions">
+                <button class="btn-salva" (click)="salva(l)" [disabled]="salvando">
+                  <i class="ti ti-check"></i> {{ salvando ? '...' : 'Salva' }}
+                </button>
+                <button class="btn-annulla" (click)="cancelEdit()">
+                  <i class="ti ti-x"></i>
+                </button>
+              </div>
+
+            } @else {
+
+              <div class="lv-info">
+                <span class="lv-nome">{{ l.nome }}</span>
+                <span class="lv-soglia">
+                  @if (l.numero === 1) {
+                    Da 0 pt
+                  } @else {
+                    Da {{ l.puntiNecessari | number }} pt
+                  }
+                </span>
+              </div>
+
+              <div class="lv-actions">
+                <button class="btn-edit" (click)="startEdit(l)">
+                  <i class="ti ti-pencil"></i>
+                </button>
+                @if (l.numero !== 1) {
+                  <button class="btn-del" (click)="elimina(l)">
+                    <i class="ti ti-trash"></i>
+                  </button>
+                }
+              </div>
+
+            }
+          </div>
+        }
+
+      </div>
+
+      <div class="aggiungi-section">
+        @if (!showNew) {
+          <button class="btn-aggiungi" (click)="showNew = true; editingId = null">
+            <i class="ti ti-plus"></i> Aggiungi livello
+          </button>
+        } @else {
+          <div class="new-form">
+            <div class="new-form-title"><i class="ti ti-stairs-up"></i> Nuovo livello</div>
+            <div class="new-form-fields">
+              <div class="field-wrap">
+                <label class="field-label">Nome livello</label>
+                <input class="lv-input" type="text" [(ngModel)]="nuovoNome" name="nuovoNome" placeholder="es. Leggenda" />
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">Punti necessari</label>
+                <input class="lv-input" type="number" [(ngModel)]="nuovoPunti" name="nuovoPunti" min="1" placeholder="es. 2000" />
+              </div>
+            </div>
+            <div class="new-form-actions">
+              <button class="btn-salva" (click)="aggiungi()" [disabled]="aggiungendo || !nuovoNome || nuovoPunti == null">
+                <i class="ti ti-check"></i> {{ aggiungendo ? 'Creazione...' : 'Crea livello' }}
+              </button>
+              <button class="btn-annulla" (click)="showNew = false">
+                <i class="ti ti-x"></i> Annulla
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>

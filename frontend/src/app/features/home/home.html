@@ -36,14 +36,19 @@
       <div class="stat">
         <span class="stat-val">Liv. {{ livello }}</span>
         <span class="stat-label">{{ nomeLivello }}</span>
+        @if (authService.isAdmin()) {
+          <button class="stat-admin-btn" (click)="vaiA('/admin/livelli')" title="Gestisci livelli">
+            <i class="ti ti-settings"></i>
+          </button>
+        }
       </div>
       <div class="stat">
         <span class="stat-val">{{ numeroQuizCompletati }}</span>
         <span class="stat-label">Quiz completati</span>
       </div>
       <div class="stat">
-        <span class="stat-val">{{ livello < 5 ? (puntiAlProssimo + ' pt') : 'MAX' }}</span>
-        <span class="stat-label">{{ livello < 5 ? ('Al livello ' + (livello + 1)) : 'Livello massimo' }}</span>
+        <span class="stat-val">{{ isMaxLivello ? 'MAX' : (puntiAlProssimo + ' pt') }}</span>
+        <span class="stat-label">{{ isMaxLivello ? 'Livello massimo' : ('Al livello ' + (livello + 1)) }}</span>
       </div>
     </div>
   </div>
@@ -52,12 +57,12 @@
   <div class="prog-strip">
     <div class="inner">
       <span class="prog-label">
-        {{ livello < 5 ? ('Progressione livello ' + (livello + 1)) : 'Livello massimo raggiunto' }}
+        {{ isMaxLivello ? 'Livello massimo raggiunto' : ('Progressione livello ' + (livello + 1)) }}
       </span>
       <div class="prog-bar">
         <div class="prog-fill" [style.width.%]="percentualeLivello"></div>
       </div>
-      <span class="prog-val">{{ punti }} / {{ puntiTargetLivello }}</span>
+      <span class="prog-val">{{ isMaxLivello ? punti : (punti + ' / ' + puntiTargetLivello) }}</span>
       <span class="lv-badge">Liv. {{ livello }}</span>
     </div>
   </div>

@@ -15,6 +15,13 @@ interface Notizia {
   contenuto?: { blocks?: { type: string; data?: { file?: { url?: string } } }[] };
 }
 
+interface LivelloDB {
+  _id: string;
+  numero: number;
+  nome: string;
+  puntiNecessari: number;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -28,10 +35,9 @@ export class Home implements OnInit, OnDestroy {
   livello = 1;
   numeroQuizCompletati = 0;
   notizie: Notizia[] = [];
+  livelli: LivelloDB[] = [];
   carouselIdx = 0;
   quizDrawerOpen = false;
-
-  readonly nomiLivello = ['', 'Principiante', 'Base', 'Esperto base', 'Esperto', 'Maestro'];
 
   // Background con immagine reale: path relativo a index.html, risolto dal browser
   // Angular 18: assets in public/ → serviti direttamente dalla root del dev-server
@@ -58,8 +64,6 @@ export class Home implements OnInit, OnDestroy {
 
   private navSub!: Subscription;
 
-  private readonly soglie = [0, 100, 300, 600, 1000];
-
   private readonly cardColori: Record<string, { bg: string; accent: string }> = {
     'meteo':         { bg: 'linear-gradient(135deg,#0d2f3a,#1a5c6e)', accent: '#4CA8D0' },
     'fauna':         { bg: 'linear-gradient(135deg,#1a3d1a,#2d6e2d)', accent: '#4CAF82' },
@@ -79,6 +83,7 @@ export class Home implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.caricaProgressi();
     this.caricaNotizie();
+    this.caricaLivelli();
 
     this.navSub = this.router.events.pipe(
       filter(e => e instanceof NavigationEnd && (e as NavigationEnd).urlAfterRedirects === '/home')
@@ -102,22 +107,37 @@ export class Home implements OnInit, OnDestroy {
   }
 
   get nomeLivello(): string {
-    return this.nomiLivello[this.livello] ?? '';
+    return this.livelli.find(l => l.numero === this.livello)?.nome ?? '';
+  }
+
+  get isMaxLivello(): boolean {
+    return !this.livelli.find(l => l.numero === this.livello + 1);
+  }
+
+  private get livelloCorrente(): LivelloDB | undefined {
+    return this.livelli.find(l => l.numero === this.livello);
+  }
+
+  private get livelloProssimo(): LivelloDB | undefined {
+    return this.livelli.find(l => l.numero === this.livello + 1);
   }
 
   get puntiTargetLivello(): number {
-    return this.livello < 5 ? this.soglie[this.livello] : 1000;
+    return this.livelloProssimo?.puntiNecessari ?? this.punti;
   }
 
   get percentualeLivello(): number {
-    if (this.livello >= 5) return 100;
-    const da = this.soglie[this.livello - 1];
-    const a  = this.soglie[this.livello];
-    return Math.min(100, Math.round(((this.punti - da) / (a - da)) * 100));
+    const curr = this.livelloCorrente;
+    const next = this.livelloProssimo;
+    if (!curr || !next) return 100;
+    const range = next.puntiNecessari - curr.puntiNecessari;
+    if (range <= 0) return 100;
+    return Math.min(100, Math.round(((this.punti - curr.puntiNecessari) / range) * 100));
   }
 
   get puntiAlProssimo(): number {
-    return this.livello >= 5 ? 0 : this.soglie[this.livello] - this.punti;
+    const next = this.livelloProssimo;
+    return next ? Math.max(0, next.puntiNecessari - this.punti) : 0;
   }
 
   get carouselTranslate(): string {
@@ -138,6 +158,17 @@ export class Home implements OnInit, OnDestroy {
 
   cardAccent(categoria: string): string {
     return (this.cardColori[categoria] ?? this.cardColori['generale']).accent;
+  }
+
+  private caricaLivelli(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.get<any>('http://localhost:3000/api/livelli', { headers }).subscribe({
+      next: (res) => {
+        this.livelli = (res.dati ?? []).sort((a: LivelloDB, b: LivelloDB) => a.puntiNecessari - b.puntiNecessari);
+        this.cdr.detectChanges();
+      },
+      error: () => {}
+    });
   }
 
   private caricaProgressi(): void {
