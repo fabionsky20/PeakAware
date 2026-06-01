@@ -25,7 +25,12 @@
     </div>
 
     <div class="filtri-bar">
-      <select [(ngModel)]="categoriaSelezionata" (change)="caricaNotizie()" name="categoria" class="filtro-select">
+      <select [(ngModel)]="ordinamento" (change)="caricaNotizie()" class="select-ordine">
+        <option value="recenti">Più recenti</option>
+        <option value="popolari">Più popolari</option>
+        <option value="personalizzate">Per te</option>
+      </select>
+      <select [(ngModel)]="categoriaSelezionata" (change)="caricaNotizie()" name="categoria" class="filtro-select" [disabled]="ordinamento === 'personalizzate'">
         <option value="">Tutte le categorie</option>
         <option value="meteo">Meteo</option>
         <option value="valanghe">Valanghe</option>

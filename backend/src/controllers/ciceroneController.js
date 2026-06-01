@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const Notizie = require('../models/Notizie');
+const VisiteUtente = require('../models/VisiteUtente');
 
 const getNotizie = async (req, res) => {
   try {
@@ -23,23 +24,23 @@ const getNotizie = async (req, res) => {
 
 const getNotiziaById = async (req, res) => {
   try {
-    const notizie = await Notizie.findById(req.params.id);
-    if (!notizie) {
-      return res.status(404).json({
-        successo: false,
-        messaggio: 'Notizia non trovata',
-      });
+    const notizia = await Notizie.findById(req.params.id);
+    if (!notizia) {
+      return res.status(404).json({ successo: false, messaggio: 'Notizia non trovata' });
     }
-    res.status(200).json({
-      successo: true,
-      dati: notizie,
-    });
+
+    // Traccia la visita per categoria dell'utente loggato
+    if (req.utente && notizia.categoria) {
+      await VisiteUtente.findOneAndUpdate(
+        { utente: req.utente._id, categoria: notizia.categoria },
+        { $inc: { visite: 1 } },
+        { upsert: true, new: true }  // crea se non esiste
+      );
+    }
+
+    res.status(200).json({ successo: true, dati: notizia });
   } catch (error) {
-    res.status(500).json({
-      successo: false,
-      messaggio: 'Errore nel recupero della notizia',
-      errore: error.message,
-    });
+    res.status(500).json({ successo: false, messaggio: 'Errore nel recupero', errore: error.message });
   }
 };
 
@@ -198,4 +199,68 @@ const avviaNotizia = async (req, res) => {
   }
 };
 
-module.exports = { getNotizie, getNotiziaById, creaNotizia, eliminaNotizia, aggiornaNotizia, avviaNotizia };
+const getNotiziеPersonalizzate = async (req, res) => {
+  try {
+    // Recupera le categorie più visitate dall'utente, ordinate per visite
+    const visite = await VisiteUtente.find({ utente: req.utente._id })
+      .sort({ visite: -1 });
+
+    if (visite.length === 0) {
+      // Nessuna visita ancora — ritorna le più recenti
+      const notizie = await Notizie.find().sort({ dataPubblicazione: -1 });
+      return res.status(200).json({ successo: true, dati: notizie });
+    }
+
+    const categorieOrdinate = visite.map(v => v.categoria);
+
+    // Recupera tutte le notizie e ordinale per categoria preferita
+    const notizie = await Notizie.aggregate([
+      {
+        $addFields: {
+          prioritaCategoria: {
+            $indexOfArray: [categorieOrdinate, '$categoria']
+          }
+        }
+      },
+      {
+        $addFields: {
+          prioritaCategoria: {
+            $cond: {
+              if: { $eq: ['$prioritaCategoria', -1] },
+              then: 999,  // categorie non visitate vanno in fondo
+              else: '$prioritaCategoria'
+            }
+          }
+        }
+      },
+      { $sort: { prioritaCategoria: 1, dataPubblicazione: -1 } }
+    ]);
+
+    res.status(200).json({ successo: true, dati: notizie });
+
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nel recupero', errore: error.message });
+  }
+};
+
+const getNotiziePopolari = async (req, res) => {
+  try {
+    const notizie = await Notizie.aggregate([
+      {
+        $group: {
+          _id: '$categoria',
+          visiteTotali: { $sum: '$visite' },
+          notizie: { $push: '$$ROOT' }
+        }
+      },
+      { $sort: { visiteTotali: -1 } },
+      { $unwind: '$notizie' },
+      { $replaceRoot: { newRoot: '$notizie' } }
+    ]);
+    res.status(200).json({ successo: true, dati: notizie });
+  } catch (error) {
+    res.status(500).json({ successo: false, messaggio: 'Errore nel recupero', errore: error.message });
+  }
+};
+
+module.exports = { getNotizie, getNotiziaById, creaNotizia, eliminaNotizia, aggiornaNotizia, avviaNotizia, getNotiziеPersonalizzate, getNotiziePopolari};

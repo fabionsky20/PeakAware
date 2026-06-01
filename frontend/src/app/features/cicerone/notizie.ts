@@ -27,6 +27,7 @@ export class Notizie implements OnInit {
     categoriaSelezionata: string = '';
     errore: string = '';
     id: string | null = null;
+    ordinamento: string = 'recenti';
 
     /** Ruolo dell'utente loggato — determina se mostrare i controlli admin */
     ruoloUtente: string = 'utente';
@@ -57,10 +58,10 @@ export class Notizie implements OnInit {
 
         // URL corretto
         let url = `${this.apiUrl}/notizie`;
-
-        if (this.categoriaSelezionata) {
-            url += `?categoria=${this.categoriaSelezionata}`;
-        }
+        if (this.ordinamento === 'personalizzate') url += '/personalizzate';
+        if (this.ordinamento === 'popolari') url += '/popolari';
+        if (this.categoriaSelezionata) url += `?categoria=${this.categoriaSelezionata}`;
+        this.cdr.detectChanges();
 
         // Chiamata HTTP con token
         this.http.get<any>(url, { headers }).subscribe({

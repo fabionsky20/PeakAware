@@ -1,0 +1,96 @@
+<div class="commenti-container">
+
+  <div class="header">
+    <h1>Commenti alla Notizia</h1>
+
+    <button
+      class="btn-indietro"
+      (click)="tornaIndietro()">
+      ← Torna alle notizie
+    </button>
+  </div>
+
+  <!-- Form nuovo commento -->
+  <div class="nuovo-commento">
+
+    <h3>Aggiungi un commento</h3>
+
+    <textarea
+      [(ngModel)]="nuovoCommento"
+      placeholder="Scrivi qui il tuo commento..."
+      rows="4">
+    </textarea>
+
+    <button
+      class="btn-pubblica"
+      (click)="aggiungiCommento()">
+      Pubblica commento
+    </button>
+
+  </div>
+
+  <!-- Loading -->
+  <div
+    class="loading"
+    *ngIf="caricamento">
+
+    Caricamento commenti...
+  </div>
+
+  <!-- Errore -->
+  <div
+    class="errore"
+    *ngIf="errore">
+
+    {{ errore }}
+  </div>
+
+  <!-- Nessun commento -->
+  <div
+    class="nessun-commento"
+    *ngIf="!caricamento && commenti.length === 0">
+
+    Nessun commento presente.
+  </div>
+
+  <!-- Lista commenti -->
+  <div
+    class="lista-commenti"
+    *ngIf="commenti.length > 0">
+
+    <div
+      class="commento-card"
+      *ngFor="let commento of commenti">
+
+      <div class="commento-header">
+
+        <span class="autore">
+          {{ commento.autore }}
+        </span>
+
+        <span class="data">
+          {{ commento.dataCreazione | date:'dd/MM/yyyy HH:mm' }}
+        </span>
+
+      </div>
+
+      <div class="testo-commento">
+        {{ commento.testo }}
+      </div>
+
+      <div class="azioni">
+
+        <button
+        *ngIf="commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin'"
+        (click)="eliminaCommento(commento._id)"
+        >
+        Elimina
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

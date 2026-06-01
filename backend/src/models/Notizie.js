@@ -14,6 +14,10 @@ const notiziaSchema = new mongoose.Schema({
     enum: ['meteo', 'valanghe', 'orientamento', 'fauna', 'prontoSoccorso', 'generale'],
     default: 'generale'
   },
+  visite: {
+    type: Number,
+    default: 0
+  },
   idAutore: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Utente',
@@ -23,11 +27,6 @@ const notiziaSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  preferanza: {
-    type: String,
-    enum: ['alta', 'media', 'bassa'],
-    default: 'bassa'
-  }
 });
 
 module.exports = mongoose.model('Notizia', notiziaSchema);
