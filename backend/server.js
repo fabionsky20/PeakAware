@@ -120,6 +120,7 @@ app.use('/api/sentieri', sentieriRoutes);
  */
 app.use('/api/cicerone', ciceroneRoutes);
 
+app.use('/api/config', require('./src/routes/configRoutes'));
 
 // --- Avvio server ---
 const PORT = process.env.PORT || 3000;

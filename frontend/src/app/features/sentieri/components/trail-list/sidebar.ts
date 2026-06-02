@@ -1,30 +1,33 @@
 import {
-  Component, inject, computed,
+  Component, inject, computed, OnInit,
   ViewChild, ViewChildren, QueryList, ElementRef, effect, signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SentieroService } from '@core/services/sentiero.service';
 import { AuthService } from '@core/services/auth.service';
 import { UtenteService } from '@core/services/utente.service';
-import { valutaCompatibilita, ConsiglioSentiero } from './trail-advisor';
-import { suggerisciAttrezzatura, SuggerimentoAttrezzatura } from './equipment-advisor';
+import { valutaCompatibilita, ConsiglioSentiero, TrailConfig } from './trail-advisor';
+import { suggerisciAttrezzatura, SuggerimentoAttrezzatura, EquipConfig } from './equipment-advisor';
 import * as turf from '@turf/turf';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type StatoGps = 'inattivo' | 'avvio' | 'tracking' | 'completato' | 'errore';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   protected sentieroService = inject(SentieroService);
   protected authService     = inject(AuthService);
-  public    utenteSvc       = inject(UtenteService); // Reso PUBLIC per l'HTML
+  public    utenteSvc       = inject(UtenteService);
   private   router          = inject(Router);
   private   http            = inject(HttpClient);
 
@@ -33,31 +36,69 @@ export class SidebarComponent {
 
   private apiUrl = 'http://localhost:3000/api';
 
-  sentieriOrdinati = computed(() => [...this.sentieroService.sentieri()]);
+  // NIENTE PIÙ "as any"! TypeScript ora sa che isVisible esiste davvero.
+  sentieriOrdinati = computed(() => {
+    const lista = [...this.sentieroService.sentieri()];
+    if (!this.isAdmin()) {
+      return lista.filter(s => s.isVisible !== false);
+    }
+    return lista;
+  });
 
-  // ── Admin ──────────────────────────────────────────────────────────────────
+  // ── Admin: Importazione Geografica (Focus Trentino) ───────────────────────────
   importaLoading = false;
   importEsito    = '';
+  showImportBar  = false; 
+  
+  regioniPreimpostate = [
+    { nome: 'Trentino (Intero)', bbox: '45.67,10.37,46.54,11.95' },
+    { nome: 'Trento e Monte Bondone', bbox: '45.95,11.00,46.15,11.20' },
+    { nome: 'Rovereto e Vallagarina', bbox: '45.75,10.90,45.95,11.10' },
+    { nome: 'Alto Garda e Ledro', bbox: '45.80,10.70,45.95,11.00' },
+    { nome: 'Val di Non', bbox: '46.25,10.90,46.45,11.20' },
+    { nome: 'Val di Sole', bbox: '46.25,10.50,46.40,10.90' },
+    { nome: 'Val di Fassa e Fiemme', bbox: '46.20,11.40,46.50,11.90' },
+    { nome: 'Coordinate Manuali...', bbox: 'custom' }
+  ];
+  areaSelezionata = this.regioniPreimpostate[0].bbox;
+  areaCustom = '';
 
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
 
-  vaiAllaHome(): void {
-    this.router.navigate(['/home']);
+  ngOnInit() {
+    this.sentieroService.loadSentieri();
+
+    this.http.get(`${this.apiUrl}/config`).pipe(
+      catchError((err) => {
+        console.warn('Rotta config non pronta o errore DB. Uso configurazione base.', err);
+        return of({}); 
+      })
+    ).subscribe({
+      next: (res: any) => {
+        if(res?.trailConfig) Object.assign(TrailConfig, res.trailConfig);
+        if(res?.equipConfig) Object.assign(EquipConfig, res.equipConfig);
+      }
+    });
   }
 
-  ricaricaSentieri(): void {
-    this.sentieroService.loadSentieri();
-  }
+  vaiAllaHome(): void { this.router.navigate(['/home']); }
+  ricaricaSentieri(): void { this.sentieroService.loadSentieri(); }
+  toggleImportBar(): void { this.showImportBar = !this.showImportBar; }
 
   avviaImportazione(): void {
+    const bboxToUse = this.areaSelezionata === 'custom' ? this.areaCustom : this.areaSelezionata;
+    if (!bboxToUse) {
+      this.importEsito = '❌ Inserisci un\'area valida';
+      return;
+    }
+
     this.importaLoading = true;
     this.importEsito    = '';
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.authService.getToken()}`
-    });
-    this.http.post<any>(`${this.apiUrl}/sentieri/importa`, {}, { headers }).subscribe({
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    
+    this.http.post<any>(`${this.apiUrl}/sentieri/importa`, { bbox: bboxToUse }, { headers }).subscribe({
       next: (res) => {
         this.importaLoading = false;
         this.importEsito = `✅ ${res.dettagli?.salvati_filtrati ?? 0} sentieri importati`;
@@ -70,7 +111,61 @@ export class SidebarComponent {
     });
   }
 
-  // ── Consiglio ──────────────────────────────────────────────────────────────
+  toggleVisibilita(sentiero: any, event: Event): void {
+    event.stopPropagation();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    const safeId = encodeURIComponent(String(sentiero.osm_id));
+    
+    this.http.patch(`${this.apiUrl}/sentieri/${safeId}/toggleVisibilita`, {}, { headers })
+      .subscribe({
+        next: (res: any) => {
+          const listaAttuale = [...this.sentieroService.sentieri()];
+          const index = listaAttuale.findIndex(s => s.osm_id === sentiero.osm_id);
+          
+          if (index !== -1) {
+            // Aggiorniamo la corretta proprietà isVisible!
+            listaAttuale[index] = { ...listaAttuale[index], isVisible: res.isVisible };
+            this.sentieroService.sentieri.set(listaAttuale); 
+          }
+        },
+        error: (err) => {
+          console.error("Errore modifica visibilità:", err);
+          alert('Errore: impossibile cambiare la visibilità del sentiero.');
+        }
+      });
+  }
+
+  // ── Admin: Configurazione Algoritmi ────────────────────────────
+  configAperta = false;
+  
+  configEdit = {
+    requisitiCai: { T: 1, E: 2, EE: 3, EEA: 5 } as Record<string, number>,
+    soglieEquip:  { lungaKm: 12, impegnativaDPlus: 600 }
+  };
+
+  apriConfig(): void {
+    this.configEdit.requisitiCai = { ...TrailConfig.requisitiCai };
+    this.configEdit.soglieEquip  = { ...EquipConfig.soglie };
+    this.configAperta = true;
+  }
+
+  salvaConfig(): void {
+    Object.assign(TrailConfig.requisitiCai, this.configEdit.requisitiCai);
+    Object.assign(EquipConfig.soglie, this.configEdit.soglieEquip);
+    
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    const payload = { trailConfig: TrailConfig, equipConfig: EquipConfig };
+
+    this.http.put(`${this.apiUrl}/config`, payload, { headers }).subscribe({
+      next: () => {
+        this.configAperta = false;
+        alert('✅ Impostazioni salvate correttamente nel Database!');
+      },
+      error: () => alert('❌ Errore durante il salvataggio nel DB (Assicurati di aver creato la rotta!).')
+    });
+  }
+
+  // ── (Il resto del codice rimane invariato: GPS, Consigli, ecc.) ───────────
   consiglio = computed<ConsiglioSentiero | null>(() => {
     const s      = this.sentieroService.sentieroSelezionato();
     const utente = this.authService.utente();
@@ -83,7 +178,6 @@ export class SidebarComponent {
     );
   });
 
-  // ── Attrezzatura ──────────────────────────────────────────────────────────
   attrezzatura = computed<SuggerimentoAttrezzatura[]>(() => {
     const s = this.sentieroService.sentieroSelezionato();
     if (!s) return [];
@@ -94,7 +188,6 @@ export class SidebarComponent {
     );
   });
 
-  // ── GPS ────────────────────────────────────────────────────────────────────
   statoGps             = signal<StatoGps>('inattivo');
   nuoviBadge           = signal<{ id: string; nome: string; icona: string; descrizione: string }[]>([]);
   messaggioGps         = signal<string>('');
@@ -102,9 +195,7 @@ export class SidebarComponent {
 
   attrezzaturaAperta = false;
 
-  toggleAttrezzatura(): void {
-    this.attrezzaturaAperta = !this.attrezzaturaAperta;
-  }
+  toggleAttrezzatura(): void { this.attrezzaturaAperta = !this.attrezzaturaAperta; }
 
   private watchId: number | null = null;
   private posizioniRaccolte: GeolocationPosition[] = [];
@@ -112,8 +203,7 @@ export class SidebarComponent {
   private ultimaPosizioneRegistrata: GeolocationPosition | null = null;
 
   avviaGps(): void {
-    this.sentieroCompletatoId.set(null); // Resetta esiti precedenti
-
+    this.sentieroCompletatoId.set(null); 
     if (!navigator.geolocation) {
       this.statoGps.set('errore');
       this.messaggioGps.set('GPS non supportato dal browser');
@@ -147,7 +237,6 @@ export class SidebarComponent {
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
     );
-    // Timer di sincronizzazione: scatta ogni 5 minuti (300000 ms)
     this.liveTrackingInterval = setInterval(() => {
       if (this.ultimaPosizioneRegistrata) {
         this.inviaDatiLive(true, this.ultimaPosizioneRegistrata, sentieroId, nomeSentiero);
@@ -157,37 +246,30 @@ export class SidebarComponent {
 
   private inviaDatiLive(isAttiva: boolean, pos: GeolocationPosition | null, sId: string, sNome: string): void {
     this.utenteSvc.inviaPosizioneLive({
-      isAttiva,
-      lat: pos ? pos.coords.latitude : undefined,
-      lng: pos ? pos.coords.longitude : undefined,
-      sentieroId: sId,
-      nomeSentiero: sNome
+      isAttiva, lat: pos?.coords.latitude, lng: pos?.coords.longitude,
+      sentieroId: sId, nomeSentiero: sNome
     }).subscribe({
-      next: () => console.log(`[GPS] Posizione inviata al server (isAttiva: ${isAttiva})`),
-      error: (err) => console.error('[GPS] Errore invio posizione al server:', err)
+      next: () => console.log(`[GPS] Inviato`),
+      error: (err) => console.error('[GPS] Errore:', err)
     });
   }
 
   fermaGps(): void {
     const tracciatoId = this.utenteSvc.sentieroInTracciamentoId();
-    this.sentieroCompletatoId.set(tracciatoId); // Associa il feedback al sentiero corretto
+    this.sentieroCompletatoId.set(tracciatoId); 
     
     this.pulisciTimerLive();
     this.inviaDatiLive(false, null, '', '');
-    
     this.utenteSvc.posizionePersonale.set(null);
     this.utenteSvc.sentieroInTracciamentoId.set(null);
 
-    if (this.watchId !== null) {
-      navigator.geolocation.clearWatch(this.watchId);
-      this.watchId = null;
-    }
+    if (this.watchId !== null) { navigator.geolocation.clearWatch(this.watchId); this.watchId = null; }
+    
     const s = this.sentieroService.sentieroSelezionato();
     if (!s || this.posizioniRaccolte.length < 2) {
-      this.statoGps.set('inattivo');
-      this.messaggioGps.set('');
-      return;
+      this.statoGps.set('inattivo'); this.messaggioGps.set(''); return;
     }
+    
     const coords = this.posizioniRaccolte.map(p => [p.coords.longitude, p.coords.latitude]);
     const km     = parseFloat(turf.length(turf.lineString(coords), { units: 'kilometers' }).toFixed(2));
     const nome   = s.properties?.['name'] ?? 'Sentiero senza nome';
@@ -204,11 +286,8 @@ export class SidebarComponent {
           }
         },
         error: (err) => {
-          if (err.status === 409) {
-            this.messaggioGps.set('⚠️ Hai già registrato questo sentiero oggi.');
-          } else {
-            this.messaggioGps.set('Percorso archiviato (in attesa di rete)');
-          }
+          if (err.status === 409) this.messaggioGps.set('⚠️ Hai già registrato questo sentiero oggi.');
+          else this.messaggioGps.set('Percorso archiviato (in attesa di rete)');
         }
       });
   }
@@ -228,10 +307,7 @@ export class SidebarComponent {
   }
 
   private pulisciTimerLive(): void {
-    if (this.liveTrackingInterval) {
-      clearInterval(this.liveTrackingInterval);
-      this.liveTrackingInterval = null;
-    }
+    if (this.liveTrackingInterval) { clearInterval(this.liveTrackingInterval); this.liveTrackingInterval = null; }
   }
 
   seleziona(sentiero: any): void {

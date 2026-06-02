@@ -1,6 +1,7 @@
 /**
  * Logica di valutazione compatibilità sentiero-utente.
- * Funzione pura, indipendente da Angular — usabile anche nei quiz.
+ * Le regole e i requisiti sono stati esposti in un oggetto di Configurazione 
+ * per permettere all'admin di modificarli dinamicamente via UI.
  */
 
 export interface UtenteSnapshot {
@@ -16,15 +17,19 @@ export interface ConsiglioSentiero {
   icona:     string;
 }
 
-/**
- * Requisiti minimi di esperienza per ogni livello CAI.
- * T=1, E=2, EE=3, EEA=5
- */
-const REQUISITI_CAI: Record<string, number> = {
-  'T':   1,
-  'E':   2,
-  'EE':  3,
-  'EEA': 5,
+// ── CONFIGURAZIONE DINAMICA MODIFICABILE DALL'ADMIN ─────────────
+export const TrailConfig = {
+  requisitiCai: {
+    'T':   1,
+    'E':   2,
+    'EE':  3,
+    'EEA': 5,
+  } as Record<string, number>,
+  
+  avvertenze: {
+    lunghezzaKm: 15,
+    dislivelloM: 800
+  }
 };
 
 export function valutaCompatibilita(
@@ -41,19 +46,19 @@ export function valutaCompatibilita(
       livello:   'ferrata',
       titolo:    'Ferrata / Alpinistico',
       icona:     '⛏️',
-      messaggio: 'Richiede attrezzatura specifica (casco, imbrago, dissipatore). ' +
-                 'Non affrontarlo senza esperienza e equipaggiamento adeguati.'
+      messaggio: 'Richiede attrezzatura specifica (casco, imbrago, dissipatore). Non affrontarlo senza esperienza.'
     };
   }
 
-  const livReq = scala ? REQUISITI_CAI[scala] : null;
+  // Usa i requisiti dalla configurazione modificabile
+  const livReq = scala ? TrailConfig.requisitiCai[scala] : null;
 
   if (!livReq) {
     return {
       livello:   'sconosciuto',
       titolo:    'Difficoltà non classificata',
       icona:     '❓',
-      messaggio: 'Non ci sono informazioni sulla difficoltà. Verifica su OSM o sul sito SAT prima di partire.'
+      messaggio: 'Non ci sono informazioni sulla difficoltà. Verifica prima di partire.'
     };
   }
 
@@ -64,16 +69,14 @@ export function valutaCompatibilita(
       livello:   'sconsigliato',
       titolo:    'Non consigliato per il tuo profilo',
       icona:     '⚠️',
-      messaggio: `Questo sentiero richiede livello ${livReq}/5, ` +
-                 `il tuo è ${livUtente}/5. ` +
-                 'Allenati su sentieri più semplici per aumentare la tua esperienza.'
+      messaggio: `Questo sentiero richiede livello ${livReq}/5, il tuo è ${livUtente}/5. Allenati su percorsi più semplici.`
     };
   }
 
-  // Utente adatto — avvertenze per percorsi impegnativi
+  // Avvertenze generate dinamicamente dalle soglie dell'Admin
   const avvertenze: string[] = [];
-  if ((lunghezza  ?? 0) > 15)  avvertenze.push('percorso lungo (>15 km): parti presto e porta acqua a sufficienza');
-  if ((dislivello ?? 0) > 800) avvertenze.push(`dislivello elevato (${dislivello} m D+): calcola bene i tempi`);
+  if ((lunghezza  ?? 0) > TrailConfig.avvertenze.lunghezzaKm)  avvertenze.push(`percorso lungo (>${TrailConfig.avvertenze.lunghezzaKm} km): porta acqua`);
+  if ((dislivello ?? 0) > TrailConfig.avvertenze.dislivelloM) avvertenze.push(`dislivello elevato (${dislivello} m D+): calcola i tempi`);
 
   if (avvertenze.length > 0) {
     return {

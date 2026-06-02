@@ -7,22 +7,115 @@
         <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
       </div>
       <div class="header-actions">
-        <button class="btn-icon" title="Home" (click)="vaiAllaHome()">🏠</button>
-        <button class="btn-icon" title="Ricarica" (click)="ricaricaSentieri()">🔄</button>
+        <button class="btn-icon" title="Torna alla Home" (click)="vaiAllaHome()">🏠</button>
+        <button class="btn-icon" title="Ricarica Sentieri" (click)="ricaricaSentieri()">🔄</button>
         @if (isAdmin()) {
-          <button class="btn-icon btn-import"
-                  title="Importa da OSM"
-                  (click)="avviaImportazione()"
-                  [disabled]="importaLoading">
-            {{ importaLoading ? '⏳' : '📥' }}
-          </button>
+          <button class="btn-icon" title="Impostazioni Algoritmi" (click)="apriConfig()">⚙️</button>
+          <button class="btn-icon btn-import" title="Importa Sentieri OSM" (click)="toggleImportBar()">📥</button>
         }
       </div>
     </div>
+    
     @if (importEsito) {
       <p class="import-result">{{ importEsito }}</p>
     }
+    
+    @if (isAdmin() && showImportBar) {
+      <div class="admin-import-bar">
+        <select [(ngModel)]="areaSelezionata" class="admin-input">
+          @for (r of regioniPreimpostate; track r.nome) {
+            <option [value]="r.bbox">{{ r.nome }}</option>
+          }
+        </select>
+        
+        @if (areaSelezionata === 'custom') {
+          <input type="text" [(ngModel)]="areaCustom" placeholder="es. 45.8,10.5,46.2,11.5" class="admin-input" style="margin-left: 0.4rem; width: 120px;" />
+        }
+        
+        <button class="btn-icon btn-import" title="Esegui Download OSM" (click)="avviaImportazione()" [disabled]="importaLoading">
+          {{ importaLoading ? '⏳' : '▶️' }}
+        </button>
+      </div>
+    }
   </div>
+
+  @if (configAperta && isAdmin()) {
+    <div class="admin-overlay" (click)="configAperta = false"></div>
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h3>⚙️ Regole Sentieri e Attrezzatura</h3>
+        <button class="btn-close-modal" (click)="configAperta = false">✕</button>
+      </div>
+      <div class="admin-modal-body">
+        
+        <h4 class="config-section-title">Livello Esperienza Richiesto (1-5)</h4>
+        <p class="admin-info">Seleziona il livello utente minimo per consigliare i percorsi.</p>
+        
+        <div class="config-grid">
+          <div class="config-row">
+            <label>Turistico (T):</label>
+            <select [(ngModel)]="configEdit.requisitiCai['T']" class="admin-select">
+              <option [ngValue]="1">Livello 1 / 5</option>
+              <option [ngValue]="2">Livello 2 / 5</option>
+              <option [ngValue]="3">Livello 3 / 5</option>
+              <option [ngValue]="4">Livello 4 / 5</option>
+              <option [ngValue]="5">Livello 5 / 5</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <label>Escursionistico (E):</label>
+            <select [(ngModel)]="configEdit.requisitiCai['E']" class="admin-select">
+              <option [ngValue]="1">Livello 1 / 5</option>
+              <option [ngValue]="2">Livello 2 / 5</option>
+              <option [ngValue]="3">Livello 3 / 5</option>
+              <option [ngValue]="4">Livello 4 / 5</option>
+              <option [ngValue]="5">Livello 5 / 5</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <label>Esperti (EE):</label>
+            <select [(ngModel)]="configEdit.requisitiCai['EE']" class="admin-select">
+              <option [ngValue]="1">Livello 1 / 5</option>
+              <option [ngValue]="2">Livello 2 / 5</option>
+              <option [ngValue]="3">Livello 3 / 5</option>
+              <option [ngValue]="4">Livello 4 / 5</option>
+              <option [ngValue]="5">Livello 5 / 5</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <label>Ferrata (EEA):</label>
+            <select [(ngModel)]="configEdit.requisitiCai['EEA']" class="admin-select">
+              <option [ngValue]="1">Livello 1 / 5</option>
+              <option [ngValue]="2">Livello 2 / 5</option>
+              <option [ngValue]="3">Livello 3 / 5</option>
+              <option [ngValue]="4">Livello 4 / 5</option>
+              <option [ngValue]="5">Livello 5 / 5</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel-divider" style="margin: 1.2rem 0; opacity: 0.2"></div>
+
+        <h4 class="config-section-title">Soglie per l'Attrezzatura</h4>
+        <p class="admin-info">Oltre quali valori consigli l'equipaggiamento pesante?</p>
+
+        <div class="config-grid">
+          <div class="config-row">
+            <label>Percorso "Lungo" (km):</label>
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.lungaKm" class="admin-select" />
+          </div>
+          <div class="config-row">
+            <label>Dislivello Elevato (m D+):</label>
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50"/>
+          </div>
+        </div>
+
+      </div>
+      <div class="admin-modal-footer">
+        <button class="btn-save-config" (click)="salvaConfig()">💾 Salva nel Database</button>
+      </div>
+    </div>
+  }
 
   @if (nuoviBadge().length > 0) {
     <div class="badge-toast">
@@ -51,7 +144,15 @@
             @if (s.properties?.['ref']) {
               <span class="ref-badge">{{ s.properties?.['ref'] }}</span>
             }
-            <h3>{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
+            <h3 [class.text-muted]="s.isVisible === false">{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
+            @if (isAdmin()) {
+              <button class="btn-visibility" 
+                      [class.off]="s.isVisible === false"
+                      (click)="toggleVisibilita(s, $event)"
+                      title="Attiva/Disattiva Visibilità Globale">
+                <i class="ti" [class.ti-eye]="s.isVisible !== false" [class.ti-eye-off]="s.isVisible === false"></i>
+              </button>
+            }
           </div>
           <div class="header-right">
             <span class="difficulty-badge"

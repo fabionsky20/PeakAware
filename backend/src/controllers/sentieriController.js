@@ -133,19 +133,38 @@ exports.getSentieroById = async (req, res) => {
  *         description: Errore nella modifica
  */
 exports.toggleVisibilita = async (req, res) => {
-    try {
-        const sentiero = await Sentiero.findOne({ osm_id: req.params.id });
-        if (!sentiero) return res.status(404).json({ message: "Sentiero non trovato" });
+  try {
+    const idParam = req.params.id;
+    
+    // 1. Cerca il sentiero provando tutti i formati possibili (Stringa o Numero)
+    const sentiero = await Sentiero.findOne({ 
+      $or: [
+        { osm_id: idParam }, 
+        { osm_id: String(idParam) }, 
+        { osm_id: Number(idParam) }
+      ] 
+    });
 
-        sentiero.isVisible = !sentiero.isVisible;
-        await sentiero.save();
-
-        res.status(200).json({
-            successo: true,
-            isVisible: sentiero.isVisible,
-            message: `Sentiero ${sentiero.isVisible ? 'attivato' : 'disattivato'}`
-        });
-    } catch (error) {
-        res.status(500).json({ error: "Errore nella modifica visibilità" });
+    if (!sentiero) {
+      console.log(`[Toggle Visibilità] Sentiero con osm_id ${idParam} non trovato nel DB.`);
+      return res.status(404).json({ message: 'Sentiero non trovato' });
     }
+
+    // 2. Usiamo la proprietà corretta: isVisible (come definito nel tuo DB)
+    const nuovoStato = sentiero.isVisible === false ? true : false;
+
+    // 3. Salvataggio forzato tramite updateOne
+    await Sentiero.updateOne(
+      { _id: sentiero._id },
+      { $set: { isVisible: nuovoStato } }
+    );
+
+    console.log(`[Toggle Visibilità] Sentiero ${idParam} aggiornato. isVisible: ${nuovoStato}`);
+    
+    res.status(200).json({ successo: true, isVisible: nuovoStato });
+
+  } catch (error) {
+    console.error("Errore in toggle visibilità:", error);
+    res.status(500).json({ message: 'Errore interno del server' });
+  }
 };

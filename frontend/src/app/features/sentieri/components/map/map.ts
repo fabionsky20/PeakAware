@@ -31,18 +31,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private layersLookup = new Map<string, { layer: L.GeoJSON; marker: L.Marker }>();
   private layerSelezionato: L.GeoJSON | null = null;
 
-  // proprietà per il contatto di emergenza
   private contattoMarker: L.Marker | null = null;
   private trackingSubscription!: Subscription;
 
   // ─── STILI E ICONE ────────────────────────────────────────────────────────────
   private readonly STYLE_NORMAL   = { color: '#ff4500', weight: 4,  opacity: 0.8, dashArray: '' };
   private readonly STYLE_SELECTED = { color: '#007bff', weight: 8,  opacity: 1.0, dashArray: '' };
-  private readonly STYLE_TRACKING = { color: '#16a34a', weight: 8,  opacity: 1.0, dashArray: '10, 10' }; // Verde tratteggiato per il tracking
+  private readonly STYLE_TRACKING = { color: '#16a34a', weight: 8,  opacity: 1.0, dashArray: '10, 10' };
 
   private markerPersonale: L.Marker | null = null;
 
-  // Usa icone di base via CDN per distinguerle immediatamente senza impazzire coi file locali
   private iconaPersonale = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
@@ -56,26 +54,22 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   });
 
   constructor() {
-    // 1. Ricarica layer quando cambiano i dati
     effect(() => {
       const dati = this.sentieroService.sentieri();
       if (dati.length > 0 && this.map) this.updateMap(dati);
     });
 
-    // 2. Sincronizza lo STILE (Sia per selezione che per tracciamento attivo)
     effect(() => {
       const selezionato = this.sentieroService.sentieroSelezionato();
       const tracciatoId = this.utenteService.sentieroInTracciamentoId();
       
       if (!this.map) return;
 
-      // Resetta tutto a default
       this.layersLookup.forEach(({ layer }) => {
         layer.setStyle(this.STYLE_NORMAL);
       });
       this.layerSelezionato = null;
 
-      // Applica stile Azzurro a quello che l'utente sta "sbirciando" nella sidebar
       if (selezionato) {
         const objSel = this.layersLookup.get(String(selezionato.osm_id));
         if (objSel) {
@@ -85,7 +79,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         }
       }
 
-      // Applica stile Verde (prevalente) a quello effettivamente in tracking
       if (tracciatoId) {
         const objTrac = this.layersLookup.get(String(tracciatoId));
         if (objTrac) {
@@ -95,22 +88,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    // 3. Disegna e muovi il TUO marker personale in tempo reale
     effect(() => {
       const pos = this.utenteService.posizionePersonale();
       if (!this.map) return;
 
       if (pos) {
         if (this.markerPersonale) {
-          // Muovi il marker esistente
           this.markerPersonale.setLatLng([pos.lat, pos.lng]);
         } else {
-          // Crea il marker blu
           this.markerPersonale = L.marker([pos.lat, pos.lng], { icon: this.iconaPersonale, zIndexOffset: 1000 })
             .addTo(this.map)
             .bindPopup('<b>📍 La tua posizione</b>');
 
-          // Apre il tracciato cliccando il marker
           this.markerPersonale.on('click', () => {
              const tId = this.utenteService.sentieroInTracciamentoId();
              if (tId) {
@@ -120,7 +109,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           });
         }
       } else if (this.markerPersonale) {
-        // Se fermi il tracking, togli il tuo marker
         this.map.removeLayer(this.markerPersonale);
         this.markerPersonale = null;
       }
@@ -133,14 +121,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.avviaTrackingContatto();
   }
 
-  // Ecco la correzione per l'errore OnDestroy
   ngOnDestroy(): void {
     if (this.trackingSubscription) {
       this.trackingSubscription.unsubscribe();
     }
   }
-
-  // ─── Setup mappa ────────────────────────────────────────────────────────────
 
   private initMap(): void {
     const iconDefault = L.icon({
@@ -159,7 +144,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     this.geoJsonLayer = L.featureGroup().addTo(this.map);
 
-    // Click sulla mappa vuota → deseleziona
     this.map.on('click', () => {
       this.resetSelezione();
     });
@@ -167,14 +151,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.map.invalidateSize(), 200);
   }
 
-  // ─── Popolamento layer ───────────────────────────────────────────────────────
-
   private updateMap(sentieri: Sentiero[]): void {
     this.geoJsonLayer.clearLayers();
     this.layersLookup.clear();
     this.layerSelezionato = null;
 
     sentieri.forEach(s => {
+      // FIX ASSOLUTO: Se l'admin ha nascosto il sentiero (visibile === false)
+      // ignoriamo questo sentiero e NON lo disegniamo sulla mappa!
+      if (s.isVisible === false) {
+        return;
+      }
+
       if (!s.geometry?.coordinates?.length) {
         console.warn('Sentiero senza geometria valida:', s.osm_id);
         return;
@@ -184,7 +172,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         style: this.STYLE_NORMAL
       }).addTo(this.geoJsonLayer);
 
-      // Punto di partenza per il marker
       let startPoint: L.LatLngExpression | null = null;
       try {
         const coords = s.geometry.coordinates;
@@ -203,15 +190,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         ? L.marker(startPoint).addTo(this.geoJsonLayer)
         : null;
 
-      // FIX IMPORTANTISSIMO: Convertiamo osm_id a Stringa in modo forzato per evitare bug di lookup
       this.layersLookup.set(String(s.osm_id), { layer, marker: marker! });
 
-      // Handler click condiviso tra layer e marker
       const onCLick = (e: L.LeafletMouseEvent) => {
         L.DomEvent.stopPropagation(e);
 
         if (this.sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
-          // Secondo click sullo stesso sentiero → deseleziona
           this.resetSelezione();
         } else {
           this.applicaSelezioneVisiva(layer, s, true);
@@ -226,9 +210,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (bounds.isValid()) this.map.fitBounds(bounds, { padding: [30, 30] });
   }
 
-  // ─── Gestione selezione ──────────────────────────────────────────────────────
-
-  /** Evidenzia visivamente il layer e (opzionalmente) aggiorna il signal */
   private applicaSelezioneVisiva(
     layer: L.GeoJSON,
     s: Sentiero,
@@ -260,7 +241,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       .openOn(this.map);
   }
 
-  /** Ripristina solo lo stile visivo, senza toccare il signal */
   private resetSelezioneVisiva(): void {
     if (this.layerSelezionato) {
       this.layerSelezionato.setStyle(this.STYLE_NORMAL);
@@ -269,20 +249,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map?.closePopup();
   }
 
-  /** Reset completo: stile + signal */
   private resetSelezione(): void {
     this.resetSelezioneVisiva();
     this.sentieroService.sentieroSelezionato.set(null);
   }
 
-  // ── Logica di visualizzazione real-time ──────────────────────────────────────
   private avviaTrackingContatto(): void {
     if (!this.authService.isAutenticato()) return;
 
     this.trackingSubscription = interval(30000).pipe(
       startWith(0),
       switchMap(() => this.utenteService.getPosizioneContatto().pipe(
-         // CRITICO: Impedisce che un errore di rete uccida il timer
          catchError(() => of(null))
       ))
     ).subscribe({
@@ -300,7 +277,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
               .addTo(this.map)
               .bindPopup(popupTxt);
               
-            // NUOVO: Seleziona in automatico il sentiero del contatto
             this.contattoMarker.on('click', () => {
                if (dati.sentieroId) {
                    const trail = this.sentieroService.sentieri().find(s => String(s.osm_id) === String(dati.sentieroId));
