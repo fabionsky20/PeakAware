@@ -24,7 +24,7 @@ type StatoGps = 'inattivo' | 'avvio' | 'tracking' | 'completato' | 'errore';
 export class SidebarComponent {
   protected sentieroService = inject(SentieroService);
   protected authService     = inject(AuthService);
-  private   utenteService   = inject(UtenteService);
+  public    utenteSvc       = inject(UtenteService); // Reso PUBLIC per l'HTML
   private   router          = inject(Router);
   private   http            = inject(HttpClient);
 
@@ -95,9 +95,10 @@ export class SidebarComponent {
   });
 
   // ── GPS ────────────────────────────────────────────────────────────────────
-  statoGps     = signal<StatoGps>('inattivo');
-  nuoviBadge   = signal<{ id: string; nome: string; icona: string; descrizione: string }[]>([]);
-  messaggioGps = signal<string>('');
+  statoGps             = signal<StatoGps>('inattivo');
+  nuoviBadge           = signal<{ id: string; nome: string; icona: string; descrizione: string }[]>([]);
+  messaggioGps         = signal<string>('');
+  sentieroCompletatoId = signal<string | null>(null);
 
   attrezzaturaAperta = false;
 
@@ -107,13 +108,22 @@ export class SidebarComponent {
 
   private watchId: number | null = null;
   private posizioniRaccolte: GeolocationPosition[] = [];
+  private liveTrackingInterval: any = null;
+  private ultimaPosizioneRegistrata: GeolocationPosition | null = null;
 
   avviaGps(): void {
+    this.sentieroCompletatoId.set(null); // Resetta esiti precedenti
+
     if (!navigator.geolocation) {
       this.statoGps.set('errore');
       this.messaggioGps.set('GPS non supportato dal browser');
       return;
     }
+
+    const s = this.sentieroService.sentieroSelezionato();
+    const nomeSentiero = s?.properties?.['name'] ?? 'Sentiero senza nome';
+    const sentieroId = s?.osm_id ?? '';
+
     this.statoGps.set('avvio');
     this.posizioniRaccolte = [];
     this.messaggioGps.set('Acquisizione segnale GPS...');
@@ -121,6 +131,13 @@ export class SidebarComponent {
     this.watchId = navigator.geolocation.watchPosition(
       (pos) => {
         this.posizioniRaccolte.push(pos);
+        this.ultimaPosizioneRegistrata = pos;
+        this.utenteSvc.posizionePersonale.set({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+
+        if (this.statoGps() === 'avvio') {
+          this.inviaDatiLive(true, pos, sentieroId, nomeSentiero);
+          this.utenteSvc.sentieroInTracciamentoId.set(sentieroId);
+        }
         this.statoGps.set('tracking');
         this.messaggioGps.set(`📍 Tracking attivo — ${this.posizioniRaccolte.length} punti`);
       },
@@ -130,9 +147,37 @@ export class SidebarComponent {
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
     );
+    // Timer di sincronizzazione: scatta ogni 5 minuti (300000 ms)
+    this.liveTrackingInterval = setInterval(() => {
+      if (this.ultimaPosizioneRegistrata) {
+        this.inviaDatiLive(true, this.ultimaPosizioneRegistrata, sentieroId, nomeSentiero);
+      }
+    }, 300000);
+  }
+
+  private inviaDatiLive(isAttiva: boolean, pos: GeolocationPosition | null, sId: string, sNome: string): void {
+    this.utenteSvc.inviaPosizioneLive({
+      isAttiva,
+      lat: pos ? pos.coords.latitude : undefined,
+      lng: pos ? pos.coords.longitude : undefined,
+      sentieroId: sId,
+      nomeSentiero: sNome
+    }).subscribe({
+      next: () => console.log(`[GPS] Posizione inviata al server (isAttiva: ${isAttiva})`),
+      error: (err) => console.error('[GPS] Errore invio posizione al server:', err)
+    });
   }
 
   fermaGps(): void {
+    const tracciatoId = this.utenteSvc.sentieroInTracciamentoId();
+    this.sentieroCompletatoId.set(tracciatoId); // Associa il feedback al sentiero corretto
+    
+    this.pulisciTimerLive();
+    this.inviaDatiLive(false, null, '', '');
+    
+    this.utenteSvc.posizionePersonale.set(null);
+    this.utenteSvc.sentieroInTracciamentoId.set(null);
+
     if (this.watchId !== null) {
       navigator.geolocation.clearWatch(this.watchId);
       this.watchId = null;
@@ -150,7 +195,7 @@ export class SidebarComponent {
     this.statoGps.set('completato');
     this.messaggioGps.set(`Percorso completato — ${km} km registrati`);
 
-    this.utenteService.completaSentiero(s.osm_id, nome, km, s.dislivello_positivo ?? 0)
+    this.utenteSvc.completaSentiero(s.osm_id, nome, km, s.dislivello_positivo ?? 0)
       .subscribe({
         next: (res) => {
           if (res.nuoviBadge?.length > 0) {
@@ -158,11 +203,23 @@ export class SidebarComponent {
             setTimeout(() => this.nuoviBadge.set([]), 8000);
           }
         },
-        error: () => this.messaggioGps.set('Percorso salvato localmente (errore server)')
+        error: (err) => {
+          if (err.status === 409) {
+            this.messaggioGps.set('⚠️ Hai già registrato questo sentiero oggi.');
+          } else {
+            this.messaggioGps.set('Percorso archiviato (in attesa di rete)');
+          }
+        }
       });
   }
 
   annullaGps(): void {
+    this.sentieroCompletatoId.set(null);
+    this.pulisciTimerLive();
+    this.inviaDatiLive(false, null, '', '');
+    this.utenteSvc.posizionePersonale.set(null);
+    this.utenteSvc.sentieroInTracciamentoId.set(null);
+
     if (this.watchId !== null) navigator.geolocation.clearWatch(this.watchId);
     this.watchId = null;
     this.statoGps.set('inattivo');
@@ -170,17 +227,20 @@ export class SidebarComponent {
     this.posizioniRaccolte = [];
   }
 
-  // ── Selezione e scroll ─────────────────────────────────────────────────────
+  private pulisciTimerLive(): void {
+    if (this.liveTrackingInterval) {
+      clearInterval(this.liveTrackingInterval);
+      this.liveTrackingInterval = null;
+    }
+  }
+
   seleziona(sentiero: any): void {
     const corrente = this.sentieroService.sentieroSelezionato();
     if (corrente?.osm_id === sentiero.osm_id) {
       this.sentieroService.sentieroSelezionato.set(null);
-      this.annullaGps();
       this.attrezzaturaAperta = false;
     } else {
       this.sentieroService.sentieroSelezionato.set(sentiero);
-      this.statoGps.set('inattivo');
-      this.messaggioGps.set('');
     }
   }
 
@@ -215,7 +275,7 @@ export class SidebarComponent {
   constructor() {
     effect(() => {
       if (this.authService.isAutenticato()) {
-        this.utenteService.caricaProgressione().subscribe();
+        this.utenteSvc.caricaProgressione().subscribe();
       }
     });
 

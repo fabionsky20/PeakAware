@@ -24,7 +24,6 @@
     }
   </div>
 
-  <!-- Badge toast -->
   @if (nuoviBadge().length > 0) {
     <div class="badge-toast">
       @for (b of nuoviBadge(); track b.id) {
@@ -47,7 +46,6 @@
            [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
            (click)="seleziona(s)">
 
-        <!-- Header card -->
         <div class="item-header">
           <div class="title-block">
             @if (s.properties?.['ref']) {
@@ -65,11 +63,9 @@
           </div>
         </div>
 
-        <!-- Dettagli espansi -->
         @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
           <div class="trail-details" (click)="$event.stopPropagation()">
 
-            <!-- Da → A -->
             @if (s.properties?.['from'] || s.properties?.['to']) {
               <div class="route-row">
                 <span class="route-point">📍 {{ s.properties?.['from'] || '—' }}</span>
@@ -78,7 +74,6 @@
               </div>
             }
 
-            <!-- Statistiche -->
             <div class="stats-grid">
               <div class="stat-card">
                 <span class="stat-icon">📏</span>
@@ -112,7 +107,6 @@
               </div>
             </div>
 
-            <!-- Consiglio personalizzato -->
             @if (authService.isAutenticato() && consiglio()) {
               <div class="consiglio" [attr.data-livello]="consiglio()!.livello">
                 <div class="consiglio-header">
@@ -126,7 +120,6 @@
               <p class="login-hint">🔒 Accedi per vedere il consiglio personalizzato</p>
             }
 
-            <!-- Attrezzatura consigliata -->
             @if (attrezzatura().length > 0) {
               <div class="attrezzatura-section">
                 <div class="attrezzatura-header" (click)="toggleAttrezzatura()">
@@ -162,46 +155,40 @@
               </div>
             }
 
-            <!-- GPS Tracking -->
             @if (authService.isAutenticato()) {
               <div class="gps-section">
-                @if (statoGps() === 'inattivo') {
-                  <button class="btn-gps-start"
-                          (click)="avviaGps(); $event.stopPropagation()">
+                
+                @if (!utenteSvc.sentieroInTracciamentoId() && sentieroCompletatoId() !== s.osm_id) {
+                  <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">
                     📍 Inizia questo percorso
                   </button>
                 }
-                @if (statoGps() === 'avvio' || statoGps() === 'tracking') {
+
+                @if (utenteSvc.sentieroInTracciamentoId() === s.osm_id) {
                   <div class="gps-attivo">
                     <div class="gps-stato">
                       <span class="gps-pulse"></span>
                       <span>{{ messaggioGps() }}</span>
                     </div>
                     <div class="gps-azioni">
-                      <button class="btn-gps-stop"
-                              (click)="fermaGps(); $event.stopPropagation()">
-                        ✅ Completato
-                      </button>
-                      <button class="btn-gps-annulla"
-                              (click)="annullaGps(); $event.stopPropagation()">
-                        ✕ Annulla
-                      </button>
+                      <button class="btn-gps-stop" (click)="fermaGps(); $event.stopPropagation()">✅ Completato</button>
+                      <button class="btn-gps-annulla" (click)="annullaGps(); $event.stopPropagation()">✕ Annulla</button>
                     </div>
                   </div>
                 }
-                @if (statoGps() === 'completato') {
-                  <div class="gps-completato">
-                    <span>🎉 {{ messaggioGps() }}</span>
-                  </div>
-                }
-                @if (statoGps() === 'errore') {
-                  <div class="gps-errore">
-                    <span>⚠️ {{ messaggioGps() }}</span>
-                    <button class="btn-gps-start"
-                            (click)="avviaGps(); $event.stopPropagation()">
-                      Riprova
-                    </button>
-                  </div>
+
+                @if (sentieroCompletatoId() === s.osm_id) {
+                  @if (statoGps() === 'completato') {
+                    <div class="gps-completato">
+                      <span>🎉 {{ messaggioGps() }}</span>
+                    </div>
+                  }
+                  @if (statoGps() === 'errore') {
+                    <div class="gps-errore">
+                      <span>⚠️ {{ messaggioGps() }}</span>
+                      <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">Riprova</button>
+                    </div>
+                  }
                 }
               </div>
             }

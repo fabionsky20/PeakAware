@@ -30,6 +30,66 @@
 
     <div class="panel-divider"></div>
 
+    @if (!contattoAperto) {
+      @for (contatto of contattiEmergenza; track $index) {
+        <div class="emergenza-card">
+          <div class="emergenza-card-header" style="justify-content: space-between;">
+            <span style="display: flex; align-items: center; gap: 0.35rem;">
+              <i class="ti ti-alert-triangle"></i> Contatto di emergenza
+            </span>
+            <button class="panel-close" style="padding: 2px;" (click)="apriModificaContatto($index)" title="Modifica contatto">
+              <i class="ti ti-pencil"></i>
+            </button>
+          </div>
+          <div class="emergenza-card-body">
+            <strong class="emergenza-card-nome">{{ contatto.nome }}</strong>
+            <div class="emergenza-detail">
+              <i class="ti ti-phone"></i> {{ contatto.telefono }}
+            </div>
+            @if (contatto.emailRegistrata) {
+              <div class="emergenza-detail">
+                <i class="ti ti-mail"></i> {{ contatto.emailRegistrata }}
+              </div>
+            }
+            <div class="emergenza-badge" [class.badge-condivisione-on]="contatto.condividiItinerario">
+              {{ contatto.condividiItinerario ? '🟢 Posizione condivisa' : '🔴 Condivisione disattivata' }}
+            </div>
+          </div>
+        </div>
+      }
+    }
+
+    <button class="panel-pw-toggle" (click)="toggleContatto()">
+      <i class="ti ti-phone-call"></i>
+      {{ contattoAperto ? 'Annulla' : (indiceInModifica !== null ? 'Modifica in corso...' : 'Aggiungi contatto') }}
+    </button>
+
+    @if (contattoAperto) {
+      <form class="panel-pw-form" (ngSubmit)="salvaContatto()">
+        <input type="text" [(ngModel)]="emergenzaNome" name="emergenzaNome"
+               placeholder="Nome contatto (es. Luca)" class="panel-input" required />
+               
+        <input type="tel" [(ngModel)]="emergenzaTelefono" name="emergenzaTelefono"
+               placeholder="Telefono (+39...)" class="panel-input" required />
+               
+        <input type="email" [(ngModel)]="emergenzaEmail" name="emergenzaEmail"
+               placeholder="Email account App (se registrata)" class="panel-input" />
+
+        <label class="panel-checkbox-label">
+          <input type="checkbox" [(ngModel)]="emergenzaCondividi" name="emergenzaCondividi" class="panel-checkbox" />
+          <span>Condividi tracciamento live e itinerario escursioni</span>
+        </label>
+
+        <button type="submit" class="panel-pw-submit" [disabled]="emergenzaCaricamento">
+          {{ emergenzaCaricamento ? 'Salvataggio...' : 'Conferma e Salva' }}
+        </button>
+      </form>
+      @if (emergenzaErrore) { <p class="panel-errore">{{ emergenzaErrore }}</p> }
+      @if (emergenzaSuccesso) { <p class="panel-successo">{{ emergenzaSuccesso }}</p> }
+    }
+
+    <div class="panel-divider"></div>
+
     <button class="panel-pw-toggle" (click)="toggleCambiaPw()">
       <i class="ti ti-lock"></i>
       {{ cambiaPwAperto ? 'Annulla' : 'Cambia password' }}

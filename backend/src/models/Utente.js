@@ -29,12 +29,24 @@ const badgeSchema = new mongoose.Schema({
   id:          { type: String, required: true }, // es. 'prima_escursione'
   sbloccatoIl: { type: Date, default: Date.now },
 }, { _id: false });
-// ─── Sub-schema: numeri d'emergenza ────────────────────────────────────────────
-const numeriEmergenzaSchema = new mongoose.Schema({
-  nome:  { type: String, required: true },
-  numero: { type: String, required: true },
+// ─── Sub-schema: contatti d'emergenza ────────────────────────────────────────────
+const contattoEmergenzaSchema = new mongoose.Schema({
+  nome:              { type: String, required: true },
+  telefono:          { type: String, required: true },
+  emailRegistrata:   { type: String, default: null }, // Se usa l'app, inserisce la sua email
+  condividiItinerario: { type: Boolean, default: true }, // Se true, in caso di emergenza invia la posizione attuale
 }, { _id: false });
 
+const posizioneEscursioneSchema = new mongoose.Schema({
+  isAttiva:     { type: Boolean, default: false },
+  sentieroId:   { type: String, default: null },
+  nomeSentiero: { type: String, default: null },
+  coords: {
+    lat: { type: Number, default: null },
+    lng: { type: Number, default: null }
+  },
+  ultimoAggiornamento: { type: Date, default: null }
+}, { _id: false });
 // ─── Schema principale ───────────────────────────────────────────────────────
 const utenteSchema = new mongoose.Schema(
   {
@@ -134,6 +146,17 @@ const utenteSchema = new mongoose.Schema(
      *   esploratore        — 10 sentieri diversi percorsi
      */
     badges: { type: [badgeSchema], default: [] },
+    
+    contattoEmergenza: {
+      type: [contattoEmergenzaSchema],
+      default:[],
+    },
+    
+    // Contiene la posizione in tempo reale dell'escursione corrente
+    posizioneAttiva: {
+      type: posizioneEscursioneSchema,
+      default: () => ({ isAttiva: false })
+    },
   },
   { timestamps: true }
 );

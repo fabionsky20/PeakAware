@@ -4,7 +4,7 @@
  * registrazione sentieri percorsi, completamento quiz, badge e progressione.
  * 
  * authController.js gestisce: registrati, login, getProfilo, cambiaPassword
- * utenteController.js gestisce: tutto ciò che riguarda la progressione
+ * utenteController.js gestisce: tutto ciò che riguarda la progressione, gesticse i contatti d'emergenza e la posizione in escursione.
  */
 
 const Utente = require('../models/Utente');
@@ -129,6 +129,7 @@ exports.getBadge = async (req, res) => {
  * Restituisce il riepilogo completo della progressione dell'utente.
  * Usato dalla sidebar e dalla pagina profilo.
  */
+// ─── GET /api/utenti/progressione ────────────────────────────────────────────
 exports.getProgressione = async (req, res) => {
   try {
     const utente = await Utente.findById(req.utente.id)
@@ -150,5 +151,104 @@ exports.getProgressione = async (req, res) => {
   } catch (error) {
     console.error('Errore getProgressione:', error.message);
     res.status(500).json({ error: 'Errore nel recupero della progressione' });
+  }
+}; 
+
+/** Salva o aggiorna i contatti di emergenza dell'utente */
+exports.aggiornaContattoEmergenza = async (req, res) => {
+  try {
+    // 1. Estraiamo la chiave corretta inviata dal frontend
+    const { contattiEmergenza } = req.body;
+    
+    // 2. Verifichiamo che sia effettivamente un array
+    if (!Array.isArray(contattiEmergenza)) {
+      return res.status(400).json({ 
+        successo: false, 
+        message: 'contattiEmergenza deve essere un array' 
+      });
+    }
+
+    // 3. Troviamo l'utente
+    const utente = await Utente.findById(req.utente.id);
+    if (!utente) {
+      return res.status(404).json({ 
+        successo: false, 
+        message: 'Utente non trovato' 
+      });
+    }
+
+    // 4. Sovrascriviamo l'intero array con quello nuovo inviato da Angular
+    utente.contattoEmergenza = contattiEmergenza;
+    
+    // 5. Salviamo su DB
+    await utente.save();
+    
+    res.status(200).json({ 
+      successo: true, 
+      message: 'Contatti di emergenza aggiornati con successo', 
+      contatti: utente.contattoEmergenza 
+    });
+  } catch (error) {
+    console.error('Errore aggiornaContattoEmergenza:', error.message);
+    res.status(500).json({ 
+      successo: false, 
+      message: 'Errore nel salvataggio dei contatti' 
+    });
+  }
+};
+
+/** Riceve gli update di posizione dal frontend ogni 5 minuti */
+exports.aggiornaPosizioneGps = async (req, res) => {
+  try {
+    const { lat, lng, sentieroId, nomeSentiero, isAttiva } = req.body;
+    
+    const utente = await Utente.findById(req.utente.id);
+    
+    utente.posizioneAttiva = {
+      isAttiva,
+      sentieroId: isAttiva ? sentieroId : null,
+      nomeSentiero: isAttiva ? nomeSentiero : null,
+      coords: isAttiva ? { lat, lng } : { lat: null, lng: null },
+      ultimoAggiornamento: isAttiva ? new Date() : null
+    };
+
+    await utente.save();
+    res.status(200).json({ message: 'Posizione escursione sincronizzata.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore nel caricamento della posizione.' });
+  }
+};
+
+/** Consente al contatto di emergenza di vedere dove si trova l'escursionista */
+exports.getPosizioneEscursionista = async (req, res) => {
+  try {
+    const utenteCorrente = await Utente.findById(req.utente.id);
+    if (!utenteCorrente) return res.status(401).json({ successo: false });
+    
+    const emailContatto = utenteCorrente.email;
+
+    const escursionista = await Utente.findOne({
+      contattoEmergenza: {
+        $elemMatch: {
+          emailRegistrata: { $regex: new RegExp(`^${emailContatto}$`, 'i') },
+          condividiItinerario: true
+        }
+      },
+      'posizioneAttiva.isAttiva': true
+    }).select('username posizioneAttiva');
+
+    if (!escursionista) {
+      return res.status(200).json({ successo: false });
+    }
+
+    res.status(200).json({
+      successo: true,
+      username: escursionista.username,
+      coordinate: escursionista.posizioneAttiva.coords,
+      sentieroId: escursionista.posizioneAttiva.sentieroId, // <-- AGGIUNTO PER LA MAPPA
+      ultimoAggiornamento: escursionista.posizioneAttiva.ultimoAggiornamento
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore nel recupero della posizione condivisa.' });
   }
 };

@@ -11,7 +11,7 @@ const {
 } = require('../controllers/authController');
 
 const {
-  completaSentiero, completaQuiz, getBadge, getProgressione
+  completaSentiero, completaQuiz, getBadge, getProgressione, aggiornaContattoEmergenza, aggiornaPosizioneGps, getPosizioneEscursionista
 } = require('../controllers/utenteController');
 
 const { proteggi } = require('../middleware/auth');
@@ -29,5 +29,10 @@ router.get ('/progressione',    proteggi, getProgressione);
 router.post('/sentiero', proteggi, completaSentiero); // registra sentiero percorso
 router.post('/quiz',     proteggi, completaQuiz);     // registra quiz completato
 router.get ('/badge',    proteggi, getBadge);         // lista badge (tutti + sbloccati)
+
+// Gestione emergenza e real-time tracking (protette) ───────────────────────────
+router.put('/contatto-emergenza', proteggi, aggiornaContattoEmergenza);
+router.post('/tracking-live', proteggi, aggiornaPosizioneGps);
+router.get('/mappa-condivisa', proteggi, getPosizioneEscursionista);
 
 module.exports = router;

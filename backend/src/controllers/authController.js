@@ -185,6 +185,7 @@ const getProfilo = async (req, res) => {
         eta: utente.eta,
         punti: progressi?.punti ?? 0,
         livello: progressi?.livello ?? 1,
+        contattiEmergenza: utente.contattoEmergenza || [],
       },
     });
   } catch (error) {
