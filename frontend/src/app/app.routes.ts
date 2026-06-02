@@ -22,6 +22,7 @@ import { Notizie } from '@features/cicerone/notizie';
 import { NotizieForm } from './features/admin/notizie-form/notizie-form';
 import { NotizieDett } from './features/cicerone/notizie-dett/notizie-dett';
 import { LivelliForm } from './features/admin/livelli-form/livelli-form';
+import { NotizieComm } from '@features/cicerone/notizie-comm/notizie-comm';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -50,8 +51,11 @@ export const routes: Routes = [
       { path: '', redirectTo: 'notizie', pathMatch: 'full' },
       { path: 'notizie', component: Notizie },
       { path: 'notizie/:id', component: NotizieForm },
+      { path: 'notizie/:id/commenti/:commentoId', component: NotizieComm },
+      { path: 'notizie/:id/commenti', component: NotizieComm },
     ]
   },
+
   
   { path: 'cicerone/notizia/:id',component: NotizieDett },
   { path: 'admin/notizie-form', component: NotizieForm },

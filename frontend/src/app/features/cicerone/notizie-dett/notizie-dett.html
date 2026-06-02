@@ -70,6 +70,15 @@
           <button class="btn-torna" (click)="tornaIndietro()">
             <i class="ti ti-arrow-left"></i> Torna alle notizie
           </button>
+          <button
+            class="btn-commenti"
+            (click)="apriCommenti(notizia._id, $event)">
+            @if (ultimoCommento) {
+              "{{ ultimoCommento.testo | slice:0:30 }}..."
+            } @else {
+              Leggi i commenti
+            }
+          </button>
         </div>
 
       </article>

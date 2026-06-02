@@ -35,6 +35,7 @@ export class NotizieDett implements OnInit {
 
   notizia: Notizia | null = null;
   errore: string | null = null;
+  ultimoCommento: { autore: { _id: string, username: string }, testo: string } | null = null;
 
   private readonly apiUrl = 'http://localhost:3000/api/cicerone';
 
@@ -66,6 +67,7 @@ caricaNotizia(id: string): void {
   this.http.get<any>(`${this.apiUrl}/notizie/${id}`, { headers }).subscribe({
     next: (res) => {
     this.notizia = res.dati;
+    this.caricaUltimoCommento();
     this.cdr.detectChanges(); 
     },
     error: (err) => {
@@ -74,20 +76,34 @@ caricaNotizia(id: string): void {
   });
 }
 
-  ricarica(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) this.caricaNotizia(id);
-  }
-
-  tornaIndietro(): void {
-    this.router.navigate(['/cicerone/notizie']);
-  }
-
-  getPrimaImmagine(): string | null {
-    const blocks = this.notizia?.contenuto?.blocks ?? [];
-    const imgBlock = blocks.find(b => b.type === 'image');
-  return imgBlock?.data?.file?.url ?? null;
+apriCommenti(id: string, event: Event): void {
+    event.stopPropagation();
+    this.router.navigate([
+        '/cicerone/notizie',
+        id,
+        'commenti'
+    ]);
 }
 
-  
+caricaUltimoCommento(): void {
+  const token = this.authService.getToken();
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  this.http.get<any>(`${this.apiUrl}/notizie/${this.notizia?._id}/commenti`, { headers }).subscribe({
+    next: (data) => {
+      const commenti = data;
+      this.ultimoCommento = commenti.length > 0 ? commenti[commenti.length - 1] : null;
+      this.cdr.detectChanges();
+    }
+  });
+}
+
+ricarica(): void {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (id) this.caricaNotizia(id);
+}
+
+tornaIndietro(): void {
+  this.router.navigate(['/cicerone/notizie']);
+}
+
 }

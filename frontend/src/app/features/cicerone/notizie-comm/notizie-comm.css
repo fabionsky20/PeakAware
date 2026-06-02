@@ -1,0 +1,141 @@
+.commenti-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0;
+    color: #1f2937;
+}
+
+.btn-indietro {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-indietro:hover {
+    opacity: 0.9;
+}
+
+.nuovo-commento {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.nuovo-commento h3 {
+    margin-top: 0;
+}
+
+.nuovo-commento textarea {
+    width: 100%;
+    resize: vertical;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.btn-pubblica {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-pubblica:hover {
+    background: #1d4ed8;
+}
+
+.loading {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.errore {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.nessun-commento {
+    text-align: center;
+    padding: 30px;
+    color: #6b7280;
+}
+
+.lista-commenti {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.commento-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.commento-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.autore {
+    font-weight: bold;
+    color: #111827;
+}
+
+.data {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.testo-commento {
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.azioni {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-elimina {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-elimina:hover {
+    background: #b91c1c;
+}
