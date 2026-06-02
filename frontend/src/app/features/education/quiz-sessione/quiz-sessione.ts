@@ -12,6 +12,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 
 interface Risposta {
@@ -39,6 +40,12 @@ interface DettaglioCollegamento {
   coppiaCorretta: string;
 }
 
+interface DettaglioIndovina {
+  indice: number;
+  corretto: boolean;
+  parolaCorretta: string;
+}
+
 interface Feedback {
   corretta: boolean;
   puntiOttenuti: number;
@@ -48,12 +55,13 @@ interface Feedback {
   puntoCorretto?: { x: number; y: number };
   margine?: number;
   distanza?: number;
+  dettaglioIndovina?: DettaglioIndovina[];
 }
 
 @Component({
   selector: 'app-quiz-sessione',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './quiz-sessione.html',
   styleUrl: './quiz-sessione.css'
 })
@@ -76,10 +84,19 @@ export class QuizSessione implements OnInit, OnDestroy {
 
   // PuntaImmagine: coordinate cliccate dall'utente (in %)
   puntoSelezionato: { x: number; y: number } | null = null;
+
+  // IndovinaParola: parole digitate dall'utente (una per risposta, nell'ordine)
+  paroleDiGitate: string[] = [];
   private readonly COLORI_COLLEGAMENTO = ['#2E86C1', '#1E8449', '#D35400', '#7D3C98', '#C0392B', '#117A65'];
 
   tempoRimasto: number = 0;
   private timerInterval: any = null;
+
+  // Timer globale del quiz (quiz.tempo)
+  quizTempoTotale: number = 0;
+  quizTempoRimasto: number = 0;
+  tempoQuizScaduto: boolean = false;
+  private quizTimerInterval: any = null;
 
   caricamento: boolean = true;
   invioInCorso: boolean = false;
@@ -102,6 +119,7 @@ export class QuizSessione implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.fermaTimer();
+    this.fermaTimerQuiz();
   }
 
   get domandaCorrente(): Domanda | null {
@@ -133,8 +151,17 @@ export class QuizSessione implements OnInit, OnDestroy {
     return this.domandaCorrente?.tipo === 'puntaImmagine';
   }
 
+  get isIndovinaParola(): boolean {
+    return this.domandaCorrente?.tipo === 'indovinaParola';
+  }
+
   get isNormale(): boolean {
-    return !this.isRiordinamento && !this.isCollegamento && !this.isPuntaImmagine;
+    return !this.isRiordinamento && !this.isCollegamento && !this.isPuntaImmagine && !this.isIndovinaParola;
+  }
+
+  get tutteParoleDigitate(): boolean {
+    if (!this.isIndovinaParola) return false;
+    return this.paroleDiGitate.length > 0 && this.paroleDiGitate.every(p => p.trim().length > 0);
   }
 
   get tutteAccoppiate(): boolean {
@@ -178,8 +205,11 @@ export class QuizSessione implements OnInit, OnDestroy {
         this.caricamento = false;
         this.inizializzaRiordinamento();
         this.inizializzaCollegamento();
+        this.inizializzaIndovinaParola();
         this.cdr.detectChanges();
         this.avviaTimer();
+        const tempoQuiz = risposta.dati.quiz?.tempo ?? 0;
+        if (tempoQuiz > 0) this.avviaTimerQuiz(tempoQuiz);
       },
       error: () => {
         this.caricamento = false;
@@ -224,6 +254,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     if (this.isNormale && this.risposteSelezionate.length === 0) return;
     if (this.isCollegamento && !this.tutteAccoppiate) return;
     if (this.isPuntaImmagine && !this.puntoSelezionato) return;
+    if (this.isIndovinaParola && !this.tutteParoleDigitate) return;
     this.fermaTimer();
     this.invioInCorso = true;
 
@@ -238,6 +269,8 @@ export class QuizSessione implements OnInit, OnDestroy {
       };
     } else if (this.isPuntaImmagine) {
       body = { idDomanda: this.domandaCorrente._id, punto: this.puntoSelezionato };
+    } else if (this.isIndovinaParola) {
+      body = { idDomanda: this.domandaCorrente._id, paroleDiGitate: this.paroleDiGitate };
     } else {
       body = { idDomanda: this.domandaCorrente._id, idRisposte: this.risposteSelezionate };
     }
@@ -270,6 +303,7 @@ export class QuizSessione implements OnInit, OnDestroy {
     this.puntoSelezionato = null;
     this.inizializzaRiordinamento();
     this.inizializzaCollegamento();
+    this.inizializzaIndovinaParola();
     this.avviaTimer();
   }
 
@@ -320,6 +354,49 @@ export class QuizSessione implements OnInit, OnDestroy {
     }
   }
 
+  private avviaTimerQuiz(secondi: number): void {
+    this.quizTempoTotale = secondi;
+    this.quizTempoRimasto = secondi;
+    this.quizTimerInterval = setInterval(() => {
+      this.quizTempoRimasto--;
+      this.cdr.detectChanges();
+      if (this.quizTempoRimasto <= 0) {
+        this.fermaTimerQuiz();
+        this.fermaTimer();
+        this.tempoQuizScaduto = true;
+        this.cdr.detectChanges();
+        this.terminaPerTempoScaduto();
+      }
+    }, 1000);
+  }
+
+  private fermaTimerQuiz(): void {
+    if (this.quizTimerInterval) {
+      clearInterval(this.quizTimerInterval);
+      this.quizTimerInterval = null;
+    }
+  }
+
+  private terminaPerTempoScaduto(): void {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/termina`, {}, { headers }).subscribe({
+      next: (risposta) => {
+        this.router.navigate(['/educazione/risultato'], {
+          state: { risultato: { ...risposta.dati, tempoScaduto: true }, domande: this.domande }
+        });
+      },
+      error: () => {
+        this.router.navigate(['/educazione/quiz']);
+      }
+    });
+  }
+
+  get quizTempoFormattato(): string {
+    const m = Math.floor(this.quizTempoRimasto / 60);
+    const s = this.quizTempoRimasto % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
   // ── Riordinamento ──────────────────────────────────────────
 
   private inizializzaRiordinamento(): void {
@@ -359,6 +436,16 @@ export class QuizSessione implements OnInit, OnDestroy {
   onDragEnd(): void {
     this.dragItemIndice = -1;
     this.dragOverIndice = -1;
+  }
+
+  // ── IndovinaParola ─────────────────────────────────────────
+
+  private inizializzaIndovinaParola(): void {
+    if (this.domandaCorrente?.tipo === 'indovinaParola') {
+      this.paroleDiGitate = new Array(this.domandaCorrente.risposte.length).fill('');
+    } else {
+      this.paroleDiGitate = [];
+    }
   }
 
   // ── Collegamento ───────────────────────────────────────────

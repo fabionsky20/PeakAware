@@ -17,6 +17,12 @@
 
       <div class="risultato-card">
 
+        @if (tempoScaduto) {
+          <div class="banner-tempo-scaduto">
+            <i class="ti ti-clock-x"></i> Tempo esaurito — il quiz è stato terminato automaticamente
+          </div>
+        }
+
         <!-- Punteggio grande -->
         <div class="score-ring">
           <div class="percentuale" [class.alto]="percentuale >= 80" [class.medio]="percentuale >= 50 && percentuale < 80" [class.basso]="percentuale < 50">

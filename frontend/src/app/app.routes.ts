@@ -21,6 +21,7 @@ import { SentieriShell } from '@features/sentieri/sentieri-shell';
 import { Notizie } from '@features/cicerone/notizie';
 import { NotizieForm } from './features/admin/notizie-form/notizie-form';
 import { NotizieDett } from './features/cicerone/notizie-dett/notizie-dett';
+import { LivelliForm } from './features/admin/livelli-form/livelli-form';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -59,5 +60,6 @@ export const routes: Routes = [
   { path: 'admin/video-form/:id', component: VideoForm },
   { path: 'admin/badge-form', component: BadgeForm },
   { path: 'admin/badge-form/:id', component: BadgeForm },
+  { path: 'admin/livelli', component: LivelliForm },
   { path: '**', redirectTo: 'login' },
 ];

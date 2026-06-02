@@ -1,57 +1,107 @@
-/* video-form.css — stili identici al quiz-form, aggiunte regole per textarea */
+/* video-form.css — dark mountain theme */
 
 .quiz-form-container {
   min-height: 100vh;
-  background: #F4F6F7;
+  background: #1f4240;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ── NAVBAR ─────────────────────────────────────────────────── */
+
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.9rem 1.5rem;
-  background: #1B4F72;
-  color: white;
+  padding: 0 5%;
+  height: 60px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
 }
 
-.navbar-brand { font-size: 1.1rem; font-weight: 500; }
+.navbar-brand {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
 
 .logout-btn {
   background: transparent;
-  border: 0.5px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
+  border: 0.5px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.75);
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
   width: auto;
 }
-.logout-btn:hover { background: rgba(255,255,255,0.12); }
+.logout-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
 
-.main-content { max-width: 800px; margin: 0 auto; padding: 1.8rem 1.5rem; }
+/* ── LAYOUT ─────────────────────────────────────────────────── */
+
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
 
 .page-header { margin-bottom: 1.5rem; }
-.page-header h2 { font-size: 1.4rem; font-weight: 500; color: #1B4F72; margin-bottom: 0.2rem; }
-.page-header p { color: #888; font-size: 0.9rem; }
+
+.page-header h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #D8D089;
+  margin-bottom: 0.2rem;
+}
+
+.page-header p {
+  color: rgba(255,255,255,0.45);
+  font-size: 0.9rem;
+}
+
+/* ── CARD ────────────────────────────────────────────────────── */
 
 .form-card {
-  background: white;
+  background: #2B5C59;
   border-radius: 12px;
-  border: 0.5px solid #e8e8e8;
+  border: 0.5px solid rgba(151,168,149,0.2);
   padding: 1.5rem;
   margin-bottom: 1.2rem;
 }
-.form-card h3 { font-size: 1rem; font-weight: 500; color: #1B4F72; margin-bottom: 1.2rem; }
 
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-card h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 1.2rem;
+}
+
+/* ── FORM ────────────────────────────────────────────────────── */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
 
 .form-group { margin-bottom: 1rem; }
+
 .form-group label {
   display: block;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: rgba(255,255,255,0.5);
   margin-bottom: 0.35rem;
 }
 
@@ -60,48 +110,103 @@
 .form-group textarea {
   width: 100%;
   padding: 0.65rem 0.9rem;
-  border: 0.5px solid #ddd;
+  border: 0.5px solid rgba(151,168,149,0.3);
   border-radius: 8px;
   font-size: 0.9rem;
-  background: #fafafa;
-  color: #1a1a1a;
-  transition: border-color 0.2s;
+  background: rgba(255,255,255,0.07);
+  color: white;
+  transition: border-color 0.2s, background 0.2s;
   box-sizing: border-box;
   font-family: inherit;
 }
-.form-group textarea { resize: vertical; min-height: 80px; }
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,255,255,0.25);
+}
+
+.form-group select option {
+  background: #2B5C59;
+  color: white;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2E86C1;
-  background: white;
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(255,255,255,0.10);
 }
+
+/* ── MESSAGGI ────────────────────────────────────────────────── */
 
 .errore {
-  background: #FDEDEC; color: #C0392B;
-  padding: 0.75rem 1rem; border-radius: 8px;
-  margin-bottom: 1rem; font-size: 0.9rem;
-}
-.successo {
-  background: #EAFAF1; color: #1E8449;
-  padding: 0.75rem 1rem; border-radius: 8px;
-  margin-bottom: 1rem; font-size: 0.9rem;
+  background: rgba(239,101,101,0.12);
+  color: #EFA0A0;
+  border: 0.5px solid rgba(239,101,101,0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
-.form-azioni { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 0.5rem; }
+.successo {
+  background: rgba(76,175,130,0.12);
+  color: #7ED8B0;
+  border: 0.5px solid rgba(76,175,130,0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ── AZIONI ──────────────────────────────────────────────────── */
+
+.form-azioni {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
 
 .btn-annulla {
-  background: transparent; border: 0.5px solid #ddd; color: #666;
-  border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 0.95rem;
-  cursor: pointer; width: auto; transition: background 0.2s;
+  background: transparent;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.55);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: auto;
+  transition: background 0.2s, color 0.2s;
 }
-.btn-annulla:hover { background: #f0f0f0; }
+.btn-annulla:hover {
+  background: rgba(255,255,255,0.06);
+  color: white;
+}
 
 .btn-salva {
-  background: #1B4F72; color: white; border: none;
-  border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 0.95rem;
-  font-weight: 500; cursor: pointer; width: auto; transition: background 0.2s;
+  background: #D8D089;
+  color: #1f4240;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: auto;
+  transition: background 0.2s;
 }
-.btn-salva:hover:not(:disabled) { background: #2E86C1; }
-.btn-salva:disabled { background: #aaa; cursor: not-allowed; }
+.btn-salva:hover:not(:disabled) {
+  background: #c9c97a;
+}
+.btn-salva:disabled {
+  background: rgba(216,208,137,0.25);
+  color: rgba(31,66,64,0.5);
+  cursor: not-allowed;
+}

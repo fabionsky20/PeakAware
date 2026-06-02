@@ -53,7 +53,7 @@ const domandaSchema = new mongoose.Schema({
 
   tipo: {
     type: String,
-    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento', 'puntaImmagine'],
+    enum: ['multipla', 'veroFalso', 'aperta', 'riordinamento', 'collegamento', 'puntaImmagine', 'indovinaParola'],
     default: 'multipla',
   },
 
@@ -93,7 +93,7 @@ const domandaSchema = new mongoose.Schema({
     type: [rispostaSchema],
     validate: {
       validator: function (risposte) {
-        if (this.tipo === 'riordinamento' || this.tipo === 'collegamento') return risposte.length >= 2;
+        if (this.tipo === 'riordinamento' || this.tipo === 'collegamento' || this.tipo === 'indovinaParola') return risposte.length >= 2;
         // puntaImmagine non usa risposte
         if (this.tipo === 'puntaImmagine') return true;
         // OCL constraint #5: almeno una risposta corretta per domanda

@@ -20,16 +20,34 @@
     <div class="errore-box">{{ errore }}</div>
   }
 
+  @if (tempoQuizScaduto) {
+    <div class="quiz-scaduto-overlay">
+      <div class="quiz-scaduto-box">
+        <i class="ti ti-clock-x quiz-scaduto-icon"></i>
+        <h2>Tempo scaduto!</h2>
+        <p>Il tempo a disposizione per questo quiz è terminato.</p>
+        <p class="quiz-scaduto-sub">Calcolo del punteggio in corso...</p>
+      </div>
+    </div>
+  }
+
   @if (!caricamento && !errore && domandaCorrente) {
     <main class="main-content">
 
       <div class="progress-header">
         <span class="progress-testo">Domanda {{ indiceDomanda + 1 }} di {{ domande.length }}</span>
-        @if (domandaCorrente.tempo > 0 && !feedback) {
-          <span class="timer" [class.urgente]="tempoRimasto <= 5">
-            <i class="ti ti-clock"></i> {{ tempoRimasto }}s
-          </span>
-        }
+        <div class="timer-gruppo">
+          @if (quizTempoTotale > 0) {
+            <span class="timer timer-quiz" [class.urgente]="quizTempoRimasto <= 30">
+              <i class="ti ti-hourglass"></i> {{ quizTempoFormattato }}
+            </span>
+          }
+          @if (domandaCorrente.tempo > 0 && !feedback) {
+            <span class="timer" [class.urgente]="tempoRimasto <= 5">
+              <i class="ti ti-clock"></i> {{ tempoRimasto }}s
+            </span>
+          }
+        </div>
       </div>
 
       <div class="progress-track">
@@ -188,6 +206,58 @@
           }
         }
 
+        <!-- IndovinaParola: input testo per ogni parola -->
+        @if (isIndovinaParola) {
+          @if (!feedback) {
+            <p class="hint-indovina">
+              Indovina le parole — il suggerimento mostra la prima lettera e la lunghezza
+            </p>
+            <div class="indovina-lista">
+              @for (r of domandaCorrente.risposte; track r._id; let i = $index) {
+                <div class="indovina-voce">
+                  <span class="indovina-numero">{{ i + 1 }}.</span>
+                  <span class="indovina-suggerimento">{{ r.testo }}</span>
+                  <input
+                    type="text"
+                    class="indovina-input"
+                    [(ngModel)]="paroleDiGitate[i]"
+                    [ngModelOptions]="{standalone: true}"
+                    [placeholder]="'Parola ' + (i + 1)"
+                    autocomplete="off" />
+                </div>
+              }
+            </div>
+          }
+
+          @if (feedback) {
+            <div class="indovina-lista">
+              @for (r of domandaCorrente.risposte; track r._id; let i = $index) {
+                <div class="indovina-voce"
+                  [class.indovina-corretta]="feedback.dettaglioIndovina?.[i]?.corretto"
+                  [class.indovina-errata]="!feedback.dettaglioIndovina?.[i]?.corretto">
+                  <span class="indovina-numero">{{ i + 1 }}.</span>
+                  <span class="indovina-suggerimento">{{ r.testo }}</span>
+                  <span class="indovina-risultato">
+                    @if (feedback.dettaglioIndovina?.[i]?.corretto) {
+                      <i class="ti ti-check"></i> {{ feedback.dettaglioIndovina![i].parolaCorretta }}
+                    } @else {
+                      <i class="ti ti-x"></i> {{ paroleDiGitate[i] || '—' }}
+                      <span class="indovina-corretta-testo"> → {{ feedback.dettaglioIndovina?.[i]?.parolaCorretta }}</span>
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+            <div class="feedback" [class.feedback-corretto]="feedback.corretta" [class.feedback-sbagliato]="!feedback.corretta">
+              @if (feedback.corretta) {
+                <strong>Tutte le parole indovinate!</strong>
+              } @else {
+                <strong>Non tutte le parole corrette.</strong> Le risposte sono mostrate sopra.
+              }
+            </div>
+          }
+        }
+
         <!-- Risposta classica: singola o multipla -->
         @if (isNormale) {
           @if (isMultiRisposta && !feedback) {
@@ -224,7 +294,7 @@
         @if (!feedback) {
           <button
             class="btn-conferma"
-            [disabled]="(isNormale && risposteSelezionate.length === 0) || (isCollegamento && !tutteAccoppiate) || (isPuntaImmagine && !puntoSelezionato) || invioInCorso"
+            [disabled]="(isNormale && risposteSelezionate.length === 0) || (isCollegamento && !tutteAccoppiate) || (isPuntaImmagine && !puntoSelezionato) || (isIndovinaParola && !tutteParoleDigitate) || invioInCorso"
             (click)="confermaRisposta()">
             {{ invioInCorso ? 'Invio...' : 'Conferma risposta' }}
           </button>

@@ -13,6 +13,8 @@ const sentieriRoutes = require('./src/routes/sentieriRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const educazioneRoutes = require('./src/routes/educazioneRoutes');
 const ciceroneRoutes = require('./src/routes/ciceroneRoutes');
+const livelloRoutes = require('./src/routes/livelloRoutes');
+const { seedLivelli } = require('./src/controllers/livelloController');
 const uploadRoutes = require('./src/routes/upload');
 const app = express();
 const swaggerUi = require('swagger-ui-express');
@@ -85,7 +87,7 @@ app.use(
 );
 
 // --- Connessione al database ---
-connectDB();
+connectDB().then(() => seedLivelli());
 
 // --- Routes ---
 /**
@@ -121,6 +123,8 @@ app.use('/api/sentieri', sentieriRoutes);
 app.use('/api/cicerone', ciceroneRoutes);
 
 app.use('/api/config', require('./src/routes/configRoutes'));
+app.use('/api/livelli', livelloRoutes);
+
 
 // --- Avvio server ---
 const PORT = process.env.PORT || 3000;

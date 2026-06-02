@@ -28,6 +28,12 @@
       </div>
     </div>
 
+    @if (ruolo === 'admin') {
+      <button class="panel-admin-btn" (click)="vaiGestisciLivelli()">
+        <i class="ti ti-stairs-up"></i> Gestisci livelli
+      </button>
+    }
+
     <div class="panel-divider"></div>
 
     @if (!contattoAperto) {

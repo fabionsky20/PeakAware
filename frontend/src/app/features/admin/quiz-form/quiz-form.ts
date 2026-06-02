@@ -45,6 +45,9 @@ export class QuizForm implements OnInit {
   successo: string = '';
   caricamento: boolean = false;
 
+  dragSrcDi: number | null = null;
+  dragSrcRi: number | null = null;
+
   private apiUrl = 'http://localhost:3000/api/educazione';
 
   constructor(
@@ -184,6 +187,30 @@ export class QuizForm implements OnInit {
     this.quiz.domande[domandaIndex].risposte.splice(rispostaIndex, 1);
   }
 
+  onRiordinamentoDragStart(di: number, ri: number): void {
+    this.dragSrcDi = di;
+    this.dragSrcRi = ri;
+  }
+
+  onRiordinamentoDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onRiordinamentoDrop(di: number, ri: number): void {
+    if (this.dragSrcDi === null || this.dragSrcRi === null || this.dragSrcDi !== di || this.dragSrcRi === ri) return;
+    const risposte = this.quiz.domande[di].risposte;
+    const [item] = risposte.splice(this.dragSrcRi, 1);
+    risposte.splice(ri, 0, item);
+    this.dragSrcDi = null;
+    this.dragSrcRi = null;
+    this.cdr.detectChanges();
+  }
+
+  onDragEnd(): void {
+    this.dragSrcDi = null;
+    this.dragSrcRi = null;
+  }
+
   /**
    * Salva il quiz — crea o aggiorna in base a isModifica.
    */
@@ -220,6 +247,12 @@ export class QuizForm implements OnInit {
             puntoCorretto: d.puntoCorretto,
             margine: d.margine ?? 10,
             risposte: [],
+          };
+        }
+        if (d.tipo === 'indovinaParola') {
+          return {
+            ...d,
+            risposte: d.risposte.map((r: any) => ({ testo: r.testo, eCorretta: true })),
           };
         }
         return d;

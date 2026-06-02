@@ -8,6 +8,7 @@
 const jwt = require('jsonwebtoken');
 const Utente = require('../models/Utente');
 const ProgressiUtente = require('../models/ProgressiUtente');
+const Livello = require('../models/Livello');
 
 /**
  * Genera un token JWT per l'utente autenticato.
@@ -175,6 +176,8 @@ const getProfilo = async (req, res) => {
     }
 
     const progressi = await ProgressiUtente.findOne({ idUtente: req.utente._id });
+    const livelloNum = progressi?.livello ?? 1;
+    const livelloDoc = await Livello.findOne({ numero: livelloNum });
 
     res.status(200).json({
       successo: true,
@@ -184,7 +187,8 @@ const getProfilo = async (req, res) => {
         ruolo: utente.ruolo,
         eta: utente.eta,
         punti: progressi?.punti ?? 0,
-        livello: progressi?.livello ?? 1,
+        livello: livelloNum,
+        nomeLivello: livelloDoc?.nome ?? '',
         contattiEmergenza: utente.contattoEmergenza || [],
       },
     });

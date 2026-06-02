@@ -1,0 +1,230 @@
+:host { display: block; background: #1f4240; }
+* { box-sizing: border-box; }
+
+.lv-root {
+  min-height: 100vh;
+  background: #1f4240;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── HEADER ────────────────────────────────────────────── */
+
+.header-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
+}
+.navbar {
+  padding: 0 5%; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px; background: #D8D089; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #1f4240; font-size: 17px;
+}
+.logo-text { color: white; font-size: 18px; font-weight: 500; letter-spacing: 0.3px; }
+.logo-text span { color: #D8D089; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-link { color: rgba(255,255,255,0.45); font-size: 15px; cursor: pointer; transition: color 0.15s; }
+.nav-link:hover { color: rgba(255,255,255,0.75); }
+.nav-link.active { color: white; font-weight: 500; }
+
+/* ── INNER ─────────────────────────────────────────────── */
+
+.page-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ── HERO ──────────────────────────────────────────────── */
+
+.page-hero { padding: 3.5rem 0 2rem; }
+.page-eyebrow {
+  font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  color: #D8D089; margin-bottom: 12px;
+}
+.page-title {
+  font-size: 48px; font-weight: 600; color: white;
+  line-height: 1.05; letter-spacing: -1px; margin-bottom: 12px;
+}
+.page-sub {
+  font-size: 15px; color: rgba(255,255,255,0.5);
+  max-width: 480px; line-height: 1.6;
+}
+
+/* ── STATI ─────────────────────────────────────────────── */
+
+.stato-msg {
+  text-align: center; color: rgba(255,255,255,0.4);
+  padding: 3rem; font-size: 1rem;
+}
+.errore-msg {
+  background: rgba(192,57,43,0.12);
+  border: 0.5px solid rgba(192,57,43,0.35);
+  color: #EF9F27; padding: 0.85rem 1rem;
+  border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;
+}
+
+/* ── LIVELLI LIST ───────────────────────────────────────── */
+
+.livelli-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.livello-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #2B5C59;
+  border-radius: 12px;
+  border: 0.5px solid rgba(151,168,149,0.2);
+  padding: 0.85rem 1rem;
+  transition: border-color 0.15s;
+}
+.livello-row.editing {
+  border-color: rgba(216,208,137,0.4);
+  flex-wrap: wrap;
+}
+
+.lv-numero {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.lv-num-badge {
+  width: 32px; height: 32px;
+  background: rgba(216,208,137,0.15);
+  border: 0.5px solid rgba(216,208,137,0.4);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; font-weight: 600; color: #D8D089;
+}
+.max-tag {
+  font-size: 0.65rem; font-weight: 700; color: #4CAF82;
+  background: rgba(76,175,130,0.12);
+  border: 0.5px solid rgba(76,175,130,0.3);
+  border-radius: 20px; padding: 0.1rem 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.lv-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.lv-nome { font-size: 0.95rem; font-weight: 500; color: white; }
+.lv-soglia { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+
+/* ── EDIT FIELDS ────────────────────────────────────────── */
+
+.lv-edit-fields {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 140px;
+}
+.field-label {
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.lv-input {
+  background: rgba(31,66,64,0.8);
+  border: 0.5px solid rgba(151,168,149,0.35);
+  color: white; border-radius: 7px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem; outline: none;
+  width: 100%;
+}
+.lv-input:focus { border-color: rgba(216,208,137,0.5); }
+.lv-input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── ACTIONS ────────────────────────────────────────────── */
+
+.lv-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.btn-edit, .btn-del, .btn-annulla {
+  background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 7px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem; cursor: pointer;
+  color: rgba(255,255,255,0.55);
+  transition: background 0.15s;
+}
+.btn-edit:hover { background: rgba(216,208,137,0.12); color: #D8D089; }
+.btn-del:hover { background: rgba(192,57,43,0.15); color: #EF6565; border-color: rgba(192,57,43,0.3); }
+.btn-annulla:hover { background: rgba(255,255,255,0.12); color: white; }
+
+.btn-salva {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(216,208,137,0.15);
+  border: 0.5px solid rgba(216,208,137,0.4);
+  color: #D8D089; border-radius: 7px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem; font-weight: 500; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-salva:hover:not(:disabled) { background: rgba(216,208,137,0.25); }
+.btn-salva:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── AGGIUNGI SECTION ───────────────────────────────────── */
+
+.aggiungi-section { margin-top: 1rem; }
+
+.btn-aggiungi {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  border: 1.5px dashed rgba(216,208,137,0.35);
+  color: rgba(216,208,137,0.7);
+  border-radius: 12px; padding: 0.85rem 1.5rem;
+  font-size: 0.95rem; font-weight: 500; cursor: pointer;
+  width: 100%; justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-aggiungi:hover {
+  background: rgba(216,208,137,0.06);
+  border-color: rgba(216,208,137,0.55);
+  color: #D8D089;
+}
+
+.new-form {
+  background: #2B5C59;
+  border-radius: 14px;
+  border: 0.5px solid rgba(216,208,137,0.35);
+  padding: 1.25rem;
+}
+.new-form-title {
+  font-size: 0.9rem; font-weight: 600;
+  color: #D8D089; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 6px;
+}
+.new-form-fields {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.new-form-actions {
+  display: flex; gap: 0.5rem;
+}

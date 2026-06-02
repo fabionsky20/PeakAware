@@ -1,76 +1,93 @@
-/* quiz-form.css — Stili del form creazione/modifica quiz */
+/* quiz-form.css — dark mountain theme */
 
 .quiz-form-container {
   min-height: 100vh;
-  background: #F4F6F7;
+  background: #1f4240;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ── NAVBAR ─────────────────────────────────────────────────── */
+
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.9rem 1.5rem;
-  background: #1B4F72;
-  color: white;
+  padding: 0 5%;
+  height: 60px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
 }
 
 .navbar-brand {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
 }
 
 .logout-btn {
   background: transparent;
-  border: 0.5px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 0.35rem 0.9rem;
-  border-radius: 6px;
+  border: 0.5px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.75);
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
   width: auto;
 }
-
 .logout-btn:hover {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  color: white;
 }
+
+/* ── LAYOUT ─────────────────────────────────────────────────── */
 
 .main-content {
   max-width: 800px;
   margin: 0 auto;
-  padding: 1.8rem 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
-.page-header {
-  margin-bottom: 1.5rem;
-}
+.page-header { margin-bottom: 1.5rem; }
 
 .page-header h2 {
   font-size: 1.4rem;
   font-weight: 500;
-  color: #1B4F72;
+  color: #D8D089;
   margin-bottom: 0.2rem;
 }
 
 .page-header p {
-  color: #888;
+  color: rgba(255,255,255,0.45);
   font-size: 0.9rem;
 }
 
+/* ── CARDS ──────────────────────────────────────────────────── */
+
 .form-card {
-  background: white;
+  background: #2B5C59;
   border-radius: 12px;
-  border: 0.5px solid #e8e8e8;
+  border: 0.5px solid rgba(151,168,149,0.2);
   padding: 1.5rem;
   margin-bottom: 1.2rem;
 }
 
 .form-card h3 {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #1B4F72;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
   margin-bottom: 1.2rem;
 }
+
+/* ── FORM ROWS & GROUPS ──────────────────────────────────────── */
 
 .form-row {
   display: grid;
@@ -78,37 +95,55 @@
   gap: 1rem;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
+.form-group { margin-bottom: 1rem; }
 
 .form-group label {
   display: block;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: rgba(255,255,255,0.5);
   margin-bottom: 0.35rem;
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 0.65rem 0.9rem;
-  border: 0.5px solid #ddd;
+  border: 0.5px solid rgba(151,168,149,0.3);
   border-radius: 8px;
   font-size: 0.9rem;
-  background: #fafafa;
-  color: #1a1a1a;
-  transition: border-color 0.2s;
+  background: rgba(255,255,255,0.07);
+  color: white;
+  transition: border-color 0.2s, background 0.2s;
   box-sizing: border-box;
+  font-family: inherit;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255,255,255,0.25);
+}
+
+.form-group select option {
+  background: #2B5C59;
+  color: white;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
   outline: none;
-  border-color: #2E86C1;
-  background: white;
+  border-color: rgba(216,208,137,0.6);
+  background: rgba(255,255,255,0.10);
 }
+
+/* ── DOMANDE ─────────────────────────────────────────────────── */
 
 .domande-header {
   display: flex;
@@ -118,9 +153,9 @@
 }
 
 .btn-aggiungi-domanda {
-  background: #1B4F72;
-  color: white;
-  border: none;
+  background: rgba(216,208,137,0.12);
+  color: #D8D089;
+  border: 0.5px solid rgba(216,208,137,0.4);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -128,14 +163,13 @@
   width: auto;
   transition: background 0.2s;
 }
-
 .btn-aggiungi-domanda:hover {
-  background: #2E86C1;
+  background: rgba(216,208,137,0.22);
 }
 
 .domanda-card {
-  background: #F8F9FA;
-  border: 0.5px solid #e0e0e0;
+  background: rgba(0,0,0,0.15);
+  border: 0.5px solid rgba(151,168,149,0.15);
   border-radius: 10px;
   padding: 1.2rem;
   margin-bottom: 1rem;
@@ -150,28 +184,28 @@
 
 .domanda-numero {
   font-size: 0.85rem;
-  font-weight: 500;
-  color: #1B4F72;
+  font-weight: 600;
+  color: #D8D089;
 }
 
 .btn-rimuovi {
   background: transparent;
-  border: 0.5px solid #ddd;
+  border: 0.5px solid rgba(185,122,83,0.35);
   border-radius: 6px;
   padding: 0.2rem 0.5rem;
   font-size: 0.8rem;
-  color: #C0392B;
+  color: #B97A53;
   cursor: pointer;
   width: auto;
+  transition: background 0.15s;
 }
-
 .btn-rimuovi:hover {
-  background: #FDEDEC;
+  background: rgba(185,122,83,0.12);
 }
 
-.risposte-section {
-  margin-top: 0.8rem;
-}
+/* ── RISPOSTE ────────────────────────────────────────────────── */
+
+.risposte-section { margin-top: 0.8rem; }
 
 .risposte-header {
   display: flex;
@@ -183,23 +217,23 @@
 .risposte-header label {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #555;
+  color: rgba(255,255,255,0.4);
 }
 
 .btn-aggiungi-risposta {
   background: transparent;
-  border: 0.5px solid #2E86C1;
-  color: #2E86C1;
+  border: 0.5px solid rgba(151,168,149,0.35);
+  color: rgba(151,168,149,0.8);
   border-radius: 6px;
   padding: 0.2rem 0.6rem;
   font-size: 0.78rem;
   cursor: pointer;
   width: auto;
-  transition: background 0.2s;
+  transition: background 0.15s, color 0.15s;
 }
-
 .btn-aggiungi-risposta:hover {
-  background: #E6F1FB;
+  background: rgba(151,168,149,0.1);
+  color: white;
 }
 
 .risposta-row {
@@ -212,10 +246,20 @@
 .risposta-row input[type="text"] {
   flex: 1;
   padding: 0.5rem 0.8rem;
-  border: 0.5px solid #ddd;
+  border: 0.5px solid rgba(151,168,149,0.25);
   border-radius: 8px;
   font-size: 0.85rem;
-  background: white;
+  background: rgba(255,255,255,0.06);
+  color: white;
+  transition: border-color 0.15s, background 0.15s;
+}
+.risposta-row input[type="text"]::placeholder {
+  color: rgba(255,255,255,0.22);
+}
+.risposta-row input[type="text"]:focus {
+  outline: none;
+  border-color: rgba(216,208,137,0.5);
+  background: rgba(255,255,255,0.09);
 }
 
 .risposta-corretta {
@@ -223,18 +267,18 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.8rem;
-  color: #555;
+  color: rgba(255,255,255,0.5);
   white-space: nowrap;
   cursor: pointer;
 }
-
 .risposta-corretta input[type="checkbox"] {
   width: auto;
   cursor: pointer;
+  accent-color: #D8D089;
 }
 
 .coppia-freccia {
-  color: #888;
+  color: rgba(255,255,255,0.3);
   font-size: 0.95rem;
   flex-shrink: 0;
 }
@@ -242,7 +286,7 @@
 .posizione-numero {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #aaa;
+  color: rgba(255,255,255,0.3);
   flex-shrink: 0;
   min-width: 1.2rem;
 }
@@ -250,16 +294,23 @@
 .btn-rimuovi-piccolo {
   background: transparent;
   border: none;
-  color: #C0392B;
+  color: rgba(185,122,83,0.55);
   cursor: pointer;
   font-size: 0.8rem;
   padding: 0.2rem;
   width: auto;
+  transition: color 0.15s;
+}
+.btn-rimuovi-piccolo:hover {
+  color: #B97A53;
 }
 
+/* ── MESSAGGI ────────────────────────────────────────────────── */
+
 .errore {
-  background: #FDEDEC;
-  color: #C0392B;
+  background: rgba(239,101,101,0.12);
+  color: #EFA0A0;
+  border: 0.5px solid rgba(239,101,101,0.3);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -267,71 +318,78 @@
 }
 
 .successo {
-  background: #EAFAF1;
-  color: #1E8449;
+  background: rgba(76,175,130,0.12);
+  color: #7ED8B0;
+  border: 0.5px solid rgba(76,175,130,0.3);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
+/* ── AZIONI ──────────────────────────────────────────────────── */
+
 .form-azioni {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 1rem;
   margin-top: 0.5rem;
 }
 
+.form-azioni .btn-aggiungi-domanda {
+  margin-right: auto;
+}
+
 .btn-annulla {
   background: transparent;
-  border: 0.5px solid #ddd;
-  color: #666;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.55);
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 0.95rem;
   cursor: pointer;
   width: auto;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-
 .btn-annulla:hover {
-  background: #f0f0f0;
+  background: rgba(255,255,255,0.06);
+  color: white;
 }
 
 .btn-salva {
-  background: #1B4F72;
-  color: white;
+  background: #D8D089;
+  color: #1f4240;
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   width: auto;
   transition: background 0.2s;
 }
-
 .btn-salva:hover:not(:disabled) {
-  background: #2E86C1;
+  background: #c9c97a;
 }
-
 .btn-salva:disabled {
-  background: #aaa;
+  background: rgba(216,208,137,0.25);
+  color: rgba(31,66,64,0.5);
   cursor: not-allowed;
 }
 
-/* ── puntaImmagine admin ───────────────────────────────────── */
+/* ── PUNTA IMMAGINE ──────────────────────────────────────────── */
 
 .input-file {
   font-size: 0.85rem;
-  color: #555;
+  color: rgba(255,255,255,0.45);
 }
 
 .immagine-click-wrapper {
   position: relative;
   display: block;
   cursor: crosshair;
-  border: 1.5px solid #2E86C1;
+  border: 1.5px solid rgba(216,208,137,0.4);
   border-radius: 8px;
   overflow: hidden;
   max-width: 100%;
@@ -350,16 +408,44 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #E74C3C;
+  background: #EF6565;
   border: 2.5px solid white;
   transform: translate(-50%, -50%);
   pointer-events: none;
   box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
+.margine-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed rgba(239,101,101,0.65);
+  background: rgba(239,101,101,0.10);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
 .punto-ok {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #1E8449;
+  color: #4CAF82;
   margin-left: 0.5rem;
 }
+
+/* ── DRAG-AND-DROP RIORDINAMENTO ─────────────────────────────── */
+
+.drag-handle {
+  cursor: grab;
+  color: rgba(255,255,255,0.28);
+  font-size: 1rem;
+  flex-shrink: 0;
+  user-select: none;
+  padding: 0 2px;
+  transition: color 0.15s;
+}
+.drag-handle:hover { color: rgba(255,255,255,0.6); }
+.drag-handle:active { cursor: grabbing; }
+
+.risposta-row[draggable="true"] { cursor: default; }
+
+.risposta-row.dragging-src { opacity: 0.35; }

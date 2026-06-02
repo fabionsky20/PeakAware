@@ -11,6 +11,7 @@ const Badge = require('../models/Badge');
 const Utente = require('../models/Utente');
 const SessioneQuiz = require('../models/SessioneQuiz');
 const ProgressiUtente = require('../models/ProgressiUtente');
+const Livello = require('../models/Livello');
 
 // ========================
 // HELPER
@@ -18,16 +19,16 @@ const ProgressiUtente = require('../models/ProgressiUtente');
 
 /**
  * Calcola il livello dell'utente in base ai punti totali accumulati.
- * Corrisponde al metodo calcolaLivello() di ProgressiUtente (D2 sezione 2.2).
+ * Usa le soglie definite nella collection Livello (gestibili dall'admin).
  *
  * @param {number} punti - Punti totali dell'utente
- * @returns {number} Livello da 1 a 5
+ * @returns {Promise<number>} Numero del livello raggiunto
  */
-const calcolaLivello = (punti) => {
-  if (punti >= 1000) return 5;
-  if (punti >= 600)  return 4;
-  if (punti >= 300)  return 3;
-  if (punti >= 100)  return 2;
+const calcolaLivello = async (punti) => {
+  const livelli = await Livello.find().sort({ puntiNecessari: -1 });
+  for (const l of livelli) {
+    if (punti >= l.puntiNecessari) return l.numero;
+  }
   return 1;
 };
 
@@ -90,6 +91,22 @@ const avviaSessione = async (req, res) => {
           const j = Math.floor(Math.random() * (i + 1));
           [opzioniDestra[i], opzioniDestra[j]] = [opzioniDestra[j], opzioniDestra[i]];
         }
+      }
+
+      // indovinaParola: manda solo la prima lettera + puntini (non rivela la parola)
+      if (d.tipo === 'indovinaParola') {
+        return {
+          _id: d._id,
+          testo: d.testo,
+          tipo: d.tipo,
+          tempo: d.tempo,
+          puntiChevale: d.puntiChevale,
+          numRisposteCorrette: 0,
+          risposte: d.risposte.map(r => ({
+            _id: r._id,
+            testo: r.testo.charAt(0) + '.'.repeat(Math.max(0, r.testo.length - 1)),
+          })),
+        };
       }
 
       // puntaImmagine: manda URL e margine, mai il puntoCorretto
@@ -162,13 +179,14 @@ const avviaSessione = async (req, res) => {
  */
 const rispondi = async (req, res) => {
   try {
-    const { idDomanda, idRisposte, ordine, coppie, punto } = req.body;
+    const { idDomanda, idRisposte, ordine, coppie, punto, paroleDiGitate } = req.body;
     const hasRisposte = Array.isArray(idRisposte) && idRisposte.length > 0;
     const hasOrdine = Array.isArray(ordine) && ordine.length > 0;
     const hasCoppie = Array.isArray(coppie) && coppie.length > 0;
     const hasPunto = punto && typeof punto.x === 'number' && typeof punto.y === 'number';
+    const hasParole = Array.isArray(paroleDiGitate) && paroleDiGitate.length > 0;
 
-    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie && !hasPunto)) {
+    if (!idDomanda || (!hasRisposte && !hasOrdine && !hasCoppie && !hasPunto && !hasParole)) {
       return res.status(400).json({
         successo: false,
         messaggio: 'idDomanda e idRisposte (o ordine per riordinamento) sono obbligatori',
@@ -344,6 +362,31 @@ const rispondi = async (req, res) => {
       });
     }
 
+    if (domanda.tipo === 'indovinaParola') {
+      const paroleCorrette = domanda.risposte;
+      const dettaglio = paroleCorrette.map((r, i) => {
+        const digitata = (paroleDiGitate[i] ?? '').trim().toLowerCase();
+        const corretto = digitata === r.testo.trim().toLowerCase();
+        return { indice: i, corretto, parolaCorretta: r.testo };
+      });
+      const tutteCorrette = dettaglio.every(d => d.corretto);
+      const puntiIndovina = tutteCorrette ? domanda.puntiChevale : 0;
+
+      sessione.risposteDate.push({
+        idDomanda: domanda._id,
+        corretta: tutteCorrette,
+        puntiOttenuti: puntiIndovina,
+        tipo: 'indovinaParola',
+      });
+      sessione.punteggioOttenuto += puntiIndovina;
+      await sessione.save();
+
+      return res.status(200).json({
+        successo: true,
+        dati: { corretta: tutteCorrette, puntiOttenuti: puntiIndovina, dettaglioIndovina: dettaglio },
+      });
+    }
+
     // La risposta è corretta solo se l'utente ha selezionato esattamente
     // tutte e sole le risposte corrette (nessuna in più, nessuna in meno)
     const tutteSelezionateCorrette = idRisposte.every((id) => risposteCorretteIds.includes(id));
@@ -456,7 +499,7 @@ const terminaSessione = async (req, res) => {
     });
 
     progressi.punti += puntiDaAggiungere;
-    progressi.livello = calcolaLivello(progressi.punti);
+    progressi.livello = await calcolaLivello(progressi.punti);
     progressi.dataUltimaAttivita = new Date();
     progressi.quizCompletati.push({
       idQuiz: sessione.idQuiz,
