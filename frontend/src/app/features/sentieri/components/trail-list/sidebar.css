@@ -673,3 +673,159 @@
   border-top: 0.5px solid rgba(151,168,149,0.15);
   padding-top: 0.5rem;
 }
+/* ── EQUIPMENT EDITOR — Aggiunte al sidebar.css ─────────────────────────────
+   Incolla queste righe in fondo al tuo sidebar.css esistente.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Divisore sezioni modale */
+.panel-divider {
+  margin: 1.2rem 0;
+  opacity: 0.2;
+  border: none;
+  border-top: 1px solid currentColor;
+}
+
+/* Tab T / E / EE / EEA */
+.equip-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.8rem 0 1rem;
+}
+
+.equip-tab {
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border, #ccc);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--text-muted, #888);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.equip-tab.active {
+  background: var(--accent, #2e7d32);
+  color: #fff;
+  border-color: var(--accent, #2e7d32);
+}
+
+/* Contenitore lista categorie */
+.equip-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Singola categoria */
+.equip-edit-cat {
+  background: var(--bg-subtle, rgba(0,0,0,0.04));
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+}
+
+/* Riga header categoria: [icona] [nome] [✕] */
+.equip-edit-cat-header {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+}
+
+.equip-input-icon {
+  width: 3.2rem;
+  text-align: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.equip-input-catname {
+  flex: 1;
+  font-weight: 600;
+}
+
+/* Riga singolo item: [nome ──────] [□ essenziale] [✕] */
+.equip-edit-item {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.equip-input-item {
+  flex: 1;
+}
+
+.equip-obbligatorio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-muted, #888);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+.equip-obbligatorio-label input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--accent, #2e7d32);
+}
+
+/* Pulsante rimuovi (✕) — categorie e item */
+.btn-equip-remove {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--danger, #c0392b);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  line-height: 1;
+  transition: background 0.12s;
+}
+
+.btn-equip-remove:hover {
+  background: var(--danger-bg, rgba(192, 57, 43, 0.1));
+}
+
+.btn-equip-remove--item {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.btn-equip-remove--item:hover {
+  opacity: 1;
+}
+
+/* Pulsante "aggiungi item" (sotto gli item) */
+.btn-equip-add {
+  background: transparent;
+  border: 1px dashed var(--border, #ccc);
+  color: var(--text-muted, #888);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-equip-add:hover {
+  border-color: var(--accent, #2e7d32);
+  color: var(--accent, #2e7d32);
+}
+
+.btn-equip-add--item {
+  margin-top: 0.4rem;
+}
+
+/* Pulsante "aggiungi categoria" (in fondo all'editor) */
+.btn-equip-add--cat {
+  width: 100%;
+  padding: 0.55rem;
+  font-size: 0.82rem;
+  margin-top: 0.2rem;
+  font-weight: 600;
+}

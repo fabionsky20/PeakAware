@@ -15,11 +15,11 @@
         }
       </div>
     </div>
-    
+
     @if (importEsito) {
       <p class="import-result">{{ importEsito }}</p>
     }
-    
+
     @if (isAdmin() && showImportBar) {
       <div class="admin-import-bar">
         <select [(ngModel)]="areaSelezionata" class="admin-input">
@@ -27,11 +27,11 @@
             <option [value]="r.bbox">{{ r.nome }}</option>
           }
         </select>
-        
+
         @if (areaSelezionata === 'custom') {
           <input type="text" [(ngModel)]="areaCustom" placeholder="es. 45.8,10.5,46.2,11.5" class="admin-input" style="margin-left: 0.4rem; width: 120px;" />
         }
-        
+
         <button class="btn-icon btn-import" title="Esegui Download OSM" (click)="avviaImportazione()" [disabled]="importaLoading">
           {{ importaLoading ? '⏳' : '▶️' }}
         </button>
@@ -47,10 +47,11 @@
         <button class="btn-close-modal" (click)="configAperta = false">✕</button>
       </div>
       <div class="admin-modal-body">
-        
+
+        <!-- ── SEZIONE 1: Livello Esperienza ─────────────────────────────── -->
         <h4 class="config-section-title">Livello Esperienza Richiesto (1-5)</h4>
         <p class="admin-info">Seleziona il livello utente minimo per consigliare i percorsi.</p>
-        
+
         <div class="config-grid">
           <div class="config-row">
             <label>Turistico (T):</label>
@@ -94,8 +95,9 @@
           </div>
         </div>
 
-        <div class="panel-divider" style="margin: 1.2rem 0; opacity: 0.2"></div>
+        <div class="panel-divider"></div>
 
+        <!-- ── SEZIONE 2: Soglie Attrezzatura ────────────────────────────── -->
         <h4 class="config-section-title">Soglie per l'Attrezzatura</h4>
         <p class="admin-info">Oltre quali valori consigli l'equipaggiamento pesante?</p>
 
@@ -106,8 +108,77 @@
           </div>
           <div class="config-row">
             <label>Dislivello Elevato (m D+):</label>
-            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50"/>
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50" />
           </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- ── SEZIONE 3: Attrezzatura per Livello ───────────────────────── -->
+        <h4 class="config-section-title">Attrezzatura per Livello CAI</h4>
+        <p class="admin-info">
+          Modifica categorie e item consigliati per ogni difficoltà.
+          Le modifiche sono attive per tutti gli utenti dopo il salvataggio.
+        </p>
+
+        <!-- Tab selector livelli -->
+        <div class="equip-tabs">
+          @for (livello of livelliCai; track livello) {
+            <button class="equip-tab"
+                    [class.active]="livelloEquipSelezionato === livello"
+                    (click)="livelloEquipSelezionato = livello">
+              {{ livello }}
+            </button>
+          }
+        </div>
+
+        <!-- Lista categorie del livello selezionato -->
+        <div class="equip-editor">
+          @for (cat of configEdit.attrezzaturaPerLivello[livelloEquipSelezionato]; track $index; let catIdx = $index) {
+            <div class="equip-edit-cat">
+
+              <!-- Header categoria: icona + nome + tasto rimuovi -->
+              <div class="equip-edit-cat-header">
+                <input [(ngModel)]="cat.icona"
+                       class="admin-input equip-input-icon"
+                       placeholder="🎒"
+                       title="Icona categoria" />
+                <input [(ngModel)]="cat.categoria"
+                       class="admin-input equip-input-catname"
+                       placeholder="Nome categoria" />
+                <button class="btn-equip-remove"
+                        (click)="rimuoviCategoria(catIdx)"
+                        title="Rimuovi categoria">✕</button>
+              </div>
+
+              <!-- Items della categoria -->
+              @for (item of cat.items; track $index; let itemIdx = $index) {
+                <div class="equip-edit-item">
+                  <input [(ngModel)]="item.nome"
+                         class="admin-input equip-input-item"
+                         placeholder="Nome equipaggiamento" />
+                  <label class="equip-obbligatorio-label" [title]="item.obbligatorio ? 'Essenziale' : 'Consigliato'">
+                    <input type="checkbox" [(ngModel)]="item.obbligatorio" />
+                    <span>essenziale</span>
+                  </label>
+                  <button class="btn-equip-remove btn-equip-remove--item"
+                          (click)="rimuoviItem(catIdx, itemIdx)"
+                          title="Rimuovi item">✕</button>
+                </div>
+              }
+
+              <button class="btn-equip-add btn-equip-add--item"
+                      (click)="aggiungiItem(catIdx)">
+                + Aggiungi item
+              </button>
+            </div>
+          }
+
+          <!-- Pulsante aggiungi categoria -->
+          <button class="btn-equip-add btn-equip-add--cat"
+                  (click)="aggiungiCategoria()">
+            + Aggiungi categoria
+          </button>
         </div>
 
       </div>
@@ -146,7 +217,7 @@
             }
             <h3 [class.text-muted]="s.isVisible === false">{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
             @if (isAdmin()) {
-              <button class="btn-visibility" 
+              <button class="btn-visibility"
                       [class.off]="s.isVisible === false"
                       (click)="toggleVisibilita(s, $event)"
                       title="Attiva/Disattiva Visibilità Globale">
@@ -258,7 +329,7 @@
 
             @if (authService.isAutenticato()) {
               <div class="gps-section">
-                
+
                 @if (!utenteSvc.sentieroInTracciamentoId() && sentieroCompletatoId() !== s.osm_id) {
                   <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">
                     📍 Inizia questo percorso
