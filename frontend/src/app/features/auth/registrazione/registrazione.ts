@@ -24,27 +24,41 @@ export class Registrazione {
   password: string = '';
   eta: number | null = null;
 
-  /** Messaggio di errore da mostrare all'utente */
   errore: string = '';
-
-  /** Messaggio di successo da mostrare all'utente */
+  errorePassword: string = '';
   successo: string = '';
-
-  /** Indica se la richiesta HTTP è in corso */
   caricamento: boolean = false;
+  mostrarPw: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
-  /**
-   * Eseguito al submit del form.
-   * Chiama AuthService.registrati() e naviga al login se successo.
-   */
+  validaPassword(): void {
+    this.errorePassword = this.password.length > 0 && this.password.length < 6
+      ? 'Almeno 6 caratteri richiesti.'
+      : '';
+  }
+
   onRegistrazione(): void {
     this.errore = '';
+    this.errorePassword = '';
     this.successo = '';
+
+    if (!this.username.trim()) {
+      this.errore = 'Il campo username è obbligatorio.';
+      return;
+    }
+    if (!this.email.trim() || !this.email.includes('@')) {
+      this.errore = 'Inserisci un\'email valida.';
+      return;
+    }
+    if (this.password.length < 6) {
+      this.errorePassword = 'Almeno 6 caratteri richiesti.';
+      return;
+    }
+
     this.caricamento = true;
 
     this.authService.registrati(

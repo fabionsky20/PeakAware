@@ -24,7 +24,12 @@
       </div>
     </div>
 
-    @if (importEsito) {
+    @if (importaLoading) {
+      <p class="import-result import-loading">
+        <i class="ti ti-loader-2 spin"></i> Importazione in corso, potrebbe richiedere qualche minuto...
+      </p>
+    }
+    @if (importEsito && !importaLoading) {
       <p class="import-result">{{ importEsito }}</p>
     }
 

@@ -24,8 +24,19 @@
 
       <div class="form-field">
         <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="password" name="password"
-               placeholder="min. 6 caratteri" autocomplete="new-password" />
+        <div class="pw-wrapper">
+          <input id="password" [type]="mostrarPw ? 'text' : 'password'"
+                 [(ngModel)]="password" name="password"
+                 placeholder="min. 6 caratteri" autocomplete="new-password"
+                 (ngModelChange)="validaPassword()" />
+          <button type="button" class="pw-toggle" (click)="mostrarPw = !mostrarPw"
+                  [title]="mostrarPw ? 'Nascondi password' : 'Mostra password'">
+            <i [class]="mostrarPw ? 'ti ti-eye-off' : 'ti ti-eye'"></i>
+          </button>
+        </div>
+        @if (errorePassword) {
+          <span class="campo-errore"><i class="ti ti-alert-circle"></i> {{ errorePassword }}</span>
+        }
       </div>
 
       <div class="form-field">

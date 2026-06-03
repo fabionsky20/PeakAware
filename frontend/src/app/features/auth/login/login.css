@@ -98,6 +98,29 @@
   background: rgba(255,255,255,0.1);
 }
 
+/* ── PASSWORD WRAPPER ─────────────────────────────────── */
+
+.pw-wrapper {
+  position: relative;
+}
+
+.pw-wrapper input {
+  padding-right: 2.6rem;
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 0.6rem; top: 50%;
+  transform: translateY(-50%);
+  background: transparent; border: none;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer; padding: 4px;
+  display: flex; align-items: center;
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+.pw-toggle:hover { color: rgba(255,255,255,0.7); }
+
 /* ── ERRORE ───────────────────────────────────────────── */
 
 .login-errore {

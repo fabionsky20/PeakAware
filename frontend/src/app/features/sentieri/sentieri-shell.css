@@ -13,11 +13,21 @@
 
 .header-bar {
   flex-shrink: 0;
+  position: relative;
+  z-index: 300;
+}
+
+/* backdrop-filter su ::before evita che l'header diventi un containing block
+   per i figli position:fixed (come l'overlay del pannello profilo) */
+.header-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: rgba(31,66,64,0.97);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 0.5px solid rgba(255,255,255,0.12);
-  z-index: 300;
+  z-index: -1;
 }
 
 .navbar {
@@ -54,6 +64,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  isolation: isolate; /* intrappola z-index di Leaflet (400/600/800) nel container */
 }
 
 .sidebar {

@@ -19,17 +19,11 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Login {
 
-  /** Valore del campo email nel form */
   email: string = '';
-
-  /** Valore del campo password nel form */
   password: string = '';
-
-  /** Messaggio di errore da mostrare all'utente */
   errore: string = '';
-
-  /** Indica se la richiesta HTTP è in corso — disabilita il pulsante */
   caricamento: boolean = false;
+  mostrarPw: boolean = false;
 
   constructor(
     private authService: AuthService,

@@ -53,7 +53,19 @@
   font-size: 0.73rem;
   opacity: 0.85;
   color: #D8D089;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
+.import-loading {
+  color: rgba(216,208,137,0.7);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin { display: inline-block; animation: spin 1s linear infinite; }
 
 .sidebar-header {
   padding: 1.25rem 1rem 0.8rem;

@@ -18,8 +18,15 @@
 
       <div class="form-field">
         <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="password" name="password"
-               placeholder="••••••••" autocomplete="current-password" />
+        <div class="pw-wrapper">
+          <input id="password" [type]="mostrarPw ? 'text' : 'password'"
+                 [(ngModel)]="password" name="password"
+                 placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="pw-toggle" (click)="mostrarPw = !mostrarPw"
+                  [title]="mostrarPw ? 'Nascondi password' : 'Mostra password'">
+            <i [class]="mostrarPw ? 'ti ti-eye-off' : 'ti ti-eye'"></i>
+          </button>
+        </div>
       </div>
 
       @if (errore) {

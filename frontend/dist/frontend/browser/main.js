@@ -60920,31 +60920,166 @@ var EquipConfig = {
     lungaKm: 12,
     impegnativaDPlus: 600
   },
-  liste: {
-    ferrataAttrezzatura: [
-      { nome: "Casco da ferrata omologato", obbligatorio: true },
-      { nome: "Imbrago da ferrata (con cosciali)", obbligatorio: true },
-      { nome: "Dissipatore a Y (longe) con moschettoni", obbligatorio: true },
-      { nome: "Guanti da ferrata (proteggono le mani)", obbligatorio: true },
-      { nome: "Scarponi con suola Vibram rigida", obbligatorio: true }
+  /**
+   * Attrezzatura di base per ogni livello CAI.
+   * Viene caricata dal DB al boot e sovrascritta dall'Admin tramite la modale.
+   * La funzione suggerisciAttrezzatura() usa questi dati come base,
+   * aggiungendo eventuali item dinamici in base alle soglie (km, dplus).
+   */
+  attrezzaturaPerLivello: {
+    T: [
+      {
+        categoria: "Abbigliamento",
+        icona: "\u{1F455}",
+        items: [
+          { nome: "Scarpe da trekking o trail running", obbligatorio: true },
+          { nome: "Calzini tecnici", obbligatorio: true },
+          { nome: "Cappello da sole", obbligatorio: true },
+          { nome: "Giacca antipioggia leggera", obbligatorio: false }
+        ]
+      },
+      {
+        categoria: "Zaino e rifornimenti",
+        icona: "\u{1F392}",
+        items: [
+          { nome: "Zaino 15-20L", obbligatorio: true },
+          { nome: "Acqua 1.5L", obbligatorio: true },
+          { nome: "Snack energetici", obbligatorio: false }
+        ]
+      },
+      {
+        categoria: "Sicurezza e navigazione",
+        icona: "\u{1F9EF}",
+        items: [
+          { nome: "Carta del sentiero o app offline", obbligatorio: true },
+          { nome: "Kit primo soccorso", obbligatorio: false }
+        ]
+      }
     ],
-    ferrataAbbigliamento: [
-      { nome: "Pantaloni elasticizzati (libert\xE0 di movimento)", obbligatorio: true },
-      { nome: "T-shirt tecnica traspirante", obbligatorio: true },
-      { nome: "Giacca antivento compatta (da mettere nello zaino)", obbligatorio: false },
-      { nome: "Evita giacche voluminose o zaini > 20L", obbligatorio: false }
+    E: [
+      {
+        categoria: "Abbigliamento",
+        icona: "\u{1F455}",
+        items: [
+          { nome: "Scarpe da trekking con buona suola", obbligatorio: true },
+          { nome: "Calzini tecnici", obbligatorio: true },
+          { nome: "Pantaloni convertibili", obbligatorio: true },
+          { nome: "Strato termico (pile leggero)", obbligatorio: false },
+          { nome: "Giacca antipioggia/antivento", obbligatorio: true },
+          { nome: "Cappello da sole / berretto", obbligatorio: true }
+        ]
+      },
+      {
+        categoria: "Zaino e rifornimenti",
+        icona: "\u{1F392}",
+        items: [
+          { nome: "Zaino 20-30L", obbligatorio: true },
+          { nome: "Acqua 2L", obbligatorio: true },
+          { nome: "Snack energetici / barrette", obbligatorio: true },
+          { nome: "Pranzo al sacco", obbligatorio: false }
+        ]
+      },
+      {
+        categoria: "Sicurezza e navigazione",
+        icona: "\u{1F9EF}",
+        items: [
+          { nome: "Carta del sentiero o app offline", obbligatorio: true },
+          { nome: "Kit primo soccorso", obbligatorio: true },
+          { nome: "Fischietto di emergenza", obbligatorio: false },
+          { nome: "Bastoncini da trekking", obbligatorio: false }
+        ]
+      }
     ],
-    ferrataZaino: [
-      { nome: "Zaino slim aderente alla schiena (max 20L)", obbligatorio: true },
-      { nome: "Acqua 1-1.5L (borraccia compatta)", obbligatorio: true },
-      { nome: "Snack energetici tascabili", obbligatorio: true },
-      { nome: "Evita bastoncini (inutilizzabili in parete)", obbligatorio: false }
+    EE: [
+      {
+        categoria: "Abbigliamento",
+        icona: "\u{1F455}",
+        items: [
+          { nome: "Scarponi da trekking con caviglia alta", obbligatorio: true },
+          { nome: "Calzini tecnici", obbligatorio: true },
+          { nome: "Pantaloni convertibili", obbligatorio: true },
+          { nome: "Strato termico (pile o softshell)", obbligatorio: true },
+          { nome: "Giacca antipioggia/antivento", obbligatorio: true },
+          { nome: "Cappello da sole / berretto", obbligatorio: true },
+          { nome: "Guanti", obbligatorio: true }
+        ]
+      },
+      {
+        categoria: "Zaino e rifornimenti",
+        icona: "\u{1F392}",
+        items: [
+          { nome: "Zaino 25-35L", obbligatorio: true },
+          { nome: "Acqua 2L+", obbligatorio: true },
+          { nome: "Snack energetici / barrette", obbligatorio: true },
+          { nome: "Pranzo al sacco", obbligatorio: true },
+          { nome: "Thermos con bevanda calda", obbligatorio: true }
+        ]
+      },
+      {
+        categoria: "Sicurezza e navigazione",
+        icona: "\u{1F9EF}",
+        items: [
+          { nome: "Carta del sentiero o app offline", obbligatorio: true },
+          { nome: "Powerbank per il telefono", obbligatorio: true },
+          { nome: "Kit primo soccorso", obbligatorio: true },
+          { nome: "Fischietto di emergenza", obbligatorio: true },
+          { nome: "Torcia / frontalino", obbligatorio: true },
+          { nome: "Coperta di emergenza", obbligatorio: true },
+          { nome: "Bastoncini da trekking", obbligatorio: true }
+        ]
+      },
+      {
+        categoria: "Attrezzatura tecnica (EE)",
+        icona: "\u{1F9D7}",
+        items: [
+          { nome: "Ghette (in caso di neve o fango)", obbligatorio: false },
+          { nome: "Ramponi leggeri (stagionale)", obbligatorio: false },
+          { nome: "Corda ausiliaria 5mm \xD7 3m", obbligatorio: false }
+        ]
+      }
     ],
-    sicurezzaBase: [
-      { nome: "Telefono carico con traccia offline", obbligatorio: true },
-      { nome: "Kit primo soccorso compatto", obbligatorio: true },
-      { nome: "Fischietto di emergenza", obbligatorio: true },
-      { nome: "Coperta di emergenza (leggera)", obbligatorio: false }
+    EEA: [
+      {
+        categoria: "Attrezzatura tecnica obbligatoria",
+        icona: "\u26CF\uFE0F",
+        items: [
+          { nome: "Casco da ferrata omologato", obbligatorio: true },
+          { nome: "Imbrago da ferrata (con cosciali)", obbligatorio: true },
+          { nome: "Dissipatore a Y (longe) con moschettoni", obbligatorio: true },
+          { nome: "Guanti da ferrata (proteggono le mani)", obbligatorio: true },
+          { nome: "Scarponi con suola Vibram rigida", obbligatorio: true }
+        ]
+      },
+      {
+        categoria: "Abbigliamento",
+        icona: "\u{1F455}",
+        items: [
+          { nome: "Pantaloni elasticizzati (libert\xE0 di movimento)", obbligatorio: true },
+          { nome: "T-shirt tecnica traspirante", obbligatorio: true },
+          { nome: "Giacca antivento compatta (nello zaino)", obbligatorio: false },
+          { nome: "Evita giacche voluminose o zaini > 20L", obbligatorio: false }
+        ]
+      },
+      {
+        categoria: "Zaino compatto (max 15-20L)",
+        icona: "\u{1F392}",
+        items: [
+          { nome: "Zaino slim aderente alla schiena (max 20L)", obbligatorio: true },
+          { nome: "Acqua 1-1.5L (borraccia compatta)", obbligatorio: true },
+          { nome: "Snack energetici tascabili", obbligatorio: true },
+          { nome: "Evita bastoncini (inutilizzabili in parete)", obbligatorio: false }
+        ]
+      },
+      {
+        categoria: "Sicurezza",
+        icona: "\u{1F9EF}",
+        items: [
+          { nome: "Telefono carico con traccia offline", obbligatorio: true },
+          { nome: "Kit primo soccorso compatto", obbligatorio: true },
+          { nome: "Fischietto di emergenza", obbligatorio: true },
+          { nome: "Coperta di emergenza (leggera)", obbligatorio: false }
+        ]
+      }
     ]
   }
 };
@@ -60952,66 +61087,37 @@ function suggerisciAttrezzatura(caiScale, lunghezza, dislivello) {
   const scala = caiScale?.toUpperCase()?.trim() ?? "T";
   const km = lunghezza ?? 0;
   const dPlus = dislivello ?? 0;
-  const ferrata = scala === "EEA" || scala === "F" || scala === "EEA:F" || scala === "EEA:PD";
-  if (ferrata) {
-    return [
-      { categoria: "Attrezzatura tecnica obbligatoria", icona: "\u26CF\uFE0F", items: EquipConfig.liste.ferrataAttrezzatura },
-      { categoria: "Abbigliamento", icona: "\u{1F455}", items: EquipConfig.liste.ferrataAbbigliamento },
-      { categoria: "Zaino compatto (max 15-20L)", icona: "\u{1F392}", items: EquipConfig.liste.ferrataZaino },
-      { categoria: "Sicurezza", icona: "\u{1F9EF}", items: EquipConfig.liste.sicurezzaBase }
-    ];
-  }
+  const livelloNorm = scala === "F" || scala === "EEA:F" || scala === "EEA:PD" ? "EEA" : ["T", "E", "EE", "EEA"].includes(scala) ? scala : "T";
+  const base = JSON.parse(JSON.stringify(EquipConfig.attrezzaturaPerLivello[livelloNorm] ?? EquipConfig.attrezzaturaPerLivello["T"]));
+  if (livelloNorm === "EEA")
+    return base;
   const lunga = km > EquipConfig.soglie.lungaKm;
   const impegnativa = dPlus > EquipConfig.soglie.impegnativaDPlus;
-  const livelloAlto = scala === "EE";
-  return [
-    {
-      categoria: "Abbigliamento",
-      icona: "\u{1F455}",
-      items: [
-        { nome: livelloAlto || impegnativa ? "Scarponi da trekking con caviglia alta" : "Scarpe da trekking o trail running", obbligatorio: true },
-        { nome: "Calzini tecnici", obbligatorio: true },
-        { nome: "Pantaloni convertibili", obbligatorio: lunga || impegnativa },
-        { nome: "Strato termico (pile o softshell)", obbligatorio: impegnativa || livelloAlto },
-        { nome: "Giacca antipioggia/antivento", obbligatorio: lunga || livelloAlto },
-        { nome: "Cappello da sole / berretto", obbligatorio: true },
-        { nome: "Guanti", obbligatorio: livelloAlto }
-      ]
-    },
-    {
-      categoria: "Zaino e rifornimenti",
-      icona: "\u{1F392}",
-      items: [
-        { nome: lunga ? "Zaino 25-35L" : "Zaino 15-20L", obbligatorio: true },
-        { nome: lunga ? "Acqua 2L+" : "Acqua 1.5L", obbligatorio: true },
-        { nome: "Snack energetici / barrette", obbligatorio: lunga || impegnativa },
-        { nome: "Pranzo al sacco", obbligatorio: lunga },
-        { nome: "Thermos con bevanda calda", obbligatorio: livelloAlto }
-      ]
-    },
-    {
-      categoria: "Sicurezza e navigazione",
-      icona: "\u{1F9EF}",
-      items: [
-        { nome: "Carta del sentiero o app offline", obbligatorio: true },
-        { nome: "Powerbank per il telefono", obbligatorio: lunga },
-        { nome: "Kit primo soccorso", obbligatorio: lunga || livelloAlto },
-        { nome: "Fischietto di emergenza", obbligatorio: livelloAlto },
-        { nome: "Torcia / frontalino", obbligatorio: lunga || livelloAlto },
-        { nome: "Coperta di emergenza", obbligatorio: livelloAlto },
-        { nome: "Bastoncini da trekking", obbligatorio: impegnativa || lunga }
-      ]
-    },
-    ...livelloAlto ? [{
-      categoria: "Attrezzatura tecnica (EE)",
-      icona: "\u{1F9D7}",
-      items: [
-        { nome: "Ghette (in caso di neve o fango)", obbligatorio: false },
-        { nome: "Ramponi leggeri (stagionale)", obbligatorio: false },
-        { nome: "Corda ausiliaria 5mm \xD7 3m", obbligatorio: false }
-      ]
-    }] : []
-  ];
+  const catZaino = base.find((c2) => c2.icona === "\u{1F392}");
+  if (catZaino) {
+    const voceZaino = catZaino.items.find((i) => i.nome.toLowerCase().includes("zaino"));
+    if (voceZaino && lunga)
+      voceZaino.nome = "Zaino 25-35L";
+    const voceAcqua = catZaino.items.find((i) => i.nome.toLowerCase().includes("acqua"));
+    if (voceAcqua && lunga)
+      voceAcqua.nome = "Acqua 2L+";
+    if (lunga && !catZaino.items.some((i) => i.nome.toLowerCase().includes("pranzo"))) {
+      catZaino.items.push({ nome: "Pranzo al sacco", obbligatorio: true });
+    }
+    if (impegnativa && !catZaino.items.some((i) => i.nome.toLowerCase().includes("thermos"))) {
+      catZaino.items.push({ nome: "Thermos con bevanda calda", obbligatorio: false });
+    }
+  }
+  const catSicurezza = base.find((c2) => c2.icona === "\u{1F9EF}");
+  if (catSicurezza) {
+    if (lunga && !catSicurezza.items.some((i) => i.nome.toLowerCase().includes("powerbank"))) {
+      catSicurezza.items.push({ nome: "Powerbank per il telefono", obbligatorio: true });
+    }
+    if ((lunga || impegnativa) && !catSicurezza.items.some((i) => i.nome.toLowerCase().includes("torcia"))) {
+      catSicurezza.items.push({ nome: "Torcia / frontalino", obbligatorio: false });
+    }
+  }
+  return base;
 }
 
 // node_modules/@turf/helpers/dist/esm/index.js
@@ -61555,6 +61661,111 @@ function SidebarComponent_Conditional_17_Template(rf, ctx) {
     \u0275\u0275classProp("ti-loader-2", ctx_r1.importaLoading)("ti-player-play-filled", !ctx_r1.importaLoading);
   }
 }
+function SidebarComponent_Conditional_18_For_91_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 51);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_91_Template_button_click_0_listener() {
+      const livello_r8 = \u0275\u0275restoreView(_r7).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.livelloEquipSelezionato = livello_r8);
+    });
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const livello_r8 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275classProp("active", ctx_r1.livelloEquipSelezionato === livello_r8);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", livello_r8, " ");
+  }
+}
+function SidebarComponent_Conditional_18_For_94_For_7_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r12 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 56)(1, "input", 58);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_For_7_Template_input_ngModelChange_1_listener($event) {
+      const item_r13 = \u0275\u0275restoreView(_r12).$implicit;
+      \u0275\u0275twoWayBindingSet(item_r13.nome, $event) || (item_r13.nome = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "label", 59)(3, "input", 60);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_For_7_Template_input_ngModelChange_3_listener($event) {
+      const item_r13 = \u0275\u0275restoreView(_r12).$implicit;
+      \u0275\u0275twoWayBindingSet(item_r13.obbligatorio, $event) || (item_r13.obbligatorio = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "span");
+    \u0275\u0275text(5, "essenziale");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "button", 61);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_For_7_Template_button_click_6_listener() {
+      const \u0275$index_222_r14 = \u0275\u0275restoreView(_r12).$index;
+      const \u0275$index_210_r11 = \u0275\u0275nextContext().$index;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.rimuoviItem(\u0275$index_210_r11, \u0275$index_222_r14));
+    });
+    \u0275\u0275text(7, "\u2715");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const item_r13 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("ngModel", item_r13.nome);
+    \u0275\u0275advance();
+    \u0275\u0275property("title", item_r13.obbligatorio ? "Essenziale" : "Consigliato");
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("ngModel", item_r13.obbligatorio);
+  }
+}
+function SidebarComponent_Conditional_18_For_94_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 46)(1, "div", 52)(2, "input", 53);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_Template_input_ngModelChange_2_listener($event) {
+      const cat_r10 = \u0275\u0275restoreView(_r9).$implicit;
+      \u0275\u0275twoWayBindingSet(cat_r10.icona, $event) || (cat_r10.icona = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "input", 54);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_Template_input_ngModelChange_3_listener($event) {
+      const cat_r10 = \u0275\u0275restoreView(_r9).$implicit;
+      \u0275\u0275twoWayBindingSet(cat_r10.categoria, $event) || (cat_r10.categoria = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "button", 55);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_Template_button_click_4_listener() {
+      const \u0275$index_210_r11 = \u0275\u0275restoreView(_r9).$index;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.rimuoviCategoria(\u0275$index_210_r11));
+    });
+    \u0275\u0275text(5, "\u2715");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275repeaterCreate(6, SidebarComponent_Conditional_18_For_94_For_7_Template, 8, 3, "div", 56, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementStart(8, "button", 57);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_Template_button_click_8_listener() {
+      const \u0275$index_210_r11 = \u0275\u0275restoreView(_r9).$index;
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.aggiungiItem(\u0275$index_210_r11));
+    });
+    \u0275\u0275text(9, " + Aggiungi item ");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const cat_r10 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275twoWayProperty("ngModel", cat_r10.icona);
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("ngModel", cat_r10.categoria);
+    \u0275\u0275advance(3);
+    \u0275\u0275repeater(cat_r10.items);
+  }
+}
 function SidebarComponent_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
@@ -61711,15 +61922,35 @@ function SidebarComponent_Conditional_18_Template(rf, ctx) {
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.soglieEquip.impegnativaDPlus, $event) || (ctx_r1.configEdit.soglieEquip.impegnativaDPlus = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementEnd()()()();
-    \u0275\u0275elementStart(84, "div", 43)(85, "button", 44);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_85_listener() {
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275element(84, "div", 40);
+    \u0275\u0275elementStart(85, "h4", 34);
+    \u0275\u0275text(86, "Attrezzatura per Livello CAI");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(87, "p", 35);
+    \u0275\u0275text(88, " Modifica categorie e item consigliati per ogni difficolt\xE0. Le modifiche sono attive per tutti gli utenti dopo il salvataggio. ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(89, "div", 43);
+    \u0275\u0275repeaterCreate(90, SidebarComponent_Conditional_18_For_91_Template, 2, 3, "button", 44, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(92, "div", 45);
+    \u0275\u0275repeaterCreate(93, SidebarComponent_Conditional_18_For_94_Template, 10, 2, "div", 46, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementStart(95, "button", 47);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_95_listener() {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.aggiungiCategoria());
+    });
+    \u0275\u0275text(96, " + Aggiungi categoria ");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(97, "div", 48)(98, "button", 49);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_98_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.salvaConfig());
     });
-    \u0275\u0275element(86, "i", 45);
-    \u0275\u0275text(87, " Salva nel Database ");
+    \u0275\u0275element(99, "i", 50);
+    \u0275\u0275text(100, " Salva nel Database ");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -61776,11 +62007,15 @@ function SidebarComponent_Conditional_18_Template(rf, ctx) {
     \u0275\u0275twoWayProperty("ngModel", ctx_r1.configEdit.soglieEquip.lungaKm);
     \u0275\u0275advance(4);
     \u0275\u0275twoWayProperty("ngModel", ctx_r1.configEdit.soglieEquip.impegnativaDPlus);
+    \u0275\u0275advance(7);
+    \u0275\u0275repeater(ctx_r1.livelliCai);
+    \u0275\u0275advance(3);
+    \u0275\u0275repeater(ctx_r1.configEdit.attrezzaturaPerLivello[ctx_r1.livelloEquipSelezionato]);
   }
 }
 function SidebarComponent_Conditional_19_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 46)(1, "span", 47);
+    \u0275\u0275elementStart(0, "div", 62)(1, "span", 63);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(3, "div")(4, "strong");
@@ -61791,17 +62026,17 @@ function SidebarComponent_Conditional_19_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const b_r7 = ctx.$implicit;
+    const b_r15 = ctx.$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(b_r7.icona);
+    \u0275\u0275textInterpolate(b_r15.icona);
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate2("", b_r7.nome, " \u2014 ", b_r7.descrizione);
+    \u0275\u0275textInterpolate2("", b_r15.nome, " \u2014 ", b_r15.descrizione);
   }
 }
 function SidebarComponent_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 14);
-    \u0275\u0275repeaterCreate(1, SidebarComponent_Conditional_19_For_2_Template, 8, 3, "div", 46, _forTrack2);
+    \u0275\u0275repeaterCreate(1, SidebarComponent_Conditional_19_For_2_Template, 8, 3, "div", 62, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -61812,67 +62047,67 @@ function SidebarComponent_Conditional_19_Template(rf, ctx) {
 }
 function SidebarComponent_For_22_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 51);
+    \u0275\u0275elementStart(0, "span", 67);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext().$implicit;
+    const s_r17 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(s_r9.properties == null ? null : s_r9.properties["ref"]);
+    \u0275\u0275textInterpolate(s_r17.properties == null ? null : s_r17.properties["ref"]);
   }
 }
 function SidebarComponent_For_22_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 57);
+    const _r18 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 73);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_7_Template_button_click_0_listener($event) {
-      \u0275\u0275restoreView(_r10);
-      const s_r9 = \u0275\u0275nextContext().$implicit;
+      \u0275\u0275restoreView(_r18);
+      const s_r17 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleVisibilita(s_r9, $event));
+      return \u0275\u0275resetView(ctx_r1.toggleVisibilita(s_r17, $event));
     });
     \u0275\u0275element(1, "i", 26);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275classProp("off", s_r9.isVisible === false);
+    const s_r17 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275classProp("off", s_r17.isVisible === false);
     \u0275\u0275advance();
-    \u0275\u0275classProp("ti-eye", s_r9.isVisible !== false)("ti-eye-off", s_r9.isVisible === false);
+    \u0275\u0275classProp("ti-eye", s_r17.isVisible !== false)("ti-eye-off", s_r17.isVisible === false);
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 59)(1, "span", 81);
-    \u0275\u0275element(2, "i", 82);
+    \u0275\u0275elementStart(0, "div", 75)(1, "span", 97);
+    \u0275\u0275element(2, "i", 98);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span", 83);
-    \u0275\u0275element(5, "i", 84);
+    \u0275\u0275elementStart(4, "span", 99);
+    \u0275\u0275element(5, "i", 100);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 81);
-    \u0275\u0275element(7, "i", 85);
+    \u0275\u0275elementStart(6, "span", 97);
+    \u0275\u0275element(7, "i", 101);
     \u0275\u0275text(8);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext(2).$implicit;
+    const s_r17 = \u0275\u0275nextContext(2).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", (s_r9.properties == null ? null : s_r9.properties["from"]) || "\u2014", " ");
+    \u0275\u0275textInterpolate1(" ", (s_r17.properties == null ? null : s_r17.properties["from"]) || "\u2014", " ");
     \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1(" ", (s_r9.properties == null ? null : s_r9.properties["to"]) || "\u2014", " ");
+    \u0275\u0275textInterpolate1(" ", (s_r17.properties == null ? null : s_r17.properties["to"]) || "\u2014", " ");
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_45_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 71)(1, "div", 86)(2, "span");
+    \u0275\u0275elementStart(0, "div", 87)(1, "div", 102)(2, "span");
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "strong");
     \u0275\u0275text(5);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "p", 87);
+    \u0275\u0275elementStart(6, "p", 103);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()();
   }
@@ -61889,61 +62124,61 @@ function SidebarComponent_For_22_Conditional_13_Conditional_45_Template(rf, ctx)
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_46_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 72);
-    \u0275\u0275element(1, "i", 88);
+    \u0275\u0275elementStart(0, "p", 88);
+    \u0275\u0275element(1, "i", 104);
     \u0275\u0275text(2, " Accedi per vedere il consiglio personalizzato ");
     \u0275\u0275elementEnd();
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275elementStart(0, "span", 114);
     \u0275\u0275text(1, "essenziale");
     \u0275\u0275elementEnd();
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "li")(1, "span", 97);
+    \u0275\u0275elementStart(0, "li")(1, "span", 113);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
-    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template, 2, 0, "span", 98);
+    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template, 2, 0, "span", 114);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r13 = ctx.$implicit;
-    \u0275\u0275classProp("obbligatorio", item_r13.obbligatorio);
+    const item_r21 = ctx.$implicit;
+    \u0275\u0275classProp("obbligatorio", item_r21.obbligatorio);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(item_r13.obbligatorio ? "\u25CF" : "\u25CB");
+    \u0275\u0275textInterpolate(item_r21.obbligatorio ? "\u25CF" : "\u25CB");
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", item_r13.nome, " ");
+    \u0275\u0275textInterpolate1(" ", item_r21.nome, " ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r13.obbligatorio ? 4 : -1);
+    \u0275\u0275conditional(item_r21.obbligatorio ? 4 : -1);
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 92)(1, "p", 94);
+    \u0275\u0275elementStart(0, "div", 108)(1, "p", 110);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "ul", 95);
-    \u0275\u0275repeaterCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template, 5, 5, "li", 96, _forTrack13);
+    \u0275\u0275elementStart(3, "ul", 111);
+    \u0275\u0275repeaterCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template, 5, 5, "li", 112, _forTrack13);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const cat_r14 = ctx.$implicit;
+    const cat_r22 = ctx.$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate2(" ", cat_r14.icona, " ", cat_r14.categoria, " ");
+    \u0275\u0275textInterpolate2(" ", cat_r22.icona, " ", cat_r22.categoria, " ");
     \u0275\u0275advance(2);
-    \u0275\u0275repeater(cat_r14.items);
+    \u0275\u0275repeater(cat_r22.items);
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 91);
-    \u0275\u0275repeaterCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_Template, 6, 2, "div", 92, _forTrack3);
-    \u0275\u0275elementStart(3, "p", 93);
+    \u0275\u0275elementStart(0, "div", 107);
+    \u0275\u0275repeaterCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_Template, 6, 2, "div", 108, _forTrack3);
+    \u0275\u0275elementStart(3, "p", 109);
     \u0275\u0275text(4, " \u25CF essenziale \xA0\u25CB consigliato in base alle condizioni ");
     \u0275\u0275elementEnd()();
   }
@@ -61955,21 +62190,21 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Tem
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_47_Template(rf, ctx) {
   if (rf & 1) {
-    const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 73)(1, "div", 89);
+    const _r20 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 89)(1, "div", 105);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_47_Template_div_click_1_listener() {
-      \u0275\u0275restoreView(_r12);
+      \u0275\u0275restoreView(_r20);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleAttrezzatura());
     });
     \u0275\u0275elementStart(2, "span");
-    \u0275\u0275element(3, "i", 90);
+    \u0275\u0275element(3, "i", 106);
     \u0275\u0275text(4, " Attrezzatura consigliata");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 55);
+    \u0275\u0275elementStart(5, "span", 71);
     \u0275\u0275text(6, "\u203A");
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Template, 5, 0, "div", 91);
+    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Template, 5, 0, "div", 107);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -61982,40 +62217,40 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Template(rf, ctx)
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r15 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 101);
+    const _r23 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 117);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template_button_click_0_listener($event) {
-      \u0275\u0275restoreView(_r15);
+      \u0275\u0275restoreView(_r23);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.avviaGps();
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(1, "i", 102);
+    \u0275\u0275element(1, "i", 118);
     \u0275\u0275text(2, " Inizia questo percorso ");
     \u0275\u0275elementEnd();
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r16 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 100)(1, "div", 103);
-    \u0275\u0275element(2, "span", 104);
+    const _r24 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 116)(1, "div", 119);
+    \u0275\u0275element(2, "span", 120);
     \u0275\u0275elementStart(3, "span");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "div", 105)(6, "button", 106);
+    \u0275\u0275elementStart(5, "div", 121)(6, "button", 122);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template_button_click_6_listener($event) {
-      \u0275\u0275restoreView(_r16);
+      \u0275\u0275restoreView(_r24);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.fermaGps();
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(7, "i", 107);
+    \u0275\u0275element(7, "i", 123);
     \u0275\u0275text(8, " Completato ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 108);
+    \u0275\u0275elementStart(9, "button", 124);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template_button_click_9_listener($event) {
-      \u0275\u0275restoreView(_r16);
+      \u0275\u0275restoreView(_r24);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.annullaGps();
       return \u0275\u0275resetView($event.stopPropagation());
@@ -62032,7 +62267,7 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Tem
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 109)(1, "span");
+    \u0275\u0275elementStart(0, "div", 125)(1, "span");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd()();
   }
@@ -62044,14 +62279,14 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Con
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r17 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 110)(1, "span");
-    \u0275\u0275element(2, "i", 111);
+    const _r25 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 126)(1, "span");
+    \u0275\u0275element(2, "i", 127);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "button", 101);
+    \u0275\u0275elementStart(4, "button", 117);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template_button_click_4_listener($event) {
-      \u0275\u0275restoreView(_r17);
+      \u0275\u0275restoreView(_r25);
       const ctx_r1 = \u0275\u0275nextContext(5);
       ctx_r1.avviaGps();
       return \u0275\u0275resetView($event.stopPropagation());
@@ -62067,8 +62302,8 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Con
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template, 3, 1, "div", 109);
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template, 6, 1, "div", 110);
+    \u0275\u0275conditionalCreate(0, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template, 3, 1, "div", 125);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template, 6, 1, "div", 126);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(4);
@@ -62079,130 +62314,130 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Tem
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_48_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 74);
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template, 3, 0, "button", 99);
-    \u0275\u0275conditionalCreate(2, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template, 12, 1, "div", 100);
+    \u0275\u0275elementStart(0, "div", 90);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template, 3, 0, "button", 115);
+    \u0275\u0275conditionalCreate(2, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template, 12, 1, "div", 116);
     \u0275\u0275conditionalCreate(3, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Template, 2, 2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext(2).$implicit;
+    const s_r17 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.utenteSvc.sentieroInTracciamentoId() && ctx_r1.sentieroCompletatoId() !== s_r9.osm_id ? 1 : -1);
+    \u0275\u0275conditional(!ctx_r1.utenteSvc.sentieroInTracciamentoId() && ctx_r1.sentieroCompletatoId() !== s_r17.osm_id ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.utenteSvc.sentieroInTracciamentoId() === s_r9.osm_id ? 2 : -1);
+    \u0275\u0275conditional(ctx_r1.utenteSvc.sentieroInTracciamentoId() === s_r17.osm_id ? 2 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.sentieroCompletatoId() === s_r9.osm_id ? 3 : -1);
+    \u0275\u0275conditional(ctx_r1.sentieroCompletatoId() === s_r17.osm_id ? 3 : -1);
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_49_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 75);
-    \u0275\u0275element(1, "i", 112);
+    \u0275\u0275elementStart(0, "p", 91);
+    \u0275\u0275element(1, "i", 128);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext(2).$implicit;
+    const s_r17 = \u0275\u0275nextContext(2).$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", s_r9.properties == null ? null : s_r9.properties["operator"], " ");
+    \u0275\u0275textInterpolate1(" ", s_r17.properties == null ? null : s_r17.properties["operator"], " ");
   }
 }
 function SidebarComponent_For_22_Conditional_13_Conditional_51_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 113);
+    \u0275\u0275elementStart(0, "a", 129);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_51_Template_a_click_0_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275element(1, "i", 114);
+    \u0275\u0275element(1, "i", 130);
     \u0275\u0275text(2, " Sito ufficiale ");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext(2).$implicit;
-    \u0275\u0275property("href", s_r9.properties == null ? null : s_r9.properties["website"], \u0275\u0275sanitizeUrl);
+    const s_r17 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275property("href", s_r17.properties == null ? null : s_r17.properties["website"], \u0275\u0275sanitizeUrl);
   }
 }
 function SidebarComponent_For_22_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 58);
+    const _r19 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 74);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_div_click_0_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_1_Template, 9, 2, "div", 59);
-    \u0275\u0275elementStart(2, "div", 60)(3, "div", 61)(4, "span", 62);
-    \u0275\u0275element(5, "i", 63);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_1_Template, 9, 2, "div", 75);
+    \u0275\u0275elementStart(2, "div", 76)(3, "div", 77)(4, "span", 78);
+    \u0275\u0275element(5, "i", 79);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 64);
+    \u0275\u0275elementStart(6, "span", 80);
     \u0275\u0275text(7, "Lunghezza");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 65);
+    \u0275\u0275elementStart(8, "span", 81);
     \u0275\u0275text(9);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 61)(11, "span", 62);
-    \u0275\u0275element(12, "i", 66);
+    \u0275\u0275elementStart(10, "div", 77)(11, "span", 78);
+    \u0275\u0275element(12, "i", 82);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "span", 64);
+    \u0275\u0275elementStart(13, "span", 80);
     \u0275\u0275text(14, "Salita");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "span", 65);
+    \u0275\u0275elementStart(15, "span", 81);
     \u0275\u0275text(16);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(17, "div", 61)(18, "span", 62);
-    \u0275\u0275element(19, "i", 67);
+    \u0275\u0275elementStart(17, "div", 77)(18, "span", 78);
+    \u0275\u0275element(19, "i", 83);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "span", 64);
+    \u0275\u0275elementStart(20, "span", 80);
     \u0275\u0275text(21, "Discesa");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "span", 65);
+    \u0275\u0275elementStart(22, "span", 81);
     \u0275\u0275text(23);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(24, "div", 61)(25, "span", 62);
-    \u0275\u0275element(26, "i", 68);
+    \u0275\u0275elementStart(24, "div", 77)(25, "span", 78);
+    \u0275\u0275element(26, "i", 84);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(27, "span", 64);
+    \u0275\u0275elementStart(27, "span", 80);
     \u0275\u0275text(28, "Andata");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "span", 65);
+    \u0275\u0275elementStart(29, "span", 81);
     \u0275\u0275text(30);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(31, "div", 61)(32, "span", 62);
-    \u0275\u0275element(33, "i", 69);
+    \u0275\u0275elementStart(31, "div", 77)(32, "span", 78);
+    \u0275\u0275element(33, "i", 85);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "span", 64);
+    \u0275\u0275elementStart(34, "span", 80);
     \u0275\u0275text(35, "Ritorno");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "span", 65);
+    \u0275\u0275elementStart(36, "span", 81);
     \u0275\u0275text(37);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(38, "div", 61)(39, "span", 62);
-    \u0275\u0275element(40, "i", 70);
+    \u0275\u0275elementStart(38, "div", 77)(39, "span", 78);
+    \u0275\u0275element(40, "i", 86);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(41, "span", 64);
+    \u0275\u0275elementStart(41, "span", 80);
     \u0275\u0275text(42, "Difficolt\xE0");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(43, "span", 65);
+    \u0275\u0275elementStart(43, "span", 81);
     \u0275\u0275text(44);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(45, SidebarComponent_For_22_Conditional_13_Conditional_45_Template, 8, 4, "div", 71);
-    \u0275\u0275conditionalCreate(46, SidebarComponent_For_22_Conditional_13_Conditional_46_Template, 3, 0, "p", 72);
-    \u0275\u0275conditionalCreate(47, SidebarComponent_For_22_Conditional_13_Conditional_47_Template, 8, 3, "div", 73);
-    \u0275\u0275conditionalCreate(48, SidebarComponent_For_22_Conditional_13_Conditional_48_Template, 4, 3, "div", 74);
-    \u0275\u0275conditionalCreate(49, SidebarComponent_For_22_Conditional_13_Conditional_49_Template, 3, 1, "p", 75);
-    \u0275\u0275elementStart(50, "div", 76);
-    \u0275\u0275conditionalCreate(51, SidebarComponent_For_22_Conditional_13_Conditional_51_Template, 3, 1, "a", 77);
-    \u0275\u0275elementStart(52, "a", 78);
+    \u0275\u0275conditionalCreate(45, SidebarComponent_For_22_Conditional_13_Conditional_45_Template, 8, 4, "div", 87);
+    \u0275\u0275conditionalCreate(46, SidebarComponent_For_22_Conditional_13_Conditional_46_Template, 3, 0, "p", 88);
+    \u0275\u0275conditionalCreate(47, SidebarComponent_For_22_Conditional_13_Conditional_47_Template, 8, 3, "div", 89);
+    \u0275\u0275conditionalCreate(48, SidebarComponent_For_22_Conditional_13_Conditional_48_Template, 4, 3, "div", 90);
+    \u0275\u0275conditionalCreate(49, SidebarComponent_For_22_Conditional_13_Conditional_49_Template, 3, 1, "p", 91);
+    \u0275\u0275elementStart(50, "div", 92);
+    \u0275\u0275conditionalCreate(51, SidebarComponent_For_22_Conditional_13_Conditional_51_Template, 3, 1, "a", 93);
+    \u0275\u0275elementStart(52, "a", 94);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_a_click_52_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275element(53, "i", 79);
+    \u0275\u0275element(53, "i", 95);
     \u0275\u0275text(54, " Apri su OSM ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(55, "button", 80);
+    \u0275\u0275elementStart(55, "button", 96);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_button_click_55_listener($event) {
-      \u0275\u0275restoreView(_r11);
+      \u0275\u0275restoreView(_r19);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.sentieroService.sentieroSelezionato.set(null);
       return \u0275\u0275resetView($event.stopPropagation());
@@ -62212,22 +62447,22 @@ function SidebarComponent_For_22_Conditional_13_Template(rf, ctx) {
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const s_r9 = \u0275\u0275nextContext().$implicit;
+    const s_r17 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance();
-    \u0275\u0275conditional((s_r9.properties == null ? null : s_r9.properties["from"]) || (s_r9.properties == null ? null : s_r9.properties["to"]) ? 1 : -1);
+    \u0275\u0275conditional((s_r17.properties == null ? null : s_r17.properties["from"]) || (s_r17.properties == null ? null : s_r17.properties["to"]) ? 1 : -1);
     \u0275\u0275advance(8);
-    \u0275\u0275textInterpolate1("", s_r9.lunghezza ?? "\u2014", " km");
+    \u0275\u0275textInterpolate1("", s_r17.lunghezza ?? "\u2014", " km");
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate(s_r9.dislivello_positivo ? "+" + s_r9.dislivello_positivo + " m" : "\u2014");
+    \u0275\u0275textInterpolate(s_r17.dislivello_positivo ? "+" + s_r17.dislivello_positivo + " m" : "\u2014");
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate((s_r9.properties == null ? null : s_r9.properties["descent"]) ? "-" + (s_r9.properties == null ? null : s_r9.properties["descent"]) + " m" : "\u2014");
+    \u0275\u0275textInterpolate((s_r17.properties == null ? null : s_r17.properties["descent"]) ? "-" + (s_r17.properties == null ? null : s_r17.properties["descent"]) + " m" : "\u2014");
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate(ctx_r1.formatDurata(s_r9.tempoAndata));
+    \u0275\u0275textInterpolate(ctx_r1.formatDurata(s_r17.tempoAndata));
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate(ctx_r1.formatDurata(s_r9.tempoRitorno));
+    \u0275\u0275textInterpolate(ctx_r1.formatDurata(s_r17.tempoRitorno));
     \u0275\u0275advance(7);
-    \u0275\u0275textInterpolate((s_r9.properties == null ? null : s_r9.properties["cai_scale"]) || s_r9.difficolta || "\u2014");
+    \u0275\u0275textInterpolate((s_r17.properties == null ? null : s_r17.properties["cai_scale"]) || s_r17.difficolta || "\u2014");
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.authService.isAutenticato() && ctx_r1.consiglio() ? 45 : -1);
     \u0275\u0275advance();
@@ -62237,61 +62472,61 @@ function SidebarComponent_For_22_Conditional_13_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.authService.isAutenticato() ? 48 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional((s_r9.properties == null ? null : s_r9.properties["operator"]) ? 49 : -1);
+    \u0275\u0275conditional((s_r17.properties == null ? null : s_r17.properties["operator"]) ? 49 : -1);
     \u0275\u0275advance(2);
-    \u0275\u0275conditional((s_r9.properties == null ? null : s_r9.properties["website"]) ? 51 : -1);
+    \u0275\u0275conditional((s_r17.properties == null ? null : s_r17.properties["website"]) ? 51 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("href", "https://www.openstreetmap.org/" + s_r9.osm_id, \u0275\u0275sanitizeUrl);
+    \u0275\u0275property("href", "https://www.openstreetmap.org/" + s_r17.osm_id, \u0275\u0275sanitizeUrl);
   }
 }
 function SidebarComponent_For_22_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 48, 1);
+    const _r16 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 64, 1);
     \u0275\u0275listener("click", function SidebarComponent_For_22_Template_div_click_0_listener() {
-      const s_r9 = \u0275\u0275restoreView(_r8).$implicit;
+      const s_r17 = \u0275\u0275restoreView(_r16).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.seleziona(s_r9));
+      return \u0275\u0275resetView(ctx_r1.seleziona(s_r17));
     });
-    \u0275\u0275elementStart(2, "div", 49)(3, "div", 50);
-    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_4_Template, 2, 1, "span", 51);
+    \u0275\u0275elementStart(2, "div", 65)(3, "div", 66);
+    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_4_Template, 2, 1, "span", 67);
     \u0275\u0275elementStart(5, "h3");
     \u0275\u0275text(6);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_7_Template, 2, 6, "button", 52);
+    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_7_Template, 2, 6, "button", 68);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "div", 53)(9, "span", 54);
+    \u0275\u0275elementStart(8, "div", 69)(9, "span", 70);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "span", 55);
+    \u0275\u0275elementStart(11, "span", 71);
     \u0275\u0275text(12, "\u203A");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(13, SidebarComponent_For_22_Conditional_13_Template, 58, 14, "div", 56);
+    \u0275\u0275conditionalCreate(13, SidebarComponent_For_22_Conditional_13_Template, 58, 14, "div", 72);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     let tmp_12_0;
     let tmp_19_0;
     let tmp_20_0;
-    const s_r9 = ctx.$implicit;
+    const s_r17 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275classProp("expanded", ((tmp_12_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_12_0.osm_id) === s_r9.osm_id);
+    \u0275\u0275classProp("expanded", ((tmp_12_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_12_0.osm_id) === s_r17.osm_id);
     \u0275\u0275advance(4);
-    \u0275\u0275conditional((s_r9.properties == null ? null : s_r9.properties["ref"]) ? 4 : -1);
+    \u0275\u0275conditional((s_r17.properties == null ? null : s_r17.properties["ref"]) ? 4 : -1);
     \u0275\u0275advance();
-    \u0275\u0275classProp("text-muted", s_r9.isVisible === false);
+    \u0275\u0275classProp("text-muted", s_r17.isVisible === false);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate((s_r9.properties == null ? null : s_r9.properties["name"]) || "Sentiero senza nome");
+    \u0275\u0275textInterpolate((s_r17.properties == null ? null : s_r17.properties["name"]) || "Sentiero senza nome");
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.isAdmin() ? 7 : -1);
     \u0275\u0275advance(2);
-    \u0275\u0275attribute("data-level", ctx_r1.getDifficultyLevel(s_r9.properties == null ? null : s_r9.properties["cai_scale"]));
+    \u0275\u0275attribute("data-level", ctx_r1.getDifficultyLevel(s_r17.properties == null ? null : s_r17.properties["cai_scale"]));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", (s_r9.properties == null ? null : s_r9.properties["cai_scale"]) || s_r9.difficolta || "T", " ");
+    \u0275\u0275textInterpolate1(" ", (s_r17.properties == null ? null : s_r17.properties["cai_scale"]) || s_r17.difficolta || "T", " ");
     \u0275\u0275advance();
-    \u0275\u0275classProp("open", ((tmp_19_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_19_0.osm_id) === s_r9.osm_id);
+    \u0275\u0275classProp("open", ((tmp_19_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_19_0.osm_id) === s_r17.osm_id);
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(((tmp_20_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_20_0.osm_id) === s_r9.osm_id ? 13 : -1);
+    \u0275\u0275conditional(((tmp_20_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_20_0.osm_id) === s_r17.osm_id ? 13 : -1);
   }
 }
 function SidebarComponent_ForEmpty_23_Template(rf, ctx) {
@@ -62310,7 +62545,7 @@ var SidebarComponent = class _SidebarComponent {
   sidebarScroll;
   trailCards;
   apiUrl = "http://localhost:3000/api";
-  // NIENTE PIÙ "as any"! TypeScript ora sa che isVisible esiste davvero.
+  livelliCai = ["T", "E", "EE", "EEA"];
   sentieriOrdinati = computed(() => {
     const lista = [...this.sentieroService.sentieri()];
     if (!this.isAdmin()) {
@@ -62321,7 +62556,7 @@ var SidebarComponent = class _SidebarComponent {
     /* istanbul ignore next */
     []
   ));
-  // ── Admin: Importazione Geografica (Focus Trentino) ───────────────────────────
+  // ── Admin: Importazione Geografica ────────────────────────────────────────
   importaLoading = false;
   importEsito = "";
   showImportBar = false;
@@ -62349,8 +62584,11 @@ var SidebarComponent = class _SidebarComponent {
       next: (res) => {
         if (res?.trailConfig)
           Object.assign(TrailConfig, res.trailConfig);
-        if (res?.equipConfig)
-          Object.assign(EquipConfig, res.equipConfig);
+        if (res?.equipConfig?.soglie)
+          Object.assign(EquipConfig.soglie, res.equipConfig.soglie);
+        if (res?.equipConfig?.attrezzaturaPerLivello) {
+          Object.assign(EquipConfig.attrezzaturaPerLivello, res.equipConfig.attrezzaturaPerLivello);
+        }
       }
     });
   }
@@ -62403,31 +62641,60 @@ var SidebarComponent = class _SidebarComponent {
       }
     });
   }
-  // ── Admin: Configurazione Algoritmi ────────────────────────────
+  // ── Admin: Configurazione Algoritmi + Attrezzatura ───────────────────────
   configAperta = false;
+  // Tab attiva nella sezione attrezzatura della modale
+  livelloEquipSelezionato = "T";
   configEdit = {
     requisitiCai: { T: 1, E: 2, EE: 3, EEA: 5 },
-    soglieEquip: { lungaKm: 12, impegnativaDPlus: 600 }
+    soglieEquip: { lungaKm: 12, impegnativaDPlus: 600 },
+    attrezzaturaPerLivello: { T: [], E: [], EE: [], EEA: [] }
   };
   apriConfig() {
     this.configEdit.requisitiCai = __spreadValues({}, TrailConfig.requisitiCai);
     this.configEdit.soglieEquip = __spreadValues({}, EquipConfig.soglie);
+    this.configEdit.attrezzaturaPerLivello = JSON.parse(JSON.stringify(EquipConfig.attrezzaturaPerLivello));
+    this.livelloEquipSelezionato = "T";
     this.configAperta = true;
   }
   salvaConfig() {
     Object.assign(TrailConfig.requisitiCai, this.configEdit.requisitiCai);
     Object.assign(EquipConfig.soglie, this.configEdit.soglieEquip);
+    Object.assign(EquipConfig.attrezzaturaPerLivello, this.configEdit.attrezzaturaPerLivello);
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    const payload = { trailConfig: TrailConfig, equipConfig: EquipConfig };
+    const payload = {
+      trailConfig: TrailConfig,
+      equipConfig: {
+        soglie: EquipConfig.soglie,
+        attrezzaturaPerLivello: EquipConfig.attrezzaturaPerLivello
+      }
+    };
     this.http.put(`${this.apiUrl}/config`, payload, { headers }).subscribe({
       next: () => {
         this.configAperta = false;
         alert("\u2705 Impostazioni salvate correttamente nel Database!");
       },
-      error: () => alert("\u274C Errore durante il salvataggio nel DB (Assicurati di aver creato la rotta!).")
+      error: () => alert("\u274C Errore durante il salvataggio nel DB.")
     });
   }
-  // ── (Il resto del codice rimane invariato: GPS, Consigli, ecc.) ───────────
+  // ── Helper editor attrezzatura ────────────────────────────────────────────
+  /** Aggiunge un item vuoto all'ultima categoria del livello selezionato */
+  aggiungiItem(catIndex) {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato][catIndex].items.push({ nome: "", obbligatorio: false });
+  }
+  /** Rimuove un item da una categoria del livello selezionato */
+  rimuoviItem(catIndex, itemIndex) {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato][catIndex].items.splice(itemIndex, 1);
+  }
+  /** Aggiunge una nuova categoria vuota al livello selezionato */
+  aggiungiCategoria() {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato].push({ categoria: "Nuova categoria", icona: "\u{1F4E6}", items: [] });
+  }
+  /** Rimuove una categoria dal livello selezionato */
+  rimuoviCategoria(catIndex) {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato].splice(catIndex, 1);
+  }
+  // ── Computed signals ──────────────────────────────────────────────────────
   consiglio = computed(() => {
     const s = this.sentieroService.sentieroSelezionato();
     const utente = this.authService.utente();
@@ -62512,7 +62779,7 @@ var SidebarComponent = class _SidebarComponent {
       sentieroId: sId,
       nomeSentiero: sNome
     }).subscribe({
-      next: () => console.log(`[GPS] Inviato`),
+      next: () => console.log("[GPS] Inviato"),
       error: (err) => console.error("[GPS] Errore:", err)
     });
   }
@@ -62648,7 +62915,7 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275queryRefresh(_t2 = \u0275\u0275loadQuery()) && (ctx.sidebarScroll = _t2.first);
       \u0275\u0275queryRefresh(_t2 = \u0275\u0275loadQuery()) && (ctx.trailCards = _t2);
     }
-  }, decls: 24, vars: 7, consts: [["sidebarScroll", ""], ["trailCard", ""], [1, "sidebar-wrapper"], [1, "sidebar-header"], [1, "header-top"], [1, "ti", "ti-route"], [1, "stats"], [1, "header-actions"], ["title", "Torna alla Home", 1, "btn-icon", 3, "click"], [1, "ti", "ti-home"], ["title", "Ricarica Sentieri", 1, "btn-icon", 3, "click"], [1, "ti", "ti-refresh"], [1, "import-result"], [1, "admin-import-bar"], [1, "badge-toast"], [1, "list-container"], [1, "trail-item", 3, "expanded"], [1, "empty-msg"], ["title", "Impostazioni Algoritmi", 1, "btn-icon", 3, "click"], [1, "ti", "ti-settings"], ["title", "Importa Sentieri OSM", 1, "btn-icon", "btn-import", 3, "click"], [1, "ti", "ti-download"], [1, "admin-input", 3, "ngModelChange", "ngModel"], [3, "value"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModel"], ["title", "Esegui Download OSM", 1, "btn-icon", "btn-import", 3, "click", "disabled"], [1, "ti"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModelChange", "ngModel"], [1, "admin-overlay", 3, "click"], [1, "admin-modal"], [1, "admin-modal-header"], [1, "btn-close-modal", 3, "click"], [1, "ti", "ti-x"], [1, "admin-modal-body"], [1, "config-section-title"], [1, "admin-info"], [1, "config-grid"], [1, "config-row"], [1, "admin-select", 3, "ngModelChange", "ngModel"], [3, "ngValue"], [1, "panel-divider", 2, "margin", "1.2rem 0", "opacity", "0.2"], ["type", "number", 1, "admin-select", 3, "ngModelChange", "ngModel"], ["type", "number", "step", "50", 1, "admin-select", 3, "ngModelChange", "ngModel"], [1, "admin-modal-footer"], [1, "btn-save-config", 3, "click"], [1, "ti", "ti-device-floppy"], [1, "badge-item"], [1, "badge-icona"], [1, "trail-item", 3, "click"], [1, "item-header"], [1, "title-block"], [1, "ref-badge"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "off"], [1, "header-right"], [1, "difficulty-badge"], [1, "chevron"], [1, "trail-details"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "click"], [1, "trail-details", 3, "click"], [1, "route-row"], [1, "stats-grid"], [1, "stat-card"], [1, "stat-icon"], [1, "ti", "ti-ruler"], [1, "stat-label"], [1, "stat-value"], [1, "ti", "ti-trending-up"], [1, "ti", "ti-trending-down"], [1, "ti", "ti-clock"], [1, "ti", "ti-clock-check"], [1, "ti", "ti-compass"], [1, "consiglio"], [1, "login-hint"], [1, "attrezzatura-section"], [1, "gps-section"], [1, "operator"], [1, "detail-actions"], ["target", "_blank", 1, "btn-web", 3, "href"], ["target", "_blank", 1, "btn-osm", 3, "click", "href"], [1, "ti", "ti-map"], [1, "btn-close", 3, "click"], [1, "route-point"], [1, "ti", "ti-map-pin"], [1, "route-arrow"], [1, "ti", "ti-arrow-right"], [1, "ti", "ti-flag-3"], [1, "consiglio-header"], [1, "consiglio-testo"], [1, "ti", "ti-lock"], [1, "attrezzatura-header", 3, "click"], [1, "ti", "ti-backpack"], [1, "attrezzatura-body"], [1, "equip-categoria"], [1, "equip-nota"], [1, "equip-cat-titolo"], [1, "equip-lista"], [3, "obbligatorio"], [1, "equip-dot"], [1, "equip-tag"], [1, "btn-gps-start"], [1, "gps-attivo"], [1, "btn-gps-start", 3, "click"], [1, "ti", "ti-current-location"], [1, "gps-stato"], [1, "gps-pulse"], [1, "gps-azioni"], [1, "btn-gps-stop", 3, "click"], [1, "ti", "ti-check"], [1, "btn-gps-annulla", 3, "click"], [1, "gps-completato"], [1, "gps-errore"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-mountain"], ["target", "_blank", 1, "btn-web", 3, "click", "href"], [1, "ti", "ti-world"]], template: function SidebarComponent_Template(rf, ctx) {
+  }, decls: 24, vars: 7, consts: [["sidebarScroll", ""], ["trailCard", ""], [1, "sidebar-wrapper"], [1, "sidebar-header"], [1, "header-top"], [1, "ti", "ti-route"], [1, "stats"], [1, "header-actions"], ["title", "Torna alla Home", 1, "btn-icon", 3, "click"], [1, "ti", "ti-home"], ["title", "Ricarica Sentieri", 1, "btn-icon", 3, "click"], [1, "ti", "ti-refresh"], [1, "import-result"], [1, "admin-import-bar"], [1, "badge-toast"], [1, "list-container"], [1, "trail-item", 3, "expanded"], [1, "empty-msg"], ["title", "Impostazioni Algoritmi", 1, "btn-icon", 3, "click"], [1, "ti", "ti-settings"], ["title", "Importa Sentieri OSM", 1, "btn-icon", "btn-import", 3, "click"], [1, "ti", "ti-download"], [1, "admin-input", 3, "ngModelChange", "ngModel"], [3, "value"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModel"], ["title", "Esegui Download OSM", 1, "btn-icon", "btn-import", 3, "click", "disabled"], [1, "ti"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModelChange", "ngModel"], [1, "admin-overlay", 3, "click"], [1, "admin-modal"], [1, "admin-modal-header"], [1, "btn-close-modal", 3, "click"], [1, "ti", "ti-x"], [1, "admin-modal-body"], [1, "config-section-title"], [1, "admin-info"], [1, "config-grid"], [1, "config-row"], [1, "admin-select", 3, "ngModelChange", "ngModel"], [3, "ngValue"], [1, "panel-divider"], ["type", "number", 1, "admin-select", 3, "ngModelChange", "ngModel"], ["type", "number", "step", "50", 1, "admin-select", 3, "ngModelChange", "ngModel"], [1, "equip-tabs"], [1, "equip-tab", 3, "active"], [1, "equip-editor"], [1, "equip-edit-cat"], [1, "btn-equip-add", "btn-equip-add--cat", 3, "click"], [1, "admin-modal-footer"], [1, "btn-save-config", 3, "click"], [1, "ti", "ti-device-floppy"], [1, "equip-tab", 3, "click"], [1, "equip-edit-cat-header"], ["placeholder", "\u{1F392}", "title", "Icona categoria", 1, "admin-input", "equip-input-icon", 3, "ngModelChange", "ngModel"], ["placeholder", "Nome categoria", 1, "admin-input", "equip-input-catname", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi categoria", 1, "btn-equip-remove", 3, "click"], [1, "equip-edit-item"], [1, "btn-equip-add", "btn-equip-add--item", 3, "click"], ["placeholder", "Nome equipaggiamento", 1, "admin-input", "equip-input-item", 3, "ngModelChange", "ngModel"], [1, "equip-obbligatorio-label", 3, "title"], ["type", "checkbox", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi item", 1, "btn-equip-remove", "btn-equip-remove--item", 3, "click"], [1, "badge-item"], [1, "badge-icona"], [1, "trail-item", 3, "click"], [1, "item-header"], [1, "title-block"], [1, "ref-badge"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "off"], [1, "header-right"], [1, "difficulty-badge"], [1, "chevron"], [1, "trail-details"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "click"], [1, "trail-details", 3, "click"], [1, "route-row"], [1, "stats-grid"], [1, "stat-card"], [1, "stat-icon"], [1, "ti", "ti-ruler"], [1, "stat-label"], [1, "stat-value"], [1, "ti", "ti-trending-up"], [1, "ti", "ti-trending-down"], [1, "ti", "ti-clock"], [1, "ti", "ti-clock-check"], [1, "ti", "ti-compass"], [1, "consiglio"], [1, "login-hint"], [1, "attrezzatura-section"], [1, "gps-section"], [1, "operator"], [1, "detail-actions"], ["target", "_blank", 1, "btn-web", 3, "href"], ["target", "_blank", 1, "btn-osm", 3, "click", "href"], [1, "ti", "ti-map"], [1, "btn-close", 3, "click"], [1, "route-point"], [1, "ti", "ti-map-pin"], [1, "route-arrow"], [1, "ti", "ti-arrow-right"], [1, "ti", "ti-flag-3"], [1, "consiglio-header"], [1, "consiglio-testo"], [1, "ti", "ti-lock"], [1, "attrezzatura-header", 3, "click"], [1, "ti", "ti-backpack"], [1, "attrezzatura-body"], [1, "equip-categoria"], [1, "equip-nota"], [1, "equip-cat-titolo"], [1, "equip-lista"], [3, "obbligatorio"], [1, "equip-dot"], [1, "equip-tag"], [1, "btn-gps-start"], [1, "gps-attivo"], [1, "btn-gps-start", 3, "click"], [1, "ti", "ti-current-location"], [1, "gps-stato"], [1, "gps-pulse"], [1, "gps-azioni"], [1, "btn-gps-stop", 3, "click"], [1, "ti", "ti-check"], [1, "btn-gps-annulla", 3, "click"], [1, "gps-completato"], [1, "gps-errore"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-mountain"], ["target", "_blank", 1, "btn-web", 3, "click", "href"], [1, "ti", "ti-world"]], template: function SidebarComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 2, 0)(2, "div", 3)(3, "div", 4)(4, "div")(5, "h2");
       \u0275\u0275element(6, "i", 5);
@@ -62674,7 +62941,7 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275conditionalCreate(16, SidebarComponent_Conditional_16_Template, 2, 1, "p", 12);
       \u0275\u0275conditionalCreate(17, SidebarComponent_Conditional_17_Template, 7, 7, "div", 13);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(18, SidebarComponent_Conditional_18_Template, 88, 26);
+      \u0275\u0275conditionalCreate(18, SidebarComponent_Conditional_18_Template, 101, 26);
       \u0275\u0275conditionalCreate(19, SidebarComponent_Conditional_19_Template, 3, 0, "div", 14);
       \u0275\u0275elementStart(20, "div", 15);
       \u0275\u0275repeaterCreate(21, SidebarComponent_For_22_Template, 14, 12, "div", 16, _forTrack08, false, SidebarComponent_ForEmpty_23_Template, 2, 0, "p", 17);
@@ -62696,367 +62963,438 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.sentieriOrdinati());
     }
-  }, dependencies: [CommonModule, FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel], styles: ['\n.sidebar-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result[_ngcontent-%COMP%] {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header[_ngcontent-%COMP%] {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.admin-input[_ngcontent-%COMP%] {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: _ngcontent-%COMP%_slideDownModal 0.25s ease forwards;\n}\n@keyframes _ngcontent-%COMP%_slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body[_ngcontent-%COMP%] {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer[_ngcontent-%COMP%] {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config[_ngcontent-%COMP%] {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.list-container[_ngcontent-%COMP%] {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded[_ngcontent-%COMP%] {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off[_ngcontent-%COMP%] {\n  color: #e57373;\n}\n.header-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard][_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details[_ngcontent-%COMP%] {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes _ngcontent-%COMP%_slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm[_ngcontent-%COMP%], \n.btn-web[_ngcontent-%COMP%] {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web[_ngcontent-%COMP%] {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata][_ngcontent-%COMP%] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.consiglio-titolo[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.3s ease;\n}\n.badge-icona[_ngcontent-%COMP%] {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.btn-gps-start[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.gps-attivo[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse[_ngcontent-%COMP%] {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: _ngcontent-%COMP%_pulse 1.5s infinite;\n}\n@keyframes _ngcontent-%COMP%_pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop[_ngcontent-%COMP%] {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore[_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section[_ngcontent-%COMP%] {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header[_ngcontent-%COMP%]   .chevron[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.attrezzatura-body[_ngcontent-%COMP%] {\n  padding: 0.8rem 1rem 1rem;\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.equip-categoria[_ngcontent-%COMP%] {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%] {\n  color: white;\n}\n.equip-dot[_ngcontent-%COMP%] {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%]   .equip-dot[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.equip-tag[_ngcontent-%COMP%] {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota[_ngcontent-%COMP%] {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n/*# sourceMappingURL=sidebar.css.map */'] });
+  }, dependencies: [CommonModule, FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel], styles: ['\n.sidebar-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result[_ngcontent-%COMP%] {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header[_ngcontent-%COMP%] {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.admin-input[_ngcontent-%COMP%] {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: _ngcontent-%COMP%_slideDownModal 0.25s ease forwards;\n}\n@keyframes _ngcontent-%COMP%_slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body[_ngcontent-%COMP%] {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer[_ngcontent-%COMP%] {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config[_ngcontent-%COMP%] {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.list-container[_ngcontent-%COMP%] {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded[_ngcontent-%COMP%] {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off[_ngcontent-%COMP%] {\n  color: #e57373;\n}\n.header-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard][_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details[_ngcontent-%COMP%] {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes _ngcontent-%COMP%_slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm[_ngcontent-%COMP%], \n.btn-web[_ngcontent-%COMP%] {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web[_ngcontent-%COMP%] {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata][_ngcontent-%COMP%] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.consiglio-titolo[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.3s ease;\n}\n.badge-icona[_ngcontent-%COMP%] {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.btn-gps-start[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.gps-attivo[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse[_ngcontent-%COMP%] {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: _ngcontent-%COMP%_pulse 1.5s infinite;\n}\n@keyframes _ngcontent-%COMP%_pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop[_ngcontent-%COMP%] {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore[_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section[_ngcontent-%COMP%] {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header[_ngcontent-%COMP%]   .chevron[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.attrezzatura-body[_ngcontent-%COMP%] {\n  padding: 0.8rem 1rem 1rem;\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.equip-categoria[_ngcontent-%COMP%] {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%] {\n  color: white;\n}\n.equip-dot[_ngcontent-%COMP%] {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%]   .equip-dot[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.equip-tag[_ngcontent-%COMP%] {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota[_ngcontent-%COMP%] {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider[_ngcontent-%COMP%] {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab[_ngcontent-%COMP%] {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active[_ngcontent-%COMP%] {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat[_ngcontent-%COMP%] {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon[_ngcontent-%COMP%] {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname[_ngcontent-%COMP%] {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove[_ngcontent-%COMP%]:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item[_ngcontent-%COMP%]:hover {\n  opacity: 1;\n}\n.btn-equip-add[_ngcontent-%COMP%] {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add[_ngcontent-%COMP%]:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item[_ngcontent-%COMP%] {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SidebarComponent, [{
     type: Component,
-    args: [{ selector: "app-sidebar", standalone: true, imports: [CommonModule, FormsModule], template: `<div class="sidebar-wrapper" #sidebarScroll>
-
-  <div class="sidebar-header">
-    <div class="header-top">
-      <div>
-        <h2><i class="ti ti-route"></i> Sentieri</h2>
-        <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>
-      </div>
-      <div class="header-actions">
-        <button class="btn-icon" title="Torna alla Home" (click)="vaiAllaHome()">
-          <i class="ti ti-home"></i>
-        </button>
-        <button class="btn-icon" title="Ricarica Sentieri" (click)="ricaricaSentieri()">
-          <i class="ti ti-refresh"></i>
-        </button>
-        @if (isAdmin()) {
-          <button class="btn-icon" title="Impostazioni Algoritmi" (click)="apriConfig()">
-            <i class="ti ti-settings"></i>
-          </button>
-          <button class="btn-icon btn-import" title="Importa Sentieri OSM" (click)="toggleImportBar()">
-            <i class="ti ti-download"></i>
-          </button>
-        }
-      </div>
-    </div>
-
-    @if (importEsito) {
-      <p class="import-result">{{ importEsito }}</p>
-    }
-
-    @if (isAdmin() && showImportBar) {
-      <div class="admin-import-bar">
-        <select [(ngModel)]="areaSelezionata" class="admin-input">
-          @for (r of regioniPreimpostate; track r.nome) {
-            <option [value]="r.bbox">{{ r.nome }}</option>
-          }
-        </select>
-
-        @if (areaSelezionata === 'custom') {
-          <input type="text" [(ngModel)]="areaCustom" placeholder="es. 45.8,10.5,46.2,11.5" class="admin-input" style="margin-left: 0.4rem; width: 120px;" />
-        }
-
-        <button class="btn-icon btn-import" title="Esegui Download OSM" (click)="avviaImportazione()" [disabled]="importaLoading">
-          <i class="ti" [class.ti-loader-2]="importaLoading" [class.ti-player-play-filled]="!importaLoading"></i>
-        </button>
-      </div>
-    }
-  </div>
-
-  @if (configAperta && isAdmin()) {
-    <div class="admin-overlay" (click)="configAperta = false"></div>
-    <div class="admin-modal">
-      <div class="admin-modal-header">
-        <h3><i class="ti ti-settings"></i> Regole Sentieri e Attrezzatura</h3>
-        <button class="btn-close-modal" (click)="configAperta = false">
-          <i class="ti ti-x"></i>
-        </button>
-      </div>
-      <div class="admin-modal-body">
-
-        <h4 class="config-section-title">Livello Esperienza Richiesto (1-5)</h4>
-        <p class="admin-info">Seleziona il livello utente minimo per consigliare i percorsi.</p>
-
-        <div class="config-grid">
-          <div class="config-row">
-            <label>Turistico (T):</label>
-            <select [(ngModel)]="configEdit.requisitiCai['T']" class="admin-select">
-              <option [ngValue]="1">Livello 1 / 5</option>
-              <option [ngValue]="2">Livello 2 / 5</option>
-              <option [ngValue]="3">Livello 3 / 5</option>
-              <option [ngValue]="4">Livello 4 / 5</option>
-              <option [ngValue]="5">Livello 5 / 5</option>
-            </select>
-          </div>
-          <div class="config-row">
-            <label>Escursionistico (E):</label>
-            <select [(ngModel)]="configEdit.requisitiCai['E']" class="admin-select">
-              <option [ngValue]="1">Livello 1 / 5</option>
-              <option [ngValue]="2">Livello 2 / 5</option>
-              <option [ngValue]="3">Livello 3 / 5</option>
-              <option [ngValue]="4">Livello 4 / 5</option>
-              <option [ngValue]="5">Livello 5 / 5</option>
-            </select>
-          </div>
-          <div class="config-row">
-            <label>Esperti (EE):</label>
-            <select [(ngModel)]="configEdit.requisitiCai['EE']" class="admin-select">
-              <option [ngValue]="1">Livello 1 / 5</option>
-              <option [ngValue]="2">Livello 2 / 5</option>
-              <option [ngValue]="3">Livello 3 / 5</option>
-              <option [ngValue]="4">Livello 4 / 5</option>
-              <option [ngValue]="5">Livello 5 / 5</option>
-            </select>
-          </div>
-          <div class="config-row">
-            <label>Ferrata (EEA):</label>
-            <select [(ngModel)]="configEdit.requisitiCai['EEA']" class="admin-select">
-              <option [ngValue]="1">Livello 1 / 5</option>
-              <option [ngValue]="2">Livello 2 / 5</option>
-              <option [ngValue]="3">Livello 3 / 5</option>
-              <option [ngValue]="4">Livello 4 / 5</option>
-              <option [ngValue]="5">Livello 5 / 5</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="panel-divider" style="margin: 1.2rem 0; opacity: 0.2"></div>
-
-        <h4 class="config-section-title">Soglie per l'Attrezzatura</h4>
-        <p class="admin-info">Oltre quali valori consigli l'equipaggiamento pesante?</p>
-
-        <div class="config-grid">
-          <div class="config-row">
-            <label>Percorso "Lungo" (km):</label>
-            <input type="number" [(ngModel)]="configEdit.soglieEquip.lungaKm" class="admin-select" />
-          </div>
-          <div class="config-row">
-            <label>Dislivello Elevato (m D+):</label>
-            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50"/>
-          </div>
-        </div>
-
-      </div>
-      <div class="admin-modal-footer">
-        <button class="btn-save-config" (click)="salvaConfig()">
-          <i class="ti ti-device-floppy"></i> Salva nel Database
-        </button>
-      </div>
-    </div>
-  }
-
-  @if (nuoviBadge().length > 0) {
-    <div class="badge-toast">
-      @for (b of nuoviBadge(); track b.id) {
-        <div class="badge-item">
-          <span class="badge-icona">{{ b.icona }}</span>
-          <div>
-            <strong>Badge sbloccato!</strong>
-            <p>{{ b.nome }} \u2014 {{ b.descrizione }}</p>
-          </div>
-        </div>
-      }
-    </div>
-  }
-
-  <div class="list-container">
-    @for (s of sentieriOrdinati(); track s.osm_id) {
-
-      <div class="trail-item"
-           #trailCard
-           [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"
-           (click)="seleziona(s)">
-
-        <div class="item-header">
-          <div class="title-block">
-            @if (s.properties?.['ref']) {
-              <span class="ref-badge">{{ s.properties?.['ref'] }}</span>
-            }
-            <h3 [class.text-muted]="s.isVisible === false">{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
-            @if (isAdmin()) {
-              <button class="btn-visibility"
-                      [class.off]="s.isVisible === false"
-                      (click)="toggleVisibilita(s, $event)"
-                      title="Attiva/Disattiva Visibilit\xE0 Globale">
-                <i class="ti" [class.ti-eye]="s.isVisible !== false" [class.ti-eye-off]="s.isVisible === false"></i>
-              </button>
-            }
-          </div>
-          <div class="header-right">
-            <span class="difficulty-badge"
-                  [attr.data-level]="getDifficultyLevel(s.properties?.['cai_scale'])">
-              {{ s.properties?.['cai_scale'] || s.difficolta || 'T' }}
-            </span>
-            <span class="chevron"
-                  [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">\u203A</span>
-          </div>
-        </div>
-
-        @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {
-          <div class="trail-details" (click)="$event.stopPropagation()">
-
-            @if (s.properties?.['from'] || s.properties?.['to']) {
-              <div class="route-row">
-                <span class="route-point">
-                  <i class="ti ti-map-pin"></i> {{ s.properties?.['from'] || '\u2014' }}
-                </span>
-                <span class="route-arrow"><i class="ti ti-arrow-right"></i></span>
-                <span class="route-point">
-                  <i class="ti ti-flag-3"></i> {{ s.properties?.['to'] || '\u2014' }}
-                </span>
-              </div>
-            }
-
-            <div class="stats-grid">
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-ruler"></i></span>
-                <span class="stat-label">Lunghezza</span>
-                <span class="stat-value">{{ s.lunghezza ?? '\u2014' }} km</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-trending-up"></i></span>
-                <span class="stat-label">Salita</span>
-                <span class="stat-value">{{ s.dislivello_positivo ? '+' + s.dislivello_positivo + ' m' : '\u2014' }}</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-trending-down"></i></span>
-                <span class="stat-label">Discesa</span>
-                <span class="stat-value">{{ s.properties?.['descent'] ? '-' + s.properties?.['descent'] + ' m' : '\u2014' }}</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-clock"></i></span>
-                <span class="stat-label">Andata</span>
-                <span class="stat-value">{{ formatDurata(s.tempoAndata) }}</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-clock-check"></i></span>
-                <span class="stat-label">Ritorno</span>
-                <span class="stat-value">{{ formatDurata(s.tempoRitorno) }}</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-icon"><i class="ti ti-compass"></i></span>
-                <span class="stat-label">Difficolt\xE0</span>
-                <span class="stat-value">{{ s.properties?.['cai_scale'] || s.difficolta || '\u2014' }}</span>
-              </div>
-            </div>
-
-            @if (authService.isAutenticato() && consiglio()) {
-              <div class="consiglio" [attr.data-livello]="consiglio()!.livello">
-                <div class="consiglio-header">
-                  <span>{{ consiglio()!.icona }}</span>
-                  <strong>{{ consiglio()!.titolo }}</strong>
-                </div>
-                <p class="consiglio-testo">{{ consiglio()!.messaggio }}</p>
-              </div>
-            }
-            @if (!authService.isAutenticato()) {
-              <p class="login-hint">
-                <i class="ti ti-lock"></i> Accedi per vedere il consiglio personalizzato
-              </p>
-            }
-
-            @if (attrezzatura().length > 0) {
-              <div class="attrezzatura-section">
-                <div class="attrezzatura-header" (click)="toggleAttrezzatura()">
-                  <span><i class="ti ti-backpack"></i> Attrezzatura consigliata</span>
-                  <span class="chevron" [class.open]="attrezzaturaAperta">\u203A</span>
-                </div>
-
-                @if (attrezzaturaAperta) {
-                  <div class="attrezzatura-body">
-                    @for (cat of attrezzatura(); track cat.categoria) {
-                      <div class="equip-categoria">
-                        <p class="equip-cat-titolo">
-                          {{ cat.icona }} {{ cat.categoria }}
-                        </p>
-                        <ul class="equip-lista">
-                          @for (item of cat.items; track item.nome) {
-                            <li [class.obbligatorio]="item.obbligatorio">
-                              <span class="equip-dot">{{ item.obbligatorio ? '\u25CF' : '\u25CB' }}</span>
-                              {{ item.nome }}
-                              @if (item.obbligatorio) {
-                                <span class="equip-tag">essenziale</span>
-                              }
-                            </li>
-                          }
-                        </ul>
-                      </div>
-                    }
-                    <p class="equip-nota">
-                      \u25CF essenziale &nbsp;\u25CB consigliato in base alle condizioni
-                    </p>
-                  </div>
-                }
-              </div>
-            }
-
-            @if (authService.isAutenticato()) {
-              <div class="gps-section">
-
-                @if (!utenteSvc.sentieroInTracciamentoId() && sentieroCompletatoId() !== s.osm_id) {
-                  <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">
-                    <i class="ti ti-current-location"></i> Inizia questo percorso
-                  </button>
-                }
-
-                @if (utenteSvc.sentieroInTracciamentoId() === s.osm_id) {
-                  <div class="gps-attivo">
-                    <div class="gps-stato">
-                      <span class="gps-pulse"></span>
-                      <span>{{ messaggioGps() }}</span>
-                    </div>
-                    <div class="gps-azioni">
-                      <button class="btn-gps-stop" (click)="fermaGps(); $event.stopPropagation()">
-                        <i class="ti ti-check"></i> Completato
-                      </button>
-                      <button class="btn-gps-annulla" (click)="annullaGps(); $event.stopPropagation()">
-                        <i class="ti ti-x"></i> Annulla
-                      </button>
-                    </div>
-                  </div>
-                }
-
-                @if (sentieroCompletatoId() === s.osm_id) {
-                  @if (statoGps() === 'completato') {
-                    <div class="gps-completato">
-                      <span>\u{1F389} {{ messaggioGps() }}</span>
-                    </div>
-                  }
-                  @if (statoGps() === 'errore') {
-                    <div class="gps-errore">
-                      <span><i class="ti ti-alert-triangle"></i> {{ messaggioGps() }}</span>
-                      <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">Riprova</button>
-                    </div>
-                  }
-                }
-              </div>
-            }
-
-            @if (s.properties?.['operator']) {
-              <p class="operator">
-                <i class="ti ti-mountain"></i> {{ s.properties?.['operator'] }}
-              </p>
-            }
-
-            <div class="detail-actions">
-              @if (s.properties?.['website']) {
-                <a class="btn-web"
-                   [href]="s.properties?.['website']"
-                   target="_blank"
-                   (click)="$event.stopPropagation()">
-                  <i class="ti ti-world"></i> Sito ufficiale
-                </a>
-              }
-              <a class="btn-osm"
-                 [href]="'https://www.openstreetmap.org/' + s.osm_id"
-                 target="_blank"
-                 (click)="$event.stopPropagation()">
-                <i class="ti ti-map"></i> Apri su OSM
-              </a>
-              <button class="btn-close"
-                      (click)="sentieroService.sentieroSelezionato.set(null); $event.stopPropagation()">
-                <i class="ti ti-x"></i> Chiudi
-              </button>
-            </div>
-
-          </div>
-        }
-      </div>
-
-    } @empty {
-      <p class="empty-msg">Nessun sentiero caricato.</p>
-    }
-  </div>
-
-</div>
-`, styles: ['/* src/app/features/sentieri/components/trail-list/sidebar.css */\n.sidebar-wrapper {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header h2 {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: slideDown 0.2s ease;\n}\n.admin-input {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input:focus {\n  border-color: #D8D089;\n}\n.admin-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: slideDownModal 0.25s ease forwards;\n}\n@keyframes slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header h3 {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row label {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select:focus {\n  border-color: #D8D089;\n}\n.admin-select option {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config:hover {\n  background: #c9c97a;\n}\n.list-container {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block h3 {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off {\n  color: #e57373;\n}\n.header-right {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm,\n.btn-web {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona {\n  font-size: 1.1rem;\n}\n.consiglio-titolo {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: slideDown 0.3s ease;\n}\n.badge-icona {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item strong {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item p {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section {\n  margin-bottom: 1rem;\n}\n.btn-gps-start {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start:hover {\n  background: #c9c97a;\n}\n.gps-attivo {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: pulse 1.5s infinite;\n}\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header .chevron {\n  font-size: 1.1rem;\n}\n.attrezzatura-body {\n  padding: 0.8rem 1rem 1rem;\n  animation: slideDown 0.2s ease;\n}\n.equip-categoria {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista li {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista li.obbligatorio {\n  color: white;\n}\n.equip-dot {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista li.obbligatorio .equip-dot {\n  color: #D8D089;\n}\n.equip-tag {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n/*# sourceMappingURL=sidebar.css.map */\n'] }]
+    args: [{ selector: "app-sidebar", standalone: true, imports: [CommonModule, FormsModule], template: `<div class="sidebar-wrapper" #sidebarScroll>\r
+\r
+  <div class="sidebar-header">\r
+    <div class="header-top">\r
+      <div>\r
+        <h2><i class="ti ti-route"></i> Sentieri</h2>\r
+        <p class="stats">{{ sentieriOrdinati().length }} disponibili</p>\r
+      </div>\r
+      <div class="header-actions">\r
+        <button class="btn-icon" title="Torna alla Home" (click)="vaiAllaHome()">\r
+          <i class="ti ti-home"></i>\r
+        </button>\r
+        <button class="btn-icon" title="Ricarica Sentieri" (click)="ricaricaSentieri()">\r
+          <i class="ti ti-refresh"></i>\r
+        </button>\r
+        @if (isAdmin()) {\r
+          <button class="btn-icon" title="Impostazioni Algoritmi" (click)="apriConfig()">\r
+            <i class="ti ti-settings"></i>\r
+          </button>\r
+          <button class="btn-icon btn-import" title="Importa Sentieri OSM" (click)="toggleImportBar()">\r
+            <i class="ti ti-download"></i>\r
+          </button>\r
+        }\r
+      </div>\r
+    </div>\r
+\r
+    @if (importEsito) {\r
+      <p class="import-result">{{ importEsito }}</p>\r
+    }\r
+\r
+    @if (isAdmin() && showImportBar) {\r
+      <div class="admin-import-bar">\r
+        <select [(ngModel)]="areaSelezionata" class="admin-input">\r
+          @for (r of regioniPreimpostate; track r.nome) {\r
+            <option [value]="r.bbox">{{ r.nome }}</option>\r
+          }\r
+        </select>\r
+\r
+        @if (areaSelezionata === 'custom') {\r
+          <input type="text" [(ngModel)]="areaCustom" placeholder="es. 45.8,10.5,46.2,11.5" class="admin-input" style="margin-left: 0.4rem; width: 120px;" />\r
+        }\r
+\r
+        <button class="btn-icon btn-import" title="Esegui Download OSM" (click)="avviaImportazione()" [disabled]="importaLoading">\r
+          <i class="ti" [class.ti-loader-2]="importaLoading" [class.ti-player-play-filled]="!importaLoading"></i>\r
+        </button>\r
+      </div>\r
+    }\r
+  </div>\r
+\r
+  @if (configAperta && isAdmin()) {\r
+    <div class="admin-overlay" (click)="configAperta = false"></div>\r
+    <div class="admin-modal">\r
+      <div class="admin-modal-header">\r
+        <h3><i class="ti ti-settings"></i> Regole Sentieri e Attrezzatura</h3>\r
+        <button class="btn-close-modal" (click)="configAperta = false">\r
+          <i class="ti ti-x"></i>\r
+        </button>\r
+      </div>\r
+      <div class="admin-modal-body">\r
+\r
+        <!-- \u2500\u2500 SEZIONE 1: Livello Esperienza \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->\r
+        <h4 class="config-section-title">Livello Esperienza Richiesto (1-5)</h4>\r
+        <p class="admin-info">Seleziona il livello utente minimo per consigliare i percorsi.</p>\r
+\r
+        <div class="config-grid">\r
+          <div class="config-row">\r
+            <label>Turistico (T):</label>\r
+            <select [(ngModel)]="configEdit.requisitiCai['T']" class="admin-select">\r
+              <option [ngValue]="1">Livello 1 / 5</option>\r
+              <option [ngValue]="2">Livello 2 / 5</option>\r
+              <option [ngValue]="3">Livello 3 / 5</option>\r
+              <option [ngValue]="4">Livello 4 / 5</option>\r
+              <option [ngValue]="5">Livello 5 / 5</option>\r
+            </select>\r
+          </div>\r
+          <div class="config-row">\r
+            <label>Escursionistico (E):</label>\r
+            <select [(ngModel)]="configEdit.requisitiCai['E']" class="admin-select">\r
+              <option [ngValue]="1">Livello 1 / 5</option>\r
+              <option [ngValue]="2">Livello 2 / 5</option>\r
+              <option [ngValue]="3">Livello 3 / 5</option>\r
+              <option [ngValue]="4">Livello 4 / 5</option>\r
+              <option [ngValue]="5">Livello 5 / 5</option>\r
+            </select>\r
+          </div>\r
+          <div class="config-row">\r
+            <label>Esperti (EE):</label>\r
+            <select [(ngModel)]="configEdit.requisitiCai['EE']" class="admin-select">\r
+              <option [ngValue]="1">Livello 1 / 5</option>\r
+              <option [ngValue]="2">Livello 2 / 5</option>\r
+              <option [ngValue]="3">Livello 3 / 5</option>\r
+              <option [ngValue]="4">Livello 4 / 5</option>\r
+              <option [ngValue]="5">Livello 5 / 5</option>\r
+            </select>\r
+          </div>\r
+          <div class="config-row">\r
+            <label>Ferrata (EEA):</label>\r
+            <select [(ngModel)]="configEdit.requisitiCai['EEA']" class="admin-select">\r
+              <option [ngValue]="1">Livello 1 / 5</option>\r
+              <option [ngValue]="2">Livello 2 / 5</option>\r
+              <option [ngValue]="3">Livello 3 / 5</option>\r
+              <option [ngValue]="4">Livello 4 / 5</option>\r
+              <option [ngValue]="5">Livello 5 / 5</option>\r
+            </select>\r
+          </div>\r
+        </div>\r
+\r
+        <div class="panel-divider"></div>\r
+\r
+        <!-- \u2500\u2500 SEZIONE 2: Soglie Attrezzatura \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->\r
+        <h4 class="config-section-title">Soglie per l'Attrezzatura</h4>\r
+        <p class="admin-info">Oltre quali valori consigli l'equipaggiamento pesante?</p>\r
+\r
+        <div class="config-grid">\r
+          <div class="config-row">\r
+            <label>Percorso "Lungo" (km):</label>\r
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.lungaKm" class="admin-select" />\r
+          </div>\r
+          <div class="config-row">\r
+            <label>Dislivello Elevato (m D+):</label>\r
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50" />\r
+          </div>\r
+        </div>\r
+\r
+        <div class="panel-divider"></div>\r
+\r
+        <!-- \u2500\u2500 SEZIONE 3: Attrezzatura per Livello \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->\r
+        <h4 class="config-section-title">Attrezzatura per Livello CAI</h4>\r
+        <p class="admin-info">\r
+          Modifica categorie e item consigliati per ogni difficolt\xE0.\r
+          Le modifiche sono attive per tutti gli utenti dopo il salvataggio.\r
+        </p>\r
+\r
+        <!-- Tab selector livelli -->\r
+        <div class="equip-tabs">\r
+          @for (livello of livelliCai; track livello) {\r
+            <button class="equip-tab"\r
+                    [class.active]="livelloEquipSelezionato === livello"\r
+                    (click)="livelloEquipSelezionato = livello">\r
+              {{ livello }}\r
+            </button>\r
+          }\r
+        </div>\r
+\r
+        <!-- Lista categorie del livello selezionato -->\r
+        <div class="equip-editor">\r
+          @for (cat of configEdit.attrezzaturaPerLivello[livelloEquipSelezionato]; track $index; let catIdx = $index) {\r
+            <div class="equip-edit-cat">\r
+\r
+              <!-- Header categoria: icona + nome + tasto rimuovi -->\r
+              <div class="equip-edit-cat-header">\r
+                <input [(ngModel)]="cat.icona"\r
+                       class="admin-input equip-input-icon"\r
+                       placeholder="\u{1F392}"\r
+                       title="Icona categoria" />\r
+                <input [(ngModel)]="cat.categoria"\r
+                       class="admin-input equip-input-catname"\r
+                       placeholder="Nome categoria" />\r
+                <button class="btn-equip-remove"\r
+                        (click)="rimuoviCategoria(catIdx)"\r
+                        title="Rimuovi categoria">\u2715</button>\r
+              </div>\r
+\r
+              <!-- Items della categoria -->\r
+              @for (item of cat.items; track $index; let itemIdx = $index) {\r
+                <div class="equip-edit-item">\r
+                  <input [(ngModel)]="item.nome"\r
+                         class="admin-input equip-input-item"\r
+                         placeholder="Nome equipaggiamento" />\r
+                  <label class="equip-obbligatorio-label" [title]="item.obbligatorio ? 'Essenziale' : 'Consigliato'">\r
+                    <input type="checkbox" [(ngModel)]="item.obbligatorio" />\r
+                    <span>essenziale</span>\r
+                  </label>\r
+                  <button class="btn-equip-remove btn-equip-remove--item"\r
+                          (click)="rimuoviItem(catIdx, itemIdx)"\r
+                          title="Rimuovi item">\u2715</button>\r
+                </div>\r
+              }\r
+\r
+              <button class="btn-equip-add btn-equip-add--item"\r
+                      (click)="aggiungiItem(catIdx)">\r
+                + Aggiungi item\r
+              </button>\r
+            </div>\r
+          }\r
+\r
+          <!-- Pulsante aggiungi categoria -->\r
+          <button class="btn-equip-add btn-equip-add--cat"\r
+                  (click)="aggiungiCategoria()">\r
+            + Aggiungi categoria\r
+          </button>\r
+        </div>\r
+\r
+      </div>\r
+      <div class="admin-modal-footer">\r
+        <button class="btn-save-config" (click)="salvaConfig()">\r
+          <i class="ti ti-device-floppy"></i> Salva nel Database\r
+        </button>\r
+      </div>\r
+    </div>\r
+  }\r
+\r
+  @if (nuoviBadge().length > 0) {\r
+    <div class="badge-toast">\r
+      @for (b of nuoviBadge(); track b.id) {\r
+        <div class="badge-item">\r
+          <span class="badge-icona">{{ b.icona }}</span>\r
+          <div>\r
+            <strong>Badge sbloccato!</strong>\r
+            <p>{{ b.nome }} \u2014 {{ b.descrizione }}</p>\r
+          </div>\r
+        </div>\r
+      }\r
+    </div>\r
+  }\r
+\r
+  <div class="list-container">\r
+    @for (s of sentieriOrdinati(); track s.osm_id) {\r
+\r
+      <div class="trail-item"\r
+           #trailCard\r
+           [class.expanded]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id"\r
+           (click)="seleziona(s)">\r
+\r
+        <div class="item-header">\r
+          <div class="title-block">\r
+            @if (s.properties?.['ref']) {\r
+              <span class="ref-badge">{{ s.properties?.['ref'] }}</span>\r
+            }\r
+            <h3 [class.text-muted]="s.isVisible === false">{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>\r
+            @if (isAdmin()) {\r
+              <button class="btn-visibility"\r
+                      [class.off]="s.isVisible === false"\r
+                      (click)="toggleVisibilita(s, $event)"\r
+                      title="Attiva/Disattiva Visibilit\xE0 Globale">\r
+                <i class="ti" [class.ti-eye]="s.isVisible !== false" [class.ti-eye-off]="s.isVisible === false"></i>\r
+              </button>\r
+            }\r
+          </div>\r
+          <div class="header-right">\r
+            <span class="difficulty-badge"\r
+                  [attr.data-level]="getDifficultyLevel(s.properties?.['cai_scale'])">\r
+              {{ s.properties?.['cai_scale'] || s.difficolta || 'T' }}\r
+            </span>\r
+            <span class="chevron"\r
+                  [class.open]="sentieroService.sentieroSelezionato()?.osm_id === s.osm_id">\u203A</span>\r
+          </div>\r
+        </div>\r
+\r
+        @if (sentieroService.sentieroSelezionato()?.osm_id === s.osm_id) {\r
+          <div class="trail-details" (click)="$event.stopPropagation()">\r
+\r
+            @if (s.properties?.['from'] || s.properties?.['to']) {\r
+              <div class="route-row">\r
+                <span class="route-point">\r
+                  <i class="ti ti-map-pin"></i> {{ s.properties?.['from'] || '\u2014' }}\r
+                </span>\r
+                <span class="route-arrow"><i class="ti ti-arrow-right"></i></span>\r
+                <span class="route-point">\r
+                  <i class="ti ti-flag-3"></i> {{ s.properties?.['to'] || '\u2014' }}\r
+                </span>\r
+              </div>\r
+            }\r
+\r
+            <div class="stats-grid">\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-ruler"></i></span>\r
+                <span class="stat-label">Lunghezza</span>\r
+                <span class="stat-value">{{ s.lunghezza ?? '\u2014' }} km</span>\r
+              </div>\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-trending-up"></i></span>\r
+                <span class="stat-label">Salita</span>\r
+                <span class="stat-value">{{ s.dislivello_positivo ? '+' + s.dislivello_positivo + ' m' : '\u2014' }}</span>\r
+              </div>\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-trending-down"></i></span>\r
+                <span class="stat-label">Discesa</span>\r
+                <span class="stat-value">{{ s.properties?.['descent'] ? '-' + s.properties?.['descent'] + ' m' : '\u2014' }}</span>\r
+              </div>\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-clock"></i></span>\r
+                <span class="stat-label">Andata</span>\r
+                <span class="stat-value">{{ formatDurata(s.tempoAndata) }}</span>\r
+              </div>\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-clock-check"></i></span>\r
+                <span class="stat-label">Ritorno</span>\r
+                <span class="stat-value">{{ formatDurata(s.tempoRitorno) }}</span>\r
+              </div>\r
+              <div class="stat-card">\r
+                <span class="stat-icon"><i class="ti ti-compass"></i></span>\r
+                <span class="stat-label">Difficolt\xE0</span>\r
+                <span class="stat-value">{{ s.properties?.['cai_scale'] || s.difficolta || '\u2014' }}</span>\r
+              </div>\r
+            </div>\r
+\r
+            @if (authService.isAutenticato() && consiglio()) {\r
+              <div class="consiglio" [attr.data-livello]="consiglio()!.livello">\r
+                <div class="consiglio-header">\r
+                  <span>{{ consiglio()!.icona }}</span>\r
+                  <strong>{{ consiglio()!.titolo }}</strong>\r
+                </div>\r
+                <p class="consiglio-testo">{{ consiglio()!.messaggio }}</p>\r
+              </div>\r
+            }\r
+            @if (!authService.isAutenticato()) {\r
+              <p class="login-hint">\r
+                <i class="ti ti-lock"></i> Accedi per vedere il consiglio personalizzato\r
+              </p>\r
+            }\r
+\r
+            @if (attrezzatura().length > 0) {\r
+              <div class="attrezzatura-section">\r
+                <div class="attrezzatura-header" (click)="toggleAttrezzatura()">\r
+                  <span><i class="ti ti-backpack"></i> Attrezzatura consigliata</span>\r
+                  <span class="chevron" [class.open]="attrezzaturaAperta">\u203A</span>\r
+                </div>\r
+\r
+                @if (attrezzaturaAperta) {\r
+                  <div class="attrezzatura-body">\r
+                    @for (cat of attrezzatura(); track cat.categoria) {\r
+                      <div class="equip-categoria">\r
+                        <p class="equip-cat-titolo">\r
+                          {{ cat.icona }} {{ cat.categoria }}\r
+                        </p>\r
+                        <ul class="equip-lista">\r
+                          @for (item of cat.items; track item.nome) {\r
+                            <li [class.obbligatorio]="item.obbligatorio">\r
+                              <span class="equip-dot">{{ item.obbligatorio ? '\u25CF' : '\u25CB' }}</span>\r
+                              {{ item.nome }}\r
+                              @if (item.obbligatorio) {\r
+                                <span class="equip-tag">essenziale</span>\r
+                              }\r
+                            </li>\r
+                          }\r
+                        </ul>\r
+                      </div>\r
+                    }\r
+                    <p class="equip-nota">\r
+                      \u25CF essenziale &nbsp;\u25CB consigliato in base alle condizioni\r
+                    </p>\r
+                  </div>\r
+                }\r
+              </div>\r
+            }\r
+\r
+            @if (authService.isAutenticato()) {\r
+              <div class="gps-section">\r
+\r
+                @if (!utenteSvc.sentieroInTracciamentoId() && sentieroCompletatoId() !== s.osm_id) {\r
+                  <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">\r
+                    <i class="ti ti-current-location"></i> Inizia questo percorso\r
+                  </button>\r
+                }\r
+\r
+                @if (utenteSvc.sentieroInTracciamentoId() === s.osm_id) {\r
+                  <div class="gps-attivo">\r
+                    <div class="gps-stato">\r
+                      <span class="gps-pulse"></span>\r
+                      <span>{{ messaggioGps() }}</span>\r
+                    </div>\r
+                    <div class="gps-azioni">\r
+                      <button class="btn-gps-stop" (click)="fermaGps(); $event.stopPropagation()">\r
+                        <i class="ti ti-check"></i> Completato\r
+                      </button>\r
+                      <button class="btn-gps-annulla" (click)="annullaGps(); $event.stopPropagation()">\r
+                        <i class="ti ti-x"></i> Annulla\r
+                      </button>\r
+                    </div>\r
+                  </div>\r
+                }\r
+\r
+                @if (sentieroCompletatoId() === s.osm_id) {\r
+                  @if (statoGps() === 'completato') {\r
+                    <div class="gps-completato">\r
+                      <span>\u{1F389} {{ messaggioGps() }}</span>\r
+                    </div>\r
+                  }\r
+                  @if (statoGps() === 'errore') {\r
+                    <div class="gps-errore">\r
+                      <span><i class="ti ti-alert-triangle"></i> {{ messaggioGps() }}</span>\r
+                      <button class="btn-gps-start" (click)="avviaGps(); $event.stopPropagation()">Riprova</button>\r
+                    </div>\r
+                  }\r
+                }\r
+              </div>\r
+            }\r
+\r
+            @if (s.properties?.['operator']) {\r
+              <p class="operator">\r
+                <i class="ti ti-mountain"></i> {{ s.properties?.['operator'] }}\r
+              </p>\r
+            }\r
+\r
+            <div class="detail-actions">\r
+              @if (s.properties?.['website']) {\r
+                <a class="btn-web"\r
+                   [href]="s.properties?.['website']"\r
+                   target="_blank"\r
+                   (click)="$event.stopPropagation()">\r
+                  <i class="ti ti-world"></i> Sito ufficiale\r
+                </a>\r
+              }\r
+              <a class="btn-osm"\r
+                 [href]="'https://www.openstreetmap.org/' + s.osm_id"\r
+                 target="_blank"\r
+                 (click)="$event.stopPropagation()">\r
+                <i class="ti ti-map"></i> Apri su OSM\r
+              </a>\r
+              <button class="btn-close"\r
+                      (click)="sentieroService.sentieroSelezionato.set(null); $event.stopPropagation()">\r
+                <i class="ti ti-x"></i> Chiudi\r
+              </button>\r
+            </div>\r
+\r
+          </div>\r
+        }\r
+      </div>\r
+\r
+    } @empty {\r
+      <p class="empty-msg">Nessun sentiero caricato.</p>\r
+    }\r
+  </div>\r
+\r
+</div>\r
+`, styles: ['/* src/app/features/sentieri/components/trail-list/sidebar.css */\n.sidebar-wrapper {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header h2 {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: slideDown 0.2s ease;\n}\n.admin-input {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input:focus {\n  border-color: #D8D089;\n}\n.admin-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: slideDownModal 0.25s ease forwards;\n}\n@keyframes slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header h3 {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row label {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select:focus {\n  border-color: #D8D089;\n}\n.admin-select option {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config:hover {\n  background: #c9c97a;\n}\n.list-container {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block h3 {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off {\n  color: #e57373;\n}\n.header-right {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm,\n.btn-web {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona {\n  font-size: 1.1rem;\n}\n.consiglio-titolo {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: slideDown 0.3s ease;\n}\n.badge-icona {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item strong {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item p {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section {\n  margin-bottom: 1rem;\n}\n.btn-gps-start {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start:hover {\n  background: #c9c97a;\n}\n.gps-attivo {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: pulse 1.5s infinite;\n}\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header .chevron {\n  font-size: 1.1rem;\n}\n.attrezzatura-body {\n  padding: 0.8rem 1rem 1rem;\n  animation: slideDown 0.2s ease;\n}\n.equip-categoria {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista li {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista li.obbligatorio {\n  color: white;\n}\n.equip-dot {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista li.obbligatorio .equip-dot {\n  color: #D8D089;\n}\n.equip-tag {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item {\n  flex: 1;\n}\n.equip-obbligatorio-label {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label input[type=checkbox] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item:hover {\n  opacity: 1;\n}\n.btn-equip-add {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */\n'] }]
   }], () => [], { sidebarScroll: [{
     type: ViewChild,
     args: ["sidebarScroll"]
@@ -63066,7 +63404,7 @@ var SidebarComponent = class _SidebarComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/features/sentieri/components/trail-list/sidebar.ts", lineNumber: 35 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/features/sentieri/components/trail-list/sidebar.ts", lineNumber: 36 });
 })();
 
 // src/app/features/sentieri/sentieri-shell.ts

@@ -24,7 +24,7 @@ border-color: rgba(216,208,137,0.5);
 .overlay {
 position: fixed; inset: 0;
 background: rgba(0,0,0,0.45);
-z-index: 200;
+z-index: 10000;
 }
 
 /* ── PANEL ─────────────────────────────────────────────────── */
@@ -35,7 +35,7 @@ top: 0; right: 0;
 width: 300px; height: 100vh;
 background: #1f4240;
 border-left: 0.5px solid rgba(151,168,149,0.25);
-z-index: 201;
+z-index: 10001;
 padding: 1.5rem;
 display: flex; flex-direction: column; gap: 1rem;
 overflow-y: auto;
