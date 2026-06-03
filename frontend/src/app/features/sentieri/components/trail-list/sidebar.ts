@@ -18,12 +18,13 @@ import { SentieroService } from '@core/services/sentiero.service';
 import { AuthService } from '@core/services/auth.service';
 import { UtenteService } from '@core/services/utente.service';
 import { valutaCompatibilita, ConsiglioSentiero, TrailConfig } from './trail-advisor';
-import { suggerisciAttrezzatura, SuggerimentoAttrezzatura, EquipConfig } from './equipment-advisor';
+import { suggerisciAttrezzatura, SuggerimentoAttrezzatura, EquipConfig, EquipItem } from './equipment-advisor';
 import * as turf from '@turf/turf';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 type StatoGps = 'inattivo' | 'avvio' | 'tracking' | 'completato' | 'errore';
+type LivelloCAI = 'T' | 'E' | 'EE' | 'EEA';
 
 @Component({
   selector: 'app-sidebar',
@@ -44,7 +45,8 @@ export class SidebarComponent implements OnInit {
 
   private apiUrl = 'http://localhost:3000/api';
 
-  // NIENTE PIÙ "as any"! TypeScript ora sa che isVisible esiste davvero.
+  readonly livelliCai: LivelloCAI[] = ['T', 'E', 'EE', 'EEA'];
+
   sentieriOrdinati = computed(() => {
     const lista = [...this.sentieroService.sentieri()];
     if (!this.isAdmin()) {
@@ -53,11 +55,11 @@ export class SidebarComponent implements OnInit {
     return lista;
   });
 
-  // ── Admin: Importazione Geografica (Focus Trentino) ───────────────────────────
+  // ── Admin: Importazione Geografica ────────────────────────────────────────
   importaLoading = false;
   importEsito    = '';
-  showImportBar  = false; 
-  
+  showImportBar  = false;
+
   regioniPreimpostate = [
     { nome: 'Trentino (Intero)', bbox: '45.67,10.37,46.54,11.95' },
     { nome: 'Trento e Monte Bondone', bbox: '45.95,11.00,46.15,11.20' },
@@ -81,12 +83,16 @@ export class SidebarComponent implements OnInit {
     this.http.get(`${this.apiUrl}/config`).pipe(
       catchError((err) => {
         console.warn('Rotta config non pronta o errore DB. Uso configurazione base.', err);
-        return of({}); 
+        return of({});
       })
     ).subscribe({
       next: (res: any) => {
-        if(res?.trailConfig) Object.assign(TrailConfig, res.trailConfig);
-        if(res?.equipConfig) Object.assign(EquipConfig, res.equipConfig);
+        if (res?.trailConfig) Object.assign(TrailConfig, res.trailConfig);
+        if (res?.equipConfig?.soglie) Object.assign(EquipConfig.soglie, res.equipConfig.soglie);
+        // Carica l'attrezzatura per livello dal DB, sovrascrivendo i default
+        if (res?.equipConfig?.attrezzaturaPerLivello) {
+          Object.assign(EquipConfig.attrezzaturaPerLivello, res.equipConfig.attrezzaturaPerLivello);
+        }
       }
     });
   }
@@ -105,7 +111,7 @@ export class SidebarComponent implements OnInit {
     this.importaLoading = true;
     this.importEsito    = '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    
+
     this.http.post<any>(`${this.apiUrl}/sentieri/importa`, { bbox: bboxToUse }, { headers }).subscribe({
       next: (res) => {
         this.importaLoading = false;
@@ -123,57 +129,102 @@ export class SidebarComponent implements OnInit {
     event.stopPropagation();
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
     const safeId = encodeURIComponent(String(sentiero.osm_id));
-    
+
     this.http.patch(`${this.apiUrl}/sentieri/${safeId}/toggleVisibilita`, {}, { headers })
       .subscribe({
         next: (res: any) => {
           const listaAttuale = [...this.sentieroService.sentieri()];
           const index = listaAttuale.findIndex(s => s.osm_id === sentiero.osm_id);
-          
           if (index !== -1) {
-            // Aggiorniamo la corretta proprietà isVisible!
             listaAttuale[index] = { ...listaAttuale[index], isVisible: res.isVisible };
-            this.sentieroService.sentieri.set(listaAttuale); 
+            this.sentieroService.sentieri.set(listaAttuale);
           }
         },
         error: (err) => {
-          console.error("Errore modifica visibilità:", err);
+          console.error('Errore modifica visibilità:', err);
           alert('Errore: impossibile cambiare la visibilità del sentiero.');
         }
       });
   }
 
-  // ── Admin: Configurazione Algoritmi ────────────────────────────
+  // ── Admin: Configurazione Algoritmi + Attrezzatura ───────────────────────
   configAperta = false;
-  
-  configEdit = {
-    requisitiCai: { T: 1, E: 2, EE: 3, EEA: 5 } as Record<string, number>,
-    soglieEquip:  { lungaKm: 12, impegnativaDPlus: 600 }
+
+  // Tab attiva nella sezione attrezzatura della modale
+  livelloEquipSelezionato: LivelloCAI = 'T';
+
+  configEdit: {
+    requisitiCai: Record<string, number>;
+    soglieEquip:  { lungaKm: number; impegnativaDPlus: number };
+    attrezzaturaPerLivello: Record<string, SuggerimentoAttrezzatura[]>;
+  } = {
+    requisitiCai: { T: 1, E: 2, EE: 3, EEA: 5 },
+    soglieEquip:  { lungaKm: 12, impegnativaDPlus: 600 },
+    attrezzaturaPerLivello: { T: [], E: [], EE: [], EEA: [] }
   };
 
   apriConfig(): void {
-    this.configEdit.requisitiCai = { ...TrailConfig.requisitiCai };
-    this.configEdit.soglieEquip  = { ...EquipConfig.soglie };
+    this.configEdit.requisitiCai           = { ...TrailConfig.requisitiCai };
+    this.configEdit.soglieEquip            = { ...EquipConfig.soglie };
+    // Deep copy per non mutare la config live finché non si salva
+    this.configEdit.attrezzaturaPerLivello = JSON.parse(
+      JSON.stringify(EquipConfig.attrezzaturaPerLivello)
+    );
+    this.livelloEquipSelezionato = 'T';
     this.configAperta = true;
   }
 
   salvaConfig(): void {
+    // Aggiorna la config in-memory immediatamente
     Object.assign(TrailConfig.requisitiCai, this.configEdit.requisitiCai);
     Object.assign(EquipConfig.soglie, this.configEdit.soglieEquip);
-    
+    Object.assign(EquipConfig.attrezzaturaPerLivello, this.configEdit.attrezzaturaPerLivello);
+
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    const payload = { trailConfig: TrailConfig, equipConfig: EquipConfig };
+    const payload = {
+      trailConfig: TrailConfig,
+      equipConfig: {
+        soglie: EquipConfig.soglie,
+        attrezzaturaPerLivello: EquipConfig.attrezzaturaPerLivello
+      }
+    };
 
     this.http.put(`${this.apiUrl}/config`, payload, { headers }).subscribe({
       next: () => {
         this.configAperta = false;
         alert('✅ Impostazioni salvate correttamente nel Database!');
       },
-      error: () => alert('❌ Errore durante il salvataggio nel DB (Assicurati di aver creato la rotta!).')
+      error: () => alert('❌ Errore durante il salvataggio nel DB.')
     });
   }
 
-  // ── (Il resto del codice rimane invariato: GPS, Consigli, ecc.) ───────────
+  // ── Helper editor attrezzatura ────────────────────────────────────────────
+
+  /** Aggiunge un item vuoto all'ultima categoria del livello selezionato */
+  aggiungiItem(catIndex: number): void {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato][catIndex]
+      .items.push({ nome: '', obbligatorio: false });
+  }
+
+  /** Rimuove un item da una categoria del livello selezionato */
+  rimuoviItem(catIndex: number, itemIndex: number): void {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato][catIndex]
+      .items.splice(itemIndex, 1);
+  }
+
+  /** Aggiunge una nuova categoria vuota al livello selezionato */
+  aggiungiCategoria(): void {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato]
+      .push({ categoria: 'Nuova categoria', icona: '📦', items: [] });
+  }
+
+  /** Rimuove una categoria dal livello selezionato */
+  rimuoviCategoria(catIndex: number): void {
+    this.configEdit.attrezzaturaPerLivello[this.livelloEquipSelezionato]
+      .splice(catIndex, 1);
+  }
+
+  // ── Computed signals ──────────────────────────────────────────────────────
   consiglio = computed<ConsiglioSentiero | null>(() => {
     const s      = this.sentieroService.sentieroSelezionato();
     const utente = this.authService.utente();
@@ -202,7 +253,6 @@ export class SidebarComponent implements OnInit {
   sentieroCompletatoId = signal<string | null>(null);
 
   attrezzaturaAperta = false;
-
   toggleAttrezzatura(): void { this.attrezzaturaAperta = !this.attrezzaturaAperta; }
 
   private watchId: number | null = null;
@@ -211,7 +261,7 @@ export class SidebarComponent implements OnInit {
   private ultimaPosizioneRegistrata: GeolocationPosition | null = null;
 
   avviaGps(): void {
-    this.sentieroCompletatoId.set(null); 
+    this.sentieroCompletatoId.set(null);
     if (!navigator.geolocation) {
       this.statoGps.set('errore');
       this.messaggioGps.set('GPS non supportato dal browser');
@@ -220,7 +270,7 @@ export class SidebarComponent implements OnInit {
 
     const s = this.sentieroService.sentieroSelezionato();
     const nomeSentiero = s?.properties?.['name'] ?? 'Sentiero senza nome';
-    const sentieroId = s?.osm_id ?? '';
+    const sentieroId   = s?.osm_id ?? '';
 
     this.statoGps.set('avvio');
     this.posizioniRaccolte = [];
@@ -245,6 +295,7 @@ export class SidebarComponent implements OnInit {
       },
       { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
     );
+
     this.liveTrackingInterval = setInterval(() => {
       if (this.ultimaPosizioneRegistrata) {
         this.inviaDatiLive(true, this.ultimaPosizioneRegistrata, sentieroId, nomeSentiero);
@@ -257,27 +308,27 @@ export class SidebarComponent implements OnInit {
       isAttiva, lat: pos?.coords.latitude, lng: pos?.coords.longitude,
       sentieroId: sId, nomeSentiero: sNome
     }).subscribe({
-      next: () => console.log(`[GPS] Inviato`),
+      next: () => console.log('[GPS] Inviato'),
       error: (err) => console.error('[GPS] Errore:', err)
     });
   }
 
   fermaGps(): void {
     const tracciatoId = this.utenteSvc.sentieroInTracciamentoId();
-    this.sentieroCompletatoId.set(tracciatoId); 
-    
+    this.sentieroCompletatoId.set(tracciatoId);
+
     this.pulisciTimerLive();
     this.inviaDatiLive(false, null, '', '');
     this.utenteSvc.posizionePersonale.set(null);
     this.utenteSvc.sentieroInTracciamentoId.set(null);
 
     if (this.watchId !== null) { navigator.geolocation.clearWatch(this.watchId); this.watchId = null; }
-    
+
     const s = this.sentieroService.sentieroSelezionato();
     if (!s || this.posizioniRaccolte.length < 2) {
       this.statoGps.set('inattivo'); this.messaggioGps.set(''); return;
     }
-    
+
     const coords = this.posizioniRaccolte.map(p => [p.coords.longitude, p.coords.latitude]);
     const km     = parseFloat(turf.length(turf.lineString(coords), { units: 'kilometers' }).toFixed(2));
     const nome   = s.properties?.['name'] ?? 'Sentiero senza nome';

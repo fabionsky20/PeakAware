@@ -58,6 +58,7 @@
       </div>
       <div class="admin-modal-body">
 
+        <!-- ── SEZIONE 1: Livello Esperienza ─────────────────────────────── -->
         <h4 class="config-section-title">Livello Esperienza Richiesto (1-5)</h4>
         <p class="admin-info">Seleziona il livello utente minimo per consigliare i percorsi.</p>
 
@@ -104,8 +105,9 @@
           </div>
         </div>
 
-        <div class="panel-divider" style="margin: 1.2rem 0; opacity: 0.2"></div>
+        <div class="panel-divider"></div>
 
+        <!-- ── SEZIONE 2: Soglie Attrezzatura ────────────────────────────── -->
         <h4 class="config-section-title">Soglie per l'Attrezzatura</h4>
         <p class="admin-info">Oltre quali valori consigli l'equipaggiamento pesante?</p>
 
@@ -116,8 +118,77 @@
           </div>
           <div class="config-row">
             <label>Dislivello Elevato (m D+):</label>
-            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50"/>
+            <input type="number" [(ngModel)]="configEdit.soglieEquip.impegnativaDPlus" class="admin-select" step="50" />
           </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- ── SEZIONE 3: Attrezzatura per Livello ───────────────────────── -->
+        <h4 class="config-section-title">Attrezzatura per Livello CAI</h4>
+        <p class="admin-info">
+          Modifica categorie e item consigliati per ogni difficoltà.
+          Le modifiche sono attive per tutti gli utenti dopo il salvataggio.
+        </p>
+
+        <!-- Tab selector livelli -->
+        <div class="equip-tabs">
+          @for (livello of livelliCai; track livello) {
+            <button class="equip-tab"
+                    [class.active]="livelloEquipSelezionato === livello"
+                    (click)="livelloEquipSelezionato = livello">
+              {{ livello }}
+            </button>
+          }
+        </div>
+
+        <!-- Lista categorie del livello selezionato -->
+        <div class="equip-editor">
+          @for (cat of configEdit.attrezzaturaPerLivello[livelloEquipSelezionato]; track $index; let catIdx = $index) {
+            <div class="equip-edit-cat">
+
+              <!-- Header categoria: icona + nome + tasto rimuovi -->
+              <div class="equip-edit-cat-header">
+                <input [(ngModel)]="cat.icona"
+                       class="admin-input equip-input-icon"
+                       placeholder="🎒"
+                       title="Icona categoria" />
+                <input [(ngModel)]="cat.categoria"
+                       class="admin-input equip-input-catname"
+                       placeholder="Nome categoria" />
+                <button class="btn-equip-remove"
+                        (click)="rimuoviCategoria(catIdx)"
+                        title="Rimuovi categoria">✕</button>
+              </div>
+
+              <!-- Items della categoria -->
+              @for (item of cat.items; track $index; let itemIdx = $index) {
+                <div class="equip-edit-item">
+                  <input [(ngModel)]="item.nome"
+                         class="admin-input equip-input-item"
+                         placeholder="Nome equipaggiamento" />
+                  <label class="equip-obbligatorio-label" [title]="item.obbligatorio ? 'Essenziale' : 'Consigliato'">
+                    <input type="checkbox" [(ngModel)]="item.obbligatorio" />
+                    <span>essenziale</span>
+                  </label>
+                  <button class="btn-equip-remove btn-equip-remove--item"
+                          (click)="rimuoviItem(catIdx, itemIdx)"
+                          title="Rimuovi item">✕</button>
+                </div>
+              }
+
+              <button class="btn-equip-add btn-equip-add--item"
+                      (click)="aggiungiItem(catIdx)">
+                + Aggiungi item
+              </button>
+            </div>
+          }
+
+          <!-- Pulsante aggiungi categoria -->
+          <button class="btn-equip-add btn-equip-add--cat"
+                  (click)="aggiungiCategoria()">
+            + Aggiungi categoria
+          </button>
         </div>
 
       </div>
