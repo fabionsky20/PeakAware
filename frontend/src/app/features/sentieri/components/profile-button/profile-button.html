@@ -29,6 +29,10 @@
     </div>
 
     @if (ruolo === 'admin') {
+      <div class="panel-admin-label"><i class="ti ti-shield"></i> Solo Admin</div>
+      <button class="panel-admin-btn" (click)="vaiGestisciUtenti()">
+        <i class="ti ti-users"></i> Gestisci utenti
+      </button>
       <button class="panel-admin-btn" (click)="vaiGestisciLivelli()">
         <i class="ti ti-stairs-up"></i> Gestisci livelli
       </button>
@@ -43,9 +47,15 @@
             <span style="display: flex; align-items: center; gap: 0.35rem;">
               <i class="ti ti-alert-triangle"></i> Contatto di emergenza
             </span>
-            <button class="panel-close" style="padding: 2px;" (click)="apriModificaContatto($index)" title="Modifica contatto">
-              <i class="ti ti-pencil"></i>
-            </button>
+            <span style="display: flex; align-items: center; gap: 4px;">
+              <button class="panel-close" style="padding: 2px;" (click)="apriModificaContatto($index)" title="Modifica contatto">
+                <i class="ti ti-pencil"></i>
+              </button>
+              <button class="btn-elimina-contatto" (click)="eliminaContatto($index)" title="Elimina contatto"
+                      [disabled]="eliminandoIndice === $index">
+                <i class="ti ti-trash"></i>
+              </button>
+            </span>
           </div>
           <div class="emergenza-card-body">
             <strong class="emergenza-card-nome">{{ contatto.nome }}</strong>
@@ -71,7 +81,7 @@
     </button>
 
     @if (contattoAperto) {
-      <form class="panel-pw-form" (ngSubmit)="salvaContatto()">
+      <form class="panel-pw-form" (ngSubmit)="salvaContatto()" novalidate>
         <input type="text" [(ngModel)]="emergenzaNome" name="emergenzaNome"
                placeholder="Nome contatto (es. Luca)" class="panel-input" required />
                

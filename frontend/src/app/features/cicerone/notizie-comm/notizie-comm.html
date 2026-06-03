@@ -1,96 +1,76 @@
-<div class="commenti-container">
+<div class="comm-root">
 
-  <div class="header">
-    <h1>Commenti alla Notizia</h1>
-
-    <button
-      class="btn-indietro"
-      (click)="tornaIndietro()">
-      ← Torna alle notizie
-    </button>
-  </div>
-
-  <!-- Form nuovo commento -->
-  <div class="nuovo-commento">
-
-    <h3>Aggiungi un commento</h3>
-
-    <textarea
-      [(ngModel)]="nuovoCommento"
-      placeholder="Scrivi qui il tuo commento..."
-      rows="4">
-    </textarea>
-
-    <button
-      class="btn-pubblica"
-      (click)="aggiungiCommento()">
-      Pubblica commento
-    </button>
-
-  </div>
-
-  <!-- Loading -->
-  <div
-    class="loading"
-    *ngIf="caricamento">
-
-    Caricamento commenti...
-  </div>
-
-  <!-- Errore -->
-  <div
-    class="errore"
-    *ngIf="errore">
-
-    {{ errore }}
-  </div>
-
-  <!-- Nessun commento -->
-  <div
-    class="nessun-commento"
-    *ngIf="!caricamento && commenti.length === 0">
-
-    Nessun commento presente.
-  </div>
-
-  <!-- Lista commenti -->
-  <div
-    class="lista-commenti"
-    *ngIf="commenti.length > 0">
-
-    <div
-      class="commento-card"
-      *ngFor="let commento of commenti">
-
-      <div class="commento-header">
-
-        <span class="autore">
-          {{ commento.autore }}
-        </span>
-
-        <span class="data">
-          {{ commento.dataCreazione | date:'dd/MM/yyyy HH:mm' }}
-        </span>
-
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
       </div>
+      <button class="btn-back-nav" (click)="tornaIndietro()">
+        <i class="ti ti-arrow-left"></i> Notizie
+      </button>
+    </nav>
+  </header>
 
-      <div class="testo-commento">
-        {{ commento.testo }}
-      </div>
+  <div class="page-inner">
 
-      <div class="azioni">
-
-        <button
-        *ngIf="commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin'"
-        (click)="eliminaCommento(commento._id)"
-        >
-        Elimina
-        </button>
-
-      </div>
-
+    <div class="page-hero">
+      <div class="page-eyebrow">Cicerone</div>
+      <h1 class="page-title">Commenti</h1>
     </div>
 
-  </div>
+    <div class="nuovo-commento">
+      <p class="form-title"><i class="ti ti-message-plus"></i> Lascia un commento</p>
+      <textarea
+        class="commento-input"
+        [(ngModel)]="nuovoCommento"
+        placeholder="Scrivi qui il tuo commento..."
+        rows="4">
+      </textarea>
+      <button class="btn-pubblica" (click)="aggiungiCommento()">
+        <i class="ti ti-send"></i> Pubblica
+      </button>
+    </div>
 
+    @if (caricamento) {
+      <div class="stato-msg">Caricamento commenti...</div>
+    }
+
+    @if (errore) {
+      <div class="errore-msg">{{ errore }}</div>
+    }
+
+    @if (!caricamento && commenti.length === 0) {
+      <div class="stato-msg">Nessun commento ancora. Sii il primo!</div>
+    }
+
+    @if (commenti.length > 0) {
+      <div class="lista-commenti">
+        @for (commento of commenti; track commento._id) {
+          <div class="commento-card">
+
+            <div class="commento-header">
+              <div class="autore-info">
+                <span class="autore-avatar"><i class="ti ti-user"></i></span>
+                <span class="autore">{{ commento.autore.username || 'Utente' }}</span>
+              </div>
+              <span class="data">{{ commento.dataCreazione | date:'dd/MM/yyyy · HH:mm' }}</span>
+            </div>
+
+            <div class="testo-commento">{{ commento.testo }}</div>
+
+            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {
+              <div class="azioni">
+                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">
+                  <i class="ti ti-trash"></i> Elimina
+                </button>
+              </div>
+            }
+
+          </div>
+        }
+      </div>
+    }
+
+  </div>
 </div>

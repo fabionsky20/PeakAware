@@ -1,3 +1,9 @@
+/**
+ * @file notizie-comm.ts
+ * @description Componente colonna commenti nella pagina dettaglio notizia.
+ * Carica, aggiunge ed elimina commenti per la notizia identificata da :id
+ * nella rotta. L'eliminazione è disponibile all'autore del commento e agli admin.
+ */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,7 +14,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 interface Commento {
     _id: string;
-    autore: { _id: string };  // ← oggetto, non stringa
+    autore: { _id: string; username: string };
     testo: string;
     dataCreazione: string;
 }

@@ -1,9 +1,18 @@
-import { Component, OnInit, inject, Input } from '@angular/core';
+/**
+ * @file profile-button.ts
+ * @description Bottone profilo utente riutilizzabile (temi 'navbar' e 'map').
+ * Gestisce il pannello laterale con dati utente, cambio password e
+ * contatti di emergenza (aggiunta, modifica, eliminazione).
+ * Usa ChangeDetectorRef.detectChanges() dopo le chiamate HTTP con
+ * l'operatore timeout() perché le callback escono dalla zone di Angular.
+ */
+import { Component, OnInit, inject, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@core/services/auth.service';
 import { Router } from '@angular/router';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-button',
@@ -17,6 +26,7 @@ export class ProfileButton implements OnInit {
   private authService = inject(AuthService);
   private http = inject(HttpClient);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   username = '';
   email = '';
@@ -45,6 +55,7 @@ export class ProfileButton implements OnInit {
   emergenzaCaricamento = false;
   emergenzaErrore = '';
   emergenzaSuccesso = '';
+  eliminandoIndice: number | null = null;
 
   private apiUrl = 'http://localhost:3000/api/auth';
 
@@ -126,6 +137,24 @@ export class ProfileButton implements OnInit {
     this.cambiaPwAperto = false;
   }
 
+  eliminaContatto(index: number): void {
+    const contattiAggiornati = this.contattiEmergenza.filter((_, i) => i !== index);
+    this.eliminandoIndice = index;
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.put<any>(`${this.apiUrl}/contatto-emergenza`, { contattiEmergenza: contattiAggiornati }, { headers })
+      .pipe(timeout(15000))
+      .subscribe({
+        next: () => {
+          this.eliminandoIndice = null;
+          window.location.reload();
+        },
+        error: () => {
+          this.eliminandoIndice = null;
+        }
+      });
+  }
+
   cambiaPassword() {
     if (!this.pwAttuale || !this.pwNuova) {
       this.cambiaPwErrore = 'Compila entrambi i campi.';
@@ -180,22 +209,35 @@ export class ProfileButton implements OnInit {
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
 
-    this.http.put<any>(`${this.apiUrl}/contatto-emergenza`, { contattiEmergenza: contattiAggiornati }, { headers }).subscribe({
-      next: (res) => {
-        this.emergenzaCaricamento = false;
-        this.emergenzaSuccesso = 'Contatto salvato con successo.';
-        this.contattiEmergenza = contattiAggiornati;
+    this.http.put<any>(`${this.apiUrl}/contatto-emergenza`, { contattiEmergenza: contattiAggiornati }, { headers })
+      .pipe(timeout(15000))
+      .subscribe({
+        next: () => {
+          this.emergenzaCaricamento = false;
+          this.contattiEmergenza = contattiAggiornati;
+          this.emergenzaSuccesso = 'Contatto salvato con successo.';
+          this.cdr.detectChanges();
 
-        setTimeout(() => {
-          this.contattoAperto = false;
-          this.resetContattoState();
-        }, 1000);
-      },
-      error: (err) => {
-        this.emergenzaCaricamento = false;
-        this.emergenzaErrore = err.error?.message || 'Impossibile salvare il contatto.';
-      }
-    });
+          setTimeout(() => {
+            this.contattoAperto = false;
+            this.resetContattoState();
+            this.cdr.detectChanges();
+          }, 1200);
+        },
+        error: (err) => {
+          this.emergenzaCaricamento = false;
+          this.emergenzaErrore =
+            err.name === 'TimeoutError'
+              ? 'Il server non risponde. Riprova tra qualche istante.'
+              : err.error?.message || 'Impossibile salvare il contatto.';
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  vaiGestisciUtenti() {
+    this.chiudiProfilo();
+    this.router.navigate(['/admin/utenti']);
   }
 
   vaiGestisciLivelli() {

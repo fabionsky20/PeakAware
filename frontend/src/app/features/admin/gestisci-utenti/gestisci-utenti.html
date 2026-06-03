@@ -1,0 +1,99 @@
+<div class="gu-root">
+
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link" (click)="vaiA('/home')">Home</span>
+        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Educazione</span>
+        <span class="nav-link active">Gestione Utenti</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-inner">
+
+    <div class="page-hero">
+      <div class="page-eyebrow">Admin</div>
+      <h1 class="page-title">Gestione Utenti</h1>
+      <p class="page-sub">Cerca, elimina o promuovi ad admin gli account registrati sulla piattaforma.</p>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <i class="ti ti-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Cerca per username o email..."
+        [(ngModel)]="ricerca"
+        (ngModelChange)="caricaUtenti()"
+      />
+    </div>
+
+    @if (errore) {
+      <div class="errore-msg">{{ errore }}</div>
+    }
+
+    @if (caricamento) {
+      <div class="stato-msg">Caricamento...</div>
+    }
+
+    @if (!caricamento) {
+      @if (utenti.length === 0) {
+        <div class="stato-msg">Nessun utente trovato.</div>
+      } @else {
+        <div class="utenti-list">
+          @for (u of utenti; track u._id) {
+            <div class="utente-row">
+
+              <div class="utente-avatar">
+                {{ (u.username || u.email).substring(0, 2).toUpperCase() }}
+              </div>
+
+              <div class="utente-info">
+                <div class="utente-nome">{{ u.username }}</div>
+                <div class="utente-email">{{ u.email }}</div>
+                <div class="utente-meta">
+                  Registrato il {{ formatData(u.createdAt) }}
+                </div>
+              </div>
+
+              <div class="utente-badges">
+                <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">
+                  {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}
+                </span>
+              </div>
+
+              <div class="utente-actions">
+                @if (u.ruolo !== 'admin') {
+                  <button class="btn-promuovi"
+                          [disabled]="promuovendoId === u._id"
+                          (click)="promuovi(u)"
+                          title="Promuovi ad admin">
+                    <i class="ti ti-shield-up"></i>
+                    {{ promuovendoId === u._id ? '...' : 'Admin' }}
+                  </button>
+                }
+                @if (u._id !== idUtenteCorrente()) {
+                  <button class="btn-del"
+                          [disabled]="eliminandoId === u._id"
+                          (click)="elimina(u)"
+                          title="Elimina account">
+                    <i class="ti ti-trash"></i>
+                  </button>
+                }
+              </div>
+
+            </div>
+          }
+        </div>
+        <div class="totale-label">{{ utenti.length }} account</div>
+      }
+    }
+
+  </div>
+</div>

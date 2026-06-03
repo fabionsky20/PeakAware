@@ -1,24 +1,71 @@
+* { box-sizing: border-box; }
+
+.sentieri-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── HEADER BAR ─────────────────────────────────────── */
+
+.header-bar {
+  flex-shrink: 0;
+  background: rgba(31,66,64,0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
+  z-index: 300;
+}
+
+.navbar {
+  padding: 0 5%; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+}
+
+.logo-mark {
+  width: 34px; height: 34px;
+  background: #D8D089; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #1f4240; font-size: 17px;
+}
+
+.logo-text { color: white; font-size: 18px; font-weight: 500; letter-spacing: 0.3px; }
+.logo-text span { color: #D8D089; }
+
+.nav-links { display: flex; align-items: center; gap: 28px; }
+
+.nav-link {
+  color: rgba(255,255,255,0.45); font-size: 15px;
+  cursor: pointer; transition: color 0.15s;
+}
+.nav-link:hover { color: rgba(255,255,255,0.75); }
+.nav-link.active { color: white; font-weight: 500; }
+
+/* ── MAP AREA ───────────────────────────────────────── */
+
 .sentieri-container {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-    }
-    .sidebar {
-      width: 400px;
-      height: 100%;
-      background: #ffffff;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      z-index: 2;
-      overflow: hidden; /* lo scroll lo gestisce SidebarComponent */
-    }
-    .map-area {
-      flex: 1;
-      height: 100%;
-    }
-    .profile-overlay {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      z-index: 1000; /* sopra tutto */
-    }
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 400px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  z-index: 2;
+  overflow: hidden; /* lo scroll lo gestisce SidebarComponent */
+}
+
+.map-area {
+  flex: 1;
+  height: 100%;
+}

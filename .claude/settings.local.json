@@ -10,7 +10,14 @@
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\frontend\\\\src\\\\app\\\\features\\\\admin\" -Recurse -Filter \"*.ts\" -o File)",
       "Bash(git add *)",
       "Bash(git rebase *)",
-      "Bash(GIT_EDITOR=true git rebase --continue)"
+      "Bash(GIT_EDITOR=true git rebase --continue)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\frontend\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(xargs grep -l \"profile\\\\|profilo\")",
+      "Bash(xargs grep -l \"profilo\\\\|getProfilo\\\\|profile-button\")",
+      "Bash(npx ng *)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\backend\" -Recurse -File | Where-Object {$_.Name -match \"register|auth|user\" -and $_.FullName -notmatch \"node_modules\"} | Select-Object -ExpandProperty FullName)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\fabio\\\\Desktop\\\\uni\\\\ing del software\\\\app\\\\PeakAware\\\\backend\\\\src\\\\\" -Recurse -File -Name | Where-Object {$_ -match \"seed|init|bootstrap|middleware\"})"
     ]
   }
 }

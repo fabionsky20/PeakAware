@@ -1,0 +1,193 @@
+:host { display: block; background: #1f4240; }
+* { box-sizing: border-box; }
+
+.gu-root {
+  min-height: 100vh;
+  background: #1f4240;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── HEADER ────────────────────────────────────────────── */
+
+.header-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.12);
+}
+.navbar {
+  padding: 0 5%; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px; background: #D8D089; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #1f4240; font-size: 17px;
+}
+.logo-text { color: white; font-size: 18px; font-weight: 500; letter-spacing: 0.3px; }
+.logo-text span { color: #D8D089; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-link { color: rgba(255,255,255,0.45); font-size: 15px; cursor: pointer; transition: color 0.15s; }
+.nav-link:hover { color: rgba(255,255,255,0.75); }
+.nav-link.active { color: white; font-weight: 500; }
+
+/* ── INNER ─────────────────────────────────────────────── */
+
+.page-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ── HERO ──────────────────────────────────────────────── */
+
+.page-hero { padding: 3.5rem 0 2rem; }
+.page-eyebrow {
+  font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  color: #D8D089; margin-bottom: 12px;
+}
+.page-title {
+  font-size: 48px; font-weight: 600; color: white;
+  line-height: 1.05; letter-spacing: -1px; margin-bottom: 12px;
+}
+.page-sub {
+  font-size: 15px; color: rgba(255,255,255,0.5);
+  max-width: 520px; line-height: 1.6;
+}
+
+/* ── SEARCH ────────────────────────────────────────────── */
+
+.search-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.search-icon {
+  position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,0.35); font-size: 1rem; pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem 0.75rem 2.5rem;
+  background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(151,168,149,0.3);
+  color: white; border-radius: 10px;
+  font-size: 0.9rem; font-family: inherit; outline: none;
+  transition: border-color 0.15s;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.25); }
+.search-input:focus { border-color: rgba(216,208,137,0.5); }
+
+/* ── STATI ─────────────────────────────────────────────── */
+
+.stato-msg {
+  text-align: center; color: rgba(255,255,255,0.4);
+  padding: 3rem; font-size: 1rem;
+}
+.errore-msg {
+  background: rgba(192,57,43,0.12);
+  border: 0.5px solid rgba(192,57,43,0.35);
+  color: #EF9F27; padding: 0.85rem 1rem;
+  border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;
+}
+
+/* ── UTENTI LIST ────────────────────────────────────────── */
+
+.utenti-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.utente-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #2B5C59;
+  border-radius: 12px;
+  border: 0.5px solid rgba(151,168,149,0.2);
+  padding: 0.85rem 1rem;
+  transition: border-color 0.15s;
+}
+.utente-row:hover { border-color: rgba(151,168,149,0.4); }
+
+.utente-avatar {
+  flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(216,208,137,0.15);
+  border: 0.5px solid rgba(216,208,137,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 700; color: #D8D089;
+}
+
+.utente-info {
+  flex: 1; min-width: 0;
+}
+.utente-nome {
+  font-size: 0.95rem; font-weight: 600; color: white;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.utente-email {
+  font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.utente-meta {
+  font-size: 0.72rem; color: rgba(255,255,255,0.28); margin-top: 2px;
+}
+
+/* ── BADGES ────────────────────────────────────────────── */
+
+.utente-badges { flex-shrink: 0; }
+
+.ruolo-badge {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem; border-radius: 20px;
+  background: rgba(151,168,149,0.12);
+  border: 0.5px solid rgba(151,168,149,0.3);
+  color: rgba(255,255,255,0.5);
+}
+.ruolo-badge.badge-admin {
+  background: rgba(216,208,137,0.12);
+  border-color: rgba(216,208,137,0.35);
+  color: #D8D089;
+}
+
+/* ── AZIONI ────────────────────────────────────────────── */
+
+.utente-actions {
+  display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0;
+}
+
+.btn-promuovi {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(216,208,137,0.1);
+  border: 0.5px solid rgba(216,208,137,0.35);
+  color: #D8D089; border-radius: 7px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem; font-weight: 500; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-promuovi:hover:not(:disabled) { background: rgba(216,208,137,0.2); }
+.btn-promuovi:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-del {
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(151,168,149,0.25);
+  border-radius: 7px; padding: 0.35rem 0.6rem;
+  font-size: 0.9rem; cursor: pointer;
+  color: rgba(255,255,255,0.4);
+  transition: background 0.15s, color 0.15s;
+}
+.btn-del:hover:not(:disabled) { background: rgba(192,57,43,0.15); color: #EF6565; border-color: rgba(192,57,43,0.3); }
+.btn-del:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── TOTALE ─────────────────────────────────────────────── */
+
+.totale-label {
+  text-align: right;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.28);
+  margin-top: 0.75rem;
+}

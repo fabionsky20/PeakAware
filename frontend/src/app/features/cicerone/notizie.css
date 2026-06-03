@@ -40,9 +40,9 @@
 /* ── INNER ─────────────────────────────────────────────── */
 
 .page-inner {
-  max-width: 720px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 0 1.5rem 4rem;
+  padding: 0 2rem 5rem;
 }
 
 /* ── PAGE HERO ─────────────────────────────────────────── */
@@ -71,15 +71,15 @@
   flex-wrap: wrap; margin-bottom: 2rem;
 }
 
-.filtro-select {
+.filtro-select, .select-ordine {
   padding: 0.65rem 1.1rem;
   background: #2B5C59;
   border: 0.5px solid rgba(151,168,149,0.3);
   color: white; border-radius: 8px;
   font-size: 0.95rem; cursor: pointer; outline: none;
 }
-.filtro-select:focus { border-color: rgba(216,208,137,0.5); }
-.filtro-select option { background: #2B5C59; }
+.filtro-select:focus, .select-ordine:focus { border-color: rgba(216,208,137,0.5); }
+.filtro-select option, .select-ordine option { background: #2B5C59; }
 
 .btn-nuova {
   display: inline-flex; align-items: center; gap: 6px;
@@ -108,7 +108,12 @@
 
 /* ── FEED ──────────────────────────────────────────────── */
 
-.feed { display: flex; flex-direction: column; gap: 1.25rem; }
+.feed {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
 
 /* ── POST CARD ─────────────────────────────────────────── */
 
@@ -120,6 +125,40 @@
   transition: transform 0.15s, border-color 0.15s;
 }
 .post-card:hover { transform: translateY(-2px); border-color: rgba(216,208,137,0.4); }
+
+/* ── FEATURED (prima card) ─────────────────────────────── */
+
+.post-card.featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+}
+
+.post-card.featured .post-img-wrap {
+  aspect-ratio: auto;
+  min-height: 300px;
+}
+.post-card.featured .post-img-placeholder {
+  aspect-ratio: auto;
+  min-height: 300px;
+}
+.post-card.featured .post-body {
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.post-card.featured .post-titolo {
+  font-size: 1.55rem;
+  line-height: 1.22;
+  margin-bottom: 0.7rem;
+}
+.post-card.featured .post-preview {
+  -webkit-line-clamp: 5;
+  font-size: 0.92rem;
+}
+
+/* ── IMMAGINE ──────────────────────────────────────────── */
 
 .post-img-wrap {
   width: 100%; aspect-ratio: 16/7;
@@ -197,6 +236,24 @@
 .btn-admin-del:hover  { background: rgba(192,57,43,0.15); color: #EF6565; }
 
 /* ── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .feed { grid-template-columns: 1fr; }
+  .post-card.featured {
+    grid-template-columns: 1fr;
+  }
+  .post-card.featured .post-img-wrap,
+  .post-card.featured .post-img-placeholder {
+    aspect-ratio: 16/7;
+    min-height: 0;
+  }
+  .post-card.featured .post-body {
+    padding: 1.1rem 1.3rem 1.2rem;
+  }
+  .post-card.featured .post-titolo {
+    font-size: 1.2rem;
+  }
+}
 
 @media (max-width: 768px) {
   .page-title { font-size: 38px; letter-spacing: -0.5px; }

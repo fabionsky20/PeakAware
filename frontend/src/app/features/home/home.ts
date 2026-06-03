@@ -1,3 +1,10 @@
+/**
+ * @file home.ts
+ * @description Componente principale della dashboard utente.
+ * Mostra punti, livello, quiz completati, sezione educativa, pianificazione
+ * sentieri e carousel notizie. Ricarica i progressi ogni volta che
+ * la rotta torna su /home (NavigationEnd).
+ */
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -47,7 +54,7 @@ export class Home implements OnInit, OnDestroy {
   ].join(', ');
 
   readonly notizieBg = [
-    'linear-gradient(to bottom, #1f4240 0%, rgba(31,66,64,0.1) 20%, rgba(31,66,64,0.1) 75%, #1f4240 100%)',
+    'linear-gradient(to bottom, #1f4240 0%, rgba(31,66,64,0.92) 22%, rgba(31,66,64,0.2) 48%, rgba(31,66,64,0.2) 75%, #1f4240 100%)',
     'url(images/notizie-mountain.jpg) center/cover no-repeat',
   ].join(', ');
 
@@ -111,6 +118,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   get isMaxLivello(): boolean {
+    if (this.livelli.length === 0) return false;
     return !this.livelli.find(l => l.numero === this.livello + 1);
   }
 
@@ -129,7 +137,7 @@ export class Home implements OnInit, OnDestroy {
   get percentualeLivello(): number {
     const curr = this.livelloCorrente;
     const next = this.livelloProssimo;
-    if (!curr || !next) return 100;
+    if (!curr || !next) return 0;
     const range = next.puntiNecessari - curr.puntiNecessari;
     if (range <= 0) return 100;
     return Math.min(100, Math.round(((this.punti - curr.puntiNecessari) / range) * 100));

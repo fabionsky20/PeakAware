@@ -1,3 +1,11 @@
+/**
+ * @file sidebar.ts
+ * @description Sidebar della pagina Sentieri. Mostra lista sentieri, dettaglio,
+ * consigli di compatibilità (trail-advisor) e suggerimenti attrezzatura
+ * (equipment-advisor). Gestisce il tracciamento GPS live e il completamento
+ * sentiero. Gli admin possono importare sentieri da OSM, cambiare visibilità
+ * e configurare i parametri degli algoritmi.
+ */
 import {
   Component, inject, computed, OnInit,
   ViewChild, ViewChildren, QueryList, ElementRef, effect, signal

@@ -124,6 +124,7 @@ app.use('/api/cicerone', ciceroneRoutes);
 
 app.use('/api/config', require('./src/routes/configRoutes'));
 app.use('/api/livelli', livelloRoutes);
+app.use('/api/admin', require('./src/routes/adminRoutes'));
 
 
 // --- Avvio server ---

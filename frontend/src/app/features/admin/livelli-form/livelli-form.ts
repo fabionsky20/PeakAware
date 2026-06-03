@@ -1,3 +1,10 @@
+/**
+ * @file livelli-form.ts
+ * @description Pannello admin per la gestione dei livelli di progressione.
+ * Permette di modificare nome e soglia punti di ogni livello, aggiungerne
+ * di nuovi ed eliminare quelli non di sistema. Il livello 1 non ha soglia
+ * modificabile (è il punto di partenza).
+ */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';

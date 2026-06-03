@@ -1,11 +1,28 @@
- <div class="sentieri-container">
-      <aside class="sidebar">
-        <app-sidebar />
-      </aside>
-      <main class="map-area">
-        <app-map />
-        <div class ="profile-overlay">
-          <app-profile-button theme="map" />
-        </div>
-      </main>
-    </div>
+<div class="sentieri-root">
+
+  <header class="header-bar">
+    <nav class="navbar">
+      <div class="logo" (click)="vai('/home')">
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
+        <span class="logo-text">Peak<span>Aware</span></span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link" (click)="vai('/home')">Home</span>
+        <span class="nav-link" (click)="vai('/educazione/quiz')">Educazione</span>
+        <span class="nav-link active">Sentieri</span>
+        <span class="nav-link" (click)="vai('/cicerone/notizie')">Cicerone</span>
+        <app-profile-button />
+      </div>
+    </nav>
+  </header>
+
+  <div class="sentieri-container">
+    <aside class="sidebar">
+      <app-sidebar />
+    </aside>
+    <main class="map-area">
+      <app-map />
+    </main>
+  </div>
+
+</div>

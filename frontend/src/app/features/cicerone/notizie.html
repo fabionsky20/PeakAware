@@ -57,8 +57,8 @@
     @if (!caricamento && !errore) {
       <div class="feed">
 
-        @for (notizia of notizie; track notizia._id) {
-          <div class="post-card" (click)="avviaNotizia(notizia._id)">
+        @for (notizia of notizie; track notizia._id; let first = $first) {
+          <div class="post-card" [class.featured]="first" (click)="avviaNotizia(notizia._id)">
 
             @if (getPrimaImmagine(notizia)) {
               <div class="post-img-wrap">

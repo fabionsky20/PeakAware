@@ -1,7 +1,14 @@
+/**
+ * @file notizie-dett.ts
+ * @description Componente pagina dettaglio notizia (/cicerone/notizia/:id).
+ * Carica il contenuto EditorJS della notizia e la lista dei commenti
+ * (delegata a NotizieComm). Renderizza i blocchi testo, intestazione e immagine.
+ */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 
 interface EditorBlock {
@@ -23,10 +30,17 @@ interface Notizia {
   dataPubblicazione: string;
 }
 
+interface Commento {
+  _id: string;
+  autore: { _id: string; username: string };
+  testo: string;
+  dataCreazione: string;
+}
+
 @Component({
   selector: 'app-notizie-dett',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './notizie-dett.html',
   styleUrl: './notizie-dett.css'
@@ -35,7 +49,11 @@ export class NotizieDett implements OnInit {
 
   notizia: Notizia | null = null;
   errore: string | null = null;
-  ultimoCommento: { autore: { _id: string, username: string }, testo: string } | null = null;
+  commenti: Commento[] = [];
+  nuovoCommento = '';
+  loadingCommenti = false;
+  idUtenteLoggato = '';
+  ruoloUtente = '';
 
   private readonly apiUrl = 'http://localhost:3000/api/cicerone';
 
@@ -48,62 +66,86 @@ export class NotizieDett implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  const id = this.route.snapshot.paramMap.get('id');
-  if (!id) {
-    this.errore = 'ID notizia non trovato.';
-    return;
+    this.idUtenteLoggato = this.authService.utente()?.id ?? '';
+    this.ruoloUtente = this.authService.getRuolo();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.errore = 'ID notizia non trovato.';
+      return;
+    }
+    this.caricaNotizia(id);
   }
-  this.caricaNotizia(id);
-}
 
-caricaNotizia(id: string): void {
-  this.errore = null;
-  this.notizia = null;
+  caricaNotizia(id: string): void {
+    this.errore = null;
+    this.notizia = null;
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    this.http.get<any>(`${this.apiUrl}/notizie/${id}`, { headers }).subscribe({
+      next: (res) => {
+        this.notizia = res.dati;
+        this.caricaCommenti(id);
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errore = 'Impossibile caricare la notizia.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
-  const token = this.authService.getToken();
+  caricaCommenti(id: string): void {
+    this.loadingCommenti = true;
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    this.http.get<Commento[]>(`${this.apiUrl}/notizie/${id}/commenti`, { headers }).subscribe({
+      next: (data) => {
+        this.commenti = data;
+        this.loadingCommenti = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loadingCommenti = false;
+      }
+    });
+  }
 
-  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  aggiungiCommento(): void {
+    if (!this.nuovoCommento.trim() || !this.notizia) return;
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    this.http.post(
+      `${this.apiUrl}/notizie/${this.notizia._id}/commenti`,
+      { testo: this.nuovoCommento },
+      { headers }
+    ).subscribe({
+      next: () => {
+        this.nuovoCommento = '';
+        this.caricaCommenti(this.notizia!._id);
+      },
+      error: () => {}
+    });
+  }
 
-  this.http.get<any>(`${this.apiUrl}/notizie/${id}`, { headers }).subscribe({
-    next: (res) => {
-    this.notizia = res.dati;
-    this.caricaUltimoCommento();
-    this.cdr.detectChanges(); 
-    },
-    error: (err) => {
-      this.errore = 'Impossibile caricare la notizia.';
-    }
-  });
-}
+  eliminaCommento(commentoId: string): void {
+    if (!this.notizia) return;
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    this.http.delete(
+      `${this.apiUrl}/notizie/${this.notizia._id}/commenti/${commentoId}`,
+      { headers }
+    ).subscribe({
+      next: () => this.caricaCommenti(this.notizia!._id),
+      error: () => {}
+    });
+  }
 
-apriCommenti(id: string, event: Event): void {
-    event.stopPropagation();
-    this.router.navigate([
-        '/cicerone/notizie',
-        id,
-        'commenti'
-    ]);
-}
+  ricarica(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) this.caricaNotizia(id);
+  }
 
-caricaUltimoCommento(): void {
-  const token = this.authService.getToken();
-  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-  this.http.get<any>(`${this.apiUrl}/notizie/${this.notizia?._id}/commenti`, { headers }).subscribe({
-    next: (data) => {
-      const commenti = data;
-      this.ultimoCommento = commenti.length > 0 ? commenti[commenti.length - 1] : null;
-      this.cdr.detectChanges();
-    }
-  });
-}
-
-ricarica(): void {
-  const id = this.route.snapshot.paramMap.get('id');
-  if (id) this.caricaNotizia(id);
-}
-
-tornaIndietro(): void {
-  this.router.navigate(['/cicerone/notizie']);
-}
-
+  tornaIndietro(): void {
+    this.router.navigate(['/cicerone/notizie']);
+  }
 }

@@ -1,53 +1,42 @@
-<div class="login-container">
+<div class="login-root">
   <div class="login-card">
 
-    <div class="login-hero">
-      <span class="login-hero-icon">⛰️</span>
-      <h1>PeakAware</h1>
+    <div class="login-brand">
+      <div class="brand-mark"><i class="ti ti-mountain"></i></div>
+      <span class="brand-text">Peak<span>Aware</span></span>
     </div>
 
-    <div class="login-body">
-      <h2>Bentornato</h2>
+    <p class="login-subtitle">Accesso</p>
 
-      <form (ngSubmit)="onLogin()">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="nome@email.com"
-            required
-          />
+    <form (ngSubmit)="onLogin()" novalidate>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="text" [(ngModel)]="email" name="email"
+               placeholder="nome@email.com" autocomplete="email" />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password"
+               placeholder="••••••••" autocomplete="current-password" />
+      </div>
+
+      @if (errore) {
+        <div class="login-errore">
+          <i class="ti ti-alert-circle"></i> {{ errore }}
         </div>
+      }
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="••••••"
-            required
-          />
-        </div>
+      <button type="submit" class="btn-login" [disabled]="caricamento">
+        {{ caricamento ? 'Accesso in corso...' : 'Accedi' }}
+      </button>
 
-        @if (errore) {
-          <div class="errore">{{ errore }}</div>
-        }
+    </form>
 
-        <button type="submit" class="btn-primary" [disabled]="caricamento">
-          {{ caricamento ? 'Accesso in corso...' : 'Accedi' }}
-        </button>
-      </form>
-
-      <p class="link-registrazione">
-        Non hai un account?
-        <a (click)="vaiARegistrazione()">Registrati</a>
-      </p>
-    </div>
+    <p class="link-reg">
+      Non hai un account? <a (click)="vaiARegistrazione()">Registrati</a>
+    </p>
 
   </div>
 </div>

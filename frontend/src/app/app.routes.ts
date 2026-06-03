@@ -22,6 +22,7 @@ import { Notizie } from '@features/cicerone/notizie';
 import { NotizieForm } from './features/admin/notizie-form/notizie-form';
 import { NotizieDett } from './features/cicerone/notizie-dett/notizie-dett';
 import { LivelliForm } from './features/admin/livelli-form/livelli-form';
+import { GestisciUtenti } from './features/admin/gestisci-utenti/gestisci-utenti';
 import { NotizieComm } from '@features/cicerone/notizie-comm/notizie-comm';
 
 export const routes: Routes = [
@@ -65,5 +66,6 @@ export const routes: Routes = [
   { path: 'admin/badge-form', component: BadgeForm },
   { path: 'admin/badge-form/:id', component: BadgeForm },
   { path: 'admin/livelli', component: LivelliForm },
+  { path: 'admin/utenti', component: GestisciUtenti },
   { path: '**', redirectTo: 'login' },
 ];

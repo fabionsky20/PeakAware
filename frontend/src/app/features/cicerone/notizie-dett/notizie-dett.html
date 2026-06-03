@@ -12,77 +12,140 @@
     </nav>
   </header>
 
-  <div class="page-inner">
+  <div class="split-layout">
 
-    @if (!notizia && !errore) {
-      <div class="stato-msg">Caricamento notizia...</div>
-    }
+    <!-- ── ARTICOLO (2/3) ──────────────────────────── -->
+    <div class="colonna-articolo">
 
-    @if (errore) {
-      <div class="errore-msg">
-        {{ errore }}
-        <button class="btn-retry" (click)="ricarica()">Riprova</button>
+      @if (!notizia && !errore) {
+        <div class="stato-msg">Caricamento notizia...</div>
+      }
+
+      @if (errore) {
+        <div class="errore-msg">
+          {{ errore }}
+          <button class="btn-retry" (click)="ricarica()">Riprova</button>
+        </div>
+      }
+
+      @if (notizia) {
+        <article class="articolo">
+
+          <div class="articolo-meta-top">
+            @if (notizia.categoria) {
+              <span class="cat-tag {{ notizia.categoria }}">{{ notizia.categoria }}</span>
+            }
+            <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
+
+          <div class="articolo-corpo">
+            @for (block of notizia.contenuto.blocks; track $index) {
+
+              @if (block.type === 'paragraph') {
+                <p [innerHTML]="block.data.text"></p>
+              }
+
+              @if (block.type === 'header' && block.data.level === 2) {
+                <h2 [innerHTML]="block.data.text"></h2>
+              }
+              @if (block.type === 'header' && block.data.level === 3) {
+                <h3 [innerHTML]="block.data.text"></h3>
+              }
+              @if (block.type === 'header' && (block.data.level === 4 || block.data.level === 1)) {
+                <h4 [innerHTML]="block.data.text"></h4>
+              }
+
+              @if (block.type === 'image') {
+                <figure>
+                  <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
+                  @if (block.data.caption) {
+                    <figcaption>{{ block.data.caption }}</figcaption>
+                  }
+                </figure>
+              }
+
+            }
+          </div>
+
+          <div class="articolo-footer">
+            <button class="btn-torna" (click)="tornaIndietro()">
+              <i class="ti ti-arrow-left"></i> Torna alle notizie
+            </button>
+          </div>
+
+        </article>
+      }
+
+    </div>
+
+    <!-- ── COMMENTI (1/3) ─────────────────────────── -->
+    <div class="colonna-commenti">
+
+      <div class="commenti-header">
+        <span class="commenti-titolo">
+          <i class="ti ti-message-2"></i> Commenti
+        </span>
+        @if (commenti.length > 0) {
+          <span class="commenti-count">{{ commenti.length }}</span>
+        }
       </div>
-    }
 
-    @if (notizia) {
-      <article class="articolo">
+      <div class="commenti-inner">
 
-        <div class="articolo-meta-top">
-          @if (notizia.categoria) {
-            <span class="cat-tag {{ notizia.categoria }}">{{ notizia.categoria }}</span>
-          }
-          <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
-        </div>
-
-        <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
-
-        <div class="articolo-corpo">
-          @for (block of notizia.contenuto.blocks; track $index) {
-
-            @if (block.type === 'paragraph') {
-              <p [innerHTML]="block.data.text"></p>
-            }
-
-            @if (block.type === 'header' && block.data.level === 2) {
-              <h2 [innerHTML]="block.data.text"></h2>
-            }
-            @if (block.type === 'header' && block.data.level === 3) {
-              <h3 [innerHTML]="block.data.text"></h3>
-            }
-            @if (block.type === 'header' && (block.data.level === 4 || block.data.level === 1)) {
-              <h4 [innerHTML]="block.data.text"></h4>
-            }
-
-            @if (block.type === 'image') {
-              <figure>
-                <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
-                @if (block.data.caption) {
-                  <figcaption>{{ block.data.caption }}</figcaption>
-                }
-              </figure>
-            }
-
-          }
-        </div>
-
-        <div class="articolo-footer">
-          <button class="btn-torna" (click)="tornaIndietro()">
-            <i class="ti ti-arrow-left"></i> Torna alle notizie
-          </button>
-          <button
-            class="btn-commenti"
-            (click)="apriCommenti(notizia._id, $event)">
-            @if (ultimoCommento) {
-              "{{ ultimoCommento.testo | slice:0:30 }}..."
-            } @else {
-              Leggi i commenti
-            }
+        <div class="form-commento">
+          <textarea
+            class="commento-input"
+            [(ngModel)]="nuovoCommento"
+            placeholder="Lascia un commento..."
+            rows="3">
+          </textarea>
+          <button class="btn-pubblica" (click)="aggiungiCommento()">
+            <i class="ti ti-send"></i> Pubblica
           </button>
         </div>
 
-      </article>
-    }
+        @if (loadingCommenti) {
+          <div class="commenti-vuoti">
+            <i class="ti ti-loader-2"></i>
+            <p>Caricamento...</p>
+          </div>
+        }
+
+        @if (!loadingCommenti && commenti.length === 0) {
+          <div class="commenti-vuoti">
+            <i class="ti ti-message-off"></i>
+            <p>Ancora nessun commento. Sii il primo!</p>
+          </div>
+        }
+
+        @for (commento of commenti; track commento._id) {
+          <div class="commento-card">
+
+            <div class="comm-header">
+              <div class="autore-info">
+                <span class="autore-avatar"><i class="ti ti-user"></i></span>
+                <span class="autore-nome">{{ commento.autore.username || 'Utente' }}</span>
+              </div>
+              <span class="comm-data">{{ commento.dataCreazione | date:'dd/MM/yy' }}</span>
+            </div>
+
+            <div class="comm-testo">{{ commento.testo }}</div>
+
+            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {
+              <div class="comm-azioni">
+                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">
+                  <i class="ti ti-trash"></i> Elimina
+                </button>
+              </div>
+            }
+
+          </div>
+        }
+
+      </div>
+    </div>
 
   </div>
 </div>
