@@ -31,6 +31,8 @@ const connectDB = async () => {
     console.error(`❌ Errore MongoDB: ${error.message}`);
     console.log("💡 Tip: Se sei in Uni, ricorda di lanciare 'dbon'");
     console.log("💡 Controlla il file .env e la variabile DB_MODE");
+    console.error(`❌ Stack: ${error.stack}`);
+    console.error(`❌ Codice: ${error.code}`);
     console.log("------------------------------------------");
     
     // In sviluppo è meglio non crashare il server, come indicato nel tuo file originale

@@ -5,8 +5,10 @@
  * Corrisponde al componente Modulo Educazione del D2 sezione 1.3.
  */
 
+const mongoose = require('mongoose');
 const Quiz = require('../models/Quiz');
 const Video = require('../models/Video');
+const SessioneQuiz = require('../models/SessioneQuiz');
 
 // ========================
 // CONTROLLER QUIZ
@@ -349,12 +351,81 @@ const creaVideo = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/educazione/quiz/:id/analytics
+ * Restituisce le analytics di un quiz: sessioni avviate, completate,
+ * utenti unici, punteggio medio/max/min. Accessibile solo agli admin.
+ */
+const getAnalyticsQuiz = async (req, res) => {
+  try {
+    const quizId = req.params.id;
+
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) {
+      return res.status(404).json({ successo: false, messaggio: 'Quiz non trovato' });
+    }
+
+    const objectId = new mongoose.Types.ObjectId(quizId);
+
+    const [statsAll] = await SessioneQuiz.aggregate([
+      { $match: { idQuiz: objectId } },
+      {
+        $group: {
+          _id: null,
+          totaleSessioni: { $sum: 1 },
+          sessioniCompletate: { $sum: { $cond: [{ $eq: ['$terminata', true] }, 1, 0] } },
+        },
+      },
+    ]);
+
+    const [statsComplete] = await SessioneQuiz.aggregate([
+      { $match: { idQuiz: objectId, terminata: true } },
+      {
+        $group: {
+          _id: null,
+          punteggioMedio: { $avg: '$punteggioOttenuto' },
+          punteggioMax: { $max: '$punteggioOttenuto' },
+          punteggioMin: { $min: '$punteggioOttenuto' },
+        },
+      },
+    ]);
+
+    const utentiUnici = await SessioneQuiz.distinct('idUtente', { idQuiz: objectId });
+
+    const all = statsAll ?? { totaleSessioni: 0, sessioniCompletate: 0 };
+    const complete = statsComplete ?? { punteggioMedio: 0, punteggioMax: 0, punteggioMin: 0 };
+
+    res.status(200).json({
+      successo: true,
+      dati: {
+        titolo: quiz.titolo,
+        totaleSessioni: all.totaleSessioni,
+        sessioniCompletate: all.sessioniCompletate,
+        utentiUnici: utentiUnici.length,
+        punteggioMedio: complete.punteggioMedio != null
+          ? Math.round(complete.punteggioMedio * 10) / 10
+          : 0,
+        punteggioMax: complete.punteggioMax ?? 0,
+        punteggioMin: complete.punteggioMin ?? 0,
+        punteggioPossibile: quiz.punteggio,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      successo: false,
+      messaggio: 'Errore nel recupero delle analytics',
+      errore: error.message,
+    });
+  }
+};
+
 module.exports = {
   getTuttiIQuiz,
   getQuizById,
   creaQuiz,
   aggiornaQuiz,
   eliminaQuiz,
+  getAnalyticsQuiz,
   getTuttiIVideo,
   getVideoById,
   creaVideo,

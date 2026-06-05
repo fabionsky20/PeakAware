@@ -16,6 +16,7 @@ const {
   creaQuiz,
   aggiornaQuiz,
   eliminaQuiz,
+  getAnalyticsQuiz,
   getTuttiIVideo,
   getVideoById,
   creaVideo,
@@ -71,6 +72,12 @@ router.put('/quiz/:id', proteggi, soloAdmin, aggiornaQuiz);
  * Protetta — solo admin/SAT possono eliminare quiz.
  */
 router.delete('/quiz/:id', proteggi, soloAdmin, eliminaQuiz);
+
+/**
+ * GET /api/educazione/quiz/:id/analytics
+ * Protetta — solo admin possono vedere le analytics di un quiz.
+ */
+router.get('/quiz/:id/analytics', proteggi, soloAdmin, getAnalyticsQuiz);
 
 // ========================
 // ROUTES VIDEO

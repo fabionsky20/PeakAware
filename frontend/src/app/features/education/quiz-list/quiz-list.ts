@@ -26,6 +26,17 @@ interface Quiz {
   videoCollegato?: { _id: string; titolo: string; url: string } | null;
 }
 
+interface Analytics {
+  titolo: string;
+  totaleSessioni: number;
+  sessioniCompletate: number;
+  utentiUnici: number;
+  punteggioMedio: number;
+  punteggioMax: number;
+  punteggioMin: number;
+  punteggioPossibile: number;
+}
+
 interface BadgeSidebar {
   _id: string;
   nome: string;
@@ -63,6 +74,10 @@ export class QuizList implements OnInit {
 
   /** IDs dei quiz già completati dall'utente — usato per US-16 */
   quizCompletatiIds: Set<string> = new Set();
+
+  mostraModalAnalytics: boolean = false;
+  datiAnalytics: Analytics | null = null;
+  caricamentoAnalytics: boolean = false;
 
   private apiUrl = 'http://localhost:3000/api/educazione';
 
@@ -239,6 +254,46 @@ export class QuizList implements OnInit {
   /** US-16: Restituisce true se l'utente ha già completato il quiz. */
   eCompletato(id: string): boolean {
     return this.quizCompletatiIds.has(id);
+  }
+
+  /** Apre il modal analytics per un quiz specifico. */
+  apriAnalytics(id: string, event: Event): void {
+    event.stopPropagation();
+    this.mostraModalAnalytics = true;
+    this.datiAnalytics = null;
+    this.caricamentoAnalytics = true;
+    this.cdr.detectChanges();
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.get<any>(`${this.apiUrl}/quiz/${id}/analytics`, { headers }).subscribe({
+      next: (risposta) => {
+        this.datiAnalytics = risposta.dati;
+        this.caricamentoAnalytics = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.caricamentoAnalytics = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /** Chiude il modal analytics. */
+  chiudiAnalytics(): void {
+    this.mostraModalAnalytics = false;
+    this.datiAnalytics = null;
+  }
+
+  /** Calcola il tasso di completamento in percentuale. */
+  tassoCompletamento(a: Analytics): number {
+    if (a.totaleSessioni === 0) return 0;
+    return Math.round((a.sessioniCompletate / a.totaleSessioni) * 100);
+  }
+
+  /** Calcola la percentuale del punteggio medio rispetto al massimo. */
+  percentualePunteggio(a: Analytics): number {
+    if (a.punteggioPossibile === 0) return 0;
+    return Math.round((a.punteggioMedio / a.punteggioPossibile) * 100);
   }
 
   /** Termina la sessione e reindirizza al login. */

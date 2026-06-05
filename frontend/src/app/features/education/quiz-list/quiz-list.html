@@ -65,6 +65,9 @@
 
               @if (ruoloUtente === 'admin') {
                 <div class="admin-controls">
+                  <button class="btn-admin-analytics" title="Analytics" (click)="apriAnalytics(q._id, $event)">
+                    <i class="ti ti-chart-bar"></i>
+                  </button>
                   <button class="btn-admin-edit" (click)="modificaQuiz(q._id, $event)">
                     <i class="ti ti-pencil"></i>
                   </button>
@@ -158,3 +161,65 @@
   </div>
 
 </div>
+
+@if (mostraModalAnalytics) {
+  <div class="analytics-overlay" (click)="chiudiAnalytics()">
+    <div class="analytics-modal" (click)="$event.stopPropagation()">
+
+      <div class="analytics-header">
+        <h2 class="analytics-title"><i class="ti ti-chart-bar"></i> Analytics quiz</h2>
+        <button class="analytics-close" (click)="chiudiAnalytics()"><i class="ti ti-x"></i></button>
+      </div>
+
+      @if (caricamentoAnalytics) {
+        <div class="analytics-loading">Caricamento dati...</div>
+      }
+
+      @if (!caricamentoAnalytics && datiAnalytics) {
+        <p class="analytics-quiz-nome">{{ datiAnalytics.titolo }}</p>
+
+        <div class="analytics-grid">
+          <div class="analytics-stat">
+            <span class="stat-value">{{ datiAnalytics.utentiUnici }}</span>
+            <span class="stat-label">Utenti unici</span>
+          </div>
+          <div class="analytics-stat">
+            <span class="stat-value">{{ datiAnalytics.sessioniCompletate }}</span>
+            <span class="stat-label">Completamenti</span>
+          </div>
+          <div class="analytics-stat">
+            <span class="stat-value">{{ datiAnalytics.totaleSessioni }}</span>
+            <span class="stat-label">Sessioni avviate</span>
+          </div>
+          <div class="analytics-stat highlight">
+            <span class="stat-value">{{ tassoCompletamento(datiAnalytics) }}%</span>
+            <span class="stat-label">Tasso completamento</span>
+          </div>
+        </div>
+
+        <div class="analytics-scores">
+          <div class="score-row">
+            <span class="score-label">Punteggio medio</span>
+            <span class="score-val">{{ datiAnalytics.punteggioMedio }} / {{ datiAnalytics.punteggioPossibile }}</span>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar-fill" [style.width.%]="percentualePunteggio(datiAnalytics)"></div>
+          </div>
+          <div class="score-row score-row-minor">
+            <span class="score-label">Minimo completamento</span>
+            <span class="score-val">{{ datiAnalytics.punteggioMin }}</span>
+          </div>
+          <div class="score-row score-row-minor">
+            <span class="score-label">Massimo completamento</span>
+            <span class="score-val">{{ datiAnalytics.punteggioMax }}</span>
+          </div>
+        </div>
+      }
+
+      @if (!caricamentoAnalytics && !datiAnalytics) {
+        <p class="analytics-loading">Nessun dato disponibile.</p>
+      }
+
+    </div>
+  </div>
+}
