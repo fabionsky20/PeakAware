@@ -148,4 +148,33 @@ export class NotizieDett implements OnInit {
   tornaIndietro(): void {
     this.router.navigate(['/cicerone/notizie']);
   }
+
+  // ── Helpers per il rendering delle immagini ──────────────────────────────────
+
+  /** Stili inline per il <figure>: float sinistra/destra o blocco centrato */
+  imageFigureStyle(data: any): Record<string, string> {
+    const align: string = data?.align ?? 'center';
+    if (align === 'left') {
+      return { float: 'left', marginRight: '1.6em', marginBottom: '0.8em', marginTop: '0.3em' };
+    }
+    if (align === 'right') {
+      return { float: 'right', marginLeft: '1.6em', marginBottom: '0.8em', marginTop: '0.3em' };
+    }
+    return { display: 'block', margin: '1.4em auto', textAlign: 'center' };
+  }
+
+  /** Stili inline per il <img>: max-width in base al preset di dimensione */
+  imageStyle(data: any): Record<string, string> {
+    const base: Record<string, string> = { borderRadius: '10px', display: 'block' };
+    switch (data?.size as string) {
+      case 'piccola':
+        return { ...base, maxWidth: '240px',  width: 'auto'  };
+      case 'media':
+        return { ...base, maxWidth: '480px',  width: '100%'  };
+      case 'grande':
+        return { ...base, maxWidth: '800px',  width: '100%'  };
+      default: // 'originale' o assente (retrocompatibile con vecchi blocchi)
+        return { ...base, maxWidth: '100%',   width: 'auto'  };
+    }
+  }
 }

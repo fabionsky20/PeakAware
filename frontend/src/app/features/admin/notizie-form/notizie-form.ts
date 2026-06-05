@@ -15,7 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Paragraph from '@editorjs/paragraph';
-import ImageTool from '@editorjs/image';
+import CustomImageTool from './custom-image-tool';
 
 @Component({
   selector: 'app-notizie-form',
@@ -75,34 +75,19 @@ export class NotizieForm implements OnInit {
     inizializzaEditor(): void {
 
     this.editor = new EditorJS({
-
         holder: 'editorjs',
-
         tools: {
-
             header: Header,
-
             paragraph: Paragraph,
-
             image: {
-
-                class: ImageTool,
-
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                class: CustomImageTool as any,
                 config: {
-
-                    endpoints: {
-
-                        byFile:
-                        'http://localhost:3000/api/admin/upload'
-
-                    }
-
-                }
-
-            }
-
-        }
-
+                    uploadUrl: 'http://localhost:3000/api/admin/upload',
+                    getToken: () => this.authService.getToken() ?? '',
+                },
+            },
+        },
     });
 
 }

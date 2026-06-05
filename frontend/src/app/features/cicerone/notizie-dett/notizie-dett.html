@@ -58,8 +58,12 @@
               }
 
               @if (block.type === 'image') {
-                <figure>
-                  <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
+                <figure [ngStyle]="imageFigureStyle(block.data)">
+                  <img
+                    [src]="block.data.file?.url"
+                    [alt]="block.data.caption || ''"
+                    [ngStyle]="imageStyle(block.data)"
+                  />
                   @if (block.data.caption) {
                     <figcaption>{{ block.data.caption }}</figcaption>
                   }
