@@ -1,3 +1,11 @@
+/**
+ * @file app.config.ts
+ * @description Configurazione radice dell'applicazione Angular.
+ * Registra i provider globali: router con ripristino posizione scroll,
+ * HttpClient con l'interceptor di autenticazione JWT e il BASE_PATH
+ * per i servizi API auto-generati dall'OpenAPI spec.
+ */
+
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';

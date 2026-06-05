@@ -1,8 +1,26 @@
+/**
+ * @file ciceroneController.js
+ * @description Controller per il Modulo Cicerone.
+ * Gestisce le operazioni CRUD sulle notizie e la logica di personalizzazione
+ * basata sulle visite dell'utente alle diverse categorie di contenuto.
+ * Le immagini caricate tramite EditorJS ma poi rimosse vengono eliminate dal filesystem.
+ */
+
 const path = require('path');
 const fs = require('fs');
 const Notizie = require('../models/Notizie');
 const VisiteUtente = require('../models/VisiteUtente');
 
+/**
+ * GET /api/cicerone/notizie
+ * Restituisce tutte le notizie, ordinate per data di pubblicazione decrescente.
+ * Supporta il filtro opzionale per categoria tramite query string.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con array di notizie
+ */
 const getNotizie = async (req, res) => {
   try {
     const filtro = {};
@@ -22,6 +40,18 @@ const getNotizie = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/cicerone/notizie/:id
+ * Restituisce una singola notizia per ID.
+ * Se l'utente è autenticato, incrementa il contatore di visite per la categoria
+ * della notizia, usato in seguito per personalizzare il feed.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.id - ID MongoDB della notizia
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con la notizia
+ */
 const getNotiziaById = async (req, res) => {
   try {
     const notizia = await Notizie.findById(req.params.id);
@@ -44,6 +74,19 @@ const getNotiziaById = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/cicerone/notizie
+ * Crea una nuova notizia. Accessibile solo agli admin.
+ * Prima di salvare, rimuove dal filesystem le immagini che l'utente aveva
+ * caricato tramite EditorJS ma non ha incluso nel contenuto finale.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {Object} req.body - Dati della notizia, inclusi immaginiCaricate e immaginiUsate
+ * @param {Object} req.utente - Utente autenticato (aggiunto dal middleware proteggi)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con la notizia creata
+ */
 const creaNotizia = async (req, res) => {
   try {
     const { immaginiCaricate, immaginiUsate, ...datiPuliti } = req.body;
@@ -83,6 +126,17 @@ const creaNotizia = async (req, res) => {
   }
 };
 
+/**
+ * DELETE /api/cicerone/notizie/:id
+ * Elimina una notizia e cancella dal filesystem tutte le immagini
+ * referenziate nei blocchi EditorJS del suo contenuto.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.id - ID MongoDB della notizia da eliminare
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con messaggio di conferma
+ */
 const eliminaNotizia = async (req, res) => {
   try {
     const notizia = await Notizie.findById(req.params.id);
@@ -122,6 +176,19 @@ const eliminaNotizia = async (req, res) => {
   }
 };
 
+/**
+ * PUT /api/cicerone/notizie/:id
+ * Aggiorna una notizia esistente. Accessibile solo agli admin.
+ * Confronta le immagini vecchie con quelle nuove ed elimina dal filesystem
+ * quelle che non compaiono più nel contenuto aggiornato.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.id - ID MongoDB della notizia da aggiornare
+ * @param {Object} req.body - Campi aggiornati (titolo, contenuto, categoria, dataPubblicazione)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con la notizia aggiornata
+ */
 const aggiornaNotizia = async (req, res) => {
   const { id } = req.params;
   const { titolo, contenuto, categoria, dataPubblicazione } = req.body;
@@ -174,6 +241,17 @@ const aggiornaNotizia = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/cicerone/notizie/:id
+ * Imposta la dataPubblicazione della notizia all'istante corrente,
+ * rendendola visibile nel feed come se fosse pubblicata adesso.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.id - ID MongoDB della notizia da avviare
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con la notizia aggiornata
+ */
 const avviaNotizia = async (req, res) => {
   try {
     const notizia = await Notizie.findById(req.params.id);
@@ -199,6 +277,18 @@ const avviaNotizia = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/cicerone/notizie/personalizzate
+ * Restituisce le notizie ordinate per affinità con le categorie più visitate
+ * dall'utente autenticato. Se l'utente non ha ancora visite, restituisce
+ * le notizie più recenti come fallback.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {Object} req.utente - Utente autenticato (aggiunto dal middleware proteggi)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con le notizie personalizzate
+ */
 const getNotiziеPersonalizzate = async (req, res) => {
   try {
     // Recupera le categorie più visitate dall'utente, ordinate per visite
@@ -243,6 +333,16 @@ const getNotiziеPersonalizzate = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/cicerone/notizie/popolari
+ * Restituisce le notizie ordinate per numero totale di visite per categoria,
+ * dal gruppo di categorie più visitato al meno visitato.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con le notizie ordinate per popolarità
+ */
 const getNotiziePopolari = async (req, res) => {
   try {
     const notizie = await Notizie.aggregate([

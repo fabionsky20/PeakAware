@@ -1,4 +1,11 @@
-// src/controllers/sentieriController.js
+/**
+ * @file sentieriController.js
+ * @description Controller per il Modulo Sentieri.
+ * Espone gli endpoint per la lettura dei sentieri, il toggle di visibilità
+ * e l'importazione manuale dei dati da Overpass API.
+ * La documentazione OpenAPI di ogni endpoint è inline tramite commenti @openapi.
+ */
+
 const axios = require('axios');
 const osmtogeojson = require('osmtogeojson');
 const Sentiero = require('../models/Sentiero');

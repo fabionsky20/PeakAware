@@ -1,5 +1,24 @@
+/**
+ * @file commentoController.js
+ * @description Controller per la gestione dei commenti alle notizie del Cicerone.
+ * Ogni commento è associato a una notizia e a un utente autenticato.
+ * La cancellazione è permessa all'autore del commento o agli admin.
+ */
+
 const Commento = require('../models/Commento');
 
+/**
+ * POST /api/cicerone/notizie/:idNotizia/commenti
+ * Crea un nuovo commento su una notizia. Richiede autenticazione.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.idNotizia - ID MongoDB della notizia
+ * @param {string} req.body.testo - Testo del commento
+ * @param {Object} req.utente - Utente autenticato (aggiunto dal middleware proteggi)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con il commento creato
+ */
 const creaCommento = async (req, res) => {
   try {
 
@@ -21,6 +40,17 @@ const creaCommento = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/cicerone/notizie/:idNotizia/commenti
+ * Restituisce tutti i commenti di una notizia, con il campo autore
+ * popolato (solo username), ordinati per data di creazione decrescente.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.idNotizia - ID MongoDB della notizia
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con array di commenti
+ */
 const getCommentiNotizia = async (req, res) => {
   try {
 
@@ -41,6 +71,18 @@ const getCommentiNotizia = async (req, res) => {
   }
 };
 
+/**
+ * DELETE /api/cicerone/notizie/:idNotizia/commenti/:commentoId
+ * Elimina un commento. Consentito solo all'autore del commento o a un admin.
+ * Restituisce 403 se l'utente non ha i permessi necessari.
+ *
+ * @async
+ * @param {Object} req - Richiesta Express
+ * @param {string} req.params.commentoId - ID MongoDB del commento
+ * @param {Object} req.utente - Utente autenticato (aggiunto dal middleware proteggi)
+ * @param {Object} res - Risposta Express
+ * @returns {Object} JSON con messaggio di conferma
+ */
 const eliminaCommento = async (req, res) => {
   try {
     const commento = await Commento.findById(req.params.commentoId);

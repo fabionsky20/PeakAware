@@ -1,3 +1,12 @@
+/**
+ * @file notizie-form.ts
+ * @description Componente form per la creazione e modifica delle notizie del Cicerone.
+ * Usa EditorJS come editor di contenuto ricco (testo, intestazioni, immagini).
+ * In modalità modifica carica la notizia esistente e la popola nell'editor.
+ * Le immagini vengono caricate su Cloudinary tramite l'endpoint /api/admin/upload.
+ * Accessibile solo agli admin (verifica nel template e nel backend).
+ */
+
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';

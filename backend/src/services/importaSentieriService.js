@@ -1,10 +1,27 @@
-// src/services/importaSentieriService.js
+/**
+ * @file importaSentieriService.js
+ * @description Servizio per l'importazione e il salvataggio dei sentieri escursionistici.
+ * Interroga l'API Overpass per scaricare le relation/way di tipo "route=hiking"
+ * nell'area comunale di Trento, converte il risultato in GeoJSON tramite osmtogeojson,
+ * calcola lunghezza, dislivello e tempi di percorrenza con Turf.js e aggiorna
+ * il database MongoDB con una bulk upsert (aggiorna se già presente, inserisce altrimenti).
+ * Viene chiamato dal cron job settimanale in server.js e dall'endpoint admin /importa.
+ */
+
 const axios = require('axios');
 const osmtogeojson = require('osmtogeojson');
 const Sentiero = require('../models/Sentiero');
 const turf = require('@turf/turf');
+/**
+ * Scarica i sentieri da Overpass API, li converte in GeoJSON e li salva su MongoDB.
+ * Usa bulkWrite con upsert per aggiornare i sentieri esistenti e inserire i nuovi.
+ *
+ * @async
+ * @returns {Object} Oggetto con i contatori dell'operazione
+ *   (trovati_originali, salvati_filtrati, inseriti_nuovi, aggiornati)
+ * @throws {Error} Se la richiesta a Overpass o il salvataggio fallisce
+ */
 async function importaSentieriDaOverpass() {
-    console.log("📢 RICHIESTA RICEVUTA SULLA ROTTA IMPORTA!");
     try {
         console.log("Inizio download dati da Overpass...");
 

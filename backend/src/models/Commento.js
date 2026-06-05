@@ -1,3 +1,10 @@
+/**
+ * @file Commento.js
+ * @description Modello Mongoose per i commenti alle notizie del Cicerone.
+ * Ogni commento è associato a un autore (Utente) e a una notizia (Notizia).
+ * La cancellazione è consentita all'autore o agli admin tramite il controller.
+ */
+
 const mongoose = require('mongoose');
 
 const commentoSchema = new mongoose.Schema({

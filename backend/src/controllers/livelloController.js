@@ -1,3 +1,11 @@
+/**
+ * @file livelloController.js
+ * @description Controller per la gestione dei livelli di esperienza utente.
+ * Espone le operazioni CRUD sui livelli e il seed iniziale eseguito al boot.
+ * Il livello 1 è protetto: non può essere eliminato né avere puntiNecessari > 0.
+ * Dopo ogni eliminazione i numeri dei livelli rimanenti vengono rinumerati in sequenza.
+ */
+
 const Livello = require('../models/Livello');
 
 const DEFAULT_LIVELLI = [

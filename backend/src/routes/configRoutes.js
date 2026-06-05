@@ -1,9 +1,21 @@
+/**
+ * @file configRoutes.js
+ * @description Route Express per la configurazione globale dell'applicazione.
+ * Espone un endpoint pubblico di lettura e uno protetto di scrittura (solo admin).
+ * La configurazione contiene trailConfig (soglie CAI per i sentieri) e
+ * equipConfig (lista attrezzatura consigliata), modificabili dall'interfaccia admin.
+ */
+
 const express = require('express');
 const router = express.Router();
 const Configurazione = require('../models/Configurazione');
-const { proteggi, soloAdmin } = require('../middleware/auth'); // Assicurati che il percorso sia corretto
+const { proteggi, soloAdmin } = require('../middleware/auth');
 
-// GET: Legge la configurazione globale
+/**
+ * GET /api/config
+ * Pubblica — restituisce la configurazione globale (chiave 'app_config').
+ * Se non esiste ancora, restituisce un oggetto vuoto.
+ */
 router.get('/', async (req, res) => {
   try {
     const conf = await Configurazione.findOne({ chiave: 'app_config' });
@@ -13,7 +25,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT: Salva la configurazione (Solo Admin)
+/**
+ * PUT /api/config
+ * Protetta — solo admin possono aggiornare la configurazione.
+ * Usa upsert: crea il documento se non esiste ancora.
+ */
 router.put('/', proteggi, soloAdmin, async (req, res) => {
   try {
     const { trailConfig, equipConfig } = req.body;

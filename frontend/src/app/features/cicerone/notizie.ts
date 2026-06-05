@@ -1,3 +1,13 @@
+/**
+ * @file notizie.ts
+ * @description Componente principale del Modulo Cicerone.
+ * Mostra la lista delle notizie con tre modalità di ordinamento:
+ * recenti (default), personalizzate (per affinità categorie), popolari (per visite).
+ * Supporta filtro per categoria e gestione admin (crea, modifica, elimina).
+ * L'anteprima di ogni notizia estrae la prima immagine e il primo paragrafo
+ * dal formato EditorJS del contenuto.
+ */
+
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

@@ -1,7 +1,11 @@
 /**
- * Logica di valutazione compatibilità sentiero-utente.
- * Le regole e i requisiti sono stati esposti in un oggetto di Configurazione 
- * per permettere all'admin di modificarli dinamicamente via UI.
+ * @file trail-advisor.ts
+ * @description Logica di valutazione compatibilità sentiero-utente.
+ * Confronta la scala di difficoltà CAI del sentiero con il livello di esperienza
+ * dell'utente e restituisce un consiglio (consigliato, fattibile, sconsigliato,
+ * ferrata, sconosciuto) con titolo, messaggio e icona.
+ * La configurazione TrailConfig (soglie CAI e avvertenze) è modificabile
+ * dagli admin tramite l'interfaccia di configurazione e viene applicata dinamicamente.
  */
 
 export interface UtenteSnapshot {

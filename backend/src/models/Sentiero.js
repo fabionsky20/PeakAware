@@ -1,4 +1,13 @@
-// src/models/Sentiero.js
+/**
+ * @file Sentiero.js
+ * @description Modello Mongoose per i sentieri escursionistici.
+ * I dati vengono importati da Overpass API e convertiti in GeoJSON.
+ * Ogni documento corrisponde a un percorso OSM (way o relation) con
+ * geometria LineString o MultiLineString e metadati calcolati (lunghezza,
+ * dislivello, tempi di percorrenza, difficoltà).
+ * L'indice 2dsphere abilita le query geospaziali sulla geometria.
+ */
+
 const mongoose = require('mongoose');
 
 /**

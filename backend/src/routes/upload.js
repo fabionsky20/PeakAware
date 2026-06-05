@@ -1,3 +1,11 @@
+/**
+ * @file upload.js
+ * @description Route Express per l'upload di immagini tramite Cloudinary.
+ * Espone un singolo endpoint POST che accetta un file 'image' (jpg, jpeg, png, webp),
+ * lo carica nella cartella 'peakaware' su Cloudinary e restituisce l'URL pubblico.
+ * Formato risposta compatibile con il plugin EditorJS Image Tool.
+ */
+
 const express = require('express');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
