@@ -230,7 +230,7 @@
         <div class="item-header">
           <div class="title-block">
             @if (s.properties?.['ref']) {
-              <span class="ref-badge">{{ s.properties?.['ref'] }}</span>
+              <span class="ref-badge">{{ s.properties!['ref'] }}</span>
             }
             <h3 [class.text-muted]="s.isVisible === false">{{ s.properties?.['name'] || 'Sentiero senza nome' }}</h3>
             @if (isAdmin()) {
@@ -258,11 +258,11 @@
             @if (s.properties?.['from'] || s.properties?.['to']) {
               <div class="route-row">
                 <span class="route-point">
-                  <i class="ti ti-map-pin"></i> {{ s.properties?.['from'] || '—' }}
+                  <i class="ti ti-map-pin"></i> {{ s.properties!['from'] || '—' }}
                 </span>
                 <span class="route-arrow"><i class="ti ti-arrow-right"></i></span>
                 <span class="route-point">
-                  <i class="ti ti-flag-3"></i> {{ s.properties?.['to'] || '—' }}
+                  <i class="ti ti-flag-3"></i> {{ s.properties!['to'] || '—' }}
                 </span>
               </div>
             }
@@ -281,7 +281,7 @@
               <div class="stat-card">
                 <span class="stat-icon"><i class="ti ti-trending-down"></i></span>
                 <span class="stat-label">Discesa</span>
-                <span class="stat-value">{{ s.properties?.['descent'] ? '-' + s.properties?.['descent'] + ' m' : '—' }}</span>
+                <span class="stat-value">{{ s.properties?.['descent'] ? '-' + s.properties!['descent'] + ' m' : '—' }}</span>
               </div>
               <div class="stat-card">
                 <span class="stat-icon"><i class="ti ti-clock"></i></span>
@@ -394,14 +394,14 @@
 
             @if (s.properties?.['operator']) {
               <p class="operator">
-                <i class="ti ti-mountain"></i> {{ s.properties?.['operator'] }}
+                <i class="ti ti-mountain"></i> {{ s.properties!['operator'] }}
               </p>
             }
 
             <div class="detail-actions">
               @if (s.properties?.['website']) {
                 <a class="btn-web"
-                   [href]="s.properties?.['website']"
+                   [href]="s.properties!['website']"
                    target="_blank"
                    (click)="$event.stopPropagation()">
                   <i class="ti ti-world"></i> Sito ufficiale
