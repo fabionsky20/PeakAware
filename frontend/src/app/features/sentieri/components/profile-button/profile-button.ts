@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@core/services/auth.service';
+import { environment } from '@env';
 import { Router } from '@angular/router';
 import { timeout } from 'rxjs/operators';
 
@@ -57,7 +58,7 @@ export class ProfileButton implements OnInit {
   emergenzaSuccesso = '';
   eliminandoIndice: number | null = null;
 
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = environment.apiUrl + '/api/auth';
 
   get iniziali(): string {
     const u = this.username || this.email;

@@ -8,6 +8,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '@env';
 
 interface AuthResponse {
   successo: boolean;
@@ -40,7 +41,7 @@ export interface UtenteCorrente {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = environment.apiUrl + '/api/auth';
 
   // Signal con i dati utente — null se non autenticato
   utente = signal<UtenteCorrente | null>(this.caricaDaLocalStorage());

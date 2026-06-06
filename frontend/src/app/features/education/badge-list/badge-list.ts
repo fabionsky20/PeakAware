@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 interface CondizioneBadge {
   tipo: 'punti' | 'categoria';
@@ -43,7 +44,7 @@ export class BadgeList implements OnInit {
   errore: string = '';
   ruoloUtente: string = '';
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,

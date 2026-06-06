@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-video-form',
@@ -38,7 +39,7 @@ export class VideoForm implements OnInit {
   successo: string = '';
   caricamento: boolean = false;
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,

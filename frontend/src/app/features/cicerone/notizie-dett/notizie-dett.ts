@@ -10,6 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 interface EditorBlock {
   type: string;
@@ -55,7 +56,7 @@ export class NotizieDett implements OnInit {
   idUtenteLoggato = '';
   ruoloUtente = '';
 
-  private readonly apiUrl = 'http://localhost:3000/api/cicerone';
+  private readonly apiUrl = environment.apiUrl + '/api/cicerone';
 
   constructor(
     private route: ActivatedRoute,

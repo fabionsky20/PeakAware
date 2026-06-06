@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
+import { environment } from '@env';
 
 interface Notizia {
   _id: string;
@@ -170,7 +171,7 @@ export class Home implements OnInit, OnDestroy {
 
   private caricaLivelli(): void {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get<any>('http://localhost:3000/api/livelli', { headers }).subscribe({
+    this.http.get<any>(environment.apiUrl + '/api/livelli', { headers }).subscribe({
       next: (res) => {
         this.livelli = (res.dati ?? []).sort((a: LivelloDB, b: LivelloDB) => a.puntiNecessari - b.puntiNecessari);
         this.cdr.detectChanges();
@@ -181,7 +182,7 @@ export class Home implements OnInit, OnDestroy {
 
   private caricaProgressi(): void {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get<any>('http://localhost:3000/api/educazione/progressi', { headers }).subscribe({
+    this.http.get<any>(environment.apiUrl + '/api/educazione/progressi', { headers }).subscribe({
       next: (res) => {
         if (res.successo) {
           this.punti = res.dati.punti;
@@ -196,7 +197,7 @@ export class Home implements OnInit, OnDestroy {
 
   private caricaNotizie(): void {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get<any>('http://localhost:3000/api/cicerone/notizie', { headers }).subscribe({
+    this.http.get<any>(environment.apiUrl + '/api/cicerone/notizie', { headers }).subscribe({
       next: (res) => {
         this.notizie = (res.dati ?? []).slice(0, 6);
         this.cdr.detectChanges();

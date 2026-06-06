@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
+import { environment } from '@env';
 
 interface Video {
   _id: string;
@@ -40,7 +41,7 @@ export class VideoList implements OnInit {
   errore: string = '';
   ruoloUtente: string = 'utente';
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,

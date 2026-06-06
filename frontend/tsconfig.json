@@ -18,6 +18,7 @@
       "@services/*" : ["./src/app/services/*"],
       "@core/*" : ["./src/app/core/*"],
       "@features/*" : ["./src/app/features/*"],
+      "@env" : ["./src/environments/environment"]
     }
   },
   "angularCompilerOptions": {

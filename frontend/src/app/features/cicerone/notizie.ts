@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '@env';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
 
@@ -42,7 +43,7 @@ export class Notizie implements OnInit {
     /** Ruolo dell'utente loggato — determina se mostrare i controlli admin */
     ruoloUtente: string = 'utente';
     
-    private apiUrl = 'http://localhost:3000/api/cicerone';
+    private apiUrl = environment.apiUrl + '/api/cicerone';
     
     constructor(        
         private http: HttpClient,

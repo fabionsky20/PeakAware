@@ -7,6 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, EMPTY, throwError,catchError } from 'rxjs';
+import { environment } from '@env';
 import { AuthService } from './auth.service';
 import { signal } from '@angular/core';
 
@@ -62,7 +63,7 @@ export interface PosizioneContattoResponse {
 @Injectable({ providedIn: 'root' })
 export class UtenteService {
 
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = environment.apiUrl + '/api/auth';
   private http    = inject(HttpClient);
   private authSvc = inject(AuthService);
   public posizionePersonale = signal<{lat: number, lng: number} | null>(null);

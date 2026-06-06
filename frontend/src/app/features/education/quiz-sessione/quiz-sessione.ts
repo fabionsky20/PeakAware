@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 interface Risposta {
   _id: string;
@@ -102,7 +103,7 @@ export class QuizSessione implements OnInit, OnDestroy {
   invioInCorso: boolean = false;
   errore: string = '';
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private route: ActivatedRoute,

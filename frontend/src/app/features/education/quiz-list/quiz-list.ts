@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
+import { environment } from '@env';
 
 interface Quiz {
   _id: string;
@@ -79,7 +80,7 @@ export class QuizList implements OnInit {
   datiAnalytics: Analytics | null = null;
   caricamentoAnalytics: boolean = false;
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,

@@ -12,12 +12,13 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './features/auth/interceptors/auth.interceptor'; // Il tuo interceptor
 import { BASE_PATH } from './api'; // Importa dal modulo generato
 import { routes } from './app.routes';
+import { environment } from '@env';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withInMemoryScrolling ({ scrollPositionRestoration: 'top' })),
     provideHttpClient(withInterceptors([authInterceptor])), // Necessario per chiamate HTTP al backend
-    { provide: BASE_PATH, useValue: 'http://localhost:3000' }
+    { provide: BASE_PATH, useValue: environment.apiUrl }
   ]
 };

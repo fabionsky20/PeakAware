@@ -17,6 +17,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SentieroService } from '@core/services/sentiero.service';
 import { AuthService } from '@core/services/auth.service';
 import { UtenteService } from '@core/services/utente.service';
+import { environment } from '@env';
 import { valutaCompatibilita, ConsiglioSentiero, TrailConfig } from './trail-advisor';
 import { suggerisciAttrezzatura, SuggerimentoAttrezzatura, EquipConfig, EquipItem } from './equipment-advisor';
 import * as turf from '@turf/turf';
@@ -43,7 +44,7 @@ export class SidebarComponent implements OnInit {
   @ViewChild('sidebarScroll') sidebarScroll!: ElementRef<HTMLElement>;
   @ViewChildren('trailCard')  trailCards!: QueryList<ElementRef<HTMLElement>>;
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl + '/api';
 
   readonly livelliCai: LivelloCAI[] = ['T', 'E', 'EE', 'EEA'];
 

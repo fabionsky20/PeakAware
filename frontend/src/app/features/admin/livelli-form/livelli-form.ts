@@ -11,6 +11,7 @@ import { DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 interface Livello {
   _id: string;
@@ -42,7 +43,7 @@ export class LivelliForm implements OnInit {
   nuovoPunti: number | null = null;
   aggiungendo = false;
 
-  private readonly apiUrl = 'http://localhost:3000/api/livelli';
+  private readonly apiUrl = environment.apiUrl + '/api/livelli';
 
   constructor(
     private http: HttpClient,

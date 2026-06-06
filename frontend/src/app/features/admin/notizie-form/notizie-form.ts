@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Paragraph from '@editorjs/paragraph';
@@ -46,7 +47,7 @@ export class NotizieForm implements OnInit {
     caricamento: boolean = false;
     editor!: EditorJS;
 
-    private apiUrl = 'http://localhost:3000/api/cicerone';
+    private apiUrl = environment.apiUrl + '/api/cicerone';
     constructor(
         private http: HttpClient,
         private authService: AuthService,
@@ -83,7 +84,7 @@ export class NotizieForm implements OnInit {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 class: CustomImageTool as any,
                 config: {
-                    uploadUrl: 'http://localhost:3000/api/admin/upload',
+                    uploadUrl: environment.apiUrl + '/api/admin/upload',
                     getToken: () => this.authService.getToken() ?? '',
                 },
             },

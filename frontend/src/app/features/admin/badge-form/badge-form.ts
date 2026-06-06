@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-badge-form',
@@ -41,7 +42,7 @@ export class BadgeForm implements OnInit {
   successo: string = '';
   caricamento: boolean = false;
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,

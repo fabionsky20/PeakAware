@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 import { CommonModule, DatePipe } from '@angular/common';
 
 
@@ -35,7 +36,7 @@ export class NotizieComm implements OnInit {
     idUtenteLoggato: string = '';
     ruoloUtente: string = '';
 
-    private apiUrl = 'http://localhost:3000/api/cicerone';
+    private apiUrl = environment.apiUrl + '/api/cicerone';
 
     constructor(
         private http: HttpClient,

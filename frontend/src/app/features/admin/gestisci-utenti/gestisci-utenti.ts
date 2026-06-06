@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 interface UtenteRiga {
   _id: string;
@@ -36,7 +37,7 @@ export class GestisciUtenti implements OnInit {
   eliminandoId: string | null = null;
   promuovendoId: string | null = null;
 
-  private readonly apiUrl = 'http://localhost:3000/api/admin';
+  private readonly apiUrl = environment.apiUrl + '/api/admin';
 
   constructor(
     private http: HttpClient,

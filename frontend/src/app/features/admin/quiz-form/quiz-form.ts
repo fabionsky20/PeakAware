@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-quiz-form',
@@ -48,7 +49,7 @@ export class QuizForm implements OnInit {
   dragSrcDi: number | null = null;
   dragSrcRi: number | null = null;
 
-  private apiUrl = 'http://localhost:3000/api/educazione';
+  private apiUrl = environment.apiUrl + '/api/educazione';
 
   constructor(
     private http: HttpClient,
@@ -133,7 +134,7 @@ export class QuizForm implements OnInit {
     const formData = new FormData();
     formData.append('image', input.files[0]);
     this.http.post<any>(
-      'http://localhost:3000/api/admin/upload',
+      environment.apiUrl + '/api/admin/upload',
       formData,
       { headers: new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` }) }
     ).subscribe({
