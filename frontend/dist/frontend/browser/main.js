@@ -54566,7 +54566,7 @@ var MobileNav = class _MobileNav {
   static \u0275fac = function MobileNav_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MobileNav)();
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MobileNav, selectors: [["app-mobile-nav"]], inputs: { active: "active" }, decls: 21, vars: 17, consts: [[1, "mnav-backdrop"], ["aria-label", "Naviga", 1, "mnav-tab", 3, "click"], [1, "ti"], [1, "mnav-panel"], [1, "mnav-links"], [1, "mnav-item", 3, "click"], [1, "ti", "ti-home"], [1, "ti", "ti-map"], [1, "ti", "ti-book"], [1, "ti", "ti-news"], [1, "mnav-backdrop", 3, "click"]], template: function MobileNav_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MobileNav, selectors: [["app-mobile-nav"]], inputs: { active: "active" }, decls: 21, vars: 17, consts: [[1, "mnav-backdrop"], ["aria-label", "Naviga", 1, "mnav-tab", 3, "click"], [1, "ti"], [1, "mnav-panel"], [1, "mnav-links"], [1, "mnav-item", 3, "click"], [1, "ti", "ti-home"], [1, "ti", "ti-book"], [1, "ti", "ti-map"], [1, "ti", "ti-news"], [1, "mnav-backdrop", 3, "click"]], template: function MobileNav_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, MobileNav_Conditional_0_Template, 1, 0, "div", 0);
       \u0275\u0275domElementStart(1, "button", 1);
@@ -54585,19 +54585,19 @@ var MobileNav = class _MobileNav {
       \u0275\u0275domElementEnd()();
       \u0275\u0275domElementStart(9, "button", 5);
       \u0275\u0275domListener("click", function MobileNav_Template_button_click_9_listener() {
-        return ctx.goTo("/sentieri");
+        return ctx.goTo("/educazione/quiz");
       });
       \u0275\u0275domElement(10, "i", 7);
       \u0275\u0275domElementStart(11, "span");
-      \u0275\u0275text(12, "Sentieri");
+      \u0275\u0275text(12, "Educazione");
       \u0275\u0275domElementEnd()();
       \u0275\u0275domElementStart(13, "button", 5);
       \u0275\u0275domListener("click", function MobileNav_Template_button_click_13_listener() {
-        return ctx.goTo("/educazione/quiz");
+        return ctx.goTo("/sentieri");
       });
       \u0275\u0275domElement(14, "i", 8);
       \u0275\u0275domElementStart(15, "span");
-      \u0275\u0275text(16, "Educazione");
+      \u0275\u0275text(16, "Sentieri");
       \u0275\u0275domElementEnd()();
       \u0275\u0275domElementStart(17, "button", 5);
       \u0275\u0275domListener("click", function MobileNav_Template_button_click_17_listener() {
@@ -54619,13 +54619,13 @@ var MobileNav = class _MobileNav {
       \u0275\u0275advance(2);
       \u0275\u0275classProp("active", ctx.active === "home");
       \u0275\u0275advance(4);
-      \u0275\u0275classProp("active", ctx.active === "sentieri");
-      \u0275\u0275advance(4);
       \u0275\u0275classProp("active", ctx.active === "educazione");
+      \u0275\u0275advance(4);
+      \u0275\u0275classProp("active", ctx.active === "sentieri");
       \u0275\u0275advance(4);
       \u0275\u0275classProp("active", ctx.active === "cicerone");
     }
-  }, styles: ['\n.mnav-backdrop[_ngcontent-%COMP%], \n.mnav-tab[_ngcontent-%COMP%], \n.mnav-panel[_ngcontent-%COMP%] {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop[_ngcontent-%COMP%] {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab[_ngcontent-%COMP%]:hover, \n   .mnav-tab.open[_ngcontent-%COMP%] {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 70px;\n    bottom: 0;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border-left: 0.5px solid rgba(151, 168, 149, 0.22);\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 1.4rem 0;\n  }\n  .mnav-panel.open[_ngcontent-%COMP%] {\n    transform: translateX(0);\n  }\n  .mnav-links[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item[_ngcontent-%COMP%]:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active[_ngcontent-%COMP%] {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */'] });
+  }, styles: ['\n.mnav-backdrop[_ngcontent-%COMP%], \n.mnav-tab[_ngcontent-%COMP%], \n.mnav-panel[_ngcontent-%COMP%] {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop[_ngcontent-%COMP%] {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab[_ngcontent-%COMP%]:hover, \n   .mnav-tab.open[_ngcontent-%COMP%] {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border: 0.5px solid rgba(151, 168, 149, 0.22);\n    border-right: none;\n    border-radius: 0 0 0 12px;\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 0.6rem 0 0.8rem;\n  }\n  .mnav-panel.open[_ngcontent-%COMP%] {\n    transform: translateX(0);\n  }\n  .mnav-links[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item[_ngcontent-%COMP%]:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active[_ngcontent-%COMP%] {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MobileNav, [{
@@ -54644,13 +54644,13 @@ var MobileNav = class _MobileNav {
       <i class="ti ti-home"></i>
       <span>Home</span>
     </button>
-    <button class="mnav-item" [class.active]="active === 'sentieri'" (click)="goTo('/sentieri')">
-      <i class="ti ti-map"></i>
-      <span>Sentieri</span>
-    </button>
     <button class="mnav-item" [class.active]="active === 'educazione'" (click)="goTo('/educazione/quiz')">
       <i class="ti ti-book"></i>
       <span>Educazione</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'sentieri'" (click)="goTo('/sentieri')">
+      <i class="ti ti-map"></i>
+      <span>Sentieri</span>
     </button>
     <button class="mnav-item" [class.active]="active === 'cicerone'" (click)="goTo('/cicerone/notizie')">
       <i class="ti ti-news"></i>
@@ -54658,7 +54658,7 @@ var MobileNav = class _MobileNav {
     </button>
   </nav>
 </div>
-`, styles: ['/* src/app/shared/mobile-nav/mobile-nav.css */\n.mnav-backdrop,\n.mnav-tab,\n.mnav-panel {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab:hover,\n  .mnav-tab.open {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 70px;\n    bottom: 0;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border-left: 0.5px solid rgba(151, 168, 149, 0.22);\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 1.4rem 0;\n  }\n  .mnav-panel.open {\n    transform: translateX(0);\n  }\n  .mnav-links {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item i {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */\n'] }]
+`, styles: ['/* src/app/shared/mobile-nav/mobile-nav.css */\n.mnav-backdrop,\n.mnav-tab,\n.mnav-panel {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab:hover,\n  .mnav-tab.open {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border: 0.5px solid rgba(151, 168, 149, 0.22);\n    border-right: none;\n    border-radius: 0 0 0 12px;\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 0.6rem 0 0.8rem;\n  }\n  .mnav-panel.open {\n    transform: translateX(0);\n  }\n  .mnav-links {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item i {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */\n'] }]
   }], null, { active: [{
     type: Input
   }] });
@@ -78966,14 +78966,14 @@ function LivelliForm_Conditional_26_Template(rf, ctx) {
 }
 function LivelliForm_Conditional_27_For_2_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 25);
+    \u0275\u0275elementStart(0, "span", 26);
     \u0275\u0275text(1, "MAX");
     \u0275\u0275elementEnd();
   }
 }
 function LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "input", 30);
+    \u0275\u0275element(0, "input", 31);
   }
   if (rf & 2) {
     \u0275\u0275property("value", 0);
@@ -78982,7 +78982,7 @@ function LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_8_Template(r
 function LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "input", 37);
+    \u0275\u0275elementStart(0, "input", 38);
     \u0275\u0275twoWayListener("ngModelChange", function LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_9_Template_input_ngModelChange_0_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(4);
@@ -78999,10 +78999,10 @@ function LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_9_Template(r
 function LivelliForm_Conditional_27_For_2_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 26)(1, "div", 27)(2, "label", 28);
+    \u0275\u0275elementStart(0, "div", 27)(1, "div", 28)(2, "label", 29);
     \u0275\u0275text(3, "Nome livello");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "input", 29);
+    \u0275\u0275elementStart(4, "input", 30);
     \u0275\u0275twoWayListener("ngModelChange", function LivelliForm_Conditional_27_For_2_Conditional_5_Template_input_ngModelChange_4_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(3);
@@ -79010,28 +79010,28 @@ function LivelliForm_Conditional_27_For_2_Conditional_5_Template(rf, ctx) {
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "div", 27)(6, "label", 28);
+    \u0275\u0275elementStart(5, "div", 28)(6, "label", 29);
     \u0275\u0275text(7, "Punti necessari");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(8, LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_8_Template, 1, 1, "input", 30)(9, LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_9_Template, 1, 1, "input", 31);
+    \u0275\u0275conditionalCreate(8, LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_8_Template, 1, 1, "input", 31)(9, LivelliForm_Conditional_27_For_2_Conditional_5_Conditional_9_Template, 1, 1, "input", 32);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 32)(11, "button", 33);
+    \u0275\u0275elementStart(10, "div", 33)(11, "button", 34);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_For_2_Conditional_5_Template_button_click_11_listener() {
       \u0275\u0275restoreView(_r2);
       const l_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.salva(l_r4));
     });
-    \u0275\u0275element(12, "i", 34);
+    \u0275\u0275element(12, "i", 35);
     \u0275\u0275text(13);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "button", 35);
+    \u0275\u0275elementStart(14, "button", 36);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_For_2_Conditional_5_Template_button_click_14_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r0.cancelEdit());
     });
-    \u0275\u0275element(15, "i", 36);
+    \u0275\u0275element(15, "i", 37);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -79065,36 +79065,36 @@ function LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_5_Template(r
 function LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 44);
+    \u0275\u0275elementStart(0, "button", 45);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_9_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r6);
       const l_r4 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.elimina(l_r4));
     });
-    \u0275\u0275element(1, "i", 45);
+    \u0275\u0275element(1, "i", 46);
     \u0275\u0275elementEnd();
   }
 }
 function LivelliForm_Conditional_27_For_2_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 38)(1, "span", 39);
+    \u0275\u0275elementStart(0, "div", 39)(1, "span", 40);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "span", 40);
+    \u0275\u0275elementStart(3, "span", 41);
     \u0275\u0275conditionalCreate(4, LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_4_Template, 1, 0)(5, LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_5_Template, 2, 3);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "div", 32)(7, "button", 41);
+    \u0275\u0275elementStart(6, "div", 33)(7, "button", 42);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_For_2_Conditional_6_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r5);
       const l_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.startEdit(l_r4));
     });
-    \u0275\u0275element(8, "i", 42);
+    \u0275\u0275element(8, "i", 43);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(9, LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_9_Template, 2, 0, "button", 43);
+    \u0275\u0275conditionalCreate(9, LivelliForm_Conditional_27_For_2_Conditional_6_Conditional_9_Template, 2, 0, "button", 44);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -79109,10 +79109,10 @@ function LivelliForm_Conditional_27_For_2_Conditional_6_Template(rf, ctx) {
 }
 function LivelliForm_Conditional_27_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 22)(1, "div", 23)(2, "span", 24);
+    \u0275\u0275elementStart(0, "div", 23)(1, "div", 24)(2, "span", 25);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(4, LivelliForm_Conditional_27_For_2_Conditional_4_Template, 2, 0, "span", 25);
+    \u0275\u0275conditionalCreate(4, LivelliForm_Conditional_27_For_2_Conditional_4_Template, 2, 0, "span", 26);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(5, LivelliForm_Conditional_27_For_2_Conditional_5_Template, 16, 4)(6, LivelliForm_Conditional_27_For_2_Conditional_6_Template, 10, 3);
     \u0275\u0275elementEnd();
@@ -79132,14 +79132,14 @@ function LivelliForm_Conditional_27_For_2_Template(rf, ctx) {
 function LivelliForm_Conditional_27_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 46);
+    \u0275\u0275elementStart(0, "button", 47);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_Conditional_4_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r0 = \u0275\u0275nextContext(2);
       ctx_r0.showNew = true;
       return \u0275\u0275resetView(ctx_r0.editingId = null);
     });
-    \u0275\u0275element(1, "i", 47);
+    \u0275\u0275element(1, "i", 48);
     \u0275\u0275text(2, " Aggiungi livello ");
     \u0275\u0275elementEnd();
   }
@@ -79147,14 +79147,14 @@ function LivelliForm_Conditional_27_Conditional_4_Template(rf, ctx) {
 function LivelliForm_Conditional_27_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 21)(1, "div", 48);
-    \u0275\u0275element(2, "i", 49);
+    \u0275\u0275elementStart(0, "div", 22)(1, "div", 49);
+    \u0275\u0275element(2, "i", 50);
     \u0275\u0275text(3, " Nuovo livello");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 50)(5, "div", 27)(6, "label", 28);
+    \u0275\u0275elementStart(4, "div", 51)(5, "div", 28)(6, "label", 29);
     \u0275\u0275text(7, "Nome livello");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "input", 51);
+    \u0275\u0275elementStart(8, "input", 52);
     \u0275\u0275twoWayListener("ngModelChange", function LivelliForm_Conditional_27_Conditional_5_Template_input_ngModelChange_8_listener($event) {
       \u0275\u0275restoreView(_r8);
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -79162,10 +79162,10 @@ function LivelliForm_Conditional_27_Conditional_5_Template(rf, ctx) {
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "div", 27)(10, "label", 28);
+    \u0275\u0275elementStart(9, "div", 28)(10, "label", 29);
     \u0275\u0275text(11, "Punti necessari");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "input", 52);
+    \u0275\u0275elementStart(12, "input", 53);
     \u0275\u0275twoWayListener("ngModelChange", function LivelliForm_Conditional_27_Conditional_5_Template_input_ngModelChange_12_listener($event) {
       \u0275\u0275restoreView(_r8);
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -79173,22 +79173,22 @@ function LivelliForm_Conditional_27_Conditional_5_Template(rf, ctx) {
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(13, "div", 53)(14, "button", 33);
+    \u0275\u0275elementStart(13, "div", 54)(14, "button", 34);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_Conditional_5_Template_button_click_14_listener() {
       \u0275\u0275restoreView(_r8);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.aggiungi());
     });
-    \u0275\u0275element(15, "i", 34);
+    \u0275\u0275element(15, "i", 35);
     \u0275\u0275text(16);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "button", 35);
+    \u0275\u0275elementStart(17, "button", 36);
     \u0275\u0275listener("click", function LivelliForm_Conditional_27_Conditional_5_Template_button_click_17_listener() {
       \u0275\u0275restoreView(_r8);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.showNew = false);
     });
-    \u0275\u0275element(18, "i", 36);
+    \u0275\u0275element(18, "i", 37);
     \u0275\u0275text(19, " Annulla ");
     \u0275\u0275elementEnd()()();
   }
@@ -79206,11 +79206,11 @@ function LivelliForm_Conditional_27_Conditional_5_Template(rf, ctx) {
 }
 function LivelliForm_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 17);
-    \u0275\u0275repeaterCreate(1, LivelliForm_Conditional_27_For_2_Template, 7, 5, "div", 18, _forTrack011);
+    \u0275\u0275elementStart(0, "div", 18);
+    \u0275\u0275repeaterCreate(1, LivelliForm_Conditional_27_For_2_Template, 7, 5, "div", 19, _forTrack011);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 19);
-    \u0275\u0275conditionalCreate(4, LivelliForm_Conditional_27_Conditional_4_Template, 3, 0, "button", 20)(5, LivelliForm_Conditional_27_Conditional_5_Template, 20, 4, "div", 21);
+    \u0275\u0275elementStart(3, "div", 20);
+    \u0275\u0275conditionalCreate(4, LivelliForm_Conditional_27_Conditional_4_Template, 3, 0, "button", 21)(5, LivelliForm_Conditional_27_Conditional_5_Template, 20, 4, "div", 22);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -79341,9 +79341,13 @@ var LivelliForm = class _LivelliForm {
   static \u0275fac = function LivelliForm_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _LivelliForm)(\u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LivelliForm, selectors: [["app-livelli-form"]], decls: 28, vars: 3, consts: [[1, "lv-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "errore-msg"], [1, "stato-msg"], [1, "livelli-list"], [1, "livello-row", 3, "editing"], [1, "aggiungi-section"], [1, "btn-aggiungi"], [1, "new-form"], [1, "livello-row"], [1, "lv-numero"], [1, "lv-num-badge"], [1, "max-tag"], [1, "lv-edit-fields"], [1, "field-wrap"], [1, "field-label"], ["type", "text", "name", "editNome", "placeholder", "es. Esperto", 1, "lv-input", 3, "ngModelChange", "ngModel"], ["type", "number", "disabled", "", "title", "Il livello 1 parte sempre da 0 punti", 1, "lv-input", 3, "value"], ["type", "number", "name", "editPunti", "min", "1", 1, "lv-input", 3, "ngModel"], [1, "lv-actions"], [1, "btn-salva", 3, "click", "disabled"], [1, "ti", "ti-check"], [1, "btn-annulla", 3, "click"], [1, "ti", "ti-x"], ["type", "number", "name", "editPunti", "min", "1", 1, "lv-input", 3, "ngModelChange", "ngModel"], [1, "lv-info"], [1, "lv-nome"], [1, "lv-soglia"], [1, "btn-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-del"], [1, "btn-del", 3, "click"], [1, "ti", "ti-trash"], [1, "btn-aggiungi", 3, "click"], [1, "ti", "ti-plus"], [1, "new-form-title"], [1, "ti", "ti-stairs-up"], [1, "new-form-fields"], ["type", "text", "name", "nuovoNome", "placeholder", "es. Leggenda", 1, "lv-input", 3, "ngModelChange", "ngModel"], ["type", "number", "name", "nuovoPunti", "min", "1", "placeholder", "es. 2000", 1, "lv-input", 3, "ngModelChange", "ngModel"], [1, "new-form-actions"]], template: function LivelliForm_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _LivelliForm, selectors: [["app-livelli-form"]], decls: 29, vars: 3, consts: [[1, "lv-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "errore-msg"], [1, "stato-msg"], ["active", "admin"], [1, "livelli-list"], [1, "livello-row", 3, "editing"], [1, "aggiungi-section"], [1, "btn-aggiungi"], [1, "new-form"], [1, "livello-row"], [1, "lv-numero"], [1, "lv-num-badge"], [1, "max-tag"], [1, "lv-edit-fields"], [1, "field-wrap"], [1, "field-label"], ["type", "text", "name", "editNome", "placeholder", "es. Esperto", 1, "lv-input", 3, "ngModelChange", "ngModel"], ["type", "number", "disabled", "", "title", "Il livello 1 parte sempre da 0 punti", 1, "lv-input", 3, "value"], ["type", "number", "name", "editPunti", "min", "1", 1, "lv-input", 3, "ngModel"], [1, "lv-actions"], [1, "btn-salva", 3, "click", "disabled"], [1, "ti", "ti-check"], [1, "btn-annulla", 3, "click"], [1, "ti", "ti-x"], ["type", "number", "name", "editPunti", "min", "1", 1, "lv-input", 3, "ngModelChange", "ngModel"], [1, "lv-info"], [1, "lv-nome"], [1, "lv-soglia"], [1, "btn-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-del"], [1, "btn-del", 3, "click"], [1, "ti", "ti-trash"], [1, "btn-aggiungi", 3, "click"], [1, "ti", "ti-plus"], [1, "new-form-title"], [1, "ti", "ti-stairs-up"], [1, "new-form-fields"], ["type", "text", "name", "nuovoNome", "placeholder", "es. Leggenda", 1, "lv-input", 3, "ngModelChange", "ngModel"], ["type", "number", "name", "nuovoPunti", "min", "1", "placeholder", "es. 2000", 1, "lv-input", 3, "ngModelChange", "ngModel"], [1, "new-form-actions"]], template: function LivelliForm_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function LivelliForm_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -79378,7 +79382,9 @@ var LivelliForm = class _LivelliForm {
       \u0275\u0275conditionalCreate(25, LivelliForm_Conditional_25_Template, 2, 1, "div", 15);
       \u0275\u0275conditionalCreate(26, LivelliForm_Conditional_26_Template, 2, 0, "div", 16);
       \u0275\u0275conditionalCreate(27, LivelliForm_Conditional_27_Template, 6, 1);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(28, "app-mobile-nav", 17);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(25);
@@ -79388,16 +79394,16 @@ var LivelliForm = class _LivelliForm {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.caricamento ? 27 : -1);
     }
-  }, dependencies: [FormsModule, DefaultValueAccessor, NumberValueAccessor, NgControlStatus, MinValidator, NgModel, DecimalPipe], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.lv-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 640px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.livelli-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  margin-bottom: 1.5rem;\n}\n.livello-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.livello-row.editing[_ngcontent-%COMP%] {\n  border-color: rgba(216, 208, 137, 0.4);\n  flex-wrap: wrap;\n}\n.lv-numero[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  flex-shrink: 0;\n}\n.lv-num-badge[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.max-tag[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  font-weight: 700;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.12);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  border-radius: 20px;\n  padding: 0.1rem 0.5rem;\n  letter-spacing: 0.5px;\n}\n.lv-info[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.lv-nome[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 500;\n  color: white;\n}\n.lv-soglia[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-edit-fields[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n}\n.field-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n  flex: 1;\n  min-width: 140px;\n}\n.field-label[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-input[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.8);\n  border: 0.5px solid rgba(151, 168, 149, 0.35);\n  color: white;\n  border-radius: 7px;\n  padding: 0.5rem 0.8rem;\n  font-size: 0.9rem;\n  outline: none;\n  width: 100%;\n}\n.lv-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.lv-input[_ngcontent-%COMP%]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.lv-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-edit[_ngcontent-%COMP%], \n.btn-del[_ngcontent-%COMP%], \n.btn-annulla[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.85rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.55);\n  transition: background 0.15s;\n}\n.btn-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n  color: white;\n}\n.btn-salva[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.9rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-salva[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.25);\n}\n.btn-salva[_ngcontent-%COMP%]:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.aggiungi-section[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n}\n.btn-aggiungi[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  border: 1.5px dashed rgba(216, 208, 137, 0.35);\n  color: rgba(216, 208, 137, 0.7);\n  border-radius: 12px;\n  padding: 0.85rem 1.5rem;\n  font-size: 0.95rem;\n  font-weight: 500;\n  cursor: pointer;\n  width: 100%;\n  justify-content: center;\n  transition:\n    background 0.15s,\n    border-color 0.15s,\n    color 0.15s;\n}\n.btn-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.06);\n  border-color: rgba(216, 208, 137, 0.55);\n  color: #D8D089;\n}\n.new-form[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  padding: 1.25rem;\n}\n.new-form-title[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n  margin-bottom: 1rem;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.new-form-fields[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.new-form-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n/*# sourceMappingURL=livelli-form.css.map */'] });
+  }, dependencies: [FormsModule, DefaultValueAccessor, NumberValueAccessor, NgControlStatus, MinValidator, NgModel, MobileNav, DecimalPipe], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.lv-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 640px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.livelli-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  margin-bottom: 1.5rem;\n}\n.livello-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.livello-row.editing[_ngcontent-%COMP%] {\n  border-color: rgba(216, 208, 137, 0.4);\n  flex-wrap: wrap;\n}\n.lv-numero[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  flex-shrink: 0;\n}\n.lv-num-badge[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.max-tag[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  font-weight: 700;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.12);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  border-radius: 20px;\n  padding: 0.1rem 0.5rem;\n  letter-spacing: 0.5px;\n}\n.lv-info[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.lv-nome[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 500;\n  color: white;\n}\n.lv-soglia[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-edit-fields[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n}\n.field-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n  flex: 1;\n  min-width: 140px;\n}\n.field-label[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-input[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.8);\n  border: 0.5px solid rgba(151, 168, 149, 0.35);\n  color: white;\n  border-radius: 7px;\n  padding: 0.5rem 0.8rem;\n  font-size: 0.9rem;\n  outline: none;\n  width: 100%;\n}\n.lv-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.lv-input[_ngcontent-%COMP%]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.lv-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-edit[_ngcontent-%COMP%], \n.btn-del[_ngcontent-%COMP%], \n.btn-annulla[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.85rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.55);\n  transition: background 0.15s;\n}\n.btn-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n  color: white;\n}\n.btn-salva[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.9rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-salva[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.25);\n}\n.btn-salva[_ngcontent-%COMP%]:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.aggiungi-section[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n}\n.btn-aggiungi[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  border: 1.5px dashed rgba(216, 208, 137, 0.35);\n  color: rgba(216, 208, 137, 0.7);\n  border-radius: 12px;\n  padding: 0.85rem 1.5rem;\n  font-size: 0.95rem;\n  font-weight: 500;\n  cursor: pointer;\n  width: 100%;\n  justify-content: center;\n  transition:\n    background 0.15s,\n    border-color 0.15s,\n    color 0.15s;\n}\n.btn-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.06);\n  border-color: rgba(216, 208, 137, 0.55);\n  color: #D8D089;\n}\n.new-form[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  padding: 1.25rem;\n}\n.new-form-title[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n  margin-bottom: 1rem;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.new-form-fields[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.new-form-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n@media (max-width: 768px) {\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 32px;\n    letter-spacing: -0.5px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .logo[_ngcontent-%COMP%] {\n    cursor: pointer;\n  }\n  .lv-info[_ngcontent-%COMP%] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.15rem;\n  }\n  .lv-actions[_ngcontent-%COMP%] {\n    gap: 0.3rem;\n  }\n  .lv-edit-fields[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 0.5rem;\n  }\n  .field-wrap[_ngcontent-%COMP%] {\n    min-width: 0;\n  }\n}\n/*# sourceMappingURL=livelli-form.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LivelliForm, [{
     type: Component,
-    args: [{ selector: "app-livelli-form", standalone: true, imports: [FormsModule, DecimalPipe], template: `<div class="lv-root">\r
+    args: [{ selector: "app-livelli-form", standalone: true, imports: [FormsModule, DecimalPipe, MobileNav], template: `<div class="lv-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -79525,12 +79531,14 @@ var LivelliForm = class _LivelliForm {
     }\r
 \r
   </div>\r
+\r
+  <app-mobile-nav active="admin" />\r
 </div>\r
-`, styles: ['/* src/app/features/admin/livelli-form/livelli-form.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.lv-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 640px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.livelli-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  margin-bottom: 1.5rem;\n}\n.livello-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.livello-row.editing {\n  border-color: rgba(216, 208, 137, 0.4);\n  flex-wrap: wrap;\n}\n.lv-numero {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  flex-shrink: 0;\n}\n.lv-num-badge {\n  width: 32px;\n  height: 32px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.max-tag {\n  font-size: 0.65rem;\n  font-weight: 700;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.12);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  border-radius: 20px;\n  padding: 0.1rem 0.5rem;\n  letter-spacing: 0.5px;\n}\n.lv-info {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.lv-nome {\n  font-size: 0.95rem;\n  font-weight: 500;\n  color: white;\n}\n.lv-soglia {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-edit-fields {\n  flex: 1;\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n}\n.field-wrap {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n  flex: 1;\n  min-width: 140px;\n}\n.field-label {\n  font-size: 0.72rem;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-input {\n  background: rgba(31, 66, 64, 0.8);\n  border: 0.5px solid rgba(151, 168, 149, 0.35);\n  color: white;\n  border-radius: 7px;\n  padding: 0.5rem 0.8rem;\n  font-size: 0.9rem;\n  outline: none;\n  width: 100%;\n}\n.lv-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.lv-input:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.lv-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-edit,\n.btn-del,\n.btn-annulla {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.85rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.55);\n  transition: background 0.15s;\n}\n.btn-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-annulla:hover {\n  background: rgba(255, 255, 255, 0.12);\n  color: white;\n}\n.btn-salva {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.9rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-salva:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.25);\n}\n.btn-salva:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.aggiungi-section {\n  margin-top: 1rem;\n}\n.btn-aggiungi {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  border: 1.5px dashed rgba(216, 208, 137, 0.35);\n  color: rgba(216, 208, 137, 0.7);\n  border-radius: 12px;\n  padding: 0.85rem 1.5rem;\n  font-size: 0.95rem;\n  font-weight: 500;\n  cursor: pointer;\n  width: 100%;\n  justify-content: center;\n  transition:\n    background 0.15s,\n    border-color 0.15s,\n    color 0.15s;\n}\n.btn-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.06);\n  border-color: rgba(216, 208, 137, 0.55);\n  color: #D8D089;\n}\n.new-form {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  padding: 1.25rem;\n}\n.new-form-title {\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n  margin-bottom: 1rem;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.new-form-fields {\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.new-form-actions {\n  display: flex;\n  gap: 0.5rem;\n}\n/*# sourceMappingURL=livelli-form.css.map */\n'] }]
+`, styles: ['/* src/app/features/admin/livelli-form/livelli-form.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.lv-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 640px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.livelli-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  margin-bottom: 1.5rem;\n}\n.livello-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.livello-row.editing {\n  border-color: rgba(216, 208, 137, 0.4);\n  flex-wrap: wrap;\n}\n.lv-numero {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  flex-shrink: 0;\n}\n.lv-num-badge {\n  width: 32px;\n  height: 32px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.max-tag {\n  font-size: 0.65rem;\n  font-weight: 700;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.12);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  border-radius: 20px;\n  padding: 0.1rem 0.5rem;\n  letter-spacing: 0.5px;\n}\n.lv-info {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.lv-nome {\n  font-size: 0.95rem;\n  font-weight: 500;\n  color: white;\n}\n.lv-soglia {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-edit-fields {\n  flex: 1;\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n}\n.field-wrap {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n  flex: 1;\n  min-width: 140px;\n}\n.field-label {\n  font-size: 0.72rem;\n  letter-spacing: 1px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.4);\n}\n.lv-input {\n  background: rgba(31, 66, 64, 0.8);\n  border: 0.5px solid rgba(151, 168, 149, 0.35);\n  color: white;\n  border-radius: 7px;\n  padding: 0.5rem 0.8rem;\n  font-size: 0.9rem;\n  outline: none;\n  width: 100%;\n}\n.lv-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.lv-input:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.lv-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-edit,\n.btn-del,\n.btn-annulla {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.65rem;\n  font-size: 0.85rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.55);\n  transition: background 0.15s;\n}\n.btn-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-annulla:hover {\n  background: rgba(255, 255, 255, 0.12);\n  color: white;\n}\n.btn-salva {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.9rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-salva:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.25);\n}\n.btn-salva:disabled {\n  opacity: 0.45;\n  cursor: not-allowed;\n}\n.aggiungi-section {\n  margin-top: 1rem;\n}\n.btn-aggiungi {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  border: 1.5px dashed rgba(216, 208, 137, 0.35);\n  color: rgba(216, 208, 137, 0.7);\n  border-radius: 12px;\n  padding: 0.85rem 1.5rem;\n  font-size: 0.95rem;\n  font-weight: 500;\n  cursor: pointer;\n  width: 100%;\n  justify-content: center;\n  transition:\n    background 0.15s,\n    border-color 0.15s,\n    color 0.15s;\n}\n.btn-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.06);\n  border-color: rgba(216, 208, 137, 0.55);\n  color: #D8D089;\n}\n.new-form {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  padding: 1.25rem;\n}\n.new-form-title {\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #D8D089;\n  margin-bottom: 1rem;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.new-form-fields {\n  display: flex;\n  gap: 0.75rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.new-form-actions {\n  display: flex;\n  gap: 0.5rem;\n}\n@media (max-width: 768px) {\n  .page-title {\n    font-size: 32px;\n    letter-spacing: -0.5px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .logo {\n    cursor: pointer;\n  }\n  .lv-info {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.15rem;\n  }\n  .lv-actions {\n    gap: 0.3rem;\n  }\n  .lv-edit-fields {\n    flex-direction: column;\n    gap: 0.5rem;\n  }\n  .field-wrap {\n    min-width: 0;\n  }\n}\n/*# sourceMappingURL=livelli-form.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LivelliForm, { className: "LivelliForm", filePath: "src/app/features/admin/livelli-form/livelli-form.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LivelliForm, { className: "LivelliForm", filePath: "src/app/features/admin/livelli-form/livelli-form.ts", lineNumber: 31 });
 })();
 
 // src/app/features/admin/gestisci-utenti/gestisci-utenti.ts
@@ -79561,17 +79569,17 @@ function GestisciUtenti_Conditional_30_Conditional_0_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_14_Template(rf, ctx) {
+function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 33);
-    \u0275\u0275listener("click", function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_14_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 35);
+    \u0275\u0275listener("click", function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r2);
       const u_r3 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r0.promuovi(u_r3));
     });
-    \u0275\u0275element(1, "i", 34);
+    \u0275\u0275element(1, "i", 36);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -79583,17 +79591,17 @@ function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_14_Templa
     \u0275\u0275textInterpolate1(" ", ctx_r0.promuovendoId === u_r3._id ? "..." : "Admin", " ");
   }
 }
-function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template(rf, ctx) {
+function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 35);
-    \u0275\u0275listener("click", function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 37);
+    \u0275\u0275listener("click", function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_16_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const u_r3 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r0.elimina(u_r3));
     });
-    \u0275\u0275element(1, "i", 36);
+    \u0275\u0275element(1, "i", 38);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -79604,25 +79612,25 @@ function GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Templa
 }
 function GestisciUtenti_Conditional_30_Conditional_1_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 21)(1, "div", 23);
+    \u0275\u0275elementStart(0, "div", 22)(1, "div", 24);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 24)(4, "div", 25);
+    \u0275\u0275elementStart(3, "div", 25)(4, "div", 26);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 26);
+    \u0275\u0275elementStart(6, "div", 27);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "div", 27);
+    \u0275\u0275elementStart(8, "div", 28);
     \u0275\u0275text(9);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 28)(11, "span", 29);
-    \u0275\u0275text(12);
+    \u0275\u0275elementStart(10, "div", 29)(11, "div", 30)(12, "span", 31);
+    \u0275\u0275text(13);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(13, "div", 30);
-    \u0275\u0275conditionalCreate(14, GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_14_Template, 3, 2, "button", 31);
-    \u0275\u0275conditionalCreate(15, GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template, 2, 1, "button", 32);
-    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(14, "div", 32);
+    \u0275\u0275conditionalCreate(15, GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_15_Template, 3, 2, "button", 33);
+    \u0275\u0275conditionalCreate(16, GestisciUtenti_Conditional_30_Conditional_1_For_2_Conditional_16_Template, 2, 1, "button", 34);
+    \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
     const u_r3 = ctx.$implicit;
@@ -79635,22 +79643,22 @@ function GestisciUtenti_Conditional_30_Conditional_1_For_2_Template(rf, ctx) {
     \u0275\u0275textInterpolate(u_r3.email);
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" Registrato il ", ctx_r0.formatData(u_r3.createdAt), " ");
-    \u0275\u0275advance(2);
+    \u0275\u0275advance(3);
     \u0275\u0275classProp("badge-admin", u_r3.ruolo === "admin");
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", u_r3.ruolo === "admin" ? "Admin" : "Utente", " ");
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(u_r3.ruolo !== "admin" ? 14 : -1);
+    \u0275\u0275conditional(u_r3.ruolo !== "admin" ? 15 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(u_r3._id !== ctx_r0.idUtenteCorrente() ? 15 : -1);
+    \u0275\u0275conditional(u_r3._id !== ctx_r0.idUtenteCorrente() ? 16 : -1);
   }
 }
 function GestisciUtenti_Conditional_30_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 20);
-    \u0275\u0275repeaterCreate(1, GestisciUtenti_Conditional_30_Conditional_1_For_2_Template, 16, 9, "div", 21, _forTrack012);
+    \u0275\u0275elementStart(0, "div", 21);
+    \u0275\u0275repeaterCreate(1, GestisciUtenti_Conditional_30_Conditional_1_For_2_Template, 17, 9, "div", 22, _forTrack012);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 22);
+    \u0275\u0275elementStart(3, "div", 23);
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
   }
@@ -79762,9 +79770,13 @@ var GestisciUtenti = class _GestisciUtenti {
   static \u0275fac = function GestisciUtenti_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _GestisciUtenti)(\u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GestisciUtenti, selectors: [["app-gestisci-utenti"]], decls: 31, vars: 4, consts: [[1, "gu-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "search-wrap"], [1, "ti", "ti-search", "search-icon"], ["type", "text", "placeholder", "Cerca per username o email...", 1, "search-input", 3, "ngModelChange", "ngModel"], [1, "errore-msg"], [1, "stato-msg"], [1, "utenti-list"], [1, "utente-row"], [1, "totale-label"], [1, "utente-avatar"], [1, "utente-info"], [1, "utente-nome"], [1, "utente-email"], [1, "utente-meta"], [1, "utente-badges"], [1, "ruolo-badge"], [1, "utente-actions"], ["title", "Promuovi ad admin", 1, "btn-promuovi", 3, "disabled"], ["title", "Elimina account", 1, "btn-del", 3, "disabled"], ["title", "Promuovi ad admin", 1, "btn-promuovi", 3, "click", "disabled"], [1, "ti", "ti-shield-up"], ["title", "Elimina account", 1, "btn-del", 3, "click", "disabled"], [1, "ti", "ti-trash"]], template: function GestisciUtenti_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GestisciUtenti, selectors: [["app-gestisci-utenti"]], decls: 32, vars: 4, consts: [[1, "gu-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "search-wrap"], [1, "ti", "ti-search", "search-icon"], ["type", "text", "placeholder", "Cerca per username o email...", 1, "search-input", 3, "ngModelChange", "ngModel"], [1, "errore-msg"], [1, "stato-msg"], ["active", "admin"], [1, "utenti-list"], [1, "utente-row"], [1, "totale-label"], [1, "utente-avatar"], [1, "utente-info"], [1, "utente-nome"], [1, "utente-email"], [1, "utente-meta"], [1, "utente-controls"], [1, "utente-badges"], [1, "ruolo-badge"], [1, "utente-actions"], ["title", "Promuovi ad admin", 1, "btn-promuovi", 3, "disabled"], ["title", "Elimina account", 1, "btn-del", 3, "disabled"], ["title", "Promuovi ad admin", 1, "btn-promuovi", 3, "click", "disabled"], [1, "ti", "ti-shield-up"], ["title", "Elimina account", 1, "btn-del", 3, "click", "disabled"], [1, "ti", "ti-trash"]], template: function GestisciUtenti_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function GestisciUtenti_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -79810,7 +79822,9 @@ var GestisciUtenti = class _GestisciUtenti {
       \u0275\u0275conditionalCreate(28, GestisciUtenti_Conditional_28_Template, 2, 1, "div", 18);
       \u0275\u0275conditionalCreate(29, GestisciUtenti_Conditional_29_Template, 2, 0, "div", 19);
       \u0275\u0275conditionalCreate(30, GestisciUtenti_Conditional_30_Template, 2, 1);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(31, "app-mobile-nav", 20);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(27);
@@ -79822,16 +79836,16 @@ var GestisciUtenti = class _GestisciUtenti {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.caricamento ? 30 : -1);
     }
-  }, dependencies: [CommonModule, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.gu-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 520px;\n  line-height: 1.6;\n}\n.search-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  margin-bottom: 1.5rem;\n}\n.search-icon[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 0.9rem;\n  top: 50%;\n  transform: translateY(-50%);\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 1rem;\n  pointer-events: none;\n}\n.search-input[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem 0.9rem 0.75rem 2.5rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 10px;\n  font-size: 0.9rem;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.search-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.25);\n}\n.search-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.utenti-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.utente-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.utente-row[_ngcontent-%COMP%]:hover {\n  border-color: rgba(151, 168, 149, 0.4);\n}\n.utente-avatar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #D8D089;\n}\n.utente-info[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n}\n.utente-nome[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-email[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 2px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-meta[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 2px;\n}\n.utente-badges[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.ruolo-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  padding: 0.2rem 0.55rem;\n  border-radius: 20px;\n  background: rgba(151, 168, 149, 0.12);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: rgba(255, 255, 255, 0.5);\n}\n.ruolo-badge.badge-admin[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.12);\n  border-color: rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n}\n.utente-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-promuovi[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.75rem;\n  font-size: 0.82rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-promuovi[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.2);\n}\n.btn-promuovi[_ngcontent-%COMP%]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.btn-del[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.6rem;\n  font-size: 0.9rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.4);\n  transition: background 0.15s, color 0.15s;\n}\n.btn-del[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-del[_ngcontent-%COMP%]:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.totale-label[_ngcontent-%COMP%] {\n  text-align: right;\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 0.75rem;\n}\n/*# sourceMappingURL=gestisci-utenti.css.map */'] });
+  }, dependencies: [CommonModule, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, MobileNav], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.gu-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 520px;\n  line-height: 1.6;\n}\n.search-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  margin-bottom: 1.5rem;\n}\n.search-icon[_ngcontent-%COMP%] {\n  position: absolute;\n  left: 0.9rem;\n  top: 50%;\n  transform: translateY(-50%);\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 1rem;\n  pointer-events: none;\n}\n.search-input[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem 0.9rem 0.75rem 2.5rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 10px;\n  font-size: 0.9rem;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.search-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.25);\n}\n.search-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.utenti-list[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.utente-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.utente-row[_ngcontent-%COMP%]:hover {\n  border-color: rgba(151, 168, 149, 0.4);\n}\n.utente-avatar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #D8D089;\n}\n.utente-info[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n}\n.utente-nome[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-email[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 2px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-meta[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 2px;\n}\n.utente-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.utente-badges[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n}\n.ruolo-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  padding: 0.2rem 0.55rem;\n  border-radius: 20px;\n  background: rgba(151, 168, 149, 0.12);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: rgba(255, 255, 255, 0.5);\n}\n.ruolo-badge.badge-admin[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.12);\n  border-color: rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n}\n.utente-actions[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-promuovi[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.75rem;\n  font-size: 0.82rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-promuovi[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.2);\n}\n.btn-promuovi[_ngcontent-%COMP%]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.btn-del[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.6rem;\n  font-size: 0.9rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.4);\n  transition: background 0.15s, color 0.15s;\n}\n.btn-del[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-del[_ngcontent-%COMP%]:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.totale-label[_ngcontent-%COMP%] {\n  text-align: right;\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 0.75rem;\n}\n@media (max-width: 768px) {\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 32px;\n    letter-spacing: -0.5px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .logo[_ngcontent-%COMP%] {\n    cursor: pointer;\n  }\n  .utente-row[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: 40px 1fr;\n    grid-template-rows: auto auto;\n    column-gap: 1rem;\n    row-gap: 0.5rem;\n    align-items: start;\n    padding: 0.75rem 1rem;\n  }\n  .utente-avatar[_ngcontent-%COMP%] {\n    grid-column: 1;\n    grid-row: 1;\n    margin-top: 3px;\n  }\n  .utente-info[_ngcontent-%COMP%] {\n    grid-column: 2;\n    grid-row: 1;\n  }\n  .utente-controls[_ngcontent-%COMP%] {\n    grid-column: 2;\n    grid-row: 2;\n  }\n}\n/*# sourceMappingURL=gestisci-utenti.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GestisciUtenti, [{
     type: Component,
-    args: [{ selector: "app-gestisci-utenti", standalone: true, imports: [CommonModule, FormsModule], template: `<div class="gu-root">\r
+    args: [{ selector: "app-gestisci-utenti", standalone: true, imports: [CommonModule, FormsModule, MobileNav], template: `<div class="gu-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -79891,30 +79905,32 @@ var GestisciUtenti = class _GestisciUtenti {
                 </div>\r
               </div>\r
 \r
-              <div class="utente-badges">\r
-                <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">\r
-                  {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}\r
-                </span>\r
-              </div>\r
+              <div class="utente-controls">\r
+                <div class="utente-badges">\r
+                  <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">\r
+                    {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}\r
+                  </span>\r
+                </div>\r
 \r
-              <div class="utente-actions">\r
-                @if (u.ruolo !== 'admin') {\r
-                  <button class="btn-promuovi"\r
-                          [disabled]="promuovendoId === u._id"\r
-                          (click)="promuovi(u)"\r
-                          title="Promuovi ad admin">\r
-                    <i class="ti ti-shield-up"></i>\r
-                    {{ promuovendoId === u._id ? '...' : 'Admin' }}\r
-                  </button>\r
-                }\r
-                @if (u._id !== idUtenteCorrente()) {\r
-                  <button class="btn-del"\r
-                          [disabled]="eliminandoId === u._id"\r
-                          (click)="elimina(u)"\r
-                          title="Elimina account">\r
-                    <i class="ti ti-trash"></i>\r
-                  </button>\r
-                }\r
+                <div class="utente-actions">\r
+                  @if (u.ruolo !== 'admin') {\r
+                    <button class="btn-promuovi"\r
+                            [disabled]="promuovendoId === u._id"\r
+                            (click)="promuovi(u)"\r
+                            title="Promuovi ad admin">\r
+                      <i class="ti ti-shield-up"></i>\r
+                      {{ promuovendoId === u._id ? '...' : 'Admin' }}\r
+                    </button>\r
+                  }\r
+                  @if (u._id !== idUtenteCorrente()) {\r
+                    <button class="btn-del"\r
+                            [disabled]="eliminandoId === u._id"\r
+                            (click)="elimina(u)"\r
+                            title="Elimina account">\r
+                      <i class="ti ti-trash"></i>\r
+                    </button>\r
+                  }\r
+                </div>\r
               </div>\r
 \r
             </div>\r
@@ -79925,12 +79941,14 @@ var GestisciUtenti = class _GestisciUtenti {
     }\r
 \r
   </div>\r
+\r
+  <app-mobile-nav active="admin" />\r
 </div>\r
-`, styles: ['/* src/app/features/admin/gestisci-utenti/gestisci-utenti.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.gu-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 520px;\n  line-height: 1.6;\n}\n.search-wrap {\n  position: relative;\n  margin-bottom: 1.5rem;\n}\n.search-icon {\n  position: absolute;\n  left: 0.9rem;\n  top: 50%;\n  transform: translateY(-50%);\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 1rem;\n  pointer-events: none;\n}\n.search-input {\n  width: 100%;\n  padding: 0.75rem 0.9rem 0.75rem 2.5rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 10px;\n  font-size: 0.9rem;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.search-input::placeholder {\n  color: rgba(255, 255, 255, 0.25);\n}\n.search-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.utenti-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.utente-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.utente-row:hover {\n  border-color: rgba(151, 168, 149, 0.4);\n}\n.utente-avatar {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #D8D089;\n}\n.utente-info {\n  flex: 1;\n  min-width: 0;\n}\n.utente-nome {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-email {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 2px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-meta {\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 2px;\n}\n.utente-badges {\n  flex-shrink: 0;\n}\n.ruolo-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  padding: 0.2rem 0.55rem;\n  border-radius: 20px;\n  background: rgba(151, 168, 149, 0.12);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: rgba(255, 255, 255, 0.5);\n}\n.ruolo-badge.badge-admin {\n  background: rgba(216, 208, 137, 0.12);\n  border-color: rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n}\n.utente-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-promuovi {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.75rem;\n  font-size: 0.82rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-promuovi:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.2);\n}\n.btn-promuovi:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.btn-del {\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.6rem;\n  font-size: 0.9rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.4);\n  transition: background 0.15s, color 0.15s;\n}\n.btn-del:hover:not(:disabled) {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-del:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.totale-label {\n  text-align: right;\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 0.75rem;\n}\n/*# sourceMappingURL=gestisci-utenti.css.map */\n'] }]
+`, styles: ['/* src/app/features/admin/gestisci-utenti/gestisci-utenti.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.gu-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 520px;\n  line-height: 1.6;\n}\n.search-wrap {\n  position: relative;\n  margin-bottom: 1.5rem;\n}\n.search-icon {\n  position: absolute;\n  left: 0.9rem;\n  top: 50%;\n  transform: translateY(-50%);\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 1rem;\n  pointer-events: none;\n}\n.search-input {\n  width: 100%;\n  padding: 0.75rem 0.9rem 0.75rem 2.5rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 10px;\n  font-size: 0.9rem;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.search-input::placeholder {\n  color: rgba(255, 255, 255, 0.25);\n}\n.search-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.utenti-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.utente-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.utente-row:hover {\n  border-color: rgba(151, 168, 149, 0.4);\n}\n.utente-avatar {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #D8D089;\n}\n.utente-info {\n  flex: 1;\n  min-width: 0;\n}\n.utente-nome {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-email {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 2px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-meta {\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 2px;\n}\n.utente-controls {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.utente-badges {\n  flex-shrink: 0;\n}\n.ruolo-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  padding: 0.2rem 0.55rem;\n  border-radius: 20px;\n  background: rgba(151, 168, 149, 0.12);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: rgba(255, 255, 255, 0.5);\n}\n.ruolo-badge.badge-admin {\n  background: rgba(216, 208, 137, 0.12);\n  border-color: rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n}\n.utente-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-promuovi {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.75rem;\n  font-size: 0.82rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-promuovi:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.2);\n}\n.btn-promuovi:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.btn-del {\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.6rem;\n  font-size: 0.9rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.4);\n  transition: background 0.15s, color 0.15s;\n}\n.btn-del:hover:not(:disabled) {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-del:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.totale-label {\n  text-align: right;\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 0.75rem;\n}\n@media (max-width: 768px) {\n  .page-title {\n    font-size: 32px;\n    letter-spacing: -0.5px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .logo {\n    cursor: pointer;\n  }\n  .utente-row {\n    display: grid;\n    grid-template-columns: 40px 1fr;\n    grid-template-rows: auto auto;\n    column-gap: 1rem;\n    row-gap: 0.5rem;\n    align-items: start;\n    padding: 0.75rem 1rem;\n  }\n  .utente-avatar {\n    grid-column: 1;\n    grid-row: 1;\n    margin-top: 3px;\n  }\n  .utente-info {\n    grid-column: 2;\n    grid-row: 1;\n  }\n  .utente-controls {\n    grid-column: 2;\n    grid-row: 2;\n  }\n}\n/*# sourceMappingURL=gestisci-utenti.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GestisciUtenti, { className: "GestisciUtenti", filePath: "src/app/features/admin/gestisci-utenti/gestisci-utenti.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GestisciUtenti, { className: "GestisciUtenti", filePath: "src/app/features/admin/gestisci-utenti/gestisci-utenti.ts", lineNumber: 31 });
 })();
 
 // src/app/features/cicerone/notizie-comm/notizie-comm.ts

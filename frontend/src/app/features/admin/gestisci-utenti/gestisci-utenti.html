@@ -2,7 +2,7 @@
 
   <header class="header-bar">
     <nav class="navbar">
-      <div class="logo">
+      <div class="logo" (click)="vaiA('/home')">
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>
         <span class="logo-text">Peak<span>Aware</span></span>
       </div>
@@ -62,30 +62,32 @@
                 </div>
               </div>
 
-              <div class="utente-badges">
-                <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">
-                  {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}
-                </span>
-              </div>
+              <div class="utente-controls">
+                <div class="utente-badges">
+                  <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">
+                    {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}
+                  </span>
+                </div>
 
-              <div class="utente-actions">
-                @if (u.ruolo !== 'admin') {
-                  <button class="btn-promuovi"
-                          [disabled]="promuovendoId === u._id"
-                          (click)="promuovi(u)"
-                          title="Promuovi ad admin">
-                    <i class="ti ti-shield-up"></i>
-                    {{ promuovendoId === u._id ? '...' : 'Admin' }}
-                  </button>
-                }
-                @if (u._id !== idUtenteCorrente()) {
-                  <button class="btn-del"
-                          [disabled]="eliminandoId === u._id"
-                          (click)="elimina(u)"
-                          title="Elimina account">
-                    <i class="ti ti-trash"></i>
-                  </button>
-                }
+                <div class="utente-actions">
+                  @if (u.ruolo !== 'admin') {
+                    <button class="btn-promuovi"
+                            [disabled]="promuovendoId === u._id"
+                            (click)="promuovi(u)"
+                            title="Promuovi ad admin">
+                      <i class="ti ti-shield-up"></i>
+                      {{ promuovendoId === u._id ? '...' : 'Admin' }}
+                    </button>
+                  }
+                  @if (u._id !== idUtenteCorrente()) {
+                    <button class="btn-del"
+                            [disabled]="eliminandoId === u._id"
+                            (click)="elimina(u)"
+                            title="Elimina account">
+                      <i class="ti ti-trash"></i>
+                    </button>
+                  }
+                </div>
               </div>
 
             </div>
@@ -96,4 +98,6 @@
     }
 
   </div>
+
+  <app-mobile-nav active="admin" />
 </div>

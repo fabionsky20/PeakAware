@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '@env';
+import { MobileNav } from '../../../shared/mobile-nav/mobile-nav';
 
 interface UtenteRiga {
   _id: string;
@@ -23,7 +24,7 @@ interface UtenteRiga {
 @Component({
   selector: 'app-gestisci-utenti',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MobileNav],
   templateUrl: './gestisci-utenti.html',
   styleUrl: './gestisci-utenti.css'
 })

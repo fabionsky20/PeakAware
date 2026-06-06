@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '@env';
+import { MobileNav } from '../../../shared/mobile-nav/mobile-nav';
 
 interface Livello {
   _id: string;
@@ -23,7 +24,7 @@ interface Livello {
 @Component({
   selector: 'app-livelli-form',
   standalone: true,
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, MobileNav],
   templateUrl: './livelli-form.html',
   styleUrl: './livelli-form.css'
 })
