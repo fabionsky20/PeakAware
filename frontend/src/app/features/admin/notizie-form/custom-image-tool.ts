@@ -131,6 +131,36 @@ export default class CustomImageTool {
   cursor: pointer;
 }
 
+/* ── Layout row (editor preview per left/right) ── */
+.cit-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cit-text-hint {
+  flex: 1;
+  min-height: 90px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #f8fafc,
+    #f8fafc 6px,
+    #f1f5f9 6px,
+    #f1f5f9 12px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 13px;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+  border-radius: 8px;
+}
+
 /* ── Figure / Image ── */
 .cit-figure {
   position: relative;
@@ -433,7 +463,7 @@ export default class CustomImageTool {
 
   private renderImage(): void {
     this.wrapper.innerHTML = '';
-    this.applyAlign();
+    this.wrapper.style.cssText = 'display:block;';
 
     const figure = document.createElement('figure');
     figure.className = 'cit-figure';
@@ -457,30 +487,45 @@ export default class CustomImageTool {
     removeBtn.type = 'button';
     removeBtn.title = 'Rimuovi immagine';
     removeBtn.textContent = '✕';
-    removeBtn.addEventListener('click', () => {
+    removeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       this.data.file = null;
       this.data.caption = '';
       this.renderUploadUI();
     });
     figure.appendChild(removeBtn);
 
-    this.wrapper.appendChild(figure);
+    if (this.data.align === 'center') {
+      figure.style.cssText = 'display:block; margin:0 auto;';
+      this.wrapper.appendChild(figure);
+    } else {
+      // Anteprima flex: immagine + area tratteggiata che indica dove va il testo
+      const row = document.createElement('div');
+      row.className = 'cit-row';
+      if (this.data.align === 'right') {
+        row.style.flexDirection = 'row-reverse';
+      }
+
+      const hint = document.createElement('div');
+      hint.className = 'cit-text-hint';
+      hint.textContent = this.data.align === 'left'
+        ? '→  Il testo scorrerà qui'
+        : 'Il testo scorrerà qui  ←';
+
+      row.appendChild(figure);
+      row.appendChild(hint);
+      this.wrapper.appendChild(row);
+
+      // ✕ sempre visibile quando floated (non affidarsi all'hover)
+      removeBtn.style.opacity = '1';
+    }
   }
 
   private applyAlign(): void {
-    this.wrapper.style.cssText = ''; // reset
-
-    if (this.data.align === 'left') {
-      this.wrapper.style.float = 'left';
-      this.wrapper.style.marginRight = '14px';
-      this.wrapper.style.marginBottom = '8px';
-    } else if (this.data.align === 'right') {
-      this.wrapper.style.float = 'right';
-      this.wrapper.style.marginLeft = '14px';
-      this.wrapper.style.marginBottom = '8px';
-    } else {
-      this.wrapper.style.display = 'block';
-      this.wrapper.style.margin = '0 auto';
+    // Re-render con il nuovo allineamento invece di mutare il DOM parzialmente
+    if (this.data.file?.url) {
+      this.renderImage();
     }
   }
 
