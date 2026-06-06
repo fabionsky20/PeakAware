@@ -22,7 +22,7 @@
   display: flex; align-items: center; justify-content: space-between;
 }
 
-.logo { display: flex; align-items: center; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .logo-mark {
   width: 34px; height: 34px;
   background: #D8D089; border-radius: 7px;
@@ -260,4 +260,9 @@
   .page-inner { padding: 0 1.25rem 3rem; }
   .nav-link { display: none; }
   .nav-link.active { display: block; }
+  /* Immagini più compatte su mobile */
+  .post-img-wrap,
+  .post-img-placeholder { aspect-ratio: 3 / 1; }
+  .post-card.featured .post-img-wrap,
+  .post-card.featured .post-img-placeholder { aspect-ratio: 3 / 1; min-height: 0; }
 }

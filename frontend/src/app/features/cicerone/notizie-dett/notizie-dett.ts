@@ -146,6 +146,10 @@ export class NotizieDett implements OnInit {
     if (id) this.caricaNotizia(id);
   }
 
+  vaiHome(): void {
+    this.router.navigate(['/home']);
+  }
+
   tornaIndietro(): void {
     this.router.navigate(['/cicerone/notizie']);
   }

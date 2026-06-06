@@ -80,3 +80,67 @@
   flex: 1;
   height: 100%;
 }
+
+/* ── MOBILE SIDEBAR TOGGLE ───────────────────────────── */
+
+.mobile-sidebar-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.12);
+  border: 0.5px solid rgba(255,255,255,0.28);
+  border-radius: 50%;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.mobile-sidebar-btn:hover { background: rgba(255,255,255,0.22); }
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Nascondi nav link, mostra solo quello attivo e il toggle */
+  .nav-link { display: none; }
+  .nav-link.active { display: block; }
+  .mobile-sidebar-btn { display: flex; }
+
+  /*
+   * Il container diventa containing block per il drawer e l'overlay.
+   * position:relative è necessario perché position:absolute dei figli
+   * si posiziona rispetto a lui, non al viewport.
+   * isolation:isolate è già presente nel base CSS e contiene i z-index
+   * di Leaflet (200–700); il drawer a 800 li supera tutti.
+   */
+  .sentieri-container {
+    position: relative;
+  }
+
+  /* Sidebar = drawer assoluto che scivola da sinistra */
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 800;
+    width: 320px;
+    max-width: 88vw;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    box-shadow: 4px 0 16px rgba(0,0,0,0.35);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  /* Overlay scuro dietro il drawer, inside il container */
+  .mobile-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.52);
+    z-index: 799;
+  }
+}

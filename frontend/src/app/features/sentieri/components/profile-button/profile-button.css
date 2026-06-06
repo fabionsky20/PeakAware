@@ -298,3 +298,11 @@ transition: background 0.15s;
 margin-top: auto;
 }
 .panel-logout:hover { background: rgba(185,122,83,0.1); }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .profilo-panel {
+    width: 100%;
+  }
+}

@@ -11,13 +11,19 @@
         <span class="nav-link" (click)="vai('/educazione/quiz')">Educazione</span>
         <span class="nav-link active">Sentieri</span>
         <span class="nav-link" (click)="vai('/cicerone/notizie')">Cicerone</span>
+        <button class="mobile-sidebar-btn" (click)="toggleSidebar()" aria-label="Lista sentieri">
+          <i class="ti ti-list-search"></i>
+        </button>
         <app-profile-button />
       </div>
     </nav>
   </header>
 
   <div class="sentieri-container">
-    <aside class="sidebar">
+    @if (sidebarOpen) {
+      <div class="mobile-overlay" (click)="toggleSidebar()"></div>
+    }
+    <aside class="sidebar" [class.sidebar-open]="sidebarOpen">
       <app-sidebar />
     </aside>
     <main class="map-area">

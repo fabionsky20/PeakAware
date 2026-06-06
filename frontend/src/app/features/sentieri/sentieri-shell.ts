@@ -18,9 +18,15 @@ import { ProfileButton } from './components/profile-button/profile-button';
   styleUrl: "./sentieri-shell.css",
  })
 export class SentieriShell {
+  sidebarOpen = false;
+
   constructor(private router: Router) {}
 
   vai(path: string): void {
     this.router.navigate([path]);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 }

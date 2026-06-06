@@ -45,7 +45,7 @@
   display: flex; align-items: center; justify-content: space-between;
 }
 
-.logo { display: flex; align-items: center; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
 .logo-mark {
   width: 34px; height: 34px;
@@ -380,12 +380,46 @@
 @media (max-width: 768px) {
   .inner, .navbar, .hero-content { padding-left: 1.25rem; padding-right: 1.25rem; }
   .hero-title { font-size: 42px; letter-spacing: -0.5px; }
-  .hero-wrap { height: 440px; }
+  .hero-wrap { height: 380px; }
   .stats-strip .inner { flex-wrap: wrap; }
   .stat { flex: 0 0 50%; padding: 0.75rem; border-right: none; }
   .stat:first-child { padding-left: 0.75rem; }
   .stat-val { font-size: 28px; }
   .nav-link { display: none; }
   .nav-link.active { display: block; }
+
+  /* Progress strip: nascondi badge su mobile */
+  .lv-badge { display: none; }
+
+  /* Cards: larghezza piena, niente stagger sinistra/destra */
+  .card-left, .card-right { width: 100%; }
+
+  /* Edu card: padding ridotto */
+  .edu-card { padding: 1.5rem; }
+
+  /* Plan card: stack verticale */
+  .plan-card { padding: 1.5rem; }
+  .plan-card-top { flex-direction: column; gap: 0.75rem; }
+  .plan-icon-big { font-size: 40px; align-self: flex-start; }
+  .plan-text { text-align: left; }
   .plan-desc { max-width: 100%; }
+  .plan-features--right { justify-content: flex-start; }
+  .plan-btn-wrap { justify-content: flex-start; }
+
+  /* Carousel: scroll nativo con snap, nascondi i pulsanti prev/next */
+  .carousel-outer { padding: 0; }
+  .carousel-btn { display: none; }
+  .carousel-track-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .carousel-track-wrap::-webkit-scrollbar { display: none; }
+  .carousel-track { transform: none !important; }
+  .news-card { flex: 0 0 55vw; max-width: 200px; scroll-snap-align: start; }
+  .news-card-img { height: 110px; }
+  .news-card-body { padding: 12px; }
+  .news-ttl { font-size: 14px; }
 }

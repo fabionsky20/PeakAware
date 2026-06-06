@@ -25,7 +25,7 @@
   display: flex; align-items: center; justify-content: space-between;
 }
 
-.logo { display: flex; align-items: center; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .logo-mark {
   width: 34px; height: 34px;
   background: #D8D089; border-radius: 7px;
@@ -164,6 +164,18 @@
 /* Immagini centrate (nessun float) ricevono anche il margine verticale */
 .articolo-corpo figure:not([style*="float"]) {
   margin: 1.4em auto;
+}
+
+/*
+ * Immagini flottate: capate al 45% della card.
+ * Garantisce che il testo a fianco abbia sempre >50% di spazio
+ * ed evita la "zona morta" 50–85% dove una singola parola
+ * finirebbe stretta accanto all'immagine.
+ * Per immagini grandi si usa il layout senza float (centrato),
+ * così il testo scorre solo sopra e sotto.
+ */
+.articolo-corpo figure[style*="float"] {
+  max-width: 45%;
 }
 .articolo-corpo a { color: #D8D089; text-decoration: underline; text-underline-offset: 2px; }
 
@@ -351,6 +363,18 @@
 /* ── RESPONSIVE ────────────────────────────────────────── */
 
 @media (max-width: 768px) {
+  /* Su mobile: nessun float — immagini sempre centrate, testo solo sopra/sotto */
+  .articolo-corpo figure {
+    float: none !important;
+    max-width: 100% !important;
+    margin: 1.2em auto !important;
+    text-align: center;
+  }
+  .articolo-corpo figure img {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .dett-root { height: auto; }
 
   .split-layout {
