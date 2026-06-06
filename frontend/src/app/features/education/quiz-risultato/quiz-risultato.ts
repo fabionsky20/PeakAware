@@ -84,6 +84,10 @@ export class QuizRisultato implements OnInit {
     }
   }
 
+  vaiA(path: string): void {
+    this.router.navigate([path]);
+  }
+
   /**
    * US-10: costruisce il riepilogo arricchito unendo idDomanda con il testo
    * della domanda e delle risposte date, ricevuti dalla sessione via router state.

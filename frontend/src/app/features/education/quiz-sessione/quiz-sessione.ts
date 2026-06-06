@@ -123,6 +123,30 @@ export class QuizSessione implements OnInit, OnDestroy {
     this.fermaTimerQuiz();
   }
 
+  vaiA(path: string): void {
+    this.router.navigate([path]);
+  }
+
+  esci(): void {
+    this.fermaTimer();
+    this.fermaTimerQuiz();
+    if (!this.sessioneId) {
+      this.router.navigate(['/educazione/quiz']);
+      return;
+    }
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.post<any>(`${this.apiUrl}/sessione/${this.sessioneId}/termina`, {}, { headers }).subscribe({
+      next: (risposta) => {
+        this.router.navigate(['/educazione/risultato'], {
+          state: { risultato: risposta.dati, domande: this.domande }
+        });
+      },
+      error: () => {
+        this.router.navigate(['/educazione/quiz']);
+      }
+    });
+  }
+
   get domandaCorrente(): Domanda | null {
     return this.domande[this.indiceDomanda] ?? null;
   }
@@ -228,11 +252,16 @@ export class QuizSessione implements OnInit, OnDestroy {
    */
   selezionaRisposta(idRisposta: string): void {
     if (this.feedback || this.invioInCorso) return;
-    const idx = this.risposteSelezionate.indexOf(idRisposta);
-    if (idx === -1) {
-      this.risposteSelezionate = [...this.risposteSelezionate, idRisposta];
+    if (!this.isMultiRisposta) {
+      // Singola risposta: comportamento radio (sostituisce la selezione)
+      this.risposteSelezionate = this.risposteSelezionate[0] === idRisposta ? [] : [idRisposta];
     } else {
-      this.risposteSelezionate = this.risposteSelezionate.filter((id) => id !== idRisposta);
+      const idx = this.risposteSelezionate.indexOf(idRisposta);
+      if (idx === -1) {
+        this.risposteSelezionate = [...this.risposteSelezionate, idRisposta];
+      } else {
+        this.risposteSelezionate = this.risposteSelezionate.filter((id) => id !== idRisposta);
+      }
     }
   }
 

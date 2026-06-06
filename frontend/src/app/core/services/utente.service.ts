@@ -13,6 +13,7 @@ import { signal } from '@angular/core';
 
 export interface ProgressioneResponse {
   livelloComplessivo: number;
+  maxLivello: number;
   livelloTeorico: number;
   livelloPratico: number;
   puntiQuiz: number;
@@ -81,6 +82,7 @@ export class UtenteService {
     ).pipe(
       tap(p => this.authSvc.aggiornaUtente({ esperienza: {
         livelloComplessivo: p.livelloComplessivo,
+        maxLivello:         p.maxLivello,
         livelloTeorico:     p.livelloTeorico,
         livelloPratico:     p.livelloPratico,
         kmTotali:           p.kmTotali,

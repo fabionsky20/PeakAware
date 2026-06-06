@@ -20,6 +20,7 @@ interface Video {
   titolo: string;
   descrizione: string;
   url: string;
+  immagineCopertina?: string;
   entePubblicatore: string;
   argomento: string;
   modulo: 'educazione' | 'divulgazione';

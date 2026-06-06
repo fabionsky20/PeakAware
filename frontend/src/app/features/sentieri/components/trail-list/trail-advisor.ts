@@ -9,7 +9,8 @@
  */
 
 export interface UtenteSnapshot {
-  livelloEsperienzaMontagna: number; // livelloComplessivo da Utente.esperienza (1-5)
+  livelloEsperienzaMontagna: number; // livello utente (1-maxLivello)
+  maxLivello: number;                // numero massimo livelli configurati
 }
 
 export type ConsiglioDifficolta = 'consigliato' | 'fattibile' | 'sconsigliato' | 'ferrata' | 'sconosciuto';
@@ -55,9 +56,9 @@ export function valutaCompatibilita(
   }
 
   // Usa i requisiti dalla configurazione modificabile
-  const livReq = scala ? TrailConfig.requisitiCai[scala] : null;
+  const livReqBase = scala ? TrailConfig.requisitiCai[scala] : null;
 
-  if (!livReq) {
+  if (!livReqBase) {
     return {
       livello:   'sconosciuto',
       titolo:    'Difficoltà non classificata',
@@ -66,14 +67,18 @@ export function valutaCompatibilita(
     };
   }
 
+  // Scala proporzionale: livReqBase è su scala 1-5, l'utente è su scala 1-maxLivello
+  // Formula: livReqBase / 5 = livReqScalato / maxLivello → livReqScalato = ceil(livReqBase * maxLivello / 5)
+  const maxLivello = utente.maxLivello || 5;
+  const livReqScalato = Math.ceil(livReqBase * maxLivello / 5);
   const livUtente = utente.livelloEsperienzaMontagna;
 
-  if (livUtente < livReq) {
+  if (livUtente < livReqScalato) {
     return {
       livello:   'sconsigliato',
       titolo:    'Non consigliato per il tuo profilo',
       icona:     '⚠️',
-      messaggio: `Questo sentiero richiede livello ${livReq}/5, il tuo è ${livUtente}/5. Allenati su percorsi più semplici.`
+      messaggio: `Questo sentiero richiede livello ${livReqScalato}/${maxLivello}, il tuo è ${livUtente}/${maxLivello}. Allenati su percorsi più semplici.`
     };
   }
 
@@ -95,6 +100,6 @@ export function valutaCompatibilita(
     livello:   'consigliato',
     titolo:    'Adatto al tuo profilo',
     icona:     '✅',
-    messaggio: `Sentiero adatto al tuo livello di esperienza (${livUtente}/5). Buona escursione!`
+    messaggio: `Sentiero adatto al tuo livello di esperienza (${livUtente}/${maxLivello}). Buona escursione!`
   };
 }

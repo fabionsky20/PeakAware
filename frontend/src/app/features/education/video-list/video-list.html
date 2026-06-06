@@ -65,7 +65,11 @@
             }
 
             <div class="card-thumb">
-              <i class="ti ti-player-play-filled thumb-icon"></i>
+              @if (v.immagineCopertina) {
+                <img [src]="v.immagineCopertina" class="thumb-img" alt="" />
+              } @else {
+                <i class="ti ti-player-play-filled thumb-icon"></i>
+              }
             </div>
 
             <div class="card-body">

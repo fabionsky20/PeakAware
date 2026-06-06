@@ -8,6 +8,8 @@
  */
 
 const Utente = require('../models/Utente');
+const ProgressiUtente = require('../models/ProgressiUtente');
+const Livello = require('../models/Livello');
 const { verificaBadge, getAllBadge } = require('../services/badgeService');
 
 // ─── POST /api/utenti/sentiero ───────────────────────────────────────────────
@@ -136,17 +138,26 @@ exports.getProgressione = async (req, res) => {
       .select('esperienza badges punti');
     if (!utente) return res.status(404).json({ message: 'Utente non trovato' });
 
+    const progressi = await ProgressiUtente.findOne({ idUtente: req.utente.id });
+    // Livello utente = quello calcolato dal sistema quiz (ProgressiUtente) — il più aggiornato
+    const livelloComplessivo = progressi?.livello ?? 1;
+
+    // Numero massimo di livelli configurati: serve al frontend per la scala proporzionale
+    const livelloMax = await Livello.findOne().sort({ numero: -1 }).select('numero');
+    const maxLivello = livelloMax?.numero ?? 5;
+
     res.status(200).json({
-      livelloComplessivo: utente.esperienza.livelloComplessivo,
+      livelloComplessivo,
+      maxLivello,
       livelloTeorico:     utente.esperienza.livelloTeorico,
       livelloPratico:     utente.esperienza.livelloPratico,
-      puntiQuiz:          utente.esperienza.puntiQuiz,
+      puntiQuiz:          progressi?.punti ?? utente.esperienza.puntiQuiz,
       kmTotali:           utente.esperienza.kmTotali,
       dislivelloTotale:   utente.esperienza.dislivelloTotale,
       sentieriPercorsi:   utente.esperienza.sentieri.length,
       quizCompletati:     utente.esperienza.quizCompletati.length,
       badges:             utente.badges,
-      punti:              utente.punti,
+      punti:              progressi?.punti ?? utente.punti,
     });
   } catch (error) {
     console.error('Errore getProgressione:', error.message);

@@ -27,6 +27,7 @@ export class VideoForm implements OnInit {
     titolo: '',
     descrizione: '',
     url: '',
+    immagineCopertina: '',
     entePubblicatore: 'PeakAware',
     argomento: '',
     modulo: 'educazione',

@@ -31,6 +31,7 @@ export interface UtenteCorrente {
   punti: number;
   esperienza?: {
     livelloComplessivo: number;
+    maxLivello: number;
     livelloTeorico: number;
     livelloPratico: number;
     kmTotali: number;

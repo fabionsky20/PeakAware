@@ -81,6 +81,10 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.sentieroService.loadSentieri();
 
+    if (this.authService.isAutenticato()) {
+      this.utenteSvc.caricaProgressione().subscribe();
+    }
+
     this.http.get(`${this.apiUrl}/config`).pipe(
       catchError((err) => {
         console.warn('Rotta config non pronta o errore DB. Uso configurazione base.', err);
@@ -234,7 +238,10 @@ export class SidebarComponent implements OnInit {
       s.properties?.['cai_scale'] ?? s.difficolta,
       s.lunghezza,
       s.dislivello_positivo,
-      { livelloEsperienzaMontagna: utente.esperienza?.livelloComplessivo ?? 1 }
+      {
+        livelloEsperienzaMontagna: utente.esperienza?.livelloComplessivo ?? 1,
+        maxLivello: utente.esperienza?.maxLivello ?? 5,
+      }
     );
   });
 

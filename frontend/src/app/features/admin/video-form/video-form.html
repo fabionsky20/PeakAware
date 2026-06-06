@@ -30,6 +30,12 @@
         </div>
 
         <div class="form-group">
+          <label>URL immagine copertina</label>
+          <input type="url" [(ngModel)]="video.immagineCopertina" name="immagineCopertina"
+            placeholder="https://img.youtube.com/vi/ID/hqdefault.jpg" />
+        </div>
+
+        <div class="form-group">
           <label>Descrizione</label>
           <textarea [(ngModel)]="video.descrizione" name="descrizione"
             placeholder="Breve descrizione del contenuto..." rows="3"></textarea>

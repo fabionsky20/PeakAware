@@ -66,6 +66,12 @@ const videoSchema = new mongoose.Schema(
       default: [],
     },
 
+    immagineCopertina: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+
     durata: {
       type: Number, // Durata in secondi
       default: 0,

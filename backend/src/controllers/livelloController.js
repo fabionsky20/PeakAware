@@ -45,10 +45,31 @@ const creaLivello = async (req, res) => {
     if (!nome || puntiNecessari == null) {
       return res.status(400).json({ successo: false, messaggio: 'nome e puntiNecessari sono obbligatori' });
     }
-    const ultimo = await Livello.findOne().sort({ numero: -1 });
-    const numero = (ultimo?.numero ?? 0) + 1;
-    const livello = await Livello.create({ numero, nome: nome.trim(), puntiNecessari: Number(puntiNecessari) });
-    res.status(201).json({ successo: true, dati: livello });
+    const pts = Number(puntiNecessari);
+
+    // Verifica punti duplicati
+    const esistente = await Livello.findOne({ puntiNecessari: pts });
+    if (esistente) {
+      return res.status(400).json({ successo: false, messaggio: `Esiste già un livello con ${pts} punti minimi` });
+    }
+
+    // Usa numero temporaneo alto per soddisfare il vincolo unique durante la rinumerazione
+    const count = await Livello.countDocuments();
+    const tempNumero = count + 100;
+    const livello = await Livello.create({ numero: tempNumero, nome: nome.trim(), puntiNecessari: pts });
+
+    // Rinumera tutti i livelli in base all'ordine puntiNecessari (due passaggi per evitare conflitti unique)
+    const tutti = await Livello.find().sort({ puntiNecessari: 1 });
+    const tempBase = tutti.length + 200;
+    for (let i = 0; i < tutti.length; i++) {
+      await Livello.findByIdAndUpdate(tutti[i]._id, { numero: tempBase + i });
+    }
+    for (let i = 0; i < tutti.length; i++) {
+      await Livello.findByIdAndUpdate(tutti[i]._id, { numero: i + 1 });
+    }
+
+    const livelloAggiornato = await Livello.findById(livello._id);
+    res.status(201).json({ successo: true, dati: livelloAggiornato });
   } catch (e) {
     res.status(500).json({ successo: false, messaggio: 'Errore nella creazione del livello', errore: e.message });
   }
@@ -61,10 +82,15 @@ const aggiornaLivello = async (req, res) => {
     const livello = await Livello.findById(req.params.id);
     if (!livello) return res.status(404).json({ successo: false, messaggio: 'Livello non trovato' });
 
-    if (nome != null)           livello.nome = nome.trim();
+    if (nome != null) livello.nome = nome.trim();
     // Il livello 1 è sempre a 0 punti
     if (puntiNecessari != null && livello.numero !== 1) {
-      livello.puntiNecessari = Number(puntiNecessari);
+      const pts = Number(puntiNecessari);
+      const esistente = await Livello.findOne({ puntiNecessari: pts, _id: { $ne: livello._id } });
+      if (esistente) {
+        return res.status(400).json({ successo: false, messaggio: `Esiste già un livello con ${pts} punti minimi` });
+      }
+      livello.puntiNecessari = pts;
     }
     await livello.save();
     res.json({ successo: true, dati: livello });
