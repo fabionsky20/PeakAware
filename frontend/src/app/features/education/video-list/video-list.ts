@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
+import { MobileNav } from '../../../shared/mobile-nav/mobile-nav';
 import { environment } from '@env';
 
 interface Video {
@@ -29,7 +30,7 @@ interface Video {
 @Component({
   selector: 'app-video-list',
   standalone: true,
-  imports: [FormsModule, ProfileButton],
+  imports: [FormsModule, ProfileButton, MobileNav],
   templateUrl: './video-list.html',
   styleUrl: './video-list.css'
 })

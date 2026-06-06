@@ -1,0 +1,28 @@
+@if (isOpen) {
+  <div class="mnav-backdrop" (click)="close()"></div>
+}
+
+<button class="mnav-tab" (click)="toggle()" [class.open]="isOpen" aria-label="Naviga">
+  <i class="ti" [class.ti-chevron-left]="!isOpen" [class.ti-chevron-right]="isOpen"></i>
+</button>
+
+<div class="mnav-panel" [class.open]="isOpen">
+  <nav class="mnav-links">
+    <button class="mnav-item" [class.active]="active === 'home'" (click)="goTo('/home')">
+      <i class="ti ti-home"></i>
+      <span>Home</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'educazione'" (click)="goTo('/educazione/quiz')">
+      <i class="ti ti-book"></i>
+      <span>Educazione</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'sentieri'" (click)="goTo('/sentieri')">
+      <i class="ti ti-map"></i>
+      <span>Sentieri</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'cicerone'" (click)="goTo('/cicerone/notizie')">
+      <i class="ti ti-news"></i>
+      <span>Notizie</span>
+    </button>
+  </nav>
+</div>

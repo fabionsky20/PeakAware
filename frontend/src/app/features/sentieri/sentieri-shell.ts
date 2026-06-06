@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
 import { MapComponent } from './components/map/map';
 import { SidebarComponent } from '@features/sentieri/components/trail-list/sidebar';
 import { ProfileButton } from './components/profile-button/profile-button';
+import { MobileNav } from '../../shared/mobile-nav/mobile-nav';
 
 @Component({
   selector: 'app-sentieri-shell',
   standalone: true,
-  imports: [CommonModule, MapComponent, SidebarComponent, ProfileButton],
+  imports: [CommonModule, MapComponent, SidebarComponent, ProfileButton, MobileNav],
   templateUrl : "./sentieri-shell.html",
   styleUrl: "./sentieri-shell.css",
  })

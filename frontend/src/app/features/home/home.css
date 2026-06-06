@@ -386,7 +386,7 @@
   .stat:first-child { padding-left: 0.75rem; }
   .stat-val { font-size: 28px; }
   .nav-link { display: none; }
-  .nav-link.active { display: block; }
+  .nav-link.active { display: none; }
 
   /* Progress strip: nascondi badge su mobile */
   .lv-badge { display: none; }

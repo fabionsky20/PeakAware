@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
 import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
+import { MobileNav } from '../../shared/mobile-nav/mobile-nav';
 import { environment } from '@env';
 
 interface Notizia {
@@ -33,7 +34,7 @@ interface LivelloDB {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProfileButton],
+  imports: [CommonModule, ProfileButton, MobileNav],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

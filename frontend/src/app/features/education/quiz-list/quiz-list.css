@@ -405,6 +405,6 @@
   .page-title { font-size: 38px; }
   .badge-sidebar { width: 100%; height: 60vh; border-left: none; border-top: 0.5px solid rgba(151,168,149,0.2); }
   .nav-link { display: none; }
-  .nav-link.active { display: block; }
+  .nav-link.active { display: none; }
   .punti-pill { display: none; }
 }

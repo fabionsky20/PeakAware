@@ -102,9 +102,9 @@
 /* ── RESPONSIVE ─────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  /* Nascondi nav link, mostra solo quello attivo e il toggle */
+  /* Nascondi tutti i nav link su mobile (navigazione via linguetta laterale) */
   .nav-link { display: none; }
-  .nav-link.active { display: block; }
+  .nav-link.active { display: none; }
   .mobile-sidebar-btn { display: flex; }
 
   /*

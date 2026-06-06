@@ -186,5 +186,5 @@
   .page-body, .navbar { padding-left: 1.25rem; padding-right: 1.25rem; }
   .page-title { font-size: 32px; }
   .nav-link { display: none; }
-  .nav-link.active { display: block; }
+  .nav-link.active { display: none; }
 }

@@ -67,9 +67,9 @@ var require_leaflet_src = __commonJS({
       "use strict";
       var version = "1.9.4";
       function extend(dest) {
-        var i, j3, len, src;
-        for (j3 = 1, len = arguments.length; j3 < len; j3++) {
-          src = arguments[j3];
+        var i, j2, len, src;
+        for (j2 = 1, len = arguments.length; j2 < len; j2++) {
+          src = arguments[j2];
           for (i in src) {
             dest[i] = src[i];
           }
@@ -121,9 +121,9 @@ var require_leaflet_src = __commonJS({
         };
         return wrapperFn;
       }
-      function wrapNum(x2, range, includeMax) {
+      function wrapNum(x, range, includeMax) {
         var max = range[1], min = range[0], d2 = max - min;
-        return x2 === max && includeMax ? x2 : ((x2 - min) % d2 + d2) % d2 + min;
+        return x === max && includeMax ? x : ((x - min) % d2 + d2) % d2 + min;
       }
       function falseFn() {
         return false;
@@ -543,8 +543,8 @@ var require_leaflet_src = __commonJS({
       Events.fireEvent = Events.fire;
       Events.hasEventListeners = Events.listens;
       var Evented = Class.extend(Events);
-      function Point(x2, y2, round2) {
-        this.x = round2 ? Math.round(x2) : x2;
+      function Point(x, y2, round2) {
+        this.x = round2 ? Math.round(x) : x;
         this.y = round2 ? Math.round(y2) : y2;
       }
       var trunc = Math.trunc || function(v2) {
@@ -654,8 +654,8 @@ var require_leaflet_src = __commonJS({
         // Returns the cartesian distance between the current and the given points.
         distanceTo: function(point2) {
           point2 = toPoint(point2);
-          var x2 = point2.x - this.x, y2 = point2.y - this.y;
-          return Math.sqrt(x2 * x2 + y2 * y2);
+          var x = point2.x - this.x, y2 = point2.y - this.y;
+          return Math.sqrt(x * x + y2 * y2);
         },
         // @method equals(otherPoint: Point): Boolean
         // Returns `true` if the given point has the same coordinates.
@@ -675,20 +675,20 @@ var require_leaflet_src = __commonJS({
           return "Point(" + formatNum(this.x) + ", " + formatNum(this.y) + ")";
         }
       };
-      function toPoint(x2, y2, round2) {
-        if (x2 instanceof Point) {
-          return x2;
+      function toPoint(x, y2, round2) {
+        if (x instanceof Point) {
+          return x;
         }
-        if (isArray3(x2)) {
-          return new Point(x2[0], x2[1]);
+        if (isArray3(x)) {
+          return new Point(x[0], x[1]);
         }
-        if (x2 === void 0 || x2 === null) {
-          return x2;
+        if (x === void 0 || x === null) {
+          return x;
         }
-        if (typeof x2 === "object" && "x" in x2 && "y" in x2) {
-          return new Point(x2.x, x2.y);
+        if (typeof x === "object" && "x" in x && "y" in x) {
+          return new Point(x.x, x.y);
         }
-        return new Point(x2, y2, round2);
+        return new Point(x, y2, round2);
       }
       function Bounds(a3, b2) {
         if (!a3) {
@@ -1244,12 +1244,12 @@ var require_leaflet_src = __commonJS({
         return document.createElementNS("http://www.w3.org/2000/svg", name);
       }
       function pointsToPath(rings, closed) {
-        var str = "", i, j3, len, len2, points, p2;
+        var str = "", i, j2, len, len2, points, p2;
         for (i = 0, len = rings.length; i < len; i++) {
           points = rings[i];
-          for (j3 = 0, len2 = points.length; j3 < len2; j3++) {
-            p2 = points[j3];
-            str += (j3 ? "L" : "M") + p2.x + " " + p2.y;
+          for (j2 = 0, len2 = points.length; j2 < len2; j2++) {
+            p2 = points[j2];
+            str += (j2 ? "L" : "M") + p2.x + " " + p2.y;
           }
           str += closed ? Browser.svg ? "z" : "x" : "";
         }
@@ -2267,9 +2267,9 @@ var require_leaflet_src = __commonJS({
           function easeOut(t) {
             return 1 - Math.pow(1 - t, 1.5);
           }
-          var start = Date.now(), S3 = (r(1) - r0) / rho, duration = options.duration ? 1e3 * options.duration : 1e3 * S3 * 0.8;
+          var start = Date.now(), S2 = (r(1) - r0) / rho, duration = options.duration ? 1e3 * options.duration : 1e3 * S2 * 0.8;
           function frame() {
-            var t = (Date.now() - start) / duration, s = easeOut(t) * S3;
+            var t = (Date.now() - start) / duration, s = easeOut(t) * S2;
             if (t <= 1) {
               this._flyToFrame = requestAnimFrame(frame, this);
               this._move(
@@ -4090,16 +4090,16 @@ var require_leaflet_src = __commonJS({
         }
       });
       function clipPolygon(points, bounds, round2) {
-        var clippedPoints, edges = [1, 4, 2, 8], i, j3, k, a3, b2, len, edge2, p2;
+        var clippedPoints, edges = [1, 4, 2, 8], i, j2, k, a3, b2, len, edge2, p2;
         for (i = 0, len = points.length; i < len; i++) {
           points[i]._code = _getBitCode(points[i], bounds);
         }
         for (k = 0; k < 4; k++) {
           edge2 = edges[k];
           clippedPoints = [];
-          for (i = 0, len = points.length, j3 = len - 1; i < len; j3 = i++) {
+          for (i = 0, len = points.length, j2 = len - 1; i < len; j2 = i++) {
             a3 = points[i];
-            b2 = points[j3];
+            b2 = points[j2];
             if (!(a3._code & edge2)) {
               if (b2._code & edge2) {
                 p2 = _getEdgeIntersection(b2, a3, edge2, bounds, round2);
@@ -4118,7 +4118,7 @@ var require_leaflet_src = __commonJS({
         return points;
       }
       function polygonCenter(latlngs, crs) {
-        var i, j3, p1, p2, f, area, x2, y2, center;
+        var i, j2, p1, p2, f, area, x, y2, center;
         if (!latlngs || latlngs.length === 0) {
           throw new Error("latlngs not passed");
         }
@@ -4138,19 +4138,19 @@ var require_leaflet_src = __commonJS({
           var latlng = toLatLng(latlngs[i]);
           points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
         }
-        area = x2 = y2 = 0;
-        for (i = 0, j3 = len - 1; i < len; j3 = i++) {
+        area = x = y2 = 0;
+        for (i = 0, j2 = len - 1; i < len; j2 = i++) {
           p1 = points[i];
-          p2 = points[j3];
+          p2 = points[j2];
           f = p1.y * p2.x - p2.y * p1.x;
-          x2 += (p1.x + p2.x) * f;
+          x += (p1.x + p2.x) * f;
           y2 += (p1.y + p2.y) * f;
           area += f * 3;
         }
         if (area === 0) {
           center = points[0];
         } else {
-          center = [x2 / area, y2 / area];
+          center = [x / area, y2 / area];
         }
         var latlngCenter = crs.unproject(toPoint(center));
         return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
@@ -4252,21 +4252,21 @@ var require_leaflet_src = __commonJS({
         }
       }
       function _getEdgeIntersection(a3, b2, code, bounds, round2) {
-        var dx = b2.x - a3.x, dy = b2.y - a3.y, min = bounds.min, max = bounds.max, x2, y2;
+        var dx = b2.x - a3.x, dy = b2.y - a3.y, min = bounds.min, max = bounds.max, x, y2;
         if (code & 8) {
-          x2 = a3.x + dx * (max.y - a3.y) / dy;
+          x = a3.x + dx * (max.y - a3.y) / dy;
           y2 = max.y;
         } else if (code & 4) {
-          x2 = a3.x + dx * (min.y - a3.y) / dy;
+          x = a3.x + dx * (min.y - a3.y) / dy;
           y2 = min.y;
         } else if (code & 2) {
-          x2 = max.x;
+          x = max.x;
           y2 = a3.y + dy * (max.x - a3.x) / dx;
         } else if (code & 1) {
-          x2 = min.x;
+          x = min.x;
           y2 = a3.y + dy * (min.x - a3.x) / dx;
         }
-        return new Point(x2, y2, round2);
+        return new Point(x, y2, round2);
       }
       function _getBitCode(p2, bounds) {
         var code = 0;
@@ -4287,20 +4287,20 @@ var require_leaflet_src = __commonJS({
         return dx * dx + dy * dy;
       }
       function _sqClosestPointOnSegment(p2, p1, p22, sqDist) {
-        var x2 = p1.x, y2 = p1.y, dx = p22.x - x2, dy = p22.y - y2, dot = dx * dx + dy * dy, t;
+        var x = p1.x, y2 = p1.y, dx = p22.x - x, dy = p22.y - y2, dot = dx * dx + dy * dy, t;
         if (dot > 0) {
-          t = ((p2.x - x2) * dx + (p2.y - y2) * dy) / dot;
+          t = ((p2.x - x) * dx + (p2.y - y2) * dy) / dot;
           if (t > 1) {
-            x2 = p22.x;
+            x = p22.x;
             y2 = p22.y;
           } else if (t > 0) {
-            x2 += dx * t;
+            x += dx * t;
             y2 += dy * t;
           }
         }
-        dx = p2.x - x2;
+        dx = p2.x - x;
         dy = p2.y - y2;
-        return sqDist ? dx * dx + dy * dy : new Point(x2, y2);
+        return sqDist ? dx * dx + dy * dy : new Point(x, y2);
       }
       function isFlat(latlngs) {
         return !isArray3(latlngs[0]) || typeof latlngs[0][0] !== "object" && typeof latlngs[0][0] !== "undefined";
@@ -5554,8 +5554,8 @@ var require_leaflet_src = __commonJS({
         // Returns the point closest to `p` on the Polyline.
         closestLayerPoint: function(p2) {
           var minDistance = Infinity, minPoint = null, closest = _sqClosestPointOnSegment, p1, p22;
-          for (var j3 = 0, jLen = this._parts.length; j3 < jLen; j3++) {
-            var points = this._parts[j3];
+          for (var j2 = 0, jLen = this._parts.length; j2 < jLen; j2++) {
+            var points = this._parts[j2];
             for (var i = 1, len = points.length; i < len; i++) {
               p1 = points[i - 1];
               p22 = points[i];
@@ -5661,17 +5661,17 @@ var require_leaflet_src = __commonJS({
             this._parts = this._rings;
             return;
           }
-          var parts = this._parts, i, j3, k, len, len2, segment, points;
+          var parts = this._parts, i, j2, k, len, len2, segment, points;
           for (i = 0, k = 0, len = this._rings.length; i < len; i++) {
             points = this._rings[i];
-            for (j3 = 0, len2 = points.length; j3 < len2 - 1; j3++) {
-              segment = clipSegment(points[j3], points[j3 + 1], bounds, j3, true);
+            for (j2 = 0, len2 = points.length; j2 < len2 - 1; j2++) {
+              segment = clipSegment(points[j2], points[j2 + 1], bounds, j2, true);
               if (!segment) {
                 continue;
               }
               parts[k] = parts[k] || [];
               parts[k].push(segment[0]);
-              if (segment[1] !== points[j3 + 1] || j3 === len2 - 2) {
+              if (segment[1] !== points[j2 + 1] || j2 === len2 - 2) {
                 parts[k].push(segment[1]);
                 k++;
               }
@@ -5698,17 +5698,17 @@ var require_leaflet_src = __commonJS({
         },
         // Needed by the `Canvas` renderer for interactivity
         _containsPoint: function(p2, closed) {
-          var i, j3, k, len, len2, part, w = this._clickTolerance();
+          var i, j2, k, len, len2, part, w = this._clickTolerance();
           if (!this._pxBounds || !this._pxBounds.contains(p2)) {
             return false;
           }
           for (i = 0, len = this._parts.length; i < len; i++) {
             part = this._parts[i];
-            for (j3 = 0, len2 = part.length, k = len2 - 1; j3 < len2; k = j3++) {
-              if (!closed && j3 === 0) {
+            for (j2 = 0, len2 = part.length, k = len2 - 1; j2 < len2; k = j2++) {
+              if (!closed && j2 === 0) {
                 continue;
               }
-              if (pointToSegmentDistance(p2, part[k], part[j3]) <= w) {
+              if (pointToSegmentDistance(p2, part[k], part[j2]) <= w) {
                 return true;
               }
             }
@@ -5774,14 +5774,14 @@ var require_leaflet_src = __commonJS({
         },
         // Needed by the `Canvas` renderer for interactivity
         _containsPoint: function(p2) {
-          var inside = false, part, p1, p22, i, j3, k, len, len2;
+          var inside = false, part, p1, p22, i, j2, k, len, len2;
           if (!this._pxBounds || !this._pxBounds.contains(p2)) {
             return false;
           }
           for (i = 0, len = this._parts.length; i < len; i++) {
             part = this._parts[i];
-            for (j3 = 0, len2 = part.length, k = len2 - 1; j3 < len2; k = j3++) {
-              p1 = part[j3];
+            for (j2 = 0, len2 = part.length, k = len2 - 1; j2 < len2; k = j2++) {
+              p1 = part[j2];
               p22 = part[k];
               if (p1.y > p2.y !== p22.y > p2.y && p2.x < (p22.x - p1.x) * (p2.y - p1.y) / (p22.y - p1.y) + p1.x) {
                 inside = !inside;
@@ -6313,8 +6313,8 @@ var require_leaflet_src = __commonJS({
           if (wasElementSupplied) {
             var sourceElements = vid.getElementsByTagName("source");
             var sources = [];
-            for (var j3 = 0; j3 < sourceElements.length; j3++) {
-              sources.push(sourceElements[j3].src);
+            for (var j2 = 0; j2 < sourceElements.length; j2++) {
+              sources.push(sourceElements[j2].src);
             }
             this._url = sourceElements.length > 0 ? sources : [vid.src];
             return;
@@ -7600,8 +7600,8 @@ var require_leaflet_src = __commonJS({
           this._removeAllTiles();
           this._tileZoom = void 0;
         },
-        _retainParent: function(x2, y2, z2, minZoom) {
-          var x22 = Math.floor(x2 / 2), y22 = Math.floor(y2 / 2), z22 = z2 - 1, coords2 = new Point(+x22, +y22);
+        _retainParent: function(x, y2, z2, minZoom) {
+          var x2 = Math.floor(x / 2), y22 = Math.floor(y2 / 2), z22 = z2 - 1, coords2 = new Point(+x2, +y22);
           coords2.z = +z22;
           var key = this._tileCoordsToKey(coords2), tile = this._tiles[key];
           if (tile && tile.active) {
@@ -7611,14 +7611,14 @@ var require_leaflet_src = __commonJS({
             tile.retain = true;
           }
           if (z22 > minZoom) {
-            return this._retainParent(x22, y22, z22, minZoom);
+            return this._retainParent(x2, y22, z22, minZoom);
           }
           return false;
         },
-        _retainChildren: function(x2, y2, z2, maxZoom) {
-          for (var i = 2 * x2; i < 2 * x2 + 2; i++) {
-            for (var j3 = 2 * y2; j3 < 2 * y2 + 2; j3++) {
-              var coords = new Point(i, j3);
+        _retainChildren: function(x, y2, z2, maxZoom) {
+          for (var i = 2 * x; i < 2 * x + 2; i++) {
+            for (var j2 = 2 * y2; j2 < 2 * y2 + 2; j2++) {
+              var coords = new Point(i, j2);
               coords.z = z2 + 1;
               var key = this._tileCoordsToKey(coords), tile = this._tiles[key];
               if (tile && tile.active) {
@@ -7628,7 +7628,7 @@ var require_leaflet_src = __commonJS({
                 tile.retain = true;
               }
               if (z2 + 1 < maxZoom) {
-                this._retainChildren(i, j3, z2 + 1, maxZoom);
+                this._retainChildren(i, j2, z2 + 1, maxZoom);
               }
             }
           }
@@ -7743,9 +7743,9 @@ var require_leaflet_src = __commonJS({
             this._setView(center, zoom2);
             return;
           }
-          for (var j3 = tileRange.min.y; j3 <= tileRange.max.y; j3++) {
+          for (var j2 = tileRange.min.y; j2 <= tileRange.max.y; j2++) {
             for (var i = tileRange.min.x; i <= tileRange.max.x; i++) {
-              var coords = new Point(i, j3);
+              var coords = new Point(i, j2);
               coords.z = this._tileZoom;
               if (!this._isValidTile(coords)) {
                 continue;
@@ -8452,15 +8452,15 @@ var require_leaflet_src = __commonJS({
           if (!this._drawing) {
             return;
           }
-          var i, j3, len2, p2, parts = layer._parts, len = parts.length, ctx = this._ctx;
+          var i, j2, len2, p2, parts = layer._parts, len = parts.length, ctx = this._ctx;
           if (!len) {
             return;
           }
           ctx.beginPath();
           for (i = 0; i < len; i++) {
-            for (j3 = 0, len2 = parts[i].length; j3 < len2; j3++) {
-              p2 = parts[i][j3];
-              ctx[j3 ? "lineTo" : "moveTo"](p2.x, p2.y);
+            for (j2 = 0, len2 = parts[i].length; j2 < len2; j2++) {
+              p2 = parts[i][j2];
+              ctx[j2 ? "lineTo" : "moveTo"](p2.x, p2.y);
             }
             if (closed) {
               ctx.closePath();
@@ -9142,7 +9142,7 @@ var require_leaflet_src = __commonJS({
           this._draggable._newPos = this._draggable._startPos.add(offset);
         },
         _onPreDragWrap: function() {
-          var worldWidth = this._worldWidth, halfWidth = Math.round(worldWidth / 2), dx = this._initialWorldOffset, x2 = this._draggable._newPos.x, newX1 = (x2 - halfWidth + dx) % worldWidth + halfWidth - dx, newX2 = (x2 + halfWidth + dx) % worldWidth - halfWidth - dx, newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
+          var worldWidth = this._worldWidth, halfWidth = Math.round(worldWidth / 2), dx = this._initialWorldOffset, x = this._draggable._newPos.x, newX1 = (x - halfWidth + dx) % worldWidth + halfWidth - dx, newX2 = (x + halfWidth + dx) % worldWidth - halfWidth - dx, newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
           this._draggable._absPos = this._draggable._newPos.clone();
           this._draggable._newPos.x = newX;
         },
@@ -10391,8 +10391,8 @@ var EMPTY_OBSERVER = {
 var observable = (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
 
 // node_modules/rxjs/dist/esm/internal/util/identity.js
-function identity(x2) {
-  return x2;
+function identity(x) {
+  return x;
 }
 
 // node_modules/rxjs/dist/esm/internal/util/pipe.js
@@ -10471,7 +10471,7 @@ var Observable = class _Observable {
     promiseCtor = getPromiseCtor(promiseCtor);
     return new promiseCtor((resolve, reject) => {
       let value;
-      this.subscribe((x2) => value = x2, (err) => reject(err), () => resolve(value));
+      this.subscribe((x) => value = x, (err) => reject(err), () => resolve(value));
     });
   }
 };
@@ -10894,13 +10894,13 @@ function popScheduler(args) {
 }
 
 // node_modules/tslib/tslib.es6.mjs
-function __awaiter(thisArg, _arguments, P3, generator) {
+function __awaiter(thisArg, _arguments, P2, generator) {
   function adopt(value) {
-    return value instanceof P3 ? value : new P3(function(resolve) {
+    return value instanceof P2 ? value : new P2(function(resolve) {
       resolve(value);
     });
   }
-  return new (P3 || (P3 = Promise))(function(resolve, reject) {
+  return new (P2 || (P2 = Promise))(function(resolve, reject) {
     function fulfilled(value) {
       try {
         step(generator.next(value));
@@ -10937,7 +10937,7 @@ function __await(v2) {
 }
 function __asyncGenerator(thisArg, _arguments, generator) {
   if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-  var g2 = generator.apply(thisArg, _arguments || []), i, q2 = [];
+  var g2 = generator.apply(thisArg, _arguments || []), i, q = [];
   return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function() {
     return this;
   }, i;
@@ -10950,7 +10950,7 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     if (g2[n2]) {
       i[n2] = function(v2) {
         return new Promise(function(a3, b2) {
-          q2.push([n2, v2, a3, b2]) > 1 || resume(n2, v2);
+          q.push([n2, v2, a3, b2]) > 1 || resume(n2, v2);
         });
       };
       if (f) i[n2] = f(i[n2]);
@@ -10960,11 +10960,11 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     try {
       step(g2[n2](v2));
     } catch (e) {
-      settle(q2[0][3], e);
+      settle(q[0][3], e);
     }
   }
   function step(r) {
-    r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q2[0][2], r);
+    r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
   }
   function fulfill(value) {
     resume("next", value);
@@ -10973,7 +10973,7 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     resume("throw", value);
   }
   function settle(f, v2) {
-    if (f(v2), q2.shift(), q2.length) resume(q2[0][0], q2[0][1]);
+    if (f(v2), q.shift(), q.length) resume(q[0][0], q[0][1]);
   }
 }
 function __asyncValues(o) {
@@ -10997,7 +10997,7 @@ function __asyncValues(o) {
 }
 
 // node_modules/rxjs/dist/esm/internal/util/isArrayLike.js
-var isArrayLike = ((x2) => x2 && typeof x2.length === "number" && typeof x2 !== "function");
+var isArrayLike = ((x) => x && typeof x.length === "number" && typeof x !== "function");
 
 // node_modules/rxjs/dist/esm/internal/util/isPromise.js
 function isPromise(value) {
@@ -12721,8 +12721,8 @@ function injectArgs(types) {
       }
       let type = void 0;
       let flags = 0;
-      for (let j3 = 0; j3 < arg.length; j3++) {
-        const meta = arg[j3];
+      for (let j2 = 0; j2 < arg.length; j2++) {
+        const meta = arg[j2];
         const flag = getInjectFlag(meta);
         if (typeof flag === "number") {
           if (flag === -1) {
@@ -13390,7 +13390,7 @@ function providerToFactory(provider, ngModuleType, providers) {
     } else if (isFactoryProvider(provider)) {
       factory = () => provider.useFactory(...injectArgs(provider.deps || []));
     } else if (isExistingProvider(provider)) {
-      factory = (_3, flags) => \u0275\u0275inject(resolveForwardRef(provider.useExisting), flags !== void 0 && flags & 8 ? 8 : void 0);
+      factory = (_2, flags) => \u0275\u0275inject(resolveForwardRef(provider.useExisting), flags !== void 0 && flags & 8 ? 8 : void 0);
     } else {
       const classRef = resolveForwardRef(provider && (provider.useClass || provider.provide));
       if (ngDevMode && !classRef) {
@@ -16088,8 +16088,8 @@ function reflectDependency(dep) {
     skipSelf: false
   };
   if (Array.isArray(dep) && dep.length > 0) {
-    for (let j3 = 0; j3 < dep.length; j3++) {
-      const param = dep[j3];
+    for (let j2 = 0; j2 < dep.length; j2++) {
+      const param = dep[j2];
       if (param === void 0) {
         continue;
       }
@@ -18101,8 +18101,8 @@ function isSelectorInSelectorList(selector, list) {
     if (selector.length !== currentSelectorInList.length) {
       continue;
     }
-    for (let j3 = 0; j3 < selector.length; j3++) {
-      if (selector[j3] !== currentSelectorInList[j3]) {
+    for (let j2 = 0; j2 < selector.length; j2++) {
+      if (selector[j2] !== currentSelectorInList[j2]) {
         continue selectorListLoop;
       }
     }
@@ -18235,7 +18235,7 @@ function getOrCreateComponentTView(def) {
   }
   return tView;
 }
-function createLView(parentLView, tView, context2, flags, host, tHostNode, environment, renderer, injector, embeddedViewInjector, hydrationInfo) {
+function createLView(parentLView, tView, context2, flags, host, tHostNode, environment2, renderer, injector, embeddedViewInjector, hydrationInfo) {
   const lView = tView.blueprint.slice();
   lView[HOST] = host;
   lView[FLAGS] = flags | 4 | 128 | 8 | 64 | 1024;
@@ -18246,7 +18246,7 @@ function createLView(parentLView, tView, context2, flags, host, tHostNode, envir
   ngDevMode && tView.declTNode && parentLView && assertTNodeForLView(tView.declTNode, parentLView);
   lView[PARENT] = lView[DECLARATION_VIEW] = parentLView;
   lView[CONTEXT] = context2;
-  lView[ENVIRONMENT] = environment || parentLView && parentLView[ENVIRONMENT];
+  lView[ENVIRONMENT] = environment2 || parentLView && parentLView[ENVIRONMENT];
   ngDevMode && assertDefined(lView[ENVIRONMENT], "LViewEnvironment is required");
   lView[RENDERER] = renderer || parentLView && parentLView[RENDERER];
   ngDevMode && assertDefined(lView[RENDERER], "Renderer is required");
@@ -18900,7 +18900,7 @@ function initializeAnimationQueueScheduler(injector) {
   animationQueue.scheduler(injector);
 }
 function queueEnterAnimations(injector, enterAnimations) {
-  for (const [_3, nodeAnimations] of enterAnimations) {
+  for (const [_2, nodeAnimations] of enterAnimations) {
     addToAnimationQueue(injector, nodeAnimations.animateFns);
   }
 }
@@ -19135,9 +19135,9 @@ function executeOnDestroys(tView, lView) {
       if (!(context2 instanceof NodeInjectorFactory)) {
         const toCall = destroyHooks[i + 1];
         if (Array.isArray(toCall)) {
-          for (let j3 = 0; j3 < toCall.length; j3 += 2) {
-            const callContext = context2[toCall[j3]];
-            const hook = toCall[j3 + 1];
+          for (let j2 = 0; j2 < toCall.length; j2 += 2) {
+            const callContext = context2[toCall[j2]];
+            const hook = toCall[j2 + 1];
             profiler(ProfilerEvent.LifecycleHookStart, callContext, hook);
             try {
               hook.call(callContext);
@@ -19469,8 +19469,8 @@ function markDirtyIfOnPush(lView, viewIndex) {
   }
 }
 function setNgReflectProperty(lView, tNode, attrName, value) {
-  const environment = lView[ENVIRONMENT];
-  if (!environment.ngReflect) {
+  const environment2 = lView[ENVIRONMENT];
+  if (!environment2.ngReflect) {
     return;
   }
   const element = getNativeByTNode(tNode, lView);
@@ -19491,8 +19491,8 @@ function setNgReflectProperty(lView, tNode, attrName, value) {
   }
 }
 function setNgReflectProperties(lView, tView, tNode, publicName, value) {
-  const environment = lView[ENVIRONMENT];
-  if (!environment.ngReflect || !(tNode.type & (3 | 4))) {
+  const environment2 = lView[ENVIRONMENT];
+  if (!environment2.ngReflect || !(tNode.type & (3 | 4))) {
     return;
   }
   const inputConfig = tNode.inputs?.[publicName];
@@ -19931,8 +19931,8 @@ function runEffectsInView(view) {
 }
 var MAXIMUM_REFRESH_RERUNS$1 = 100;
 function detectChangesInternal(lView, mode = 0) {
-  const environment = lView[ENVIRONMENT];
-  const rendererFactory = environment.rendererFactory;
+  const environment2 = lView[ENVIRONMENT];
+  const rendererFactory = environment2.rendererFactory;
   const checkNoChangesMode = !!ngDevMode && isInCheckNoChangesMode();
   if (!checkNoChangesMode) {
     rendererFactory.begin?.();
@@ -21519,10 +21519,10 @@ function setupInitialInputs(tNode, directiveIndex, isHostDirective) {
       }
     } else if (isHostDirective && hostDirectiveInputs.hasOwnProperty(attrName)) {
       const config2 = hostDirectiveInputs[attrName];
-      for (let j3 = 0; j3 < config2.length; j3 += 2) {
-        if (config2[j3] === directiveIndex) {
+      for (let j2 = 0; j2 < config2.length; j2 += 2) {
+        if (config2[j2] === directiveIndex) {
           inputsToStore ??= [];
-          inputsToStore.push(config2[j3 + 1], attrs[i + 1]);
+          inputsToStore.push(config2[j2 + 1], attrs[i + 1]);
           break;
         }
       }
@@ -22096,24 +22096,24 @@ var ComponentFactory2 = class extends ComponentFactory$1 {
       const cmpDef = this.componentDef;
       ngDevMode && verifyNotAnOrphanComponent(cmpDef);
       const rootViewInjector = createRootViewInjector(cmpDef, environmentInjector || this.ngModule, injector);
-      const environment = createRootLViewEnvironment(rootViewInjector);
-      const tracingService = environment.tracingService;
+      const environment2 = createRootLViewEnvironment(rootViewInjector);
+      const tracingService = environment2.tracingService;
       if (tracingService && tracingService.componentCreate) {
-        return tracingService.componentCreate(getComponentName(cmpDef), () => this.createComponentRef(environment, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings));
+        return tracingService.componentCreate(getComponentName(cmpDef), () => this.createComponentRef(environment2, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings));
       } else {
-        return this.createComponentRef(environment, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings);
+        return this.createComponentRef(environment2, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings);
       }
     } finally {
       setActiveConsumer(prevConsumer);
     }
   }
-  createComponentRef(environment, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings) {
+  createComponentRef(environment2, rootViewInjector, projectableNodes, rootSelectorOrNode, directives, componentBindings) {
     const cmpDef = this.componentDef;
     const rootTView = createRootTView(rootSelectorOrNode, cmpDef, componentBindings, directives);
-    const hostRenderer = environment.rendererFactory.createRenderer(null, cmpDef);
+    const hostRenderer = environment2.rendererFactory.createRenderer(null, cmpDef);
     const hostElement = rootSelectorOrNode ? locateHostElement(hostRenderer, rootSelectorOrNode, cmpDef.encapsulation, rootViewInjector) : createHostElement(cmpDef, hostRenderer);
     const hasInputBindings = componentBindings?.some(isInputBinding) || directives?.some((d2) => typeof d2 !== "function" && d2.bindings.some(isInputBinding));
-    const rootLView = createLView(null, rootTView, null, 512 | getInitialLViewFlagsFromDef(cmpDef), null, null, environment, hostRenderer, rootViewInjector, null, retrieveHydrationInfo(hostElement, rootViewInjector, true));
+    const rootLView = createLView(null, rootTView, null, 512 | getInitialLViewFlagsFromDef(cmpDef), null, null, environment2, hostRenderer, rootViewInjector, null, retrieveHydrationInfo(hostElement, rootViewInjector, true));
     rootLView[HEADER_OFFSET] = hostElement;
     enterView(rootLView);
     let componentView = null;
@@ -24487,8 +24487,8 @@ function getDeferBlocks$1(lView, deferBlocks) {
       if (isLView(lContainer[HOST])) {
         getDeferBlocks$1(lContainer[HOST], deferBlocks);
       }
-      for (let j3 = CONTAINER_HEADER_OFFSET; j3 < lContainer.length; j3++) {
-        getDeferBlocks$1(lContainer[j3], deferBlocks);
+      for (let j2 = CONTAINER_HEADER_OFFSET; j2 < lContainer.length; j2++) {
+        getDeferBlocks$1(lContainer[j2], deferBlocks);
       }
     } else if (isLView(lView[i])) {
       getDeferBlocks$1(lView[i], deferBlocks);
@@ -27065,7 +27065,7 @@ var RepeaterContext = class {
 function \u0275\u0275repeaterTrackByIndex(index) {
   return index;
 }
-function \u0275\u0275repeaterTrackByIdentity(_3, value) {
+function \u0275\u0275repeaterTrackByIdentity(_2, value) {
   return value;
 }
 var RepeaterMetadata = class {
@@ -27695,8 +27695,8 @@ function applyUpdateOpCodes(tView, lView, updateOpCodes, bindingsStartIndex, cha
     const skipCodes = updateOpCodes[++i];
     if (checkBit & changeMask2) {
       let value = "";
-      for (let j3 = i + 1; j3 <= i + skipCodes; j3++) {
-        const opCode = updateOpCodes[j3];
+      for (let j2 = i + 1; j2 <= i + skipCodes; j2++) {
+        const opCode = updateOpCodes[j2];
         if (typeof opCode == "string") {
           value += opCode;
         } else if (typeof opCode == "number") {
@@ -27706,8 +27706,8 @@ function applyUpdateOpCodes(tView, lView, updateOpCodes, bindingsStartIndex, cha
             const nodeIndex = opCode >>> 2;
             switch (opCode & 3) {
               case 1:
-                const propName = updateOpCodes[++j3];
-                const sanitizeFn = updateOpCodes[++j3];
+                const propName = updateOpCodes[++j2];
+                const sanitizeFn = updateOpCodes[++j2];
                 const tNodeOrTagName = tView.data[nodeIndex];
                 ngDevMode && assertDefined(tNodeOrTagName, "Experting TNode or string");
                 if (typeof tNodeOrTagName === "string") {
@@ -27996,9 +27996,9 @@ function i18nStartFirstCreatePass(tView, parentTNodeIndex, lView, index, message
     let value = msgParts[i];
     if ((i & 1) === 0) {
       const parts = i18nParseTextIntoPartsAndICU(value);
-      for (let j3 = 0; j3 < parts.length; j3++) {
-        let part = parts[j3];
-        if ((j3 & 1) === 0) {
+      for (let j2 = 0; j2 < parts.length; j2++) {
+        let part = parts[j2];
+        if ((j2 & 1) === 0) {
           const text = part;
           ngDevMode && assertString(text, "Parsed ICU part should be string");
           if (text !== "") {
@@ -28114,9 +28114,9 @@ function generateBindingUpdateOpCodes(updateOpCodes, str, destinationNode, attrN
   }
   const textParts = str.split(BINDING_REGEXP);
   let mask = 0;
-  for (let j3 = 0; j3 < textParts.length; j3++) {
-    const textValue = textParts[j3];
-    if (j3 & 1) {
+  for (let j2 = 0; j2 < textParts.length; j2++) {
+    const textValue = textParts[j2];
+    if (j2 & 1) {
       const bindingIndex = bindingStart + parseInt(textValue, 10);
       updateOpCodes.push(-1 - bindingIndex);
       mask = mask | toMaskBit(bindingIndex);
@@ -28195,11 +28195,11 @@ function icuStart(ast, tView, lView, updateOpCodes, parentIdx, icuExpression, an
   for (let i = 0; i < values.length; i++) {
     const valueArr = values[i];
     const nestedIcus = [];
-    for (let j3 = 0; j3 < valueArr.length; j3++) {
-      const value = valueArr[j3];
+    for (let j2 = 0; j2 < valueArr.length; j2++) {
+      const value = valueArr[j2];
       if (typeof value !== "string") {
         const icuIndex = nestedIcus.push(value) - 1;
-        valueArr[j3] = `<!--\uFFFD${icuIndex}\uFFFD-->`;
+        valueArr[j2] = `<!--\uFFFD${icuIndex}\uFFFD-->`;
       }
     }
     const caseAst = [];
@@ -29640,10 +29640,10 @@ function indexOf(item, arr, begin, end) {
   }
   return -1;
 }
-function multiProvidersFactoryResolver(_3, flags, tData, lData, tNode) {
+function multiProvidersFactoryResolver(_2, flags, tData, lData, tNode) {
   return multiResolve(this.multi, []);
 }
-function multiViewProvidersFactoryResolver(_3, _flags, _tData, lView, tNode) {
+function multiViewProvidersFactoryResolver(_2, _flags, _tData, lView, tNode) {
   const factories = this.multi;
   let result;
   if (this.providerFactory) {
@@ -29992,8 +29992,8 @@ function recreateMatchingLViews(importMeta, id, newDef, oldDef, rootLView) {
       if (isLView(current[HOST])) {
         recreateMatchingLViews(importMeta, id, newDef, oldDef, current[HOST]);
       }
-      for (let j3 = CONTAINER_HEADER_OFFSET; j3 < current.length; j3++) {
-        recreateMatchingLViews(importMeta, id, newDef, oldDef, current[j3]);
+      for (let j2 = CONTAINER_HEADER_OFFSET; j2 < current.length; j2++) {
+        recreateMatchingLViews(importMeta, id, newDef, oldDef, current[j2]);
       }
     } else if (isLView(current)) {
       recreateMatchingLViews(importMeta, id, newDef, oldDef, current);
@@ -34776,7 +34776,7 @@ function toPercent(parsedNumber) {
 function parseNumber(num) {
   let numStr = Math.abs(num) + "";
   let exponent = 0, digits, integerLen;
-  let i, j3, zeros;
+  let i, j2, zeros;
   if ((integerLen = numStr.indexOf(DECIMAL_SEP)) > -1) {
     numStr = numStr.replace(DECIMAL_SEP, "");
   }
@@ -34797,8 +34797,8 @@ function parseNumber(num) {
     while (numStr.charAt(zeros) === ZERO_CHAR) zeros--;
     integerLen -= i;
     digits = [];
-    for (j3 = 0; i <= zeros; i++, j3++) {
-      digits[j3] = Number(numStr.charAt(i));
+    for (j2 = 0; i <= zeros; i++, j2++) {
+      digits[j2] = Number(numStr.charAt(i));
     }
   }
   if (integerLen > MAX_DIGITS) {
@@ -34823,8 +34823,8 @@ function roundNumber(parsedNumber, minFrac, maxFrac) {
   let digit = digits[roundAt];
   if (roundAt > 0) {
     digits.splice(Math.max(parsedNumber.integerLen, roundAt));
-    for (let j3 = roundAt; j3 < digits.length; j3++) {
-      digits[j3] = 0;
+    for (let j2 = roundAt; j2 < digits.length; j2++) {
+      digits[j2] = 0;
     }
   } else {
     fractionLen = Math.max(0, fractionLen);
@@ -38092,7 +38092,7 @@ function addBaseHrefToCssSourceMap(baseHref, styles) {
     if (!cssContent.includes("sourceMappingURL=")) {
       return cssContent;
     }
-    return cssContent.replace(SOURCEMAP_URL_REGEXP, (_3, sourceMapUrl) => {
+    return cssContent.replace(SOURCEMAP_URL_REGEXP, (_2, sourceMapUrl) => {
       if (sourceMapUrl[0] === "/" || sourceMapUrl.startsWith("data:") || PROTOCOL_REGEXP.test(sourceMapUrl)) {
         return `/*# sourceMappingURL=${sourceMapUrl} */`;
       }
@@ -39988,7 +39988,7 @@ var HttpXhrBackend = class _HttpXhrBackend {
         });
         let onTimeout = onError;
         if (req.timeout) {
-          onTimeout = this.maybePropagateTrace((_3) => {
+          onTimeout = this.maybePropagateTrace((_2) => {
             const {
               url
             } = partialFromXhr();
@@ -43983,7 +43983,7 @@ function runCanActivate(futureRSS, futureARS) {
 }
 function runCanActivateChild(futureRSS, path) {
   const futureARS = path[path.length - 1];
-  const canActivateChildGuards = path.slice(0, path.length - 1).reverse().map((p2) => getCanActivateChild(p2)).filter((_3) => _3 !== null);
+  const canActivateChildGuards = path.slice(0, path.length - 1).reverse().map((p2) => getCanActivateChild(p2)).filter((_2) => _2 !== null);
   const canActivateChildGuardsMapped = canActivateChildGuards.map((d2) => {
     return defer(() => {
       const guardsMapped = d2.guards.map((canActivateChild) => {
@@ -44699,7 +44699,7 @@ function resolveData(paramsInheritanceStrategy) {
         route.data = getInherited(route, route.parent, paramsInheritanceStrategy).resolve;
         return of(void 0);
       }
-    }), tap(() => routesProcessed++), takeLast(1), mergeMap((_3) => routesProcessed === routesNeedingDataUpdates.size ? of(t) : EMPTY));
+    }), tap(() => routesProcessed++), takeLast(1), mergeMap((_2) => routesProcessed === routesNeedingDataUpdates.size ? of(t) : EMPTY));
   });
 }
 function flattenRouteTree(route) {
@@ -45813,19 +45813,19 @@ var Router = class _Router {
       preserveFragment
     } = navigationExtras;
     const f = preserveFragment ? this.currentUrlTree.fragment : fragment;
-    let q2 = null;
+    let q = null;
     switch (queryParamsHandling ?? this.options.defaultQueryParamsHandling) {
       case "merge":
-        q2 = __spreadValues(__spreadValues({}, this.currentUrlTree.queryParams), queryParams);
+        q = __spreadValues(__spreadValues({}, this.currentUrlTree.queryParams), queryParams);
         break;
       case "preserve":
-        q2 = this.currentUrlTree.queryParams;
+        q = this.currentUrlTree.queryParams;
         break;
       default:
-        q2 = queryParams || null;
+        q = queryParams || null;
     }
-    if (q2 !== null) {
-      q2 = this.removeEmptyProps(q2);
+    if (q !== null) {
+      q = this.removeEmptyProps(q);
     }
     let relativeToUrlSegmentGroup;
     try {
@@ -45837,7 +45837,7 @@ var Router = class _Router {
       }
       relativeToUrlSegmentGroup = this.currentUrlTree.root;
     }
-    return createUrlTreeFromSegmentGroup(relativeToUrlSegmentGroup, commands, q2, f ?? null, this.urlSerializer);
+    return createUrlTreeFromSegmentGroup(relativeToUrlSegmentGroup, commands, q, f ?? null, this.urlSerializer);
   }
   navigateByUrl(url, extras = {
     skipLocationChange: false
@@ -46381,7 +46381,7 @@ var RouterLinkActive = class _RouterLinkActive {
     });
   }
   ngAfterContentInit() {
-    of(this.links.changes, of(null)).pipe(mergeAll()).subscribe((_3) => {
+    of(this.links.changes, of(null)).pipe(mergeAll()).subscribe((_2) => {
       this.update();
       this.subscribeToEachLinkOnChanges();
     });
@@ -47454,7 +47454,7 @@ var Configuration = class {
     if (contentTypes.length === 0) {
       return void 0;
     }
-    const type = contentTypes.find((x2) => this.isJsonMime(x2));
+    const type = contentTypes.find((x) => this.isJsonMime(x));
     if (type === void 0) {
       return contentTypes[0];
     }
@@ -47471,7 +47471,7 @@ var Configuration = class {
     if (accepts.length === 0) {
       return void 0;
     }
-    const type = accepts.find((x2) => this.isJsonMime(x2));
+    const type = accepts.find((x) => this.isJsonMime(x));
     if (type === void 0) {
       return accepts[0];
     }
@@ -47854,7 +47854,7 @@ var ApiModule = class _ApiModule {
 var BaseControlValueAccessor = class _BaseControlValueAccessor {
   _renderer;
   _elementRef;
-  onChange = (_3) => {
+  onChange = (_2) => {
   };
   onTouched = () => {
   };
@@ -48705,7 +48705,7 @@ function assertControlPresent(parent, isGroup, key) {
   }
 }
 function assertAllValuesPresent(control, isGroup, value) {
-  control._forEachChild((_3, key) => {
+  control._forEachChild((_2, key) => {
     if (value[key] === void 0) {
       throw new RuntimeError(-1002, typeof ngDevMode === "undefined" || ngDevMode ? missingControlValueError(isGroup, key) : "");
     }
@@ -49069,11 +49069,11 @@ var AbstractControl = class {
     return !!this.getError(errorCode, path);
   }
   get root() {
-    let x2 = this;
-    while (x2._parent) {
-      x2 = x2._parent;
+    let x = this;
+    while (x._parent) {
+      x = x._parent;
     }
-    return x2;
+    return x;
   }
   _updateControlsErrors(emitEvent, changedControl, shouldHaveEmitted) {
     this.status = this._calculateStatus();
@@ -52474,10 +52474,16 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
   }], null, null);
 })();
 
+// src/environments/environment.ts
+var environment = {
+  production: false,
+  apiUrl: "http://localhost:3000"
+};
+
 // src/app/core/services/auth.service.ts
 var AuthService = class _AuthService {
   http;
-  apiUrl = "http://localhost:3000/api/auth";
+  apiUrl = environment.apiUrl + "/api/auth";
   // Signal con i dati utente — null se non autenticato
   utente = signal(this.caricaDaLocalStorage(), ...ngDevMode ? [{ debugName: "utente" }] : (
     /* istanbul ignore next */
@@ -52580,10 +52586,10 @@ var AuthService = class _AuthService {
 })();
 
 // src/app/features/auth/login/login.ts
-function Login_Conditional_20_Template(rf, ctx) {
+function Login_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13);
-    \u0275\u0275element(1, "i", 17);
+    \u0275\u0275elementStart(0, "div", 15);
+    \u0275\u0275element(1, "i", 19);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -52596,14 +52602,11 @@ function Login_Conditional_20_Template(rf, ctx) {
 var Login = class _Login {
   authService;
   router;
-  /** Valore del campo email nel form */
   email = "";
-  /** Valore del campo password nel form */
   password = "";
-  /** Messaggio di errore da mostrare all'utente */
   errore = "";
-  /** Indica se la richiesta HTTP è in corso — disabilita il pulsante */
   caricamento = false;
+  mostrarPw = false;
   constructor(authService, router) {
     this.authService = authService;
     this.router = router;
@@ -52639,7 +52642,7 @@ var Login = class _Login {
   static \u0275fac = function Login_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Login)(\u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Login, selectors: [["app-login"]], decls: 27, vars: 5, consts: [[1, "login-root"], [1, "login-card"], [1, "login-brand"], [1, "brand-mark"], [1, "ti", "ti-mountain"], [1, "brand-text"], [1, "login-subtitle"], ["novalidate", "", 3, "ngSubmit"], [1, "form-field"], ["for", "email"], ["id", "email", "type", "text", "name", "email", "placeholder", "nome@email.com", "autocomplete", "email", 3, "ngModelChange", "ngModel"], ["for", "password"], ["id", "password", "type", "password", "name", "password", "placeholder", "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022", "autocomplete", "current-password", 3, "ngModelChange", "ngModel"], [1, "login-errore"], ["type", "submit", 1, "btn-login", 3, "disabled"], [1, "link-reg"], [3, "click"], [1, "ti", "ti-alert-circle"]], template: function Login_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Login, selectors: [["app-login"]], decls: 30, vars: 9, consts: [[1, "login-root"], [1, "login-card"], [1, "login-brand"], [1, "brand-mark"], [1, "ti", "ti-mountain"], [1, "brand-text"], [1, "login-subtitle"], ["novalidate", "", 3, "ngSubmit"], [1, "form-field"], ["for", "email"], ["id", "email", "type", "text", "name", "email", "placeholder", "nome@email.com", "autocomplete", "email", 3, "ngModelChange", "ngModel"], ["for", "password"], [1, "pw-wrapper"], ["id", "password", "name", "password", "placeholder", "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022", "autocomplete", "current-password", 3, "ngModelChange", "type", "ngModel"], ["type", "button", 1, "pw-toggle", 3, "click", "title"], [1, "login-errore"], ["type", "submit", 1, "btn-login", 3, "disabled"], [1, "link-reg"], [3, "click"], [1, "ti", "ti-alert-circle"]], template: function Login_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "div", 2)(3, "div", 3);
       \u0275\u0275element(4, "i", 4);
@@ -52668,32 +52671,43 @@ var Login = class _Login {
       \u0275\u0275elementStart(16, "div", 8)(17, "label", 11);
       \u0275\u0275text(18, "Password");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(19, "input", 12);
-      \u0275\u0275twoWayListener("ngModelChange", function Login_Template_input_ngModelChange_19_listener($event) {
+      \u0275\u0275elementStart(19, "div", 12)(20, "input", 13);
+      \u0275\u0275twoWayListener("ngModelChange", function Login_Template_input_ngModelChange_20_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.password, $event) || (ctx.password = $event);
         return $event;
       });
-      \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(20, Login_Conditional_20_Template, 3, 1, "div", 13);
+      \u0275\u0275elementEnd();
       \u0275\u0275elementStart(21, "button", 14);
-      \u0275\u0275text(22);
+      \u0275\u0275listener("click", function Login_Template_button_click_21_listener() {
+        return ctx.mostrarPw = !ctx.mostrarPw;
+      });
+      \u0275\u0275element(22, "i");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275conditionalCreate(23, Login_Conditional_23_Template, 3, 1, "div", 15);
+      \u0275\u0275elementStart(24, "button", 16);
+      \u0275\u0275text(25);
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(23, "p", 15);
-      \u0275\u0275text(24, " Non hai un account? ");
-      \u0275\u0275elementStart(25, "a", 16);
-      \u0275\u0275listener("click", function Login_Template_a_click_25_listener() {
+      \u0275\u0275elementStart(26, "p", 17);
+      \u0275\u0275text(27, " Non hai un account? ");
+      \u0275\u0275elementStart(28, "a", 18);
+      \u0275\u0275listener("click", function Login_Template_a_click_28_listener() {
         return ctx.vaiARegistrazione();
       });
-      \u0275\u0275text(26, "Registrati");
+      \u0275\u0275text(29, "Registrati");
       \u0275\u0275elementEnd()()()();
     }
     if (rf & 2) {
       \u0275\u0275advance(15);
       \u0275\u0275twoWayProperty("ngModel", ctx.email);
-      \u0275\u0275advance(4);
+      \u0275\u0275advance(5);
+      \u0275\u0275property("type", ctx.mostrarPw ? "text" : "password");
       \u0275\u0275twoWayProperty("ngModel", ctx.password);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.errore ? 20 : -1);
+      \u0275\u0275property("title", ctx.mostrarPw ? "Nascondi password" : "Mostra password");
+      \u0275\u0275advance();
+      \u0275\u0275classMap(ctx.mostrarPw ? "ti ti-eye-off" : "ti ti-eye");
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.errore ? 23 : -1);
       \u0275\u0275advance();
       \u0275\u0275property("disabled", ctx.caricamento);
       \u0275\u0275advance();
@@ -52794,6 +52808,30 @@ var Login = class _Login {
   border-color: rgba(216, 208, 137, 0.5);
   background: rgba(255, 255, 255, 0.1);
 }
+.pw-wrapper[_ngcontent-%COMP%] {
+  position: relative;
+}
+.pw-wrapper[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {
+  padding-right: 2.6rem;
+}
+.pw-toggle[_ngcontent-%COMP%] {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+.pw-toggle[_ngcontent-%COMP%]:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
 .login-errore[_ngcontent-%COMP%] {
   display: flex;
   align-items: center;
@@ -52846,48 +52884,55 @@ var Login = class _Login {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Login, [{
     type: Component,
-    args: [{ selector: "app-login", standalone: true, imports: [FormsModule], template: `<div class="login-root">
-  <div class="login-card">
-
-    <div class="login-brand">
-      <div class="brand-mark"><i class="ti ti-mountain"></i></div>
-      <span class="brand-text">Peak<span>Aware</span></span>
-    </div>
-
-    <p class="login-subtitle">Accesso</p>
-
-    <form (ngSubmit)="onLogin()" novalidate>
-
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" type="text" [(ngModel)]="email" name="email"
-               placeholder="nome@email.com" autocomplete="email" />
-      </div>
-
-      <div class="form-field">
-        <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="password" name="password"
-               placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autocomplete="current-password" />
-      </div>
-
-      @if (errore) {
-        <div class="login-errore">
-          <i class="ti ti-alert-circle"></i> {{ errore }}
-        </div>
-      }
-
-      <button type="submit" class="btn-login" [disabled]="caricamento">
-        {{ caricamento ? 'Accesso in corso...' : 'Accedi' }}
-      </button>
-
-    </form>
-
-    <p class="link-reg">
-      Non hai un account? <a (click)="vaiARegistrazione()">Registrati</a>
-    </p>
-
-  </div>
-</div>
+    args: [{ selector: "app-login", standalone: true, imports: [FormsModule], template: `<div class="login-root">\r
+  <div class="login-card">\r
+\r
+    <div class="login-brand">\r
+      <div class="brand-mark"><i class="ti ti-mountain"></i></div>\r
+      <span class="brand-text">Peak<span>Aware</span></span>\r
+    </div>\r
+\r
+    <p class="login-subtitle">Accesso</p>\r
+\r
+    <form (ngSubmit)="onLogin()" novalidate>\r
+\r
+      <div class="form-field">\r
+        <label for="email">Email</label>\r
+        <input id="email" type="text" [(ngModel)]="email" name="email"\r
+               placeholder="nome@email.com" autocomplete="email" />\r
+      </div>\r
+\r
+      <div class="form-field">\r
+        <label for="password">Password</label>\r
+        <div class="pw-wrapper">\r
+          <input id="password" [type]="mostrarPw ? 'text' : 'password'"\r
+                 [(ngModel)]="password" name="password"\r
+                 placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autocomplete="current-password" />\r
+          <button type="button" class="pw-toggle" (click)="mostrarPw = !mostrarPw"\r
+                  [title]="mostrarPw ? 'Nascondi password' : 'Mostra password'">\r
+            <i [class]="mostrarPw ? 'ti ti-eye-off' : 'ti ti-eye'"></i>\r
+          </button>\r
+        </div>\r
+      </div>\r
+\r
+      @if (errore) {\r
+        <div class="login-errore">\r
+          <i class="ti ti-alert-circle"></i> {{ errore }}\r
+        </div>\r
+      }\r
+\r
+      <button type="submit" class="btn-login" [disabled]="caricamento">\r
+        {{ caricamento ? 'Accesso in corso...' : 'Accedi' }}\r
+      </button>\r
+\r
+    </form>\r
+\r
+    <p class="link-reg">\r
+      Non hai un account? <a (click)="vaiARegistrazione()">Registrati</a>\r
+    </p>\r
+\r
+  </div>\r
+</div>\r
 `, styles: [`/* src/app/features/auth/login/login.css */
 * {
   box-sizing: border-box;
@@ -52983,6 +53028,30 @@ var Login = class _Login {
   border-color: rgba(216, 208, 137, 0.5);
   background: rgba(255, 255, 255, 0.1);
 }
+.pw-wrapper {
+  position: relative;
+}
+.pw-wrapper input {
+  padding-right: 2.6rem;
+}
+.pw-toggle {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+.pw-toggle:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
 .login-errore {
   display: flex;
   align-items: center;
@@ -53039,10 +53108,23 @@ var Login = class _Login {
 })();
 
 // src/app/features/auth/registrazione/registrazione.ts
-function Registrazione_Conditional_30_Template(rf, ctx) {
+function Registrazione_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 18);
-    \u0275\u0275element(1, "i", 23);
+    \u0275\u0275elementStart(0, "span", 17);
+    \u0275\u0275element(1, "i", 26);
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", ctx_r0.errorePassword);
+  }
+}
+function Registrazione_Conditional_34_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 21);
+    \u0275\u0275element(1, "i", 26);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -53052,10 +53134,10 @@ function Registrazione_Conditional_30_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r0.errore, " ");
   }
 }
-function Registrazione_Conditional_31_Template(rf, ctx) {
+function Registrazione_Conditional_35_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 19);
-    \u0275\u0275element(1, "i", 24);
+    \u0275\u0275elementStart(0, "div", 22);
+    \u0275\u0275element(1, "i", 27);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -53072,23 +53154,34 @@ var Registrazione = class _Registrazione {
   email = "";
   password = "";
   eta = null;
-  /** Messaggio di errore da mostrare all'utente */
   errore = "";
-  /** Messaggio di successo da mostrare all'utente */
+  errorePassword = "";
   successo = "";
-  /** Indica se la richiesta HTTP è in corso */
   caricamento = false;
+  mostrarPw = false;
   constructor(authService, router) {
     this.authService = authService;
     this.router = router;
   }
-  /**
-   * Eseguito al submit del form.
-   * Chiama AuthService.registrati() e naviga al login se successo.
-   */
+  validaPassword() {
+    this.errorePassword = this.password.length > 0 && this.password.length < 6 ? "Almeno 6 caratteri richiesti." : "";
+  }
   onRegistrazione() {
     this.errore = "";
+    this.errorePassword = "";
     this.successo = "";
+    if (!this.username.trim()) {
+      this.errore = "Il campo username \xE8 obbligatorio.";
+      return;
+    }
+    if (!this.email.trim() || !this.email.includes("@")) {
+      this.errore = "Inserisci un'email valida.";
+      return;
+    }
+    if (this.password.length < 6) {
+      this.errorePassword = "Almeno 6 caratteri richiesti.";
+      return;
+    }
     this.caricamento = true;
     this.authService.registrati(this.username, this.email, this.password, this.eta ?? void 0).subscribe({
       next: (risposta) => {
@@ -53113,7 +53206,7 @@ var Registrazione = class _Registrazione {
   static \u0275fac = function Registrazione_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Registrazione)(\u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Registrazione, selectors: [["app-registrazione"]], decls: 38, vars: 8, consts: [[1, "reg-root"], [1, "reg-card"], [1, "reg-brand"], [1, "brand-mark"], [1, "ti", "ti-mountain"], [1, "brand-text"], [1, "reg-subtitle"], ["novalidate", "", 3, "ngSubmit"], [1, "form-field"], ["for", "username"], ["id", "username", "type", "text", "name", "username", "placeholder", "es. fabio_montagna", "autocomplete", "username", 3, "ngModelChange", "ngModel"], ["for", "email"], ["id", "email", "type", "text", "name", "email", "placeholder", "nome@email.com", "autocomplete", "email", 3, "ngModelChange", "ngModel"], ["for", "password"], ["id", "password", "type", "password", "name", "password", "placeholder", "min. 6 caratteri", "autocomplete", "new-password", 3, "ngModelChange", "ngModel"], ["for", "eta"], [1, "opzionale"], ["id", "eta", "type", "number", "name", "eta", "placeholder", "es. 25", "min", "0", "max", "120", 3, "ngModelChange", "ngModel"], [1, "reg-errore"], [1, "reg-successo"], ["type", "submit", 1, "btn-registrati", 3, "disabled"], [1, "link-login"], [3, "click"], [1, "ti", "ti-alert-circle"], [1, "ti", "ti-circle-check"]], template: function Registrazione_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Registrazione, selectors: [["app-registrazione"]], decls: 42, vars: 13, consts: [[1, "reg-root"], [1, "reg-card"], [1, "reg-brand"], [1, "brand-mark"], [1, "ti", "ti-mountain"], [1, "brand-text"], [1, "reg-subtitle"], ["novalidate", "", 3, "ngSubmit"], [1, "form-field"], ["for", "username"], ["id", "username", "type", "text", "name", "username", "placeholder", "es. fabio_montagna", "autocomplete", "username", 3, "ngModelChange", "ngModel"], ["for", "email"], ["id", "email", "type", "text", "name", "email", "placeholder", "nome@email.com", "autocomplete", "email", 3, "ngModelChange", "ngModel"], ["for", "password"], [1, "pw-wrapper"], ["id", "password", "name", "password", "placeholder", "min. 6 caratteri", "autocomplete", "new-password", 3, "ngModelChange", "type", "ngModel"], ["type", "button", 1, "pw-toggle", 3, "click", "title"], [1, "campo-errore"], ["for", "eta"], [1, "opzionale"], ["id", "eta", "type", "number", "name", "eta", "placeholder", "es. 25", "min", "0", "max", "120", 3, "ngModelChange", "ngModel"], [1, "reg-errore"], [1, "reg-successo"], ["type", "submit", 1, "btn-registrati", 3, "disabled"], [1, "link-login"], [3, "click"], [1, "ti", "ti-alert-circle"], [1, "ti", "ti-circle-check"]], template: function Registrazione_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "div", 1)(2, "div", 2)(3, "div", 3);
       \u0275\u0275element(4, "i", 4);
@@ -53151,35 +53244,46 @@ var Registrazione = class _Registrazione {
       \u0275\u0275elementStart(20, "div", 8)(21, "label", 13);
       \u0275\u0275text(22, "Password");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(23, "input", 14);
-      \u0275\u0275twoWayListener("ngModelChange", function Registrazione_Template_input_ngModelChange_23_listener($event) {
+      \u0275\u0275elementStart(23, "div", 14)(24, "input", 15);
+      \u0275\u0275twoWayListener("ngModelChange", function Registrazione_Template_input_ngModelChange_24_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.password, $event) || (ctx.password = $event);
         return $event;
       });
+      \u0275\u0275listener("ngModelChange", function Registrazione_Template_input_ngModelChange_24_listener() {
+        return ctx.validaPassword();
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(25, "button", 16);
+      \u0275\u0275listener("click", function Registrazione_Template_button_click_25_listener() {
+        return ctx.mostrarPw = !ctx.mostrarPw;
+      });
+      \u0275\u0275element(26, "i");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(24, "div", 8)(25, "label", 15);
-      \u0275\u0275text(26, "Et\xE0 ");
-      \u0275\u0275elementStart(27, "span", 16);
-      \u0275\u0275text(28, "(opzionale)");
+      \u0275\u0275conditionalCreate(27, Registrazione_Conditional_27_Template, 3, 1, "span", 17);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(28, "div", 8)(29, "label", 18);
+      \u0275\u0275text(30, "Et\xE0 ");
+      \u0275\u0275elementStart(31, "span", 19);
+      \u0275\u0275text(32, "(opzionale)");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(29, "input", 17);
-      \u0275\u0275twoWayListener("ngModelChange", function Registrazione_Template_input_ngModelChange_29_listener($event) {
+      \u0275\u0275elementStart(33, "input", 20);
+      \u0275\u0275twoWayListener("ngModelChange", function Registrazione_Template_input_ngModelChange_33_listener($event) {
         \u0275\u0275twoWayBindingSet(ctx.eta, $event) || (ctx.eta = $event);
         return $event;
       });
       \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(30, Registrazione_Conditional_30_Template, 3, 1, "div", 18);
-      \u0275\u0275conditionalCreate(31, Registrazione_Conditional_31_Template, 3, 1, "div", 19);
-      \u0275\u0275elementStart(32, "button", 20);
-      \u0275\u0275text(33);
+      \u0275\u0275conditionalCreate(34, Registrazione_Conditional_34_Template, 3, 1, "div", 21);
+      \u0275\u0275conditionalCreate(35, Registrazione_Conditional_35_Template, 3, 1, "div", 22);
+      \u0275\u0275elementStart(36, "button", 23);
+      \u0275\u0275text(37);
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(34, "p", 21);
-      \u0275\u0275text(35, " Hai gi\xE0 un account? ");
-      \u0275\u0275elementStart(36, "a", 22);
-      \u0275\u0275listener("click", function Registrazione_Template_a_click_36_listener() {
+      \u0275\u0275elementStart(38, "p", 24);
+      \u0275\u0275text(39, " Hai gi\xE0 un account? ");
+      \u0275\u0275elementStart(40, "a", 25);
+      \u0275\u0275listener("click", function Registrazione_Template_a_click_40_listener() {
         return ctx.vaiALogin();
       });
-      \u0275\u0275text(37, "Accedi");
+      \u0275\u0275text(41, "Accedi");
       \u0275\u0275elementEnd()()()();
     }
     if (rf & 2) {
@@ -53187,14 +53291,21 @@ var Registrazione = class _Registrazione {
       \u0275\u0275twoWayProperty("ngModel", ctx.username);
       \u0275\u0275advance(4);
       \u0275\u0275twoWayProperty("ngModel", ctx.email);
-      \u0275\u0275advance(4);
+      \u0275\u0275advance(5);
+      \u0275\u0275property("type", ctx.mostrarPw ? "text" : "password");
       \u0275\u0275twoWayProperty("ngModel", ctx.password);
+      \u0275\u0275advance();
+      \u0275\u0275property("title", ctx.mostrarPw ? "Nascondi password" : "Mostra password");
+      \u0275\u0275advance();
+      \u0275\u0275classMap(ctx.mostrarPw ? "ti ti-eye-off" : "ti ti-eye");
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.errorePassword ? 27 : -1);
       \u0275\u0275advance(6);
       \u0275\u0275twoWayProperty("ngModel", ctx.eta);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.errore ? 30 : -1);
+      \u0275\u0275conditional(ctx.errore ? 34 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.successo ? 31 : -1);
+      \u0275\u0275conditional(ctx.successo ? 35 : -1);
       \u0275\u0275advance();
       \u0275\u0275property("disabled", ctx.caricamento);
       \u0275\u0275advance();
@@ -53300,6 +53411,38 @@ var Registrazione = class _Registrazione {
   border-color: rgba(216, 208, 137, 0.5);
   background: rgba(255, 255, 255, 0.1);
 }
+.pw-wrapper[_ngcontent-%COMP%] {
+  position: relative;
+}
+.pw-wrapper[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {
+  padding-right: 2.6rem;
+}
+.pw-toggle[_ngcontent-%COMP%] {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+.pw-toggle[_ngcontent-%COMP%]:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+.campo-errore[_ngcontent-%COMP%] {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  color: #EF9F27;
+  margin-top: 0.35rem;
+}
 .reg-errore[_ngcontent-%COMP%] {
   display: flex;
   align-items: center;
@@ -53364,66 +53507,77 @@ var Registrazione = class _Registrazione {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Registrazione, [{
     type: Component,
-    args: [{ selector: "app-registrazione", standalone: true, imports: [FormsModule], template: `<div class="reg-root">
-  <div class="reg-card">
-
-    <div class="reg-brand">
-      <div class="brand-mark"><i class="ti ti-mountain"></i></div>
-      <span class="brand-text">Peak<span>Aware</span></span>
-    </div>
-
-    <p class="reg-subtitle">Crea account</p>
-
-    <form (ngSubmit)="onRegistrazione()" novalidate>
-
-      <div class="form-field">
-        <label for="username">Username</label>
-        <input id="username" type="text" [(ngModel)]="username" name="username"
-               placeholder="es. fabio_montagna" autocomplete="username" />
-      </div>
-
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" type="text" [(ngModel)]="email" name="email"
-               placeholder="nome@email.com" autocomplete="email" />
-      </div>
-
-      <div class="form-field">
-        <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="password" name="password"
-               placeholder="min. 6 caratteri" autocomplete="new-password" />
-      </div>
-
-      <div class="form-field">
-        <label for="eta">Et\xE0 <span class="opzionale">(opzionale)</span></label>
-        <input id="eta" type="number" [(ngModel)]="eta" name="eta"
-               placeholder="es. 25" min="0" max="120" />
-      </div>
-
-      @if (errore) {
-        <div class="reg-errore">
-          <i class="ti ti-alert-circle"></i> {{ errore }}
-        </div>
-      }
-
-      @if (successo) {
-        <div class="reg-successo">
-          <i class="ti ti-circle-check"></i> {{ successo }}
-        </div>
-      }
-
-      <button type="submit" class="btn-registrati" [disabled]="caricamento">
-        {{ caricamento ? 'Registrazione in corso...' : 'Registrati' }}
-      </button>
-
-    </form>
-
-    <p class="link-login">
-      Hai gi\xE0 un account? <a (click)="vaiALogin()">Accedi</a>
-    </p>
-
-  </div>
-</div>
+    args: [{ selector: "app-registrazione", standalone: true, imports: [FormsModule], template: `<div class="reg-root">\r
+  <div class="reg-card">\r
+\r
+    <div class="reg-brand">\r
+      <div class="brand-mark"><i class="ti ti-mountain"></i></div>\r
+      <span class="brand-text">Peak<span>Aware</span></span>\r
+    </div>\r
+\r
+    <p class="reg-subtitle">Crea account</p>\r
+\r
+    <form (ngSubmit)="onRegistrazione()" novalidate>\r
+\r
+      <div class="form-field">\r
+        <label for="username">Username</label>\r
+        <input id="username" type="text" [(ngModel)]="username" name="username"\r
+               placeholder="es. fabio_montagna" autocomplete="username" />\r
+      </div>\r
+\r
+      <div class="form-field">\r
+        <label for="email">Email</label>\r
+        <input id="email" type="text" [(ngModel)]="email" name="email"\r
+               placeholder="nome@email.com" autocomplete="email" />\r
+      </div>\r
+\r
+      <div class="form-field">\r
+        <label for="password">Password</label>\r
+        <div class="pw-wrapper">\r
+          <input id="password" [type]="mostrarPw ? 'text' : 'password'"\r
+                 [(ngModel)]="password" name="password"\r
+                 placeholder="min. 6 caratteri" autocomplete="new-password"\r
+                 (ngModelChange)="validaPassword()" />\r
+          <button type="button" class="pw-toggle" (click)="mostrarPw = !mostrarPw"\r
+                  [title]="mostrarPw ? 'Nascondi password' : 'Mostra password'">\r
+            <i [class]="mostrarPw ? 'ti ti-eye-off' : 'ti ti-eye'"></i>\r
+          </button>\r
+        </div>\r
+        @if (errorePassword) {\r
+          <span class="campo-errore"><i class="ti ti-alert-circle"></i> {{ errorePassword }}</span>\r
+        }\r
+      </div>\r
+\r
+      <div class="form-field">\r
+        <label for="eta">Et\xE0 <span class="opzionale">(opzionale)</span></label>\r
+        <input id="eta" type="number" [(ngModel)]="eta" name="eta"\r
+               placeholder="es. 25" min="0" max="120" />\r
+      </div>\r
+\r
+      @if (errore) {\r
+        <div class="reg-errore">\r
+          <i class="ti ti-alert-circle"></i> {{ errore }}\r
+        </div>\r
+      }\r
+\r
+      @if (successo) {\r
+        <div class="reg-successo">\r
+          <i class="ti ti-circle-check"></i> {{ successo }}\r
+        </div>\r
+      }\r
+\r
+      <button type="submit" class="btn-registrati" [disabled]="caricamento">\r
+        {{ caricamento ? 'Registrazione in corso...' : 'Registrati' }}\r
+      </button>\r
+\r
+    </form>\r
+\r
+    <p class="link-login">\r
+      Hai gi\xE0 un account? <a (click)="vaiALogin()">Accedi</a>\r
+    </p>\r
+\r
+  </div>\r
+</div>\r
 `, styles: [`/* src/app/features/auth/registrazione/registrazione.css */
 * {
   box-sizing: border-box;
@@ -53523,6 +53677,38 @@ var Registrazione = class _Registrazione {
 .form-field input:focus {
   border-color: rgba(216, 208, 137, 0.5);
   background: rgba(255, 255, 255, 0.1);
+}
+.pw-wrapper {
+  position: relative;
+}
+.pw-wrapper input {
+  padding-right: 2.6rem;
+}
+.pw-toggle {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.15s;
+}
+.pw-toggle:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+.campo-errore {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.76rem;
+  color: #EF9F27;
+  margin-top: 0.35rem;
 }
 .reg-errore {
   display: flex;
@@ -53993,7 +54179,7 @@ var ProfileButton = class _ProfileButton {
   emergenzaErrore = "";
   emergenzaSuccesso = "";
   eliminandoIndice = null;
-  apiUrl = "http://localhost:3000/api/auth";
+  apiUrl = environment.apiUrl + "/api/auth";
   get iniziali() {
     const u4 = this.username || this.email;
     if (!u4)
@@ -54064,7 +54250,7 @@ var ProfileButton = class _ProfileButton {
     this.cambiaPwAperto = false;
   }
   eliminaContatto(index) {
-    const contattiAggiornati = this.contattiEmergenza.filter((_3, i) => i !== index);
+    const contattiAggiornati = this.contattiEmergenza.filter((_2, i) => i !== index);
     this.eliminandoIndice = index;
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
     this.http.put(`${this.apiUrl}/contatto-emergenza`, { contattiEmergenza: contattiAggiornati }, { headers }).pipe(timeout(15e3)).subscribe({
@@ -54202,7 +54388,7 @@ var ProfileButton = class _ProfileButton {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.profiloAperto ? 3 : -1);
     }
-  }, dependencies: [CommonModule, FormsModule, \u0275NgNoValidate, DefaultValueAccessor, CheckboxControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, NgModel, NgForm], styles: ['\n[_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.15);\n  border: 0.5px solid rgba(255, 255, 255, 0.4);\n  color: white;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 600;\n  transition: background 0.2s;\n}\n[_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.25);\n}\n[theme="map"][_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.85);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n[theme="map"][_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%]:hover {\n  background: #1f4240;\n}\n.overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  z-index: 200;\n}\n.profilo-panel[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 300px;\n  height: 100vh;\n  background: #1f4240;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.25);\n  z-index: 201;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_slideInRight 0.25s ease;\n}\n@keyframes _ngcontent-%COMP%_slideInRight {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.panel-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.panel-avatar[_ngcontent-%COMP%] {\n  width: 44px;\n  height: 44px;\n  border-radius: 50%;\n  background: #D8D089;\n  color: #1f4240;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1rem;\n  font-weight: 700;\n  flex-shrink: 0;\n}\n.panel-identity[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n}\n.panel-username[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.panel-ruolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: capitalize;\n  margin-top: 2px;\n}\n.panel-close[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n  font-size: 1.1rem;\n  padding: 4px;\n  flex-shrink: 0;\n  border-radius: 6px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.panel-close[_ngcontent-%COMP%]:hover {\n  color: white;\n  background: rgba(255, 255, 255, 0.08);\n}\n.btn-elimina-contatto[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: rgba(192, 57, 43, 0.55);\n  cursor: pointer;\n  font-size: 0.95rem;\n  padding: 2px;\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.btn-elimina-contatto[_ngcontent-%COMP%]:hover:not(:disabled) {\n  color: #EF6565;\n  background: rgba(192, 57, 43, 0.12);\n}\n.btn-elimina-contatto[_ngcontent-%COMP%]:disabled {\n  opacity: 0.35;\n  cursor: not-allowed;\n}\n.panel-stats[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.75rem;\n}\n.panel-stat[_ngcontent-%COMP%] {\n  flex: 1;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  padding: 0.75rem;\n  text-align: center;\n}\n.panel-stat-val[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 1.3rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.panel-stat-lbl[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 3px;\n}\n.panel-divider[_ngcontent-%COMP%] {\n  height: 0.5px;\n  background: rgba(151, 168, 149, 0.2);\n}\n.panel-pw-toggle[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem 0.9rem;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n}\n.panel-pw-toggle[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.panel-pw-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.panel-input[_ngcontent-%COMP%] {\n  padding: 0.6rem 0.8rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.panel-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.panel-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.6);\n}\n.panel-pw-submit[_ngcontent-%COMP%] {\n  padding: 0.65rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.panel-pw-submit[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: #c9c97a;\n}\n.panel-pw-submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.panel-errore[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: #EF9F27;\n  background: rgba(239, 159, 39, 0.1);\n  border: 0.5px solid rgba(239, 159, 39, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.panel-successo[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.emergenza-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 10px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.emergenza-card-header[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n  font-weight: 600;\n}\n.emergenza-card-body[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.emergenza-card-nome[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  color: white;\n  font-weight: 600;\n}\n.emergenza-detail[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-size: 0.8rem;\n}\n.emergenza-detail[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 0.9rem;\n}\n.emergenza-badge[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  margin-top: 0.35rem;\n  padding: 0.25rem 0.45rem;\n  border-radius: 6px;\n  font-weight: 600;\n  display: inline-block;\n  width: fit-content;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.25);\n}\n.emergenza-badge.badge-condivisione-on[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.15);\n  color: #4CAF82;\n  border: 0.5px solid rgba(76, 175, 130, 0.25);\n}\n.panel-checkbox-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.5rem;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 0.78rem;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-top: 0.25rem;\n  margin-bottom: 0.25rem;\n  line-height: 1.35;\n}\n.panel-checkbox[_ngcontent-%COMP%] {\n  margin-top: 2px;\n  accent-color: #D8D089;\n  cursor: pointer;\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n.panel-admin-label[_ngcontent-%COMP%] {\n  font-size: 0.68rem;\n  font-weight: 700;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: rgba(216, 208, 137, 0.5);\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-bottom: -0.25rem;\n}\n.panel-admin-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  transition: background 0.15s;\n  margin-bottom: 0.5rem;\n}\n.panel-admin-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.2);\n}\n.panel-logout[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem;\n  background: transparent;\n  border: 0.5px solid rgba(185, 122, 83, 0.4);\n  color: #B97A53;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n  margin-top: auto;\n}\n.panel-logout[_ngcontent-%COMP%]:hover {\n  background: rgba(185, 122, 83, 0.1);\n}\n/*# sourceMappingURL=profile-button.css.map */'] });
+  }, dependencies: [CommonModule, FormsModule, \u0275NgNoValidate, DefaultValueAccessor, CheckboxControlValueAccessor, NgControlStatus, NgControlStatusGroup, RequiredValidator, NgModel, NgForm], styles: ['\n[_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.15);\n  border: 0.5px solid rgba(255, 255, 255, 0.4);\n  color: white;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 600;\n  transition: background 0.2s;\n}\n[_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.25);\n}\n[theme="map"][_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.85);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n[theme="map"][_nghost-%COMP%]   .profilo-btn[_ngcontent-%COMP%]:hover {\n  background: #1f4240;\n}\n.overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  z-index: 10000;\n}\n.profilo-panel[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 300px;\n  height: 100vh;\n  background: #1f4240;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.25);\n  z-index: 10001;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  overflow-y: auto;\n  animation: _ngcontent-%COMP%_slideInRight 0.25s ease;\n}\n@keyframes _ngcontent-%COMP%_slideInRight {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.panel-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.panel-avatar[_ngcontent-%COMP%] {\n  width: 44px;\n  height: 44px;\n  border-radius: 50%;\n  background: #D8D089;\n  color: #1f4240;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1rem;\n  font-weight: 700;\n  flex-shrink: 0;\n}\n.panel-identity[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n}\n.panel-username[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.panel-ruolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: capitalize;\n  margin-top: 2px;\n}\n.panel-close[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n  font-size: 1.1rem;\n  padding: 4px;\n  flex-shrink: 0;\n  border-radius: 6px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.panel-close[_ngcontent-%COMP%]:hover {\n  color: white;\n  background: rgba(255, 255, 255, 0.08);\n}\n.btn-elimina-contatto[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: rgba(192, 57, 43, 0.55);\n  cursor: pointer;\n  font-size: 0.95rem;\n  padding: 2px;\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.btn-elimina-contatto[_ngcontent-%COMP%]:hover:not(:disabled) {\n  color: #EF6565;\n  background: rgba(192, 57, 43, 0.12);\n}\n.btn-elimina-contatto[_ngcontent-%COMP%]:disabled {\n  opacity: 0.35;\n  cursor: not-allowed;\n}\n.panel-stats[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.75rem;\n}\n.panel-stat[_ngcontent-%COMP%] {\n  flex: 1;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  padding: 0.75rem;\n  text-align: center;\n}\n.panel-stat-val[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 1.3rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.panel-stat-lbl[_ngcontent-%COMP%] {\n  display: block;\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 3px;\n}\n.panel-divider[_ngcontent-%COMP%] {\n  height: 0.5px;\n  background: rgba(151, 168, 149, 0.2);\n}\n.panel-pw-toggle[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem 0.9rem;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n}\n.panel-pw-toggle[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.panel-pw-form[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.panel-input[_ngcontent-%COMP%] {\n  padding: 0.6rem 0.8rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.panel-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.panel-input[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.6);\n}\n.panel-pw-submit[_ngcontent-%COMP%] {\n  padding: 0.65rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.panel-pw-submit[_ngcontent-%COMP%]:hover:not(:disabled) {\n  background: #c9c97a;\n}\n.panel-pw-submit[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.panel-errore[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: #EF9F27;\n  background: rgba(239, 159, 39, 0.1);\n  border: 0.5px solid rgba(239, 159, 39, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.panel-successo[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.emergenza-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 10px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.emergenza-card-header[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n  font-weight: 600;\n}\n.emergenza-card-body[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.emergenza-card-nome[_ngcontent-%COMP%] {\n  font-size: 0.9rem;\n  color: white;\n  font-weight: 600;\n}\n.emergenza-detail[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-size: 0.8rem;\n}\n.emergenza-detail[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 0.9rem;\n}\n.emergenza-badge[_ngcontent-%COMP%] {\n  font-size: 0.72rem;\n  margin-top: 0.35rem;\n  padding: 0.25rem 0.45rem;\n  border-radius: 6px;\n  font-weight: 600;\n  display: inline-block;\n  width: fit-content;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.25);\n}\n.emergenza-badge.badge-condivisione-on[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.15);\n  color: #4CAF82;\n  border: 0.5px solid rgba(76, 175, 130, 0.25);\n}\n.panel-checkbox-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.5rem;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 0.78rem;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-top: 0.25rem;\n  margin-bottom: 0.25rem;\n  line-height: 1.35;\n}\n.panel-checkbox[_ngcontent-%COMP%] {\n  margin-top: 2px;\n  accent-color: #D8D089;\n  cursor: pointer;\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n.panel-admin-label[_ngcontent-%COMP%] {\n  font-size: 0.68rem;\n  font-weight: 700;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: rgba(216, 208, 137, 0.5);\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-bottom: -0.25rem;\n}\n.panel-admin-btn[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  transition: background 0.15s;\n  margin-bottom: 0.5rem;\n}\n.panel-admin-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.2);\n}\n.panel-logout[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.65rem;\n  background: transparent;\n  border: 0.5px solid rgba(185, 122, 83, 0.4);\n  color: #B97A53;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n  margin-top: auto;\n}\n.panel-logout[_ngcontent-%COMP%]:hover {\n  background: rgba(185, 122, 83, 0.1);\n}\n@media (max-width: 480px) {\n  .profilo-panel[_ngcontent-%COMP%] {\n    width: 100%;\n  }\n}\n/*# sourceMappingURL=profile-button.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ProfileButton, [{
@@ -54341,13 +54527,144 @@ var ProfileButton = class _ProfileButton {
     </button>\r
 \r
   </aside>\r
-}`, styles: ['/* src/app/features/sentieri/components/profile-button/profile-button.css */\n:host .profilo-btn {\n  background: rgba(255, 255, 255, 0.15);\n  border: 0.5px solid rgba(255, 255, 255, 0.4);\n  color: white;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 600;\n  transition: background 0.2s;\n}\n:host .profilo-btn:hover {\n  background: rgba(255, 255, 255, 0.25);\n}\n:host([theme="map"]) .profilo-btn {\n  background: rgba(31, 66, 64, 0.85);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n:host([theme="map"]) .profilo-btn:hover {\n  background: #1f4240;\n}\n.overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  z-index: 200;\n}\n.profilo-panel {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 300px;\n  height: 100vh;\n  background: #1f4240;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.25);\n  z-index: 201;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  overflow-y: auto;\n  animation: slideInRight 0.25s ease;\n}\n@keyframes slideInRight {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.panel-top {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.panel-avatar {\n  width: 44px;\n  height: 44px;\n  border-radius: 50%;\n  background: #D8D089;\n  color: #1f4240;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1rem;\n  font-weight: 700;\n  flex-shrink: 0;\n}\n.panel-identity {\n  flex: 1;\n  min-width: 0;\n}\n.panel-username {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.panel-ruolo {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: capitalize;\n  margin-top: 2px;\n}\n.panel-close {\n  background: transparent;\n  border: none;\n  color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n  font-size: 1.1rem;\n  padding: 4px;\n  flex-shrink: 0;\n  border-radius: 6px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.panel-close:hover {\n  color: white;\n  background: rgba(255, 255, 255, 0.08);\n}\n.btn-elimina-contatto {\n  background: transparent;\n  border: none;\n  color: rgba(192, 57, 43, 0.55);\n  cursor: pointer;\n  font-size: 0.95rem;\n  padding: 2px;\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.btn-elimina-contatto:hover:not(:disabled) {\n  color: #EF6565;\n  background: rgba(192, 57, 43, 0.12);\n}\n.btn-elimina-contatto:disabled {\n  opacity: 0.35;\n  cursor: not-allowed;\n}\n.panel-stats {\n  display: flex;\n  gap: 0.75rem;\n}\n.panel-stat {\n  flex: 1;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  padding: 0.75rem;\n  text-align: center;\n}\n.panel-stat-val {\n  display: block;\n  font-size: 1.3rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.panel-stat-lbl {\n  display: block;\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 3px;\n}\n.panel-divider {\n  height: 0.5px;\n  background: rgba(151, 168, 149, 0.2);\n}\n.panel-pw-toggle {\n  width: 100%;\n  padding: 0.65rem 0.9rem;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n}\n.panel-pw-toggle:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.panel-pw-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.panel-input {\n  padding: 0.6rem 0.8rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.panel-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.panel-input:focus {\n  border-color: rgba(216, 208, 137, 0.6);\n}\n.panel-pw-submit {\n  padding: 0.65rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.panel-pw-submit:hover:not(:disabled) {\n  background: #c9c97a;\n}\n.panel-pw-submit:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.panel-errore {\n  font-size: 0.8rem;\n  color: #EF9F27;\n  background: rgba(239, 159, 39, 0.1);\n  border: 0.5px solid rgba(239, 159, 39, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.panel-successo {\n  font-size: 0.8rem;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.emergenza-card {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 10px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.emergenza-card-header {\n  font-size: 0.7rem;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n  font-weight: 600;\n}\n.emergenza-card-body {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.emergenza-card-nome {\n  font-size: 0.9rem;\n  color: white;\n  font-weight: 600;\n}\n.emergenza-detail {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-size: 0.8rem;\n}\n.emergenza-detail i {\n  color: #D8D089;\n  font-size: 0.9rem;\n}\n.emergenza-badge {\n  font-size: 0.72rem;\n  margin-top: 0.35rem;\n  padding: 0.25rem 0.45rem;\n  border-radius: 6px;\n  font-weight: 600;\n  display: inline-block;\n  width: fit-content;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.25);\n}\n.emergenza-badge.badge-condivisione-on {\n  background: rgba(76, 175, 130, 0.15);\n  color: #4CAF82;\n  border: 0.5px solid rgba(76, 175, 130, 0.25);\n}\n.panel-checkbox-label {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.5rem;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 0.78rem;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-top: 0.25rem;\n  margin-bottom: 0.25rem;\n  line-height: 1.35;\n}\n.panel-checkbox {\n  margin-top: 2px;\n  accent-color: #D8D089;\n  cursor: pointer;\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n.panel-admin-label {\n  font-size: 0.68rem;\n  font-weight: 700;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: rgba(216, 208, 137, 0.5);\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-bottom: -0.25rem;\n}\n.panel-admin-btn {\n  width: 100%;\n  padding: 0.65rem;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  transition: background 0.15s;\n  margin-bottom: 0.5rem;\n}\n.panel-admin-btn:hover {\n  background: rgba(216, 208, 137, 0.2);\n}\n.panel-logout {\n  width: 100%;\n  padding: 0.65rem;\n  background: transparent;\n  border: 0.5px solid rgba(185, 122, 83, 0.4);\n  color: #B97A53;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n  margin-top: auto;\n}\n.panel-logout:hover {\n  background: rgba(185, 122, 83, 0.1);\n}\n/*# sourceMappingURL=profile-button.css.map */\n'] }]
+}`, styles: ['/* src/app/features/sentieri/components/profile-button/profile-button.css */\n:host .profilo-btn {\n  background: rgba(255, 255, 255, 0.15);\n  border: 0.5px solid rgba(255, 255, 255, 0.4);\n  color: white;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 600;\n  transition: background 0.2s;\n}\n:host .profilo-btn:hover {\n  background: rgba(255, 255, 255, 0.25);\n}\n:host([theme="map"]) .profilo-btn {\n  background: rgba(31, 66, 64, 0.85);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n:host([theme="map"]) .profilo-btn:hover {\n  background: #1f4240;\n}\n.overlay {\n  position: fixed;\n  inset: 0;\n  background: rgba(0, 0, 0, 0.45);\n  z-index: 10000;\n}\n.profilo-panel {\n  position: fixed;\n  top: 0;\n  right: 0;\n  width: 300px;\n  height: 100vh;\n  background: #1f4240;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.25);\n  z-index: 10001;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  overflow-y: auto;\n  animation: slideInRight 0.25s ease;\n}\n@keyframes slideInRight {\n  from {\n    transform: translateX(100%);\n    opacity: 0;\n  }\n  to {\n    transform: translateX(0);\n    opacity: 1;\n  }\n}\n.panel-top {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.panel-avatar {\n  width: 44px;\n  height: 44px;\n  border-radius: 50%;\n  background: #D8D089;\n  color: #1f4240;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1rem;\n  font-weight: 700;\n  flex-shrink: 0;\n}\n.panel-identity {\n  flex: 1;\n  min-width: 0;\n}\n.panel-username {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.panel-ruolo {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: capitalize;\n  margin-top: 2px;\n}\n.panel-close {\n  background: transparent;\n  border: none;\n  color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n  font-size: 1.1rem;\n  padding: 4px;\n  flex-shrink: 0;\n  border-radius: 6px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.panel-close:hover {\n  color: white;\n  background: rgba(255, 255, 255, 0.08);\n}\n.btn-elimina-contatto {\n  background: transparent;\n  border: none;\n  color: rgba(192, 57, 43, 0.55);\n  cursor: pointer;\n  font-size: 0.95rem;\n  padding: 2px;\n  border-radius: 4px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.15s, background 0.15s;\n}\n.btn-elimina-contatto:hover:not(:disabled) {\n  color: #EF6565;\n  background: rgba(192, 57, 43, 0.12);\n}\n.btn-elimina-contatto:disabled {\n  opacity: 0.35;\n  cursor: not-allowed;\n}\n.panel-stats {\n  display: flex;\n  gap: 0.75rem;\n}\n.panel-stat {\n  flex: 1;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  padding: 0.75rem;\n  text-align: center;\n}\n.panel-stat-val {\n  display: block;\n  font-size: 1.3rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.panel-stat-lbl {\n  display: block;\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 3px;\n}\n.panel-divider {\n  height: 0.5px;\n  background: rgba(151, 168, 149, 0.2);\n}\n.panel-pw-toggle {\n  width: 100%;\n  padding: 0.65rem 0.9rem;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n}\n.panel-pw-toggle:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.panel-pw-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.panel-input {\n  padding: 0.6rem 0.8rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.panel-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.panel-input:focus {\n  border-color: rgba(216, 208, 137, 0.6);\n}\n.panel-pw-submit {\n  padding: 0.65rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.panel-pw-submit:hover:not(:disabled) {\n  background: #c9c97a;\n}\n.panel-pw-submit:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.panel-errore {\n  font-size: 0.8rem;\n  color: #EF9F27;\n  background: rgba(239, 159, 39, 0.1);\n  border: 0.5px solid rgba(239, 159, 39, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.panel-successo {\n  font-size: 0.8rem;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.3);\n  padding: 0.5rem 0.7rem;\n  border-radius: 6px;\n}\n.emergenza-card {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 10px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.emergenza-card-header {\n  font-size: 0.7rem;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n  font-weight: 600;\n}\n.emergenza-card-body {\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.emergenza-card-nome {\n  font-size: 0.9rem;\n  color: white;\n  font-weight: 600;\n}\n.emergenza-detail {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  color: rgba(255, 255, 255, 0.75);\n  font-size: 0.8rem;\n}\n.emergenza-detail i {\n  color: #D8D089;\n  font-size: 0.9rem;\n}\n.emergenza-badge {\n  font-size: 0.72rem;\n  margin-top: 0.35rem;\n  padding: 0.25rem 0.45rem;\n  border-radius: 6px;\n  font-weight: 600;\n  display: inline-block;\n  width: fit-content;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.25);\n}\n.emergenza-badge.badge-condivisione-on {\n  background: rgba(76, 175, 130, 0.15);\n  color: #4CAF82;\n  border: 0.5px solid rgba(76, 175, 130, 0.25);\n}\n.panel-checkbox-label {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.5rem;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 0.78rem;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n  margin-top: 0.25rem;\n  margin-bottom: 0.25rem;\n  line-height: 1.35;\n}\n.panel-checkbox {\n  margin-top: 2px;\n  accent-color: #D8D089;\n  cursor: pointer;\n  width: 14px;\n  height: 14px;\n  flex-shrink: 0;\n}\n.panel-admin-label {\n  font-size: 0.68rem;\n  font-weight: 700;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: rgba(216, 208, 137, 0.5);\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  margin-bottom: -0.25rem;\n}\n.panel-admin-btn {\n  width: 100%;\n  padding: 0.65rem;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 8px;\n  font-size: 0.88rem;\n  font-weight: 500;\n  cursor: pointer;\n  text-align: left;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  transition: background 0.15s;\n  margin-bottom: 0.5rem;\n}\n.panel-admin-btn:hover {\n  background: rgba(216, 208, 137, 0.2);\n}\n.panel-logout {\n  width: 100%;\n  padding: 0.65rem;\n  background: transparent;\n  border: 0.5px solid rgba(185, 122, 83, 0.4);\n  color: #B97A53;\n  border-radius: 8px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  transition: background 0.15s;\n  margin-top: auto;\n}\n.panel-logout:hover {\n  background: rgba(185, 122, 83, 0.1);\n}\n@media (max-width: 480px) {\n  .profilo-panel {\n    width: 100%;\n  }\n}\n/*# sourceMappingURL=profile-button.css.map */\n'] }]
   }], null, { theme: [{
     type: Input
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProfileButton, { className: "ProfileButton", filePath: "src/app/features/sentieri/components/profile-button/profile-button.ts", lineNumber: 24 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProfileButton, { className: "ProfileButton", filePath: "src/app/features/sentieri/components/profile-button/profile-button.ts", lineNumber: 25 });
+})();
+
+// src/app/shared/mobile-nav/mobile-nav.ts
+function MobileNav_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275domElementStart(0, "div", 10);
+    \u0275\u0275domListener("click", function MobileNav_Conditional_0_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.close());
+    });
+    \u0275\u0275domElementEnd();
+  }
+}
+var MobileNav = class _MobileNav {
+  active = "";
+  router = inject2(Router);
+  isOpen = false;
+  toggle() {
+    this.isOpen = !this.isOpen;
+  }
+  close() {
+    this.isOpen = false;
+  }
+  goTo(path) {
+    this.isOpen = false;
+    this.router.navigate([path]);
+  }
+  static \u0275fac = function MobileNav_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _MobileNav)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MobileNav, selectors: [["app-mobile-nav"]], inputs: { active: "active" }, decls: 21, vars: 17, consts: [[1, "mnav-backdrop"], ["aria-label", "Naviga", 1, "mnav-tab", 3, "click"], [1, "ti"], [1, "mnav-panel"], [1, "mnav-links"], [1, "mnav-item", 3, "click"], [1, "ti", "ti-home"], [1, "ti", "ti-map"], [1, "ti", "ti-book"], [1, "ti", "ti-news"], [1, "mnav-backdrop", 3, "click"]], template: function MobileNav_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275conditionalCreate(0, MobileNav_Conditional_0_Template, 1, 0, "div", 0);
+      \u0275\u0275domElementStart(1, "button", 1);
+      \u0275\u0275domListener("click", function MobileNav_Template_button_click_1_listener() {
+        return ctx.toggle();
+      });
+      \u0275\u0275domElement(2, "i", 2);
+      \u0275\u0275domElementEnd();
+      \u0275\u0275domElementStart(3, "div", 3)(4, "nav", 4)(5, "button", 5);
+      \u0275\u0275domListener("click", function MobileNav_Template_button_click_5_listener() {
+        return ctx.goTo("/home");
+      });
+      \u0275\u0275domElement(6, "i", 6);
+      \u0275\u0275domElementStart(7, "span");
+      \u0275\u0275text(8, "Home");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(9, "button", 5);
+      \u0275\u0275domListener("click", function MobileNav_Template_button_click_9_listener() {
+        return ctx.goTo("/sentieri");
+      });
+      \u0275\u0275domElement(10, "i", 7);
+      \u0275\u0275domElementStart(11, "span");
+      \u0275\u0275text(12, "Sentieri");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(13, "button", 5);
+      \u0275\u0275domListener("click", function MobileNav_Template_button_click_13_listener() {
+        return ctx.goTo("/educazione/quiz");
+      });
+      \u0275\u0275domElement(14, "i", 8);
+      \u0275\u0275domElementStart(15, "span");
+      \u0275\u0275text(16, "Educazione");
+      \u0275\u0275domElementEnd()();
+      \u0275\u0275domElementStart(17, "button", 5);
+      \u0275\u0275domListener("click", function MobileNav_Template_button_click_17_listener() {
+        return ctx.goTo("/cicerone/notizie");
+      });
+      \u0275\u0275domElement(18, "i", 9);
+      \u0275\u0275domElementStart(19, "span");
+      \u0275\u0275text(20, "Notizie");
+      \u0275\u0275domElementEnd()()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275conditional(ctx.isOpen ? 0 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("open", ctx.isOpen);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("ti-chevron-left", !ctx.isOpen)("ti-chevron-right", ctx.isOpen);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("open", ctx.isOpen);
+      \u0275\u0275advance(2);
+      \u0275\u0275classProp("active", ctx.active === "home");
+      \u0275\u0275advance(4);
+      \u0275\u0275classProp("active", ctx.active === "sentieri");
+      \u0275\u0275advance(4);
+      \u0275\u0275classProp("active", ctx.active === "educazione");
+      \u0275\u0275advance(4);
+      \u0275\u0275classProp("active", ctx.active === "cicerone");
+    }
+  }, styles: ['\n.mnav-backdrop[_ngcontent-%COMP%], \n.mnav-tab[_ngcontent-%COMP%], \n.mnav-panel[_ngcontent-%COMP%] {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop[_ngcontent-%COMP%] {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab[_ngcontent-%COMP%]:hover, \n   .mnav-tab.open[_ngcontent-%COMP%] {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 70px;\n    bottom: 0;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border-left: 0.5px solid rgba(151, 168, 149, 0.22);\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 1.4rem 0;\n  }\n  .mnav-panel.open[_ngcontent-%COMP%] {\n    transform: translateX(0);\n  }\n  .mnav-links[_ngcontent-%COMP%] {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item[_ngcontent-%COMP%] {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item[_ngcontent-%COMP%]:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active[_ngcontent-%COMP%] {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */'] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MobileNav, [{
+    type: Component,
+    args: [{ selector: "app-mobile-nav", standalone: true, imports: [], template: `@if (isOpen) {
+  <div class="mnav-backdrop" (click)="close()"></div>
+}
+
+<button class="mnav-tab" (click)="toggle()" [class.open]="isOpen" aria-label="Naviga">
+  <i class="ti" [class.ti-chevron-left]="!isOpen" [class.ti-chevron-right]="isOpen"></i>
+</button>
+
+<div class="mnav-panel" [class.open]="isOpen">
+  <nav class="mnav-links">
+    <button class="mnav-item" [class.active]="active === 'home'" (click)="goTo('/home')">
+      <i class="ti ti-home"></i>
+      <span>Home</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'sentieri'" (click)="goTo('/sentieri')">
+      <i class="ti ti-map"></i>
+      <span>Sentieri</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'educazione'" (click)="goTo('/educazione/quiz')">
+      <i class="ti ti-book"></i>
+      <span>Educazione</span>
+    </button>
+    <button class="mnav-item" [class.active]="active === 'cicerone'" (click)="goTo('/cicerone/notizie')">
+      <i class="ti ti-news"></i>
+      <span>Notizie</span>
+    </button>
+  </nav>
+</div>
+`, styles: ['/* src/app/shared/mobile-nav/mobile-nav.css */\n.mnav-backdrop,\n.mnav-tab,\n.mnav-panel {\n  display: none;\n}\n@media (max-width: 768px) {\n  .mnav-backdrop {\n    display: block;\n    position: fixed;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.38);\n    z-index: 990;\n  }\n  .mnav-tab {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: fixed;\n    right: 0;\n    top: 88px;\n    width: 26px;\n    height: 48px;\n    padding: 0;\n    background: rgba(31, 66, 64, 0.68);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n    border: 0.5px solid rgba(151, 168, 149, 0.32);\n    border-right: none;\n    border-radius: 8px 0 0 8px;\n    color: rgba(255, 255, 255, 0.65);\n    font-size: 15px;\n    cursor: pointer;\n    z-index: 1001;\n    transition: background 0.2s, color 0.2s;\n  }\n  .mnav-tab:hover,\n  .mnav-tab.open {\n    background: rgba(31, 66, 64, 0.92);\n    color: #D8D089;\n  }\n  .mnav-panel {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    right: 0;\n    top: 70px;\n    bottom: 0;\n    width: 180px;\n    background: rgba(24, 54, 52, 0.95);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n    border-left: 0.5px solid rgba(151, 168, 149, 0.22);\n    z-index: 991;\n    transform: translateX(100%);\n    transition: transform 0.26s ease;\n    padding: 1.4rem 0;\n  }\n  .mnav-panel.open {\n    transform: translateX(0);\n  }\n  .mnav-links {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    padding: 0 0.6rem;\n  }\n  .mnav-item {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    padding: 0.72rem 0.85rem;\n    border-radius: 8px;\n    background: transparent;\n    border: none;\n    color: rgba(255, 255, 255, 0.52);\n    font-size: 0.93rem;\n    font-family:\n      "Segoe UI",\n      Tahoma,\n      Geneva,\n      Verdana,\n      sans-serif;\n    cursor: pointer;\n    text-align: left;\n    transition: background 0.15s, color 0.15s;\n  }\n  .mnav-item:hover {\n    background: rgba(255, 255, 255, 0.06);\n    color: rgba(255, 255, 255, 0.82);\n  }\n  .mnav-item.active {\n    background: rgba(216, 208, 137, 0.13);\n    color: #D8D089;\n  }\n  .mnav-item i {\n    font-size: 18px;\n    flex-shrink: 0;\n  }\n}\n/*# sourceMappingURL=mobile-nav.css.map */\n'] }]
+  }], null, { active: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MobileNav, { className: "MobileNav", filePath: "src/app/shared/mobile-nav/mobile-nav.ts", lineNumber: 11 });
 })();
 
 // src/app/features/home/home.ts
@@ -54355,20 +54672,20 @@ var _forTrack0 = ($index, $item) => $item._id;
 function Home_Conditional_43_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 64);
+    \u0275\u0275elementStart(0, "button", 65);
     \u0275\u0275listener("click", function Home_Conditional_43_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.vaiA("/admin/livelli"));
     });
-    \u0275\u0275element(1, "i", 65);
+    \u0275\u0275element(1, "i", 66);
     \u0275\u0275elementEnd();
   }
 }
 function Home_Conditional_129_For_6_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 75);
-    \u0275\u0275element(1, "img", 81);
+    \u0275\u0275elementStart(0, "div", 76);
+    \u0275\u0275element(1, "img", 82);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -54381,30 +54698,30 @@ function Home_Conditional_129_For_6_Conditional_2_Template(rf, ctx) {
 function Home_Conditional_129_For_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275namespaceSVG();
-    \u0275\u0275elementStart(0, "svg", 76);
-    \u0275\u0275element(1, "polygon", 82);
+    \u0275\u0275elementStart(0, "svg", 77);
+    \u0275\u0275element(1, "polygon", 83);
     \u0275\u0275elementEnd();
   }
 }
 function Home_Conditional_129_For_6_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 73);
+    \u0275\u0275elementStart(0, "div", 74);
     \u0275\u0275listener("click", function Home_Conditional_129_For_6_Template_div_click_0_listener() {
       const notizia_r5 = \u0275\u0275restoreView(_r4).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.vaiA("/cicerone/notizia/" + notizia_r5._id));
     });
-    \u0275\u0275elementStart(1, "div", 74);
-    \u0275\u0275conditionalCreate(2, Home_Conditional_129_For_6_Conditional_2_Template, 2, 2, "div", 75)(3, Home_Conditional_129_For_6_Conditional_3_Template, 2, 0, ":svg:svg", 76);
+    \u0275\u0275elementStart(1, "div", 75);
+    \u0275\u0275conditionalCreate(2, Home_Conditional_129_For_6_Conditional_2_Template, 2, 2, "div", 76)(3, Home_Conditional_129_For_6_Conditional_3_Template, 2, 0, ":svg:svg", 77);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 77)(5, "span", 78);
+    \u0275\u0275elementStart(4, "div", 78)(5, "span", 79);
     \u0275\u0275text(6);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "div", 79);
+    \u0275\u0275elementStart(7, "div", 80);
     \u0275\u0275text(8);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "div", 80);
+    \u0275\u0275elementStart(9, "div", 81);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd()()();
   }
@@ -54428,24 +54745,24 @@ function Home_Conditional_129_For_6_Template(rf, ctx) {
 function Home_Conditional_129_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 61)(1, "button", 66);
+    \u0275\u0275elementStart(0, "div", 61)(1, "button", 67);
     \u0275\u0275listener("click", function Home_Conditional_129_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.prevSlide());
     });
-    \u0275\u0275element(2, "i", 67);
+    \u0275\u0275element(2, "i", 68);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 68)(4, "div", 69);
-    \u0275\u0275repeaterCreate(5, Home_Conditional_129_For_6_Template, 11, 8, "div", 70, _forTrack0);
+    \u0275\u0275elementStart(3, "div", 69)(4, "div", 70);
+    \u0275\u0275repeaterCreate(5, Home_Conditional_129_For_6_Template, 11, 8, "div", 71, _forTrack0);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "button", 71);
+    \u0275\u0275elementStart(7, "button", 72);
     \u0275\u0275listener("click", function Home_Conditional_129_Template_button_click_7_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.nextSlide());
     });
-    \u0275\u0275element(8, "i", 72);
+    \u0275\u0275element(8, "i", 73);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -54498,6 +54815,8 @@ var Home = class _Home {
     "linear-gradient(rgba(27,52,50,0.84), rgba(27,52,50,0.84))",
     "url(images/escursione-mountain.jpg) center/cover no-repeat"
   ].join(", ");
+  el = inject2(ElementRef);
+  io;
   navSub;
   cardColori = {
     "meteo": { bg: "linear-gradient(135deg,#0d2f3a,#1a5c6e)", accent: "#4CA8D0" },
@@ -54522,8 +54841,20 @@ var Home = class _Home {
       this.caricaNotizie();
     });
   }
+  ngAfterViewInit() {
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in");
+          this.io?.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    this.el.nativeElement.querySelectorAll(".edu-card, .plan-card").forEach((el) => this.io.observe(el));
+  }
   ngOnDestroy() {
     this.navSub?.unsubscribe();
+    this.io?.disconnect();
   }
   get username() {
     return this.authService.utente()?.username ?? "";
@@ -54580,7 +54911,7 @@ var Home = class _Home {
   }
   caricaLivelli() {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get("http://localhost:3000/api/livelli", { headers }).subscribe({
+    this.http.get(environment.apiUrl + "/api/livelli", { headers }).subscribe({
       next: (res) => {
         this.livelli = (res.dati ?? []).sort((a3, b2) => a3.puntiNecessari - b2.puntiNecessari);
         this.cdr.detectChanges();
@@ -54591,7 +54922,7 @@ var Home = class _Home {
   }
   caricaProgressi() {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get("http://localhost:3000/api/educazione/progressi", { headers }).subscribe({
+    this.http.get(environment.apiUrl + "/api/educazione/progressi", { headers }).subscribe({
       next: (res) => {
         if (res.successo) {
           this.punti = res.dati.punti;
@@ -54606,7 +54937,7 @@ var Home = class _Home {
   }
   caricaNotizie() {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
-    this.http.get("http://localhost:3000/api/cicerone/notizie", { headers }).subscribe({
+    this.http.get(environment.apiUrl + "/api/cicerone/notizie", { headers }).subscribe({
       next: (res) => {
         this.notizie = (res.dati ?? []).slice(0, 6);
         this.cdr.detectChanges();
@@ -54641,9 +54972,13 @@ var Home = class _Home {
   static \u0275fac = function Home_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Home)(\u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Home, selectors: [["app-home"]], decls: 132, vars: 22, consts: [[1, "root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", "active"], [1, "nav-link", 3, "click"], [1, "hero-wrap"], [1, "hero-img"], [1, "hero-content"], [1, "hero-eyebrow"], [1, "hero-title"], [1, "stats-strip"], [1, "inner"], [1, "stat"], [1, "stat-val"], [1, "stat-label"], ["title", "Gestisci livelli", 1, "stat-admin-btn"], [1, "prog-strip"], [1, "prog-label"], [1, "prog-bar"], [1, "prog-fill"], [1, "prog-val"], [1, "lv-badge"], [1, "section"], [1, "sec-header"], [1, "sec-title"], [1, "edu-card", "card-left"], [1, "edu-card-content"], [1, "edu-tag"], [1, "edu-title"], [1, "edu-desc"], [1, "btn-go", 3, "click"], [1, "ti", "ti-player-play"], [1, "section", "section-mt"], [1, "sec-header", "sec-header--right"], [1, "plan-card", "card-right"], [1, "plan-card-top"], [1, "ti", "ti-map-2", "plan-icon-big"], [1, "plan-text"], [1, "plan-tag"], [1, "plan-title"], [1, "plan-desc"], [1, "plan-features", "plan-features--right"], [1, "plan-feat"], [1, "ti", "ti-list-check"], [1, "ti", "ti-share"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-clock"], [1, "plan-btn-wrap"], [1, "btn-plan", 3, "click"], [1, "ti", "ti-arrow-right"], [1, "notizie-wrap"], [1, "notizie-bg"], [1, "notizie-header"], [1, "notizie-title-big"], [1, "notizie-sub"], [1, "sec-action", 3, "click"], [1, "carousel-outer"], [1, "notizie-vuote"], [1, "notizie-spacer"], ["title", "Gestisci livelli", 1, "stat-admin-btn", 3, "click"], [1, "ti", "ti-settings"], ["aria-label", "Precedente", 1, "carousel-btn", "prev", 3, "click"], [1, "ti", "ti-chevron-left"], [1, "carousel-track-wrap"], [1, "carousel-track"], [1, "news-card"], ["aria-label", "Successivo", 1, "carousel-btn", "next", 3, "click"], [1, "ti", "ti-chevron-right"], [1, "news-card", 3, "click"], [1, "news-card-img"], [1, "post-img-wrap"], ["viewBox", "0 0 196 108", "width", "196", "height", "108", "xmlns", "http://www.w3.org/2000/svg"], [1, "news-card-body"], [1, "news-cat"], [1, "news-ttl"], [1, "news-date"], [1, "post-img", 3, "src", "alt"], ["points", "0,108 50,55 90,80 130,30 170,65 196,45 196,108", "fill", "rgba(216,208,137,0.15)"]], template: function Home_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Home, selectors: [["app-home"]], decls: 133, vars: 22, consts: [[1, "root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", "active"], [1, "nav-link", 3, "click"], [1, "hero-wrap"], [1, "hero-img"], [1, "hero-content"], [1, "hero-eyebrow"], [1, "hero-title"], [1, "stats-strip"], [1, "inner"], [1, "stat"], [1, "stat-val"], [1, "stat-label"], ["title", "Gestisci livelli", 1, "stat-admin-btn"], [1, "prog-strip"], [1, "prog-label"], [1, "prog-bar"], [1, "prog-fill"], [1, "prog-val"], [1, "lv-badge"], [1, "section"], [1, "sec-header"], [1, "sec-title"], [1, "edu-card", "card-left"], [1, "edu-card-content"], [1, "edu-tag"], [1, "edu-title"], [1, "edu-desc"], [1, "btn-go", 3, "click"], [1, "ti", "ti-player-play"], [1, "section", "section-mt"], [1, "sec-header", "sec-header--right"], [1, "plan-card", "card-right"], [1, "plan-card-top"], [1, "ti", "ti-map-2", "plan-icon-big"], [1, "plan-text"], [1, "plan-tag"], [1, "plan-title"], [1, "plan-desc"], [1, "plan-features", "plan-features--right"], [1, "plan-feat"], [1, "ti", "ti-list-check"], [1, "ti", "ti-share"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-clock"], [1, "plan-btn-wrap"], [1, "btn-plan", 3, "click"], [1, "ti", "ti-arrow-right"], [1, "notizie-wrap"], [1, "notizie-bg"], [1, "notizie-header"], [1, "notizie-title-big"], [1, "notizie-sub"], [1, "sec-action", 3, "click"], [1, "carousel-outer"], [1, "notizie-vuote"], [1, "notizie-spacer"], ["active", "home"], ["title", "Gestisci livelli", 1, "stat-admin-btn", 3, "click"], [1, "ti", "ti-settings"], ["aria-label", "Precedente", 1, "carousel-btn", "prev", 3, "click"], [1, "ti", "ti-chevron-left"], [1, "carousel-track-wrap"], [1, "carousel-track"], [1, "news-card"], ["aria-label", "Successivo", 1, "carousel-btn", "next", 3, "click"], [1, "ti", "ti-chevron-right"], [1, "news-card", 3, "click"], [1, "news-card-img"], [1, "post-img-wrap"], ["viewBox", "0 0 196 108", "width", "196", "height", "108", "xmlns", "http://www.w3.org/2000/svg"], [1, "news-card-body"], [1, "news-cat"], [1, "news-ttl"], [1, "news-date"], [1, "post-img", 3, "src", "alt"], ["points", "0,108 50,55 90,80 130,30 170,65 196,45 196,108", "fill", "rgba(216,208,137,0.15)"]], template: function Home_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function Home_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -54803,7 +55138,9 @@ var Home = class _Home {
       \u0275\u0275conditionalCreate(129, Home_Conditional_129_Template, 9, 6, "div", 61)(130, Home_Conditional_130_Template, 2, 0, "div", 62);
       \u0275\u0275elementEnd();
       \u0275\u0275element(131, "div", 63);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(132, "app-mobile-nav", 64);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(21);
@@ -54841,17 +55178,17 @@ var Home = class _Home {
       \u0275\u0275advance(12);
       \u0275\u0275conditional(ctx.notizie.length > 0 ? 129 : 130);
     }
-  }, dependencies: [CommonModule, ProfileButton], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n  --border-radius-lg: 14px;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.root[_ngcontent-%COMP%] {\n  width: 100%;\n  background: #1f4240;\n  min-height: 100vh;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n  overflow-x: hidden;\n}\n.inner[_ngcontent-%COMP%] {\n  padding: 0 5%;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.hero-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  height: 500px;\n  overflow: hidden;\n}\n.hero-img[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n}\n.hero-content[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 64px;\n  left: 0;\n  right: 0;\n  padding: 0 5%;\n}\n.hero-eyebrow[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  font-size: 13px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 14px;\n}\n.hero-eyebrow[_ngcontent-%COMP%]::before {\n  content: "";\n  display: block;\n  width: 24px;\n  height: 1px;\n  background: #D8D089;\n}\n.hero-title[_ngcontent-%COMP%] {\n  font-size: 72px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.0;\n  letter-spacing: -1.5px;\n}\n.hero-title[_ngcontent-%COMP%]   em[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-style: normal;\n}\n.stats-strip[_ngcontent-%COMP%] {\n  background: #1f4240;\n  padding: 2.25rem 0;\n}\n.stats-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  display: flex;\n}\n.stat[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 0 2.5rem;\n  border-right: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.stat[_ngcontent-%COMP%]:first-child {\n  padding-left: 0;\n}\n.stat[_ngcontent-%COMP%]:last-child {\n  border-right: none;\n}\n.stat-val[_ngcontent-%COMP%] {\n  font-size: 36px;\n  font-weight: 500;\n  color: white;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  letter-spacing: 0.2px;\n}\n.stat-admin-btn[_ngcontent-%COMP%] {\n  align-self: flex-start;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: rgba(216, 208, 137, 0.55);\n  border-radius: 6px;\n  padding: 3px 7px;\n  font-size: 0.8rem;\n  cursor: pointer;\n  line-height: 1;\n  transition: border-color 0.15s, color 0.15s;\n}\n.stat-admin-btn[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.7);\n  color: #D8D089;\n}\n.prog-strip[_ngcontent-%COMP%] {\n  background: #26504d;\n  padding: 1rem 0;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.prog-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1.25rem;\n}\n.prog-label[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.42);\n  white-space: nowrap;\n}\n.prog-bar[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 4px;\n  background: rgba(151, 168, 149, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.prog-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background: #D8D089;\n  border-radius: 2px;\n  transition: width 0.5s ease;\n}\n.prog-val[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: #D8D089;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.lv-badge[_ngcontent-%COMP%] {\n  font-size: 13px;\n  padding: 3px 12px;\n  border-radius: 20px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n}\n.section[_ngcontent-%COMP%] {\n  padding: 3rem 0 0;\n}\n.section-mt[_ngcontent-%COMP%] {\n  padding-top: 2rem;\n}\n.sec-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  margin-bottom: 1.25rem;\n}\n.sec-header--right[_ngcontent-%COMP%] {\n  justify-content: flex-end;\n}\n.sec-title[_ngcontent-%COMP%] {\n  font-size: 13px;\n  letter-spacing: 2.5px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.35);\n  font-weight: 500;\n}\n.sec-action[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: #D8D089;\n  cursor: pointer;\n}\n.sec-action[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.card-left[_ngcontent-%COMP%] {\n  width: 78%;\n  margin-right: auto;\n}\n.card-right[_ngcontent-%COMP%] {\n  width: 78%;\n  margin-left: auto;\n}\n.edu-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  padding: 2.5rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  gap: 1.5rem;\n  position: relative;\n  overflow: hidden;\n}\n.edu-card-content[_ngcontent-%COMP%] {\n  position: relative;\n  flex: 1;\n}\n.edu-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  margin-bottom: 16px;\n}\n.edu-title[_ngcontent-%COMP%] {\n  font-size: 32px;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.edu-desc[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n  margin-bottom: 2rem;\n}\n.btn-go[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-go[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.plan-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(185, 122, 83, 0.3);\n  padding: 2.5rem;\n  position: relative;\n  overflow: hidden;\n}\n.plan-card-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 1.5rem;\n  margin-bottom: 2rem;\n}\n.plan-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.35);\n  margin-bottom: 14px;\n}\n.plan-title[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.2;\n  margin-bottom: 12px;\n}\n.plan-desc[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n}\n.plan-icon-big[_ngcontent-%COMP%] {\n  font-size: 64px;\n  color: rgba(216, 208, 137, 0.12);\n  flex-shrink: 0;\n}\n.plan-text[_ngcontent-%COMP%] {\n  text-align: right;\n}\n.plan-btn-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n}\n.plan-features[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.plan-features--right[_ngcontent-%COMP%] {\n  justify-content: flex-end;\n}\n.plan-feat[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 20px;\n  padding: 7px 16px;\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.6);\n}\n.plan-feat[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: #D8D089;\n}\n.btn-plan[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-plan[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.notizie-wrap[_ngcontent-%COMP%] {\n  margin-top: 3rem;\n  position: relative;\n  padding-bottom: 3.5rem;\n}\n.notizie-bg[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n}\n.notizie-wrap[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n}\n.notizie-header[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 3rem 0 2rem;\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n}\n.notizie-title-big[_ngcontent-%COMP%] {\n  font-size: 38px;\n  font-weight: 600;\n  color: white;\n}\n.notizie-title-big[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.notizie-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  margin-top: 6px;\n}\n.carousel-outer[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 0 3rem;\n}\n.carousel-track-wrap[_ngcontent-%COMP%] {\n  overflow: hidden;\n}\n.carousel-track[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 18px;\n  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);\n}\n.news-card[_ngcontent-%COMP%] {\n  flex: 0 0 240px;\n  background: rgba(43, 92, 89, 0.92);\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  overflow: hidden;\n  cursor: pointer;\n  transition: border-color 0.15s;\n}\n.news-card[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.news-card-img[_ngcontent-%COMP%] {\n  height: 140px;\n  position: relative;\n  overflow: hidden;\n}\n.news-card-img[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n}\n.post-img-wrap[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n}\n.post-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n}\n.news-card-body[_ngcontent-%COMP%] {\n  padding: 16px;\n}\n.news-cat[_ngcontent-%COMP%] {\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 8px;\n  display: block;\n}\n.news-ttl[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.88);\n  line-height: 1.45;\n  margin-bottom: 8px;\n}\n.news-date[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.3);\n}\n.carousel-btn[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: #D8D089;\n  font-size: 18px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 2;\n  transition: opacity 0.2s;\n}\n.carousel-btn.prev[_ngcontent-%COMP%] {\n  left: 0;\n}\n.carousel-btn.next[_ngcontent-%COMP%] {\n  right: 0;\n}\n.notizie-vuote[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 15px;\n  padding: 2.5rem 0;\n}\n.notizie-spacer[_ngcontent-%COMP%] {\n  height: 3rem;\n}\n@media (max-width: 768px) {\n  .inner[_ngcontent-%COMP%], \n   .navbar[_ngcontent-%COMP%], \n   .hero-content[_ngcontent-%COMP%] {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .hero-title[_ngcontent-%COMP%] {\n    font-size: 42px;\n    letter-spacing: -0.5px;\n  }\n  .hero-wrap[_ngcontent-%COMP%] {\n    height: 440px;\n  }\n  .stats-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n    flex-wrap: wrap;\n  }\n  .stat[_ngcontent-%COMP%] {\n    flex: 0 0 50%;\n    padding: 0.75rem;\n    border-right: none;\n  }\n  .stat[_ngcontent-%COMP%]:first-child {\n    padding-left: 0.75rem;\n  }\n  .stat-val[_ngcontent-%COMP%] {\n    font-size: 28px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: block;\n  }\n  .plan-desc[_ngcontent-%COMP%] {\n    max-width: 100%;\n  }\n}\n/*# sourceMappingURL=home.css.map */'] });
+  }, dependencies: [CommonModule, ProfileButton, MobileNav], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n  --border-radius-lg: 14px;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.root[_ngcontent-%COMP%] {\n  width: 100%;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n  overflow-x: hidden;\n}\n.inner[_ngcontent-%COMP%] {\n  padding: 0 5%;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.hero-wrap[_ngcontent-%COMP%] {\n  position: relative;\n  height: 500px;\n  overflow: hidden;\n}\n.hero-img[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n}\n.hero-content[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 64px;\n  left: 0;\n  right: 0;\n  padding: 0 5%;\n}\n.hero-eyebrow[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  font-size: 13px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 14px;\n}\n.hero-eyebrow[_ngcontent-%COMP%]::before {\n  content: "";\n  display: block;\n  width: 24px;\n  height: 1px;\n  background: #D8D089;\n}\n.hero-title[_ngcontent-%COMP%] {\n  font-size: 72px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.0;\n  letter-spacing: -1.5px;\n}\n.hero-title[_ngcontent-%COMP%]   em[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-style: normal;\n}\n.stats-strip[_ngcontent-%COMP%] {\n  background: #1f4240;\n  padding: 2.25rem 0;\n}\n.stats-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  display: flex;\n}\n.stat[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 0 2.5rem;\n  border-right: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.stat[_ngcontent-%COMP%]:first-child {\n  padding-left: 0;\n}\n.stat[_ngcontent-%COMP%]:last-child {\n  border-right: none;\n}\n.stat-val[_ngcontent-%COMP%] {\n  font-size: 36px;\n  font-weight: 500;\n  color: white;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  letter-spacing: 0.2px;\n}\n.stat-admin-btn[_ngcontent-%COMP%] {\n  align-self: flex-start;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: rgba(216, 208, 137, 0.55);\n  border-radius: 6px;\n  padding: 3px 7px;\n  font-size: 0.8rem;\n  cursor: pointer;\n  line-height: 1;\n  transition: border-color 0.15s, color 0.15s;\n}\n.stat-admin-btn[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.7);\n  color: #D8D089;\n}\n.prog-strip[_ngcontent-%COMP%] {\n  background: #26504d;\n  padding: 1rem 0;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.prog-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 1.25rem;\n}\n.prog-label[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.42);\n  white-space: nowrap;\n}\n.prog-bar[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 4px;\n  background: rgba(151, 168, 149, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.prog-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background: #D8D089;\n  border-radius: 2px;\n  transition: width 0.5s ease;\n}\n.prog-val[_ngcontent-%COMP%] {\n  font-size: 14px;\n  color: #D8D089;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.lv-badge[_ngcontent-%COMP%] {\n  font-size: 13px;\n  padding: 3px 12px;\n  border-radius: 20px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n}\n.section[_ngcontent-%COMP%] {\n  padding: 3rem 0 0;\n}\n.section-mt[_ngcontent-%COMP%] {\n  padding-top: 2rem;\n}\n.sec-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  margin-bottom: 1.25rem;\n}\n.sec-header--right[_ngcontent-%COMP%] {\n  justify-content: flex-end;\n}\n.sec-title[_ngcontent-%COMP%] {\n  font-size: 13px;\n  letter-spacing: 2.5px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.35);\n  font-weight: 500;\n}\n.sec-action[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: #D8D089;\n  cursor: pointer;\n}\n.sec-action[_ngcontent-%COMP%]:hover {\n  opacity: 0.8;\n}\n.card-left[_ngcontent-%COMP%] {\n  width: 78%;\n  margin-right: auto;\n}\n.card-right[_ngcontent-%COMP%] {\n  width: 78%;\n  margin-left: auto;\n}\n@keyframes _ngcontent-%COMP%_fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(28px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.edu-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  padding: 2.5rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  gap: 1.5rem;\n  position: relative;\n  overflow: hidden;\n  opacity: 0;\n}\n.edu-card.fade-in[_ngcontent-%COMP%] {\n  animation: _ngcontent-%COMP%_fadeInUp 0.55s ease forwards;\n}\n.edu-card-content[_ngcontent-%COMP%] {\n  position: relative;\n  flex: 1;\n}\n.edu-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  margin-bottom: 16px;\n}\n.edu-title[_ngcontent-%COMP%] {\n  font-size: 32px;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.edu-desc[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n  margin-bottom: 2rem;\n}\n.btn-go[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-go[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.plan-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(185, 122, 83, 0.3);\n  padding: 2.5rem;\n  position: relative;\n  overflow: hidden;\n  opacity: 0;\n}\n.plan-card.fade-in[_ngcontent-%COMP%] {\n  animation: _ngcontent-%COMP%_fadeInUp 0.55s ease 0.18s forwards;\n}\n.plan-card-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 1.5rem;\n  margin-bottom: 2rem;\n}\n.plan-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.35);\n  margin-bottom: 14px;\n}\n.plan-title[_ngcontent-%COMP%] {\n  font-size: 28px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.2;\n  margin-bottom: 12px;\n}\n.plan-desc[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n}\n.plan-icon-big[_ngcontent-%COMP%] {\n  font-size: 64px;\n  color: rgba(216, 208, 137, 0.12);\n  flex-shrink: 0;\n}\n.plan-text[_ngcontent-%COMP%] {\n  text-align: right;\n}\n.plan-btn-wrap[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: flex-end;\n}\n.plan-features[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.plan-features--right[_ngcontent-%COMP%] {\n  justify-content: flex-end;\n}\n.plan-feat[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 20px;\n  padding: 7px 16px;\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.6);\n}\n.plan-feat[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: #D8D089;\n}\n.btn-plan[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-plan[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.notizie-wrap[_ngcontent-%COMP%] {\n  margin-top: 3rem;\n  position: relative;\n}\n.notizie-bg[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n}\n.notizie-wrap[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 1;\n}\n.notizie-header[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 3rem 0 2rem;\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n}\n.notizie-title-big[_ngcontent-%COMP%] {\n  font-size: 38px;\n  font-weight: 600;\n  color: white;\n}\n.notizie-title-big[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.notizie-sub[_ngcontent-%COMP%] {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  margin-top: 6px;\n}\n.carousel-outer[_ngcontent-%COMP%] {\n  position: relative;\n  padding: 0 3rem;\n}\n.carousel-track-wrap[_ngcontent-%COMP%] {\n  overflow: hidden;\n}\n.carousel-track[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 18px;\n  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);\n}\n.news-card[_ngcontent-%COMP%] {\n  flex: 0 0 240px;\n  background: rgba(43, 92, 89, 0.92);\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  overflow: hidden;\n  cursor: pointer;\n  transition: border-color 0.15s;\n}\n.news-card[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.news-card-img[_ngcontent-%COMP%] {\n  height: 140px;\n  position: relative;\n  overflow: hidden;\n}\n.news-card-img[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n}\n.post-img-wrap[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n}\n.post-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  opacity: 0.7;\n}\n.news-card-body[_ngcontent-%COMP%] {\n  padding: 16px;\n}\n.news-cat[_ngcontent-%COMP%] {\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 8px;\n  display: block;\n}\n.news-ttl[_ngcontent-%COMP%] {\n  font-size: 16px;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.88);\n  line-height: 1.45;\n  margin-bottom: 8px;\n}\n.news-date[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.3);\n}\n.carousel-btn[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: #D8D089;\n  font-size: 18px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 2;\n  transition: opacity 0.2s;\n}\n.carousel-btn.prev[_ngcontent-%COMP%] {\n  left: 0;\n}\n.carousel-btn.next[_ngcontent-%COMP%] {\n  right: 0;\n}\n.notizie-vuote[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 15px;\n  padding: 2.5rem 0;\n}\n.notizie-spacer[_ngcontent-%COMP%] {\n  height: 2.5rem;\n}\n@media (max-width: 768px) {\n  .inner[_ngcontent-%COMP%], \n   .navbar[_ngcontent-%COMP%], \n   .hero-content[_ngcontent-%COMP%] {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .hero-title[_ngcontent-%COMP%] {\n    font-size: 42px;\n    letter-spacing: -0.5px;\n  }\n  .hero-wrap[_ngcontent-%COMP%] {\n    height: 380px;\n  }\n  .stats-strip[_ngcontent-%COMP%]   .inner[_ngcontent-%COMP%] {\n    flex-wrap: wrap;\n  }\n  .stat[_ngcontent-%COMP%] {\n    flex: 0 0 50%;\n    padding: 0.75rem;\n    border-right: none;\n  }\n  .stat[_ngcontent-%COMP%]:first-child {\n    padding-left: 0.75rem;\n  }\n  .stat-val[_ngcontent-%COMP%] {\n    font-size: 28px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .lv-badge[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .card-left[_ngcontent-%COMP%], \n   .card-right[_ngcontent-%COMP%] {\n    width: 100%;\n  }\n  .edu-card[_ngcontent-%COMP%] {\n    padding: 1.5rem;\n  }\n  .plan-card[_ngcontent-%COMP%] {\n    padding: 1.5rem;\n  }\n  .plan-card-top[_ngcontent-%COMP%] {\n    flex-direction: column;\n    gap: 0.75rem;\n  }\n  .plan-icon-big[_ngcontent-%COMP%] {\n    font-size: 40px;\n    align-self: flex-start;\n  }\n  .plan-text[_ngcontent-%COMP%] {\n    text-align: left;\n  }\n  .plan-desc[_ngcontent-%COMP%] {\n    max-width: 100%;\n  }\n  .plan-features--right[_ngcontent-%COMP%] {\n    justify-content: flex-start;\n  }\n  .plan-btn-wrap[_ngcontent-%COMP%] {\n    justify-content: flex-start;\n  }\n  .carousel-outer[_ngcontent-%COMP%] {\n    padding: 0;\n  }\n  .carousel-btn[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .carousel-track-wrap[_ngcontent-%COMP%] {\n    overflow-x: auto;\n    overflow-y: hidden;\n    -webkit-overflow-scrolling: touch;\n    scroll-snap-type: x mandatory;\n    scrollbar-width: none;\n  }\n  .carousel-track-wrap[_ngcontent-%COMP%]::-webkit-scrollbar {\n    display: none;\n  }\n  .carousel-track[_ngcontent-%COMP%] {\n    transform: none !important;\n  }\n  .news-card[_ngcontent-%COMP%] {\n    flex: 0 0 55vw;\n    max-width: 200px;\n    scroll-snap-align: start;\n  }\n  .news-card-img[_ngcontent-%COMP%] {\n    height: 110px;\n  }\n  .news-card-body[_ngcontent-%COMP%] {\n    padding: 12px;\n  }\n  .news-ttl[_ngcontent-%COMP%] {\n    font-size: 14px;\n  }\n}\n/*# sourceMappingURL=home.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Home, [{
     type: Component,
-    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, ProfileButton], template: `<div class="root">\r
+    args: [{ selector: "app-home", standalone: true, imports: [CommonModule, ProfileButton, MobileNav], template: `<div class="root">\r
 \r
   <!-- HEADER BAR: separato dal hero, vetro smerigliato -->\r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -55020,12 +55357,13 @@ var Home = class _Home {
     <div class="notizie-spacer"></div>\r
   </div>\r
 \r
+  <app-mobile-nav active="home" />\r
 </div>\r
-`, styles: ['/* src/app/features/home/home.css */\n:host {\n  display: block;\n  background: #1f4240;\n  --border-radius-lg: 14px;\n}\n* {\n  box-sizing: border-box;\n}\n.root {\n  width: 100%;\n  background: #1f4240;\n  min-height: 100vh;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n  overflow-x: hidden;\n}\n.inner {\n  padding: 0 5%;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.hero-wrap {\n  position: relative;\n  height: 500px;\n  overflow: hidden;\n}\n.hero-img {\n  position: absolute;\n  inset: 0;\n}\n.hero-content {\n  position: absolute;\n  bottom: 64px;\n  left: 0;\n  right: 0;\n  padding: 0 5%;\n}\n.hero-eyebrow {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  font-size: 13px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 14px;\n}\n.hero-eyebrow::before {\n  content: "";\n  display: block;\n  width: 24px;\n  height: 1px;\n  background: #D8D089;\n}\n.hero-title {\n  font-size: 72px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.0;\n  letter-spacing: -1.5px;\n}\n.hero-title em {\n  color: #D8D089;\n  font-style: normal;\n}\n.stats-strip {\n  background: #1f4240;\n  padding: 2.25rem 0;\n}\n.stats-strip .inner {\n  display: flex;\n}\n.stat {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 0 2.5rem;\n  border-right: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.stat:first-child {\n  padding-left: 0;\n}\n.stat:last-child {\n  border-right: none;\n}\n.stat-val {\n  font-size: 36px;\n  font-weight: 500;\n  color: white;\n}\n.stat-label {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  letter-spacing: 0.2px;\n}\n.stat-admin-btn {\n  align-self: flex-start;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: rgba(216, 208, 137, 0.55);\n  border-radius: 6px;\n  padding: 3px 7px;\n  font-size: 0.8rem;\n  cursor: pointer;\n  line-height: 1;\n  transition: border-color 0.15s, color 0.15s;\n}\n.stat-admin-btn:hover {\n  border-color: rgba(216, 208, 137, 0.7);\n  color: #D8D089;\n}\n.prog-strip {\n  background: #26504d;\n  padding: 1rem 0;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.prog-strip .inner {\n  display: flex;\n  align-items: center;\n  gap: 1.25rem;\n}\n.prog-label {\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.42);\n  white-space: nowrap;\n}\n.prog-bar {\n  flex: 1;\n  height: 4px;\n  background: rgba(151, 168, 149, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.prog-fill {\n  height: 100%;\n  background: #D8D089;\n  border-radius: 2px;\n  transition: width 0.5s ease;\n}\n.prog-val {\n  font-size: 14px;\n  color: #D8D089;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.lv-badge {\n  font-size: 13px;\n  padding: 3px 12px;\n  border-radius: 20px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n}\n.section {\n  padding: 3rem 0 0;\n}\n.section-mt {\n  padding-top: 2rem;\n}\n.sec-header {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  margin-bottom: 1.25rem;\n}\n.sec-header--right {\n  justify-content: flex-end;\n}\n.sec-title {\n  font-size: 13px;\n  letter-spacing: 2.5px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.35);\n  font-weight: 500;\n}\n.sec-action {\n  font-size: 15px;\n  color: #D8D089;\n  cursor: pointer;\n}\n.sec-action:hover {\n  opacity: 0.8;\n}\n.card-left {\n  width: 78%;\n  margin-right: auto;\n}\n.card-right {\n  width: 78%;\n  margin-left: auto;\n}\n.edu-card {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  padding: 2.5rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  gap: 1.5rem;\n  position: relative;\n  overflow: hidden;\n}\n.edu-card-content {\n  position: relative;\n  flex: 1;\n}\n.edu-tag {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  margin-bottom: 16px;\n}\n.edu-title {\n  font-size: 32px;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.edu-desc {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n  margin-bottom: 2rem;\n}\n.btn-go {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-go:hover {\n  background: #c9c97a;\n}\n.plan-card {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(185, 122, 83, 0.3);\n  padding: 2.5rem;\n  position: relative;\n  overflow: hidden;\n}\n.plan-card-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 1.5rem;\n  margin-bottom: 2rem;\n}\n.plan-tag {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.35);\n  margin-bottom: 14px;\n}\n.plan-title {\n  font-size: 28px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.2;\n  margin-bottom: 12px;\n}\n.plan-desc {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n}\n.plan-icon-big {\n  font-size: 64px;\n  color: rgba(216, 208, 137, 0.12);\n  flex-shrink: 0;\n}\n.plan-text {\n  text-align: right;\n}\n.plan-btn-wrap {\n  display: flex;\n  justify-content: flex-end;\n}\n.plan-features {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.plan-features--right {\n  justify-content: flex-end;\n}\n.plan-feat {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 20px;\n  padding: 7px 16px;\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.6);\n}\n.plan-feat i {\n  font-size: 15px;\n  color: #D8D089;\n}\n.btn-plan {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-plan:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.notizie-wrap {\n  margin-top: 3rem;\n  position: relative;\n  padding-bottom: 3.5rem;\n}\n.notizie-bg {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n}\n.notizie-wrap .inner {\n  position: relative;\n  z-index: 1;\n}\n.notizie-header {\n  position: relative;\n  padding: 3rem 0 2rem;\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n}\n.notizie-title-big {\n  font-size: 38px;\n  font-weight: 600;\n  color: white;\n}\n.notizie-title-big span {\n  color: #D8D089;\n}\n.notizie-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  margin-top: 6px;\n}\n.carousel-outer {\n  position: relative;\n  padding: 0 3rem;\n}\n.carousel-track-wrap {\n  overflow: hidden;\n}\n.carousel-track {\n  display: flex;\n  gap: 18px;\n  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);\n}\n.news-card {\n  flex: 0 0 240px;\n  background: rgba(43, 92, 89, 0.92);\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  overflow: hidden;\n  cursor: pointer;\n  transition: border-color 0.15s;\n}\n.news-card:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.news-card-img {\n  height: 140px;\n  position: relative;\n  overflow: hidden;\n}\n.news-card-img svg {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n}\n.post-img-wrap {\n  position: absolute;\n  inset: 0;\n}\n.post-img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n}\n.news-card-body {\n  padding: 16px;\n}\n.news-cat {\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 8px;\n  display: block;\n}\n.news-ttl {\n  font-size: 16px;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.88);\n  line-height: 1.45;\n  margin-bottom: 8px;\n}\n.news-date {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.3);\n}\n.carousel-btn {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: #D8D089;\n  font-size: 18px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 2;\n  transition: opacity 0.2s;\n}\n.carousel-btn.prev {\n  left: 0;\n}\n.carousel-btn.next {\n  right: 0;\n}\n.notizie-vuote {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 15px;\n  padding: 2.5rem 0;\n}\n.notizie-spacer {\n  height: 3rem;\n}\n@media (max-width: 768px) {\n  .inner,\n  .navbar,\n  .hero-content {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .hero-title {\n    font-size: 42px;\n    letter-spacing: -0.5px;\n  }\n  .hero-wrap {\n    height: 440px;\n  }\n  .stats-strip .inner {\n    flex-wrap: wrap;\n  }\n  .stat {\n    flex: 0 0 50%;\n    padding: 0.75rem;\n    border-right: none;\n  }\n  .stat:first-child {\n    padding-left: 0.75rem;\n  }\n  .stat-val {\n    font-size: 28px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: block;\n  }\n  .plan-desc {\n    max-width: 100%;\n  }\n}\n/*# sourceMappingURL=home.css.map */\n'] }]
+`, styles: ['/* src/app/features/home/home.css */\n:host {\n  display: block;\n  background: #1f4240;\n  --border-radius-lg: 14px;\n}\n* {\n  box-sizing: border-box;\n}\n.root {\n  width: 100%;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n  overflow-x: hidden;\n}\n.inner {\n  padding: 0 5%;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.hero-wrap {\n  position: relative;\n  height: 500px;\n  overflow: hidden;\n}\n.hero-img {\n  position: absolute;\n  inset: 0;\n}\n.hero-content {\n  position: absolute;\n  bottom: 64px;\n  left: 0;\n  right: 0;\n  padding: 0 5%;\n}\n.hero-eyebrow {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  font-size: 13px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 14px;\n}\n.hero-eyebrow::before {\n  content: "";\n  display: block;\n  width: 24px;\n  height: 1px;\n  background: #D8D089;\n}\n.hero-title {\n  font-size: 72px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.0;\n  letter-spacing: -1.5px;\n}\n.hero-title em {\n  color: #D8D089;\n  font-style: normal;\n}\n.stats-strip {\n  background: #1f4240;\n  padding: 2.25rem 0;\n}\n.stats-strip .inner {\n  display: flex;\n}\n.stat {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  padding: 0 2.5rem;\n  border-right: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.stat:first-child {\n  padding-left: 0;\n}\n.stat:last-child {\n  border-right: none;\n}\n.stat-val {\n  font-size: 36px;\n  font-weight: 500;\n  color: white;\n}\n.stat-label {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  letter-spacing: 0.2px;\n}\n.stat-admin-btn {\n  align-self: flex-start;\n  background: transparent;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: rgba(216, 208, 137, 0.55);\n  border-radius: 6px;\n  padding: 3px 7px;\n  font-size: 0.8rem;\n  cursor: pointer;\n  line-height: 1;\n  transition: border-color 0.15s, color 0.15s;\n}\n.stat-admin-btn:hover {\n  border-color: rgba(216, 208, 137, 0.7);\n  color: #D8D089;\n}\n.prog-strip {\n  background: #26504d;\n  padding: 1rem 0;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.prog-strip .inner {\n  display: flex;\n  align-items: center;\n  gap: 1.25rem;\n}\n.prog-label {\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.42);\n  white-space: nowrap;\n}\n.prog-bar {\n  flex: 1;\n  height: 4px;\n  background: rgba(151, 168, 149, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.prog-fill {\n  height: 100%;\n  background: #D8D089;\n  border-radius: 2px;\n  transition: width 0.5s ease;\n}\n.prog-val {\n  font-size: 14px;\n  color: #D8D089;\n  font-weight: 500;\n  white-space: nowrap;\n}\n.lv-badge {\n  font-size: 13px;\n  padding: 3px 12px;\n  border-radius: 20px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n}\n.section {\n  padding: 3rem 0 0;\n}\n.section-mt {\n  padding-top: 2rem;\n}\n.sec-header {\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  margin-bottom: 1.25rem;\n}\n.sec-header--right {\n  justify-content: flex-end;\n}\n.sec-title {\n  font-size: 13px;\n  letter-spacing: 2.5px;\n  text-transform: uppercase;\n  color: rgba(255, 255, 255, 0.35);\n  font-weight: 500;\n}\n.sec-action {\n  font-size: 15px;\n  color: #D8D089;\n  cursor: pointer;\n}\n.sec-action:hover {\n  opacity: 0.8;\n}\n.card-left {\n  width: 78%;\n  margin-right: auto;\n}\n.card-right {\n  width: 78%;\n  margin-left: auto;\n}\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(28px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.edu-card {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  padding: 2.5rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  gap: 1.5rem;\n  position: relative;\n  overflow: hidden;\n  opacity: 0;\n}\n.edu-card.fade-in {\n  animation: fadeInUp 0.55s ease forwards;\n}\n.edu-card-content {\n  position: relative;\n  flex: 1;\n}\n.edu-tag {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  margin-bottom: 16px;\n}\n.edu-title {\n  font-size: 32px;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.edu-desc {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n  margin-bottom: 2rem;\n}\n.btn-go {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-go:hover {\n  background: #c9c97a;\n}\n.plan-card {\n  background: #2B5C59;\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(185, 122, 83, 0.3);\n  padding: 2.5rem;\n  position: relative;\n  overflow: hidden;\n  opacity: 0;\n}\n.plan-card.fade-in {\n  animation: fadeInUp 0.55s ease 0.18s forwards;\n}\n.plan-card-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 1.5rem;\n  margin-bottom: 2rem;\n}\n.plan-tag {\n  display: inline-block;\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  padding: 4px 10px;\n  border-radius: 4px;\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border: 0.5px solid rgba(185, 122, 83, 0.35);\n  margin-bottom: 14px;\n}\n.plan-title {\n  font-size: 28px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.2;\n  margin-bottom: 12px;\n}\n.plan-desc {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.55);\n  line-height: 1.7;\n}\n.plan-icon-big {\n  font-size: 64px;\n  color: rgba(216, 208, 137, 0.12);\n  flex-shrink: 0;\n}\n.plan-text {\n  text-align: right;\n}\n.plan-btn-wrap {\n  display: flex;\n  justify-content: flex-end;\n}\n.plan-features {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.plan-features--right {\n  justify-content: flex-end;\n}\n.plan-feat {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 20px;\n  padding: 7px 16px;\n  font-size: 14px;\n  color: rgba(255, 255, 255, 0.6);\n}\n.plan-feat i {\n  font-size: 15px;\n  color: #D8D089;\n}\n.btn-plan {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 12px 26px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-plan:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.notizie-wrap {\n  margin-top: 3rem;\n  position: relative;\n}\n.notizie-bg {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n}\n.notizie-wrap .inner {\n  position: relative;\n  z-index: 1;\n}\n.notizie-header {\n  position: relative;\n  padding: 3rem 0 2rem;\n  display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n}\n.notizie-title-big {\n  font-size: 38px;\n  font-weight: 600;\n  color: white;\n}\n.notizie-title-big span {\n  color: #D8D089;\n}\n.notizie-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.38);\n  margin-top: 6px;\n}\n.carousel-outer {\n  position: relative;\n  padding: 0 3rem;\n}\n.carousel-track-wrap {\n  overflow: hidden;\n}\n.carousel-track {\n  display: flex;\n  gap: 18px;\n  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);\n}\n.news-card {\n  flex: 0 0 240px;\n  background: rgba(43, 92, 89, 0.92);\n  border-radius: var(--border-radius-lg);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  overflow: hidden;\n  cursor: pointer;\n  transition: border-color 0.15s;\n}\n.news-card:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.news-card-img {\n  height: 140px;\n  position: relative;\n  overflow: hidden;\n}\n.news-card-img svg {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n}\n.post-img-wrap {\n  position: absolute;\n  inset: 0;\n}\n.post-img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  opacity: 0.7;\n}\n.news-card-body {\n  padding: 16px;\n}\n.news-cat {\n  font-size: 11px;\n  letter-spacing: 1.5px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 8px;\n  display: block;\n}\n.news-ttl {\n  font-size: 16px;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.88);\n  line-height: 1.45;\n  margin-bottom: 8px;\n}\n.news-date {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.3);\n}\n.carousel-btn {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: #D8D089;\n  font-size: 18px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 2;\n  transition: opacity 0.2s;\n}\n.carousel-btn.prev {\n  left: 0;\n}\n.carousel-btn.next {\n  right: 0;\n}\n.notizie-vuote {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 15px;\n  padding: 2.5rem 0;\n}\n.notizie-spacer {\n  height: 2.5rem;\n}\n@media (max-width: 768px) {\n  .inner,\n  .navbar,\n  .hero-content {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .hero-title {\n    font-size: 42px;\n    letter-spacing: -0.5px;\n  }\n  .hero-wrap {\n    height: 380px;\n  }\n  .stats-strip .inner {\n    flex-wrap: wrap;\n  }\n  .stat {\n    flex: 0 0 50%;\n    padding: 0.75rem;\n    border-right: none;\n  }\n  .stat:first-child {\n    padding-left: 0.75rem;\n  }\n  .stat-val {\n    font-size: 28px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .lv-badge {\n    display: none;\n  }\n  .card-left,\n  .card-right {\n    width: 100%;\n  }\n  .edu-card {\n    padding: 1.5rem;\n  }\n  .plan-card {\n    padding: 1.5rem;\n  }\n  .plan-card-top {\n    flex-direction: column;\n    gap: 0.75rem;\n  }\n  .plan-icon-big {\n    font-size: 40px;\n    align-self: flex-start;\n  }\n  .plan-text {\n    text-align: left;\n  }\n  .plan-desc {\n    max-width: 100%;\n  }\n  .plan-features--right {\n    justify-content: flex-start;\n  }\n  .plan-btn-wrap {\n    justify-content: flex-start;\n  }\n  .carousel-outer {\n    padding: 0;\n  }\n  .carousel-btn {\n    display: none;\n  }\n  .carousel-track-wrap {\n    overflow-x: auto;\n    overflow-y: hidden;\n    -webkit-overflow-scrolling: touch;\n    scroll-snap-type: x mandatory;\n    scrollbar-width: none;\n  }\n  .carousel-track-wrap::-webkit-scrollbar {\n    display: none;\n  }\n  .carousel-track {\n    transform: none !important;\n  }\n  .news-card {\n    flex: 0 0 55vw;\n    max-width: 200px;\n    scroll-snap-align: start;\n  }\n  .news-card-img {\n    height: 110px;\n  }\n  .news-card-body {\n    padding: 12px;\n  }\n  .news-ttl {\n    font-size: 14px;\n  }\n}\n/*# sourceMappingURL=home.css.map */\n'] }]
   }], () => [{ type: Router }, { type: HttpClient }, { type: AuthService }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Home, { className: "Home", filePath: "src/app/features/home/home.ts", lineNumber: 39 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Home, { className: "Home", filePath: "src/app/features/home/home.ts", lineNumber: 41 });
 })();
 
 // src/app/features/education/quiz-list/quiz-list.ts
@@ -55052,13 +55390,13 @@ function QuizList_Conditional_51_Template(rf, ctx) {
 function QuizList_Conditional_52_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 44);
+    \u0275\u0275elementStart(0, "div", 46);
     \u0275\u0275listener("click", function QuizList_Conditional_52_Conditional_1_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.nuovoQuiz());
     });
-    \u0275\u0275element(1, "i", 45);
+    \u0275\u0275element(1, "i", 47);
     \u0275\u0275elementStart(2, "p");
     \u0275\u0275text(3, "Nuovo Quiz");
     \u0275\u0275elementEnd()();
@@ -55067,30 +55405,39 @@ function QuizList_Conditional_52_Conditional_1_Template(rf, ctx) {
 function QuizList_Conditional_52_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 47)(1, "button", 59);
+    \u0275\u0275elementStart(0, "div", 49)(1, "button", 61);
     \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Conditional_1_Template_button_click_1_listener($event) {
+      \u0275\u0275restoreView(_r5);
+      const q_r4 = \u0275\u0275nextContext().$implicit;
+      const ctx_r0 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r0.apriAnalytics(q_r4._id, $event));
+    });
+    \u0275\u0275element(2, "i", 62);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "button", 63);
+    \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Conditional_1_Template_button_click_3_listener($event) {
       \u0275\u0275restoreView(_r5);
       const q_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.modificaQuiz(q_r4._id, $event));
     });
-    \u0275\u0275element(2, "i", 60);
+    \u0275\u0275element(4, "i", 64);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 61);
-    \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Conditional_1_Template_button_click_3_listener($event) {
+    \u0275\u0275elementStart(5, "button", 65);
+    \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Conditional_1_Template_button_click_5_listener($event) {
       \u0275\u0275restoreView(_r5);
       const q_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.eliminaQuiz(q_r4._id, $event));
     });
-    \u0275\u0275element(4, "i", 62);
+    \u0275\u0275element(6, "i", 66);
     \u0275\u0275elementEnd()();
   }
 }
 function QuizList_Conditional_52_For_3_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 48);
-    \u0275\u0275element(1, "i", 63);
+    \u0275\u0275elementStart(0, "div", 50);
+    \u0275\u0275element(1, "i", 67);
     \u0275\u0275text(2, " Completato ");
     \u0275\u0275elementEnd();
   }
@@ -55103,7 +55450,7 @@ function QuizList_Conditional_52_For_3_For_8_Template(rf, ctx) {
 function QuizList_Conditional_52_For_3_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 64);
+    \u0275\u0275elementStart(0, "button", 68);
     \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Conditional_18_Template_button_click_0_listener($event) {
       \u0275\u0275restoreView(_r6);
       const q_r4 = \u0275\u0275nextContext().$implicit;
@@ -55118,35 +55465,35 @@ function QuizList_Conditional_52_For_3_Conditional_18_Template(rf, ctx) {
 function QuizList_Conditional_52_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 46);
+    \u0275\u0275elementStart(0, "div", 48);
     \u0275\u0275listener("click", function QuizList_Conditional_52_For_3_Template_div_click_0_listener() {
       const q_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.avviaQuiz(q_r4._id));
     });
-    \u0275\u0275conditionalCreate(1, QuizList_Conditional_52_For_3_Conditional_1_Template, 5, 0, "div", 47);
-    \u0275\u0275conditionalCreate(2, QuizList_Conditional_52_For_3_Conditional_2_Template, 3, 0, "div", 48);
-    \u0275\u0275elementStart(3, "div", 49)(4, "span");
+    \u0275\u0275conditionalCreate(1, QuizList_Conditional_52_For_3_Conditional_1_Template, 7, 0, "div", 49);
+    \u0275\u0275conditionalCreate(2, QuizList_Conditional_52_For_3_Conditional_2_Template, 3, 0, "div", 50);
+    \u0275\u0275elementStart(3, "div", 51)(4, "span");
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 50);
+    \u0275\u0275elementStart(6, "span", 52);
     \u0275\u0275repeaterCreate(7, QuizList_Conditional_52_For_3_For_8_Template, 1, 0, null, null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "h3", 51);
+    \u0275\u0275elementStart(9, "h3", 53);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "p", 52);
+    \u0275\u0275elementStart(11, "p", 54);
     \u0275\u0275text(12);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "div", 53)(14, "span", 54);
+    \u0275\u0275elementStart(13, "div", 55)(14, "span", 56);
     \u0275\u0275text(15);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "span", 55);
+    \u0275\u0275elementStart(16, "span", 57);
     \u0275\u0275text(17);
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(18, QuizList_Conditional_52_For_3_Conditional_18_Template, 3, 0, "button", 56);
-    \u0275\u0275elementStart(19, "div", 57)(20, "span");
-    \u0275\u0275element(21, "i", 58);
+    \u0275\u0275conditionalCreate(18, QuizList_Conditional_52_For_3_Conditional_18_Template, 3, 0, "button", 58);
+    \u0275\u0275elementStart(19, "div", 59)(20, "span");
+    \u0275\u0275element(21, "i", 60);
     \u0275\u0275text(22);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(23, "span");
@@ -55192,9 +55539,9 @@ function QuizList_Conditional_52_Conditional_4_Template(rf, ctx) {
 }
 function QuizList_Conditional_52_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 41);
-    \u0275\u0275conditionalCreate(1, QuizList_Conditional_52_Conditional_1_Template, 4, 0, "div", 42);
-    \u0275\u0275repeaterCreate(2, QuizList_Conditional_52_For_3_Template, 25, 15, "div", 43, _forTrack02);
+    \u0275\u0275elementStart(0, "div", 43);
+    \u0275\u0275conditionalCreate(1, QuizList_Conditional_52_Conditional_1_Template, 4, 0, "div", 44);
+    \u0275\u0275repeaterCreate(2, QuizList_Conditional_52_For_3_Template, 25, 15, "div", 45, _forTrack02);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(4, QuizList_Conditional_52_Conditional_4_Template, 2, 0, "div", 28);
   }
@@ -55211,13 +55558,13 @@ function QuizList_Conditional_52_Template(rf, ctx) {
 function QuizList_Conditional_62_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 65);
+    \u0275\u0275elementStart(0, "button", 69);
     \u0275\u0275listener("click", function QuizList_Conditional_62_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.vaiBadge());
     });
-    \u0275\u0275element(1, "i", 66);
+    \u0275\u0275element(1, "i", 70);
     \u0275\u0275text(2, " Gestisci badge ");
     \u0275\u0275elementEnd();
   }
@@ -55245,16 +55592,16 @@ function QuizList_For_66_Conditional_10_Template(rf, ctx) {
 }
 function QuizList_For_66_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 67)(1, "span", 68);
+    \u0275\u0275elementStart(0, "div", 71)(1, "span", 72);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 69)(4, "span", 70);
+    \u0275\u0275elementStart(3, "div", 73)(4, "span", 74);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 71);
-    \u0275\u0275element(7, "div", 72);
+    \u0275\u0275elementStart(6, "div", 75);
+    \u0275\u0275element(7, "div", 76);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 73);
+    \u0275\u0275elementStart(8, "span", 77);
     \u0275\u0275conditionalCreate(9, QuizList_For_66_Conditional_9_Template, 1, 0)(10, QuizList_For_66_Conditional_10_Template, 1, 1);
     \u0275\u0275elementEnd()()();
   }
@@ -55272,6 +55619,133 @@ function QuizList_For_66_Template(rf, ctx) {
     \u0275\u0275styleProp("width", b_r8.percentuale, "%");
     \u0275\u0275advance(2);
     \u0275\u0275conditional(b_r8.ottenuto ? 9 : 10);
+  }
+}
+function QuizList_Conditional_68_Conditional_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 83);
+    \u0275\u0275text(1, "Caricamento dati...");
+    \u0275\u0275elementEnd();
+  }
+}
+function QuizList_Conditional_68_Conditional_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 84);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "div", 85)(3, "div", 86)(4, "span", 87);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "span", 88);
+    \u0275\u0275text(7, "Utenti unici");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(8, "div", 86)(9, "span", 87);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "span", 88);
+    \u0275\u0275text(12, "Completamenti");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(13, "div", 86)(14, "span", 87);
+    \u0275\u0275text(15);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(16, "span", 88);
+    \u0275\u0275text(17, "Sessioni avviate");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(18, "div", 89)(19, "span", 87);
+    \u0275\u0275text(20);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(21, "span", 88);
+    \u0275\u0275text(22, "Tasso completamento");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(23, "div", 90)(24, "div", 91)(25, "span", 92);
+    \u0275\u0275text(26, "Punteggio medio");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(27, "span", 93);
+    \u0275\u0275text(28);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(29, "div", 94);
+    \u0275\u0275element(30, "div", 95);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(31, "div", 96)(32, "span", 92);
+    \u0275\u0275text(33, "Minimo completamento");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(34, "span", 93);
+    \u0275\u0275text(35);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(36, "div", 96)(37, "span", 92);
+    \u0275\u0275text(38, "Massimo completamento");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(39, "span", 93);
+    \u0275\u0275text(40);
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.titolo);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.utentiUnici);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.sessioniCompletate);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.totaleSessioni);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate1("", ctx_r0.tassoCompletamento(ctx_r0.datiAnalytics), "%");
+    \u0275\u0275advance(8);
+    \u0275\u0275textInterpolate2("", ctx_r0.datiAnalytics.punteggioMedio, " / ", ctx_r0.datiAnalytics.punteggioPossibile);
+    \u0275\u0275advance(2);
+    \u0275\u0275styleProp("width", ctx_r0.percentualePunteggio(ctx_r0.datiAnalytics), "%");
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.punteggioMin);
+    \u0275\u0275advance(5);
+    \u0275\u0275textInterpolate(ctx_r0.datiAnalytics.punteggioMax);
+  }
+}
+function QuizList_Conditional_68_Conditional_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 83);
+    \u0275\u0275text(1, "Nessun dato disponibile.");
+    \u0275\u0275elementEnd();
+  }
+}
+function QuizList_Conditional_68_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 78);
+    \u0275\u0275listener("click", function QuizList_Conditional_68_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.chiudiAnalytics());
+    });
+    \u0275\u0275elementStart(1, "div", 79);
+    \u0275\u0275listener("click", function QuizList_Conditional_68_Template_div_click_1_listener($event) {
+      return $event.stopPropagation();
+    });
+    \u0275\u0275elementStart(2, "div", 80)(3, "h2", 81);
+    \u0275\u0275element(4, "i", 62);
+    \u0275\u0275text(5, " Analytics quiz");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "button", 82);
+    \u0275\u0275listener("click", function QuizList_Conditional_68_Template_button_click_6_listener() {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.chiudiAnalytics());
+    });
+    \u0275\u0275element(7, "i", 66);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(8, QuizList_Conditional_68_Conditional_8_Template, 2, 0, "div", 83);
+    \u0275\u0275conditionalCreate(9, QuizList_Conditional_68_Conditional_9_Template, 41, 11);
+    \u0275\u0275conditionalCreate(10, QuizList_Conditional_68_Conditional_10_Template, 2, 0, "p", 83);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(8);
+    \u0275\u0275conditional(ctx_r0.caricamentoAnalytics ? 8 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r0.caricamentoAnalytics && ctx_r0.datiAnalytics ? 9 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r0.caricamentoAnalytics && !ctx_r0.datiAnalytics ? 10 : -1);
   }
 }
 var QuizList = class _QuizList {
@@ -55294,7 +55768,10 @@ var QuizList = class _QuizList {
   livelloUtente = 1;
   /** IDs dei quiz già completati dall'utente — usato per US-16 */
   quizCompletatiIds = /* @__PURE__ */ new Set();
-  apiUrl = "http://localhost:3000/api/educazione";
+  mostraModalAnalytics = false;
+  datiAnalytics = null;
+  caricamentoAnalytics = false;
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, authService, router, cdr) {
     this.http = http;
     this.authService = authService;
@@ -55387,7 +55864,7 @@ var QuizList = class _QuizList {
           this.puntiUtente = risposta.dati.punti;
           this.livelloUtente = risposta.dati.livello;
           const completati = risposta.dati.quizCompletati || [];
-          this.quizCompletatiIds = new Set(completati.map((q2) => q2.idQuiz));
+          this.quizCompletatiIds = new Set(completati.map((q) => q.idQuiz));
           this.cdr.detectChanges();
         }
       },
@@ -55448,6 +55925,43 @@ var QuizList = class _QuizList {
   eCompletato(id) {
     return this.quizCompletatiIds.has(id);
   }
+  /** Apre il modal analytics per un quiz specifico. */
+  apriAnalytics(id, event) {
+    event.stopPropagation();
+    this.mostraModalAnalytics = true;
+    this.datiAnalytics = null;
+    this.caricamentoAnalytics = true;
+    this.cdr.detectChanges();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
+    this.http.get(`${this.apiUrl}/quiz/${id}/analytics`, { headers }).subscribe({
+      next: (risposta) => {
+        this.datiAnalytics = risposta.dati;
+        this.caricamentoAnalytics = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.caricamentoAnalytics = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  /** Chiude il modal analytics. */
+  chiudiAnalytics() {
+    this.mostraModalAnalytics = false;
+    this.datiAnalytics = null;
+  }
+  /** Calcola il tasso di completamento in percentuale. */
+  tassoCompletamento(a3) {
+    if (a3.totaleSessioni === 0)
+      return 0;
+    return Math.round(a3.sessioniCompletate / a3.totaleSessioni * 100);
+  }
+  /** Calcola la percentuale del punteggio medio rispetto al massimo. */
+  percentualePunteggio(a3) {
+    if (a3.punteggioPossibile === 0)
+      return 0;
+    return Math.round(a3.punteggioMedio / a3.punteggioPossibile * 100);
+  }
   /** Termina la sessione e reindirizza al login. */
   logout() {
     this.authService.logout();
@@ -55456,9 +55970,13 @@ var QuizList = class _QuizList {
   static \u0275fac = function QuizList_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _QuizList)(\u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizList, selectors: [["app-quiz-list"]], decls: 67, vars: 12, consts: [[1, "ql-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "punti-pill"], [1, "page-layout"], [1, "main-col"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "btn-video", 3, "click"], [1, "ti", "ti-player-play"], [1, "filtri-bar"], ["name", "categoria", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel"], ["value", ""], ["value", "meteo"], ["value", "valanghe"], ["value", "orientamento"], ["value", "fauna"], ["value", "prontoSoccorso"], ["value", "generale"], [1, "stato-msg"], [1, "errore-msg"], [1, "badge-sidebar"], [1, "badge-bg"], [1, "badge-scroll"], [1, "sidebar-head"], [1, "sidebar-titolo"], [1, "ti", "ti-medal"], [1, "sidebar-counter"], [1, "btn-gestisci"], [1, "sidebar-vuoto"], [1, "badge-lista"], [1, "badge-item", 3, "ottenuto", "title"], [1, "quiz-grid"], [1, "quiz-card", "card-aggiungi"], [1, "quiz-card", 3, "completato"], [1, "quiz-card", "card-aggiungi", 3, "click"], [1, "ti", "ti-plus", "aggiungi-icon"], [1, "quiz-card", 3, "click"], [1, "admin-controls"], [1, "badge-completato"], [1, "card-top"], [1, "stelle"], [1, "card-title"], [1, "card-sub"], [1, "card-diff-row"], [1, "diff-label"], [1, "pt-badge"], [1, "btn-video-card"], [1, "card-footer"], [1, "ti", "ti-clock"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"], [1, "ti", "ti-check"], [1, "btn-video-card", 3, "click"], [1, "btn-gestisci", 3, "click"], [1, "ti", "ti-settings"], [1, "badge-item", 3, "title"], [1, "badge-ico"], [1, "badge-info"], [1, "badge-nome"], [1, "badge-track"], [1, "badge-fill"], [1, "badge-pct"]], template: function QuizList_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _QuizList, selectors: [["app-quiz-list"]], decls: 69, vars: 13, consts: [[1, "ql-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "punti-pill"], [1, "page-layout"], [1, "main-col"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "btn-video", 3, "click"], [1, "ti", "ti-player-play"], [1, "filtri-bar"], ["name", "categoria", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel"], ["value", ""], ["value", "meteo"], ["value", "valanghe"], ["value", "orientamento"], ["value", "fauna"], ["value", "prontoSoccorso"], ["value", "generale"], [1, "stato-msg"], [1, "errore-msg"], [1, "badge-sidebar"], [1, "badge-bg"], [1, "badge-scroll"], [1, "sidebar-head"], [1, "sidebar-titolo"], [1, "ti", "ti-medal"], [1, "sidebar-counter"], [1, "btn-gestisci"], [1, "sidebar-vuoto"], [1, "badge-lista"], [1, "badge-item", 3, "ottenuto", "title"], ["active", "educazione"], [1, "analytics-overlay"], [1, "quiz-grid"], [1, "quiz-card", "card-aggiungi"], [1, "quiz-card", 3, "completato"], [1, "quiz-card", "card-aggiungi", 3, "click"], [1, "ti", "ti-plus", "aggiungi-icon"], [1, "quiz-card", 3, "click"], [1, "admin-controls"], [1, "badge-completato"], [1, "card-top"], [1, "stelle"], [1, "card-title"], [1, "card-sub"], [1, "card-diff-row"], [1, "diff-label"], [1, "pt-badge"], [1, "btn-video-card"], [1, "card-footer"], [1, "ti", "ti-clock"], ["title", "Analytics", 1, "btn-admin-analytics", 3, "click"], [1, "ti", "ti-chart-bar"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"], [1, "ti", "ti-check"], [1, "btn-video-card", 3, "click"], [1, "btn-gestisci", 3, "click"], [1, "ti", "ti-settings"], [1, "badge-item", 3, "title"], [1, "badge-ico"], [1, "badge-info"], [1, "badge-nome"], [1, "badge-track"], [1, "badge-fill"], [1, "badge-pct"], [1, "analytics-overlay", 3, "click"], [1, "analytics-modal", 3, "click"], [1, "analytics-header"], [1, "analytics-title"], [1, "analytics-close", 3, "click"], [1, "analytics-loading"], [1, "analytics-quiz-nome"], [1, "analytics-grid"], [1, "analytics-stat"], [1, "stat-value"], [1, "stat-label"], [1, "analytics-stat", "highlight"], [1, "analytics-scores"], [1, "score-row"], [1, "score-label"], [1, "score-val"], [1, "score-bar-wrap"], [1, "score-bar-fill"], [1, "score-row", "score-row-minor"]], template: function QuizList_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function QuizList_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -55554,7 +56072,10 @@ var QuizList = class _QuizList {
       \u0275\u0275conditionalCreate(63, QuizList_Conditional_63_Template, 2, 0, "p", 38);
       \u0275\u0275elementStart(64, "div", 39);
       \u0275\u0275repeaterCreate(65, QuizList_For_66_Template, 11, 10, "div", 40, _forTrack02);
-      \u0275\u0275elementEnd()()()()();
+      \u0275\u0275elementEnd()()()();
+      \u0275\u0275element(67, "app-mobile-nav", 41);
+      \u0275\u0275elementEnd();
+      \u0275\u0275conditionalCreate(68, QuizList_Conditional_68_Template, 11, 3, "div", 42);
     }
     if (rf & 2) {
       \u0275\u0275advance(20);
@@ -55577,17 +56098,19 @@ var QuizList = class _QuizList {
       \u0275\u0275conditional(ctx.badges.length === 0 ? 63 : -1);
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.badges);
+      \u0275\u0275advance(3);
+      \u0275\u0275conditional(ctx.mostraModalAnalytics ? 68 : -1);
     }
-  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, ProfileButton], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.ql-root[_ngcontent-%COMP%] {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.punti-pill[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.65);\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 4px 14px;\n  border-radius: 20px;\n}\n.page-layout[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n}\n.main-col[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0 5% 4rem;\n  scrollbar-width: thin;\n  scrollbar-color: rgba(151, 168, 149, 0.25) transparent;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar {\n  width: 5px;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-thumb {\n  background: rgba(151, 168, 149, 0.25);\n  border-radius: 99px;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-thumb:hover {\n  background: rgba(151, 168, 149, 0.45);\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2.5rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 62px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 14px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 17px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-bottom: 1.75rem;\n  max-width: 500px;\n  line-height: 1.6;\n}\n.btn-video[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 11px 24px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  margin-bottom: 1.75rem;\n}\n.filtro-select[_ngcontent-%COMP%] {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.quiz-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  gap: 1.4rem;\n}\n.quiz-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 1.5rem;\n  cursor: pointer;\n  position: relative;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.quiz-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-3px);\n  border-color: rgba(216, 208, 137, 0.45);\n}\n.quiz-card.completato[_ngcontent-%COMP%] {\n  border-color: rgba(76, 175, 130, 0.4);\n}\n.badge-completato[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.35);\n  border-radius: 20px;\n  padding: 0.2rem 0.7rem;\n  margin-bottom: 0.65rem;\n}\n.card-top[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.85rem;\n}\n.cat-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.25rem 0.8rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe[_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso[_ngcontent-%COMP%] {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento[_ngcontent-%COMP%] {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.stelle[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  color: #D8D089;\n  letter-spacing: 1px;\n}\n.card-title[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 0.4rem;\n  line-height: 1.3;\n}\n.card-sub[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 1rem;\n  line-height: 1.4;\n}\n.card-diff-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.9rem;\n}\n.diff-label[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.pt-badge[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #D8D089;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 0.2rem 0.65rem;\n  border-radius: 12px;\n}\n.btn-video-card[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 0.55rem 0;\n  margin-bottom: 0.9rem;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 8px;\n  color: rgba(255, 255, 255, 0.65);\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video-card[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.10);\n}\n.card-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.8rem;\n}\n.card-aggiungi[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 180px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon[_ngcontent-%COMP%] {\n  font-size: 2.2rem;\n  color: #D8D089;\n  margin-bottom: 0.6rem;\n}\n.card-aggiungi[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.admin-controls[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0.85rem;\n  right: 0.85rem;\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n.badge-sidebar[_ngcontent-%COMP%] {\n  width: 300px;\n  flex-shrink: 0;\n  position: relative;\n  overflow: hidden;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.badge-bg[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  background-size: cover !important;\n  background-position: center !important;\n}\n.badge-scroll[_ngcontent-%COMP%] {\n  position: relative;\n  height: 100%;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar {\n  width: 4px;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar-thumb {\n  background: rgba(216, 208, 137, 0.25);\n  border-radius: 4px;\n}\n.sidebar-head[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.sidebar-titolo[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  font-weight: 700;\n  color: #D8D089;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.sidebar-counter[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.6);\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(255, 255, 255, 0.15);\n  padding: 0.15rem 0.6rem;\n  border-radius: 20px;\n}\n.btn-gestisci[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.8rem 1rem;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.45);\n  color: #D8D089;\n  border-radius: 10px;\n  font-size: 0.95rem;\n  font-weight: 600;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  transition: background 0.15s;\n}\n.btn-gestisci[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.sidebar-vuoto[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-align: center;\n  padding: 1.5rem 0;\n}\n.badge-lista[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1rem;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  background: rgba(20, 50, 48, 0.80);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  opacity: 0.65;\n  filter: grayscale(55%);\n  transition:\n    opacity 0.2s,\n    filter 0.2s,\n    border-color 0.2s;\n}\n.badge-item.ottenuto[_ngcontent-%COMP%] {\n  opacity: 1;\n  filter: none;\n  border-color: rgba(76, 175, 130, 0.4);\n  background: rgba(20, 50, 48, 0.88);\n}\n.badge-ico[_ngcontent-%COMP%] {\n  font-size: 1.9rem;\n  line-height: 1;\n  flex-shrink: 0;\n}\n.badge-ico.grigio[_ngcontent-%COMP%] {\n  filter: grayscale(100%);\n}\n.badge-info[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.28rem;\n}\n.badge-nome[_ngcontent-%COMP%] {\n  font-size: 0.87rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.badge-track[_ngcontent-%COMP%] {\n  height: 4px;\n  background: rgba(255, 255, 255, 0.12);\n  border-radius: 4px;\n  overflow: hidden;\n}\n.badge-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background: rgba(216, 208, 137, 0.65);\n  border-radius: 4px;\n  transition: width 0.4s ease;\n}\n.badge-item.ottenuto[_ngcontent-%COMP%]   .badge-fill[_ngcontent-%COMP%] {\n  background: #4CAF82;\n}\n.badge-pct[_ngcontent-%COMP%] {\n  font-size: 0.73rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.badge-item.ottenuto[_ngcontent-%COMP%]   .badge-pct[_ngcontent-%COMP%] {\n  color: #4CAF82;\n  font-weight: 600;\n}\n@media (max-width: 900px) {\n  .ql-root[_ngcontent-%COMP%] {\n    height: auto;\n    overflow: visible;\n  }\n  .page-layout[_ngcontent-%COMP%] {\n    flex-direction: column;\n    overflow: visible;\n  }\n  .main-col[_ngcontent-%COMP%] {\n    overflow-y: visible;\n    padding: 0 1.25rem 2rem;\n  }\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 38px;\n  }\n  .badge-sidebar[_ngcontent-%COMP%] {\n    width: 100%;\n    height: 60vh;\n    border-left: none;\n    border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: block;\n  }\n  .punti-pill[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n/*# sourceMappingURL=quiz-list.css.map */'] });
+  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, ProfileButton, MobileNav], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.ql-root[_ngcontent-%COMP%] {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.punti-pill[_ngcontent-%COMP%] {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.65);\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 4px 14px;\n  border-radius: 20px;\n}\n.page-layout[_ngcontent-%COMP%] {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n}\n.main-col[_ngcontent-%COMP%] {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0 5% 4rem;\n  scrollbar-width: thin;\n  scrollbar-color: rgba(151, 168, 149, 0.25) transparent;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar {\n  width: 5px;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-thumb {\n  background: rgba(151, 168, 149, 0.25);\n  border-radius: 99px;\n}\n.main-col[_ngcontent-%COMP%]::-webkit-scrollbar-thumb:hover {\n  background: rgba(151, 168, 149, 0.45);\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2.5rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 62px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 14px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 17px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-bottom: 1.75rem;\n  max-width: 500px;\n  line-height: 1.6;\n}\n.btn-video[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 11px 24px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  margin-bottom: 1.75rem;\n}\n.filtro-select[_ngcontent-%COMP%] {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.quiz-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  gap: 1.4rem;\n}\n.quiz-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 1.5rem;\n  cursor: pointer;\n  position: relative;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.quiz-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-3px);\n  border-color: rgba(216, 208, 137, 0.45);\n}\n.quiz-card.completato[_ngcontent-%COMP%] {\n  border-color: rgba(76, 175, 130, 0.4);\n}\n.badge-completato[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.35);\n  border-radius: 20px;\n  padding: 0.2rem 0.7rem;\n  margin-bottom: 0.65rem;\n}\n.card-top[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.85rem;\n}\n.cat-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.25rem 0.8rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe[_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso[_ngcontent-%COMP%] {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento[_ngcontent-%COMP%] {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.stelle[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  color: #D8D089;\n  letter-spacing: 1px;\n}\n.card-title[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 0.4rem;\n  line-height: 1.3;\n}\n.card-sub[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 1rem;\n  line-height: 1.4;\n}\n.card-diff-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.9rem;\n}\n.diff-label[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.pt-badge[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #D8D089;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 0.2rem 0.65rem;\n  border-radius: 12px;\n}\n.btn-video-card[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 0.55rem 0;\n  margin-bottom: 0.9rem;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 8px;\n  color: rgba(255, 255, 255, 0.65);\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video-card[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.10);\n}\n.card-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.8rem;\n}\n.card-aggiungi[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 180px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon[_ngcontent-%COMP%] {\n  font-size: 2.2rem;\n  color: #D8D089;\n  margin-bottom: 0.6rem;\n}\n.card-aggiungi[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.admin-controls[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0.85rem;\n  right: 0.85rem;\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%], \n.btn-admin-analytics[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n.btn-admin-analytics[_ngcontent-%COMP%]:hover {\n  background: rgba(160, 154, 232, 0.15);\n  color: #A09AE8;\n}\n.analytics-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  inset: 0;\n  z-index: 500;\n  background: rgba(10, 28, 27, 0.75);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 1.5rem;\n}\n.analytics-modal[_ngcontent-%COMP%] {\n  background: #1f4240;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 18px;\n  padding: 2rem;\n  width: 100%;\n  max-width: 480px;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);\n}\n.analytics-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.5rem;\n}\n.analytics-title[_ngcontent-%COMP%] {\n  font-size: 1.15rem;\n  font-weight: 700;\n  color: white;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin: 0;\n}\n.analytics-title[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n  color: #A09AE8;\n}\n.analytics-close[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 8px;\n  padding: 0.3rem 0.6rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.5);\n  font-size: 0.9rem;\n  transition: background 0.15s;\n}\n.analytics-close[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n.analytics-quiz-nome[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1.5rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-bottom: 0.9rem;\n}\n.analytics-loading[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 2.5rem 0;\n  font-size: 0.95rem;\n}\n.analytics-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 0.85rem;\n  margin-bottom: 1.75rem;\n}\n.analytics-stat[_ngcontent-%COMP%] {\n  background: rgba(43, 92, 89, 0.6);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 12px;\n  padding: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.analytics-stat.highlight[_ngcontent-%COMP%] {\n  border-color: rgba(160, 154, 232, 0.35);\n  background: rgba(160, 154, 232, 0.1);\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: white;\n  line-height: 1;\n}\n.analytics-stat.highlight[_ngcontent-%COMP%]   .stat-value[_ngcontent-%COMP%] {\n  color: #A09AE8;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.analytics-scores[_ngcontent-%COMP%] {\n  background: rgba(43, 92, 89, 0.4);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 12px;\n  padding: 1.1rem 1.2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.score-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.score-row-minor[_ngcontent-%COMP%]   .score-label[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 0.82rem;\n}\n.score-row-minor[_ngcontent-%COMP%]   .score-val[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 0.82rem;\n}\n.score-label[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.55);\n}\n.score-val[_ngcontent-%COMP%] {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.score-bar-wrap[_ngcontent-%COMP%] {\n  height: 6px;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.score-bar-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #A09AE8,\n      #D8D089);\n  border-radius: 6px;\n  transition: width 0.5s ease;\n  min-width: 4px;\n}\n.badge-sidebar[_ngcontent-%COMP%] {\n  width: 300px;\n  flex-shrink: 0;\n  position: relative;\n  overflow: hidden;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.badge-bg[_ngcontent-%COMP%] {\n  position: absolute;\n  inset: 0;\n  background-size: cover !important;\n  background-position: center !important;\n}\n.badge-scroll[_ngcontent-%COMP%] {\n  position: relative;\n  height: 100%;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar {\n  width: 4px;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.badge-scroll[_ngcontent-%COMP%]::-webkit-scrollbar-thumb {\n  background: rgba(216, 208, 137, 0.25);\n  border-radius: 4px;\n}\n.sidebar-head[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.sidebar-titolo[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  font-weight: 700;\n  color: #D8D089;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.sidebar-counter[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.6);\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(255, 255, 255, 0.15);\n  padding: 0.15rem 0.6rem;\n  border-radius: 20px;\n}\n.btn-gestisci[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.8rem 1rem;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.45);\n  color: #D8D089;\n  border-radius: 10px;\n  font-size: 0.95rem;\n  font-weight: 600;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  transition: background 0.15s;\n}\n.btn-gestisci[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.sidebar-vuoto[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-align: center;\n  padding: 1.5rem 0;\n}\n.badge-lista[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1rem;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  background: rgba(20, 50, 48, 0.80);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  opacity: 0.65;\n  filter: grayscale(55%);\n  transition:\n    opacity 0.2s,\n    filter 0.2s,\n    border-color 0.2s;\n}\n.badge-item.ottenuto[_ngcontent-%COMP%] {\n  opacity: 1;\n  filter: none;\n  border-color: rgba(76, 175, 130, 0.4);\n  background: rgba(20, 50, 48, 0.88);\n}\n.badge-ico[_ngcontent-%COMP%] {\n  font-size: 1.9rem;\n  line-height: 1;\n  flex-shrink: 0;\n}\n.badge-ico.grigio[_ngcontent-%COMP%] {\n  filter: grayscale(100%);\n}\n.badge-info[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.28rem;\n}\n.badge-nome[_ngcontent-%COMP%] {\n  font-size: 0.87rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.badge-track[_ngcontent-%COMP%] {\n  height: 4px;\n  background: rgba(255, 255, 255, 0.12);\n  border-radius: 4px;\n  overflow: hidden;\n}\n.badge-fill[_ngcontent-%COMP%] {\n  height: 100%;\n  background: rgba(216, 208, 137, 0.65);\n  border-radius: 4px;\n  transition: width 0.4s ease;\n}\n.badge-item.ottenuto[_ngcontent-%COMP%]   .badge-fill[_ngcontent-%COMP%] {\n  background: #4CAF82;\n}\n.badge-pct[_ngcontent-%COMP%] {\n  font-size: 0.73rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.badge-item.ottenuto[_ngcontent-%COMP%]   .badge-pct[_ngcontent-%COMP%] {\n  color: #4CAF82;\n  font-weight: 600;\n}\n@media (max-width: 900px) {\n  .ql-root[_ngcontent-%COMP%] {\n    height: auto;\n    overflow: visible;\n  }\n  .page-layout[_ngcontent-%COMP%] {\n    flex-direction: column;\n    overflow: visible;\n  }\n  .main-col[_ngcontent-%COMP%] {\n    overflow-y: visible;\n    padding: 0 1.25rem 2rem;\n  }\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 38px;\n  }\n  .badge-sidebar[_ngcontent-%COMP%] {\n    width: 100%;\n    height: 60vh;\n    border-left: none;\n    border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .punti-pill[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n/*# sourceMappingURL=quiz-list.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(QuizList, [{
     type: Component,
-    args: [{ selector: "app-quiz-list", standalone: true, imports: [FormsModule, ProfileButton], template: `<div class="ql-root">\r
+    args: [{ selector: "app-quiz-list", standalone: true, imports: [FormsModule, ProfileButton, MobileNav], template: `<div class="ql-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -55650,6 +56173,9 @@ var QuizList = class _QuizList {
 \r
               @if (ruoloUtente === 'admin') {\r
                 <div class="admin-controls">\r
+                  <button class="btn-admin-analytics" title="Analytics" (click)="apriAnalytics(q._id, $event)">\r
+                    <i class="ti ti-chart-bar"></i>\r
+                  </button>\r
                   <button class="btn-admin-edit" (click)="modificaQuiz(q._id, $event)">\r
                     <i class="ti ti-pencil"></i>\r
                   </button>\r
@@ -55742,12 +56268,75 @@ var QuizList = class _QuizList {
 \r
   </div>\r
 \r
+  <app-mobile-nav active="educazione" />\r
 </div>\r
-`, styles: ['/* src/app/features/education/quiz-list/quiz-list.css */\n:host {\n  display: block;\n}\n* {\n  box-sizing: border-box;\n}\n.ql-root {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  flex-shrink: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.punti-pill {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.65);\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 4px 14px;\n  border-radius: 20px;\n}\n.page-layout {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n}\n.main-col {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0 5% 4rem;\n  scrollbar-width: thin;\n  scrollbar-color: rgba(151, 168, 149, 0.25) transparent;\n}\n.main-col::-webkit-scrollbar {\n  width: 5px;\n}\n.main-col::-webkit-scrollbar-track {\n  background: transparent;\n}\n.main-col::-webkit-scrollbar-thumb {\n  background: rgba(151, 168, 149, 0.25);\n  border-radius: 99px;\n}\n.main-col::-webkit-scrollbar-thumb:hover {\n  background: rgba(151, 168, 149, 0.45);\n}\n.page-hero {\n  padding: 3.5rem 0 2.5rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 62px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 14px;\n}\n.page-sub {\n  font-size: 17px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-bottom: 1.75rem;\n  max-width: 500px;\n  line-height: 1.6;\n}\n.btn-video {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 11px 24px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.filtri-bar {\n  margin-bottom: 1.75rem;\n}\n.filtro-select {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option {\n  background: #2B5C59;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.quiz-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  gap: 1.4rem;\n}\n.quiz-card {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 1.5rem;\n  cursor: pointer;\n  position: relative;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.quiz-card:hover {\n  transform: translateY(-3px);\n  border-color: rgba(216, 208, 137, 0.45);\n}\n.quiz-card.completato {\n  border-color: rgba(76, 175, 130, 0.4);\n}\n.badge-completato {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.35);\n  border-radius: 20px;\n  padding: 0.2rem 0.7rem;\n  margin-bottom: 0.65rem;\n}\n.card-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.85rem;\n}\n.cat-tag {\n  display: inline-block;\n  padding: 0.25rem 0.8rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.stelle {\n  font-size: 0.85rem;\n  color: #D8D089;\n  letter-spacing: 1px;\n}\n.card-title {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 0.4rem;\n  line-height: 1.3;\n}\n.card-sub {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 1rem;\n  line-height: 1.4;\n}\n.card-diff-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.9rem;\n}\n.diff-label {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.pt-badge {\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #D8D089;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 0.2rem 0.65rem;\n  border-radius: 12px;\n}\n.btn-video-card {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 0.55rem 0;\n  margin-bottom: 0.9rem;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 8px;\n  color: rgba(255, 255, 255, 0.65);\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video-card:hover {\n  background: rgba(255, 255, 255, 0.10);\n}\n.card-footer {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.8rem;\n}\n.card-aggiungi {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 180px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon {\n  font-size: 2.2rem;\n  color: #D8D089;\n  margin-bottom: 0.6rem;\n}\n.card-aggiungi p {\n  color: #D8D089;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.admin-controls {\n  position: absolute;\n  top: 0.85rem;\n  right: 0.85rem;\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit,\n.btn-admin-del {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n.badge-sidebar {\n  width: 300px;\n  flex-shrink: 0;\n  position: relative;\n  overflow: hidden;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.badge-bg {\n  position: absolute;\n  inset: 0;\n  background-size: cover !important;\n  background-position: center !important;\n}\n.badge-scroll {\n  position: relative;\n  height: 100%;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.badge-scroll::-webkit-scrollbar {\n  width: 4px;\n}\n.badge-scroll::-webkit-scrollbar-track {\n  background: transparent;\n}\n.badge-scroll::-webkit-scrollbar-thumb {\n  background: rgba(216, 208, 137, 0.25);\n  border-radius: 4px;\n}\n.sidebar-head {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.sidebar-titolo {\n  font-size: 1rem;\n  font-weight: 700;\n  color: #D8D089;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.sidebar-counter {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.6);\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(255, 255, 255, 0.15);\n  padding: 0.15rem 0.6rem;\n  border-radius: 20px;\n}\n.btn-gestisci {\n  width: 100%;\n  padding: 0.8rem 1rem;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.45);\n  color: #D8D089;\n  border-radius: 10px;\n  font-size: 0.95rem;\n  font-weight: 600;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  transition: background 0.15s;\n}\n.btn-gestisci:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.sidebar-vuoto {\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-align: center;\n  padding: 1.5rem 0;\n}\n.badge-lista {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.badge-item {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1rem;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  background: rgba(20, 50, 48, 0.80);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  opacity: 0.65;\n  filter: grayscale(55%);\n  transition:\n    opacity 0.2s,\n    filter 0.2s,\n    border-color 0.2s;\n}\n.badge-item.ottenuto {\n  opacity: 1;\n  filter: none;\n  border-color: rgba(76, 175, 130, 0.4);\n  background: rgba(20, 50, 48, 0.88);\n}\n.badge-ico {\n  font-size: 1.9rem;\n  line-height: 1;\n  flex-shrink: 0;\n}\n.badge-ico.grigio {\n  filter: grayscale(100%);\n}\n.badge-info {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.28rem;\n}\n.badge-nome {\n  font-size: 0.87rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.badge-track {\n  height: 4px;\n  background: rgba(255, 255, 255, 0.12);\n  border-radius: 4px;\n  overflow: hidden;\n}\n.badge-fill {\n  height: 100%;\n  background: rgba(216, 208, 137, 0.65);\n  border-radius: 4px;\n  transition: width 0.4s ease;\n}\n.badge-item.ottenuto .badge-fill {\n  background: #4CAF82;\n}\n.badge-pct {\n  font-size: 0.73rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.badge-item.ottenuto .badge-pct {\n  color: #4CAF82;\n  font-weight: 600;\n}\n@media (max-width: 900px) {\n  .ql-root {\n    height: auto;\n    overflow: visible;\n  }\n  .page-layout {\n    flex-direction: column;\n    overflow: visible;\n  }\n  .main-col {\n    overflow-y: visible;\n    padding: 0 1.25rem 2rem;\n  }\n  .page-title {\n    font-size: 38px;\n  }\n  .badge-sidebar {\n    width: 100%;\n    height: 60vh;\n    border-left: none;\n    border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: block;\n  }\n  .punti-pill {\n    display: none;\n  }\n}\n/*# sourceMappingURL=quiz-list.css.map */\n'] }]
+\r
+@if (mostraModalAnalytics) {\r
+  <div class="analytics-overlay" (click)="chiudiAnalytics()">\r
+    <div class="analytics-modal" (click)="$event.stopPropagation()">\r
+\r
+      <div class="analytics-header">\r
+        <h2 class="analytics-title"><i class="ti ti-chart-bar"></i> Analytics quiz</h2>\r
+        <button class="analytics-close" (click)="chiudiAnalytics()"><i class="ti ti-x"></i></button>\r
+      </div>\r
+\r
+      @if (caricamentoAnalytics) {\r
+        <div class="analytics-loading">Caricamento dati...</div>\r
+      }\r
+\r
+      @if (!caricamentoAnalytics && datiAnalytics) {\r
+        <p class="analytics-quiz-nome">{{ datiAnalytics.titolo }}</p>\r
+\r
+        <div class="analytics-grid">\r
+          <div class="analytics-stat">\r
+            <span class="stat-value">{{ datiAnalytics.utentiUnici }}</span>\r
+            <span class="stat-label">Utenti unici</span>\r
+          </div>\r
+          <div class="analytics-stat">\r
+            <span class="stat-value">{{ datiAnalytics.sessioniCompletate }}</span>\r
+            <span class="stat-label">Completamenti</span>\r
+          </div>\r
+          <div class="analytics-stat">\r
+            <span class="stat-value">{{ datiAnalytics.totaleSessioni }}</span>\r
+            <span class="stat-label">Sessioni avviate</span>\r
+          </div>\r
+          <div class="analytics-stat highlight">\r
+            <span class="stat-value">{{ tassoCompletamento(datiAnalytics) }}%</span>\r
+            <span class="stat-label">Tasso completamento</span>\r
+          </div>\r
+        </div>\r
+\r
+        <div class="analytics-scores">\r
+          <div class="score-row">\r
+            <span class="score-label">Punteggio medio</span>\r
+            <span class="score-val">{{ datiAnalytics.punteggioMedio }} / {{ datiAnalytics.punteggioPossibile }}</span>\r
+          </div>\r
+          <div class="score-bar-wrap">\r
+            <div class="score-bar-fill" [style.width.%]="percentualePunteggio(datiAnalytics)"></div>\r
+          </div>\r
+          <div class="score-row score-row-minor">\r
+            <span class="score-label">Minimo completamento</span>\r
+            <span class="score-val">{{ datiAnalytics.punteggioMin }}</span>\r
+          </div>\r
+          <div class="score-row score-row-minor">\r
+            <span class="score-label">Massimo completamento</span>\r
+            <span class="score-val">{{ datiAnalytics.punteggioMax }}</span>\r
+          </div>\r
+        </div>\r
+      }\r
+\r
+      @if (!caricamentoAnalytics && !datiAnalytics) {\r
+        <p class="analytics-loading">Nessun dato disponibile.</p>\r
+      }\r
+\r
+    </div>\r
+  </div>\r
+}\r
+`, styles: ['/* src/app/features/education/quiz-list/quiz-list.css */\n:host {\n  display: block;\n}\n* {\n  box-sizing: border-box;\n}\n.ql-root {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  flex-shrink: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.punti-pill {\n  font-size: 13px;\n  color: rgba(255, 255, 255, 0.65);\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 4px 14px;\n  border-radius: 20px;\n}\n.page-layout {\n  flex: 1;\n  display: flex;\n  overflow: hidden;\n}\n.main-col {\n  flex: 1;\n  overflow-y: auto;\n  padding: 0 5% 4rem;\n  scrollbar-width: thin;\n  scrollbar-color: rgba(151, 168, 149, 0.25) transparent;\n}\n.main-col::-webkit-scrollbar {\n  width: 5px;\n}\n.main-col::-webkit-scrollbar-track {\n  background: transparent;\n}\n.main-col::-webkit-scrollbar-thumb {\n  background: rgba(151, 168, 149, 0.25);\n  border-radius: 99px;\n}\n.main-col::-webkit-scrollbar-thumb:hover {\n  background: rgba(151, 168, 149, 0.45);\n}\n.page-hero {\n  padding: 3.5rem 0 2.5rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 62px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 14px;\n}\n.page-sub {\n  font-size: 17px;\n  color: rgba(255, 255, 255, 0.5);\n  margin-bottom: 1.75rem;\n  max-width: 500px;\n  line-height: 1.6;\n}\n.btn-video {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  border-radius: 8px;\n  padding: 11px 24px;\n  font-size: 15px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.filtri-bar {\n  margin-bottom: 1.75rem;\n}\n.filtro-select {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option {\n  background: #2B5C59;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.quiz-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  gap: 1.4rem;\n}\n.quiz-card {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 1.5rem;\n  cursor: pointer;\n  position: relative;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.quiz-card:hover {\n  transform: translateY(-3px);\n  border-color: rgba(216, 208, 137, 0.45);\n}\n.quiz-card.completato {\n  border-color: rgba(76, 175, 130, 0.4);\n}\n.badge-completato {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #4CAF82;\n  background: rgba(76, 175, 130, 0.1);\n  border: 0.5px solid rgba(76, 175, 130, 0.35);\n  border-radius: 20px;\n  padding: 0.2rem 0.7rem;\n  margin-bottom: 0.65rem;\n}\n.card-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.85rem;\n}\n.cat-tag {\n  display: inline-block;\n  padding: 0.25rem 0.8rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.stelle {\n  font-size: 0.85rem;\n  color: #D8D089;\n  letter-spacing: 1px;\n}\n.card-title {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 0.4rem;\n  line-height: 1.3;\n}\n.card-sub {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 1rem;\n  line-height: 1.4;\n}\n.card-diff-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.9rem;\n}\n.diff-label {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.pt-badge {\n  font-size: 0.78rem;\n  font-weight: 600;\n  color: #D8D089;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  padding: 0.2rem 0.65rem;\n  border-radius: 12px;\n}\n.btn-video-card {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  width: 100%;\n  padding: 0.55rem 0;\n  margin-bottom: 0.9rem;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 8px;\n  color: rgba(255, 255, 255, 0.65);\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-video-card:hover {\n  background: rgba(255, 255, 255, 0.10);\n}\n.card-footer {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.8rem;\n}\n.card-aggiungi {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 180px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon {\n  font-size: 2.2rem;\n  color: #D8D089;\n  margin-bottom: 0.6rem;\n}\n.card-aggiungi p {\n  color: #D8D089;\n  font-size: 1rem;\n  font-weight: 600;\n}\n.admin-controls {\n  position: absolute;\n  top: 0.85rem;\n  right: 0.85rem;\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit,\n.btn-admin-del,\n.btn-admin-analytics {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n.btn-admin-analytics:hover {\n  background: rgba(160, 154, 232, 0.15);\n  color: #A09AE8;\n}\n.analytics-overlay {\n  position: fixed;\n  inset: 0;\n  z-index: 500;\n  background: rgba(10, 28, 27, 0.75);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 1.5rem;\n}\n.analytics-modal {\n  background: #1f4240;\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 18px;\n  padding: 2rem;\n  width: 100%;\n  max-width: 480px;\n  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);\n}\n.analytics-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.5rem;\n}\n.analytics-title {\n  font-size: 1.15rem;\n  font-weight: 700;\n  color: white;\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  margin: 0;\n}\n.analytics-title i {\n  color: #A09AE8;\n}\n.analytics-close {\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 8px;\n  padding: 0.3rem 0.6rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.5);\n  font-size: 0.9rem;\n  transition: background 0.15s;\n}\n.analytics-close:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n.analytics-quiz-nome {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1.5rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-bottom: 0.9rem;\n}\n.analytics-loading {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 2.5rem 0;\n  font-size: 0.95rem;\n}\n.analytics-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 0.85rem;\n  margin-bottom: 1.75rem;\n}\n.analytics-stat {\n  background: rgba(43, 92, 89, 0.6);\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 12px;\n  padding: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.3rem;\n}\n.analytics-stat.highlight {\n  border-color: rgba(160, 154, 232, 0.35);\n  background: rgba(160, 154, 232, 0.1);\n}\n.stat-value {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: white;\n  line-height: 1;\n}\n.analytics-stat.highlight .stat-value {\n  color: #A09AE8;\n}\n.stat-label {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.analytics-scores {\n  background: rgba(43, 92, 89, 0.4);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 12px;\n  padding: 1.1rem 1.2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.score-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.score-row-minor .score-label {\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 0.82rem;\n}\n.score-row-minor .score-val {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 0.82rem;\n}\n.score-label {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.55);\n}\n.score-val {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.score-bar-wrap {\n  height: 6px;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.score-bar-fill {\n  height: 100%;\n  background:\n    linear-gradient(\n      90deg,\n      #A09AE8,\n      #D8D089);\n  border-radius: 6px;\n  transition: width 0.5s ease;\n  min-width: 4px;\n}\n.badge-sidebar {\n  width: 300px;\n  flex-shrink: 0;\n  position: relative;\n  overflow: hidden;\n  border-left: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.badge-bg {\n  position: absolute;\n  inset: 0;\n  background-size: cover !important;\n  background-position: center !important;\n}\n.badge-scroll {\n  position: relative;\n  height: 100%;\n  overflow-y: auto;\n  padding: 1.5rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.badge-scroll::-webkit-scrollbar {\n  width: 4px;\n}\n.badge-scroll::-webkit-scrollbar-track {\n  background: transparent;\n}\n.badge-scroll::-webkit-scrollbar-thumb {\n  background: rgba(216, 208, 137, 0.25);\n  border-radius: 4px;\n}\n.sidebar-head {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.sidebar-titolo {\n  font-size: 1rem;\n  font-weight: 700;\n  color: #D8D089;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.sidebar-counter {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.6);\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(255, 255, 255, 0.15);\n  padding: 0.15rem 0.6rem;\n  border-radius: 20px;\n}\n.btn-gestisci {\n  width: 100%;\n  padding: 0.8rem 1rem;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.45);\n  color: #D8D089;\n  border-radius: 10px;\n  font-size: 0.95rem;\n  font-weight: 600;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  transition: background 0.15s;\n}\n.btn-gestisci:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.sidebar-vuoto {\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.4);\n  text-align: center;\n  padding: 1.5rem 0;\n}\n.badge-lista {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.badge-item {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1rem;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  background: rgba(20, 50, 48, 0.80);\n  backdrop-filter: blur(6px);\n  -webkit-backdrop-filter: blur(6px);\n  opacity: 0.65;\n  filter: grayscale(55%);\n  transition:\n    opacity 0.2s,\n    filter 0.2s,\n    border-color 0.2s;\n}\n.badge-item.ottenuto {\n  opacity: 1;\n  filter: none;\n  border-color: rgba(76, 175, 130, 0.4);\n  background: rgba(20, 50, 48, 0.88);\n}\n.badge-ico {\n  font-size: 1.9rem;\n  line-height: 1;\n  flex-shrink: 0;\n}\n.badge-ico.grigio {\n  filter: grayscale(100%);\n}\n.badge-info {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.28rem;\n}\n.badge-nome {\n  font-size: 0.87rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.badge-track {\n  height: 4px;\n  background: rgba(255, 255, 255, 0.12);\n  border-radius: 4px;\n  overflow: hidden;\n}\n.badge-fill {\n  height: 100%;\n  background: rgba(216, 208, 137, 0.65);\n  border-radius: 4px;\n  transition: width 0.4s ease;\n}\n.badge-item.ottenuto .badge-fill {\n  background: #4CAF82;\n}\n.badge-pct {\n  font-size: 0.73rem;\n  color: rgba(255, 255, 255, 0.4);\n}\n.badge-item.ottenuto .badge-pct {\n  color: #4CAF82;\n  font-weight: 600;\n}\n@media (max-width: 900px) {\n  .ql-root {\n    height: auto;\n    overflow: visible;\n  }\n  .page-layout {\n    flex-direction: column;\n    overflow: visible;\n  }\n  .main-col {\n    overflow-y: visible;\n    padding: 0 1.25rem 2rem;\n  }\n  .page-title {\n    font-size: 38px;\n  }\n  .badge-sidebar {\n    width: 100%;\n    height: 60vh;\n    border-left: none;\n    border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .punti-pill {\n    display: none;\n  }\n}\n/*# sourceMappingURL=quiz-list.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizList, { className: "QuizList", filePath: "src/app/features/education/quiz-list/quiz-list.ts", lineNumber: 45 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizList, { className: "QuizList", filePath: "src/app/features/education/quiz-list/quiz-list.ts", lineNumber: 58 });
 })();
 
 // src/app/features/education/quiz-sessione/quiz-sessione.ts
@@ -56578,7 +57167,7 @@ var QuizSessione = class _QuizSessione {
   caricamento = true;
   invioInCorso = false;
   errore = "";
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(route, router, http, authService, cdr) {
     this.route = route;
     this.router = router;
@@ -56898,7 +57487,7 @@ var QuizSessione = class _QuizSessione {
       return;
     const pairIdx = this.coppieSelezionate.findIndex((c2) => c2.sinistroId === id);
     if (pairIdx !== -1) {
-      this.coppieSelezionate = this.coppieSelezionate.filter((_3, i) => i !== pairIdx);
+      this.coppieSelezionate = this.coppieSelezionate.filter((_2, i) => i !== pairIdx);
       return;
     }
     this.sinistroSelezionato = this.sinistroSelezionato === id ? null : id;
@@ -56908,7 +57497,7 @@ var QuizSessione = class _QuizSessione {
       return;
     const pairIdx = this.coppieSelezionate.findIndex((c2) => c2.destroTesto === testo);
     if (pairIdx !== -1) {
-      this.coppieSelezionate = this.coppieSelezionate.filter((_3, i) => i !== pairIdx);
+      this.coppieSelezionate = this.coppieSelezionate.filter((_2, i) => i !== pairIdx);
       return;
     }
     if (!this.sinistroSelezionato)
@@ -56933,9 +57522,9 @@ var QuizSessione = class _QuizSessione {
       return;
     const img = event.currentTarget;
     const rect = img.getBoundingClientRect();
-    const x2 = Math.round((event.clientX - rect.left) / rect.width * 1e3) / 10;
+    const x = Math.round((event.clientX - rect.left) / rect.width * 1e3) / 10;
     const y2 = Math.round((event.clientY - rect.top) / rect.height * 1e3) / 10;
-    this.puntoSelezionato = { x: x2, y: y2 };
+    this.puntoSelezionato = { x, y: y2 };
   }
   logout() {
     this.authService.logout();
@@ -57299,7 +57888,7 @@ var QuizSessione = class _QuizSessione {
   }], () => [{ type: ActivatedRoute }, { type: Router }, { type: HttpClient }, { type: AuthService }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizSessione, { className: "QuizSessione", filePath: "src/app/features/education/quiz-sessione/quiz-sessione.ts", lineNumber: 68 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizSessione, { className: "QuizSessione", filePath: "src/app/features/education/quiz-sessione/quiz-sessione.ts", lineNumber: 69 });
 })();
 
 // src/app/features/education/quiz-risultato/quiz-risultato.ts
@@ -57823,13 +58412,13 @@ function VideoList_Conditional_39_Template(rf, ctx) {
 function VideoList_Conditional_40_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 26);
+    \u0275\u0275elementStart(0, "div", 27);
     \u0275\u0275listener("click", function VideoList_Conditional_40_Conditional_1_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.nuovoVideo());
     });
-    \u0275\u0275element(1, "i", 27);
+    \u0275\u0275element(1, "i", 28);
     \u0275\u0275elementStart(2, "p");
     \u0275\u0275text(3, "Nuovo Video");
     \u0275\u0275elementEnd()();
@@ -57838,56 +58427,56 @@ function VideoList_Conditional_40_Conditional_1_Template(rf, ctx) {
 function VideoList_Conditional_40_For_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 29)(1, "button", 41);
+    \u0275\u0275elementStart(0, "div", 30)(1, "button", 42);
     \u0275\u0275listener("click", function VideoList_Conditional_40_For_3_Conditional_1_Template_button_click_1_listener($event) {
       \u0275\u0275restoreView(_r5);
       const v_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.modificaVideo(v_r4._id, $event));
     });
-    \u0275\u0275element(2, "i", 42);
+    \u0275\u0275element(2, "i", 43);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 43);
+    \u0275\u0275elementStart(3, "button", 44);
     \u0275\u0275listener("click", function VideoList_Conditional_40_For_3_Conditional_1_Template_button_click_3_listener($event) {
       \u0275\u0275restoreView(_r5);
       const v_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.eliminaVideo(v_r4._id, $event));
     });
-    \u0275\u0275element(4, "i", 44);
+    \u0275\u0275element(4, "i", 45);
     \u0275\u0275elementEnd()();
   }
 }
 function VideoList_Conditional_40_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 28);
+    \u0275\u0275elementStart(0, "div", 29);
     \u0275\u0275listener("click", function VideoList_Conditional_40_For_3_Template_div_click_0_listener() {
       const v_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.apriVideo(v_r4.url));
     });
-    \u0275\u0275conditionalCreate(1, VideoList_Conditional_40_For_3_Conditional_1_Template, 5, 0, "div", 29);
-    \u0275\u0275elementStart(2, "div", 30);
-    \u0275\u0275element(3, "i", 31);
+    \u0275\u0275conditionalCreate(1, VideoList_Conditional_40_For_3_Conditional_1_Template, 5, 0, "div", 30);
+    \u0275\u0275elementStart(2, "div", 31);
+    \u0275\u0275element(3, "i", 32);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 32)(5, "div", 33)(6, "span");
+    \u0275\u0275elementStart(4, "div", 33)(5, "div", 34)(6, "span");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 34);
-    \u0275\u0275element(9, "i", 35);
+    \u0275\u0275elementStart(8, "span", 35);
+    \u0275\u0275element(9, "i", 36);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(11, "h3", 36);
+    \u0275\u0275elementStart(11, "h3", 37);
     \u0275\u0275text(12);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "p", 37);
+    \u0275\u0275elementStart(13, "p", 38);
     \u0275\u0275text(14);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "div", 38)(16, "span", 39);
+    \u0275\u0275elementStart(15, "div", 39)(16, "span", 40);
     \u0275\u0275text(17);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "span", 40);
+    \u0275\u0275elementStart(18, "span", 41);
     \u0275\u0275text(19);
     \u0275\u0275elementEnd()()()();
   }
@@ -57921,9 +58510,9 @@ function VideoList_Conditional_40_Conditional_4_Template(rf, ctx) {
 }
 function VideoList_Conditional_40_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 23);
-    \u0275\u0275conditionalCreate(1, VideoList_Conditional_40_Conditional_1_Template, 4, 0, "div", 24);
-    \u0275\u0275repeaterCreate(2, VideoList_Conditional_40_For_3_Template, 20, 10, "div", 25, _forTrack05);
+    \u0275\u0275elementStart(0, "div", 24);
+    \u0275\u0275conditionalCreate(1, VideoList_Conditional_40_Conditional_1_Template, 4, 0, "div", 25);
+    \u0275\u0275repeaterCreate(2, VideoList_Conditional_40_For_3_Template, 20, 10, "div", 26, _forTrack05);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(4, VideoList_Conditional_40_Conditional_4_Template, 2, 0, "div", 20);
   }
@@ -57947,7 +58536,7 @@ var VideoList = class _VideoList {
   caricamento = false;
   errore = "";
   ruoloUtente = "utente";
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, router, authService, cdr) {
     this.http = http;
     this.router = router;
@@ -58024,9 +58613,13 @@ var VideoList = class _VideoList {
   static \u0275fac = function VideoList_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _VideoList)(\u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _VideoList, selectors: [["app-video-list"]], decls: 42, vars: 4, consts: [[1, "vl-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-body"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "filtri-bar"], ["name", "modulo", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel"], ["value", ""], ["value", "educazione"], ["value", "divulgazione"], [1, "stato-msg"], [1, "errore-msg"], [2, "height", "4rem"], [1, "video-grid"], [1, "video-card", "card-aggiungi"], [1, "video-card"], [1, "video-card", "card-aggiungi", 3, "click"], [1, "ti", "ti-plus", "aggiungi-icon"], [1, "video-card", 3, "click"], [1, "admin-controls"], [1, "card-thumb"], [1, "ti", "ti-player-play-filled", "thumb-icon"], [1, "card-body"], [1, "card-top"], [1, "durata"], [1, "ti", "ti-clock"], [1, "card-title"], [1, "card-desc"], [1, "card-footer"], [1, "argomento"], [1, "ente"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"]], template: function VideoList_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _VideoList, selectors: [["app-video-list"]], decls: 43, vars: 4, consts: [[1, "vl-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-body"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "filtri-bar"], ["name", "modulo", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel"], ["value", ""], ["value", "educazione"], ["value", "divulgazione"], [1, "stato-msg"], [1, "errore-msg"], [2, "height", "4rem"], ["active", "educazione"], [1, "video-grid"], [1, "video-card", "card-aggiungi"], [1, "video-card"], [1, "video-card", "card-aggiungi", 3, "click"], [1, "ti", "ti-plus", "aggiungi-icon"], [1, "video-card", 3, "click"], [1, "admin-controls"], [1, "card-thumb"], [1, "ti", "ti-player-play-filled", "thumb-icon"], [1, "card-body"], [1, "card-top"], [1, "durata"], [1, "ti", "ti-clock"], [1, "card-title"], [1, "card-desc"], [1, "card-footer"], [1, "argomento"], [1, "ente"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"]], template: function VideoList_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function VideoList_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -58093,7 +58686,9 @@ var VideoList = class _VideoList {
       \u0275\u0275conditionalCreate(39, VideoList_Conditional_39_Template, 2, 1, "div", 21);
       \u0275\u0275conditionalCreate(40, VideoList_Conditional_40_Template, 5, 2);
       \u0275\u0275element(41, "div", 22);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(42, "app-mobile-nav", 23);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(31);
@@ -58105,16 +58700,16 @@ var VideoList = class _VideoList {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.caricamento && !ctx.errore ? 40 : -1);
     }
-  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, ProfileButton], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.vl-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-body[_ngcontent-%COMP%] {\n  padding: 0 5%;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3rem 0 2.5rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 10px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.1;\n  letter-spacing: -1px;\n  margin-bottom: 10px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  margin-bottom: 1.5rem;\n}\n.filtro-select[_ngcontent-%COMP%] {\n  padding: 0.55rem 1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 0.95rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.75rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.video-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 1.2rem;\n}\n.video-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.video-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.card-thumb[_ngcontent-%COMP%] {\n  height: 120px;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  transition: background 0.2s;\n}\n.video-card[_ngcontent-%COMP%]:hover   .card-thumb[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #26504d,\n      #2B5C59);\n}\n.thumb-icon[_ngcontent-%COMP%] {\n  font-size: 2.5rem;\n  color: rgba(216, 208, 137, 0.5);\n}\n.card-body[_ngcontent-%COMP%] {\n  padding: 1rem;\n}\n.card-top[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.7rem;\n}\n.mod-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.2rem 0.7rem;\n  border-radius: 20px;\n  font-size: 0.72rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.mod-tag.divulgazione[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.durata[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.35);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.card-title[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  font-weight: 500;\n  color: white;\n  margin-bottom: 0.4rem;\n  overflow-wrap: break-word;\n}\n.card-desc[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 0.9rem;\n  overflow-wrap: break-word;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.card-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.7rem;\n}\n.card-aggiungi[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 200px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon[_ngcontent-%COMP%] {\n  font-size: 2rem;\n  color: #D8D089;\n  margin-bottom: 0.5rem;\n}\n.card-aggiungi[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 0.9rem;\n  font-weight: 500;\n}\n.admin-controls[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0.75rem;\n  right: 0.75rem;\n  display: flex;\n  gap: 0.4rem;\n  z-index: 1;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.85);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.2rem 0.5rem;\n  font-size: 0.8rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n@media (max-width: 768px) {\n  .page-body[_ngcontent-%COMP%], \n   .navbar[_ngcontent-%COMP%] {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 32px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: block;\n  }\n}\n/*# sourceMappingURL=video-list.css.map */'] });
+  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, ProfileButton, MobileNav], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.vl-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-body[_ngcontent-%COMP%] {\n  padding: 0 5%;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3rem 0 2.5rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 10px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.1;\n  letter-spacing: -1px;\n  margin-bottom: 10px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  margin-bottom: 1.5rem;\n}\n.filtro-select[_ngcontent-%COMP%] {\n  padding: 0.55rem 1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 0.95rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.75rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.video-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 1.2rem;\n}\n.video-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.video-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.card-thumb[_ngcontent-%COMP%] {\n  height: 120px;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  transition: background 0.2s;\n}\n.video-card[_ngcontent-%COMP%]:hover   .card-thumb[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      135deg,\n      #26504d,\n      #2B5C59);\n}\n.thumb-icon[_ngcontent-%COMP%] {\n  font-size: 2.5rem;\n  color: rgba(216, 208, 137, 0.5);\n}\n.card-body[_ngcontent-%COMP%] {\n  padding: 1rem;\n}\n.card-top[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.7rem;\n}\n.mod-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.2rem 0.7rem;\n  border-radius: 20px;\n  font-size: 0.72rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.mod-tag.divulgazione[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.durata[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.35);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.card-title[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  font-weight: 500;\n  color: white;\n  margin-bottom: 0.4rem;\n  overflow-wrap: break-word;\n}\n.card-desc[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 0.9rem;\n  overflow-wrap: break-word;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.card-footer[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.7rem;\n}\n.card-aggiungi[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 200px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon[_ngcontent-%COMP%] {\n  font-size: 2rem;\n  color: #D8D089;\n  margin-bottom: 0.5rem;\n}\n.card-aggiungi[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-size: 0.9rem;\n  font-weight: 500;\n}\n.admin-controls[_ngcontent-%COMP%] {\n  position: absolute;\n  top: 0.75rem;\n  right: 0.75rem;\n  display: flex;\n  gap: 0.4rem;\n  z-index: 1;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%] {\n  background: rgba(31, 66, 64, 0.85);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.2rem 0.5rem;\n  font-size: 0.8rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n@media (max-width: 768px) {\n  .page-body[_ngcontent-%COMP%], \n   .navbar[_ngcontent-%COMP%] {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 32px;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n}\n/*# sourceMappingURL=video-list.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(VideoList, [{
     type: Component,
-    args: [{ selector: "app-video-list", standalone: true, imports: [FormsModule, ProfileButton], template: `<div class="vl-root">\r
+    args: [{ selector: "app-video-list", standalone: true, imports: [FormsModule, ProfileButton, MobileNav], template: `<div class="vl-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -58208,12 +58803,13 @@ var VideoList = class _VideoList {
     <div style="height: 4rem"></div>\r
   </div>\r
 \r
+  <app-mobile-nav active="educazione" />\r
 </div>\r
-`, styles: ['/* src/app/features/education/video-list/video-list.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.vl-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-body {\n  padding: 0 5%;\n}\n.page-hero {\n  padding: 3rem 0 2.5rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 10px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.1;\n  letter-spacing: -1px;\n  margin-bottom: 10px;\n}\n.page-sub {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n}\n.filtri-bar {\n  margin-bottom: 1.5rem;\n}\n.filtro-select {\n  padding: 0.55rem 1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option {\n  background: #2B5C59;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 0.95rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.75rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.video-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 1.2rem;\n}\n.video-card {\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.video-card:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.card-thumb {\n  height: 120px;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  transition: background 0.2s;\n}\n.video-card:hover .card-thumb {\n  background:\n    linear-gradient(\n      135deg,\n      #26504d,\n      #2B5C59);\n}\n.thumb-icon {\n  font-size: 2.5rem;\n  color: rgba(216, 208, 137, 0.5);\n}\n.card-body {\n  padding: 1rem;\n}\n.card-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.7rem;\n}\n.mod-tag {\n  display: inline-block;\n  padding: 0.2rem 0.7rem;\n  border-radius: 20px;\n  font-size: 0.72rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.mod-tag.divulgazione {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.durata {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.35);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.card-title {\n  font-size: 1rem;\n  font-weight: 500;\n  color: white;\n  margin-bottom: 0.4rem;\n  overflow-wrap: break-word;\n}\n.card-desc {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 0.9rem;\n  overflow-wrap: break-word;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.card-footer {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.7rem;\n}\n.card-aggiungi {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 200px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon {\n  font-size: 2rem;\n  color: #D8D089;\n  margin-bottom: 0.5rem;\n}\n.card-aggiungi p {\n  color: #D8D089;\n  font-size: 0.9rem;\n  font-weight: 500;\n}\n.admin-controls {\n  position: absolute;\n  top: 0.75rem;\n  right: 0.75rem;\n  display: flex;\n  gap: 0.4rem;\n  z-index: 1;\n}\n.btn-admin-edit,\n.btn-admin-del {\n  background: rgba(31, 66, 64, 0.85);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.2rem 0.5rem;\n  font-size: 0.8rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n@media (max-width: 768px) {\n  .page-body,\n  .navbar {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .page-title {\n    font-size: 32px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: block;\n  }\n}\n/*# sourceMappingURL=video-list.css.map */\n'] }]
+`, styles: ['/* src/app/features/education/video-list/video-list.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.vl-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-body {\n  padding: 0 5%;\n}\n.page-hero {\n  padding: 3rem 0 2.5rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 10px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.1;\n  letter-spacing: -1px;\n  margin-bottom: 10px;\n}\n.page-sub {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n}\n.filtri-bar {\n  margin-bottom: 1.5rem;\n}\n.filtro-select {\n  padding: 0.55rem 1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option {\n  background: #2B5C59;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 0.95rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.75rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.video-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n  gap: 1.2rem;\n}\n.video-card {\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.video-card:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.card-thumb {\n  height: 120px;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.15);\n  transition: background 0.2s;\n}\n.video-card:hover .card-thumb {\n  background:\n    linear-gradient(\n      135deg,\n      #26504d,\n      #2B5C59);\n}\n.thumb-icon {\n  font-size: 2.5rem;\n  color: rgba(216, 208, 137, 0.5);\n}\n.card-body {\n  padding: 1rem;\n}\n.card-top {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 0.7rem;\n}\n.mod-tag {\n  display: inline-block;\n  padding: 0.2rem 0.7rem;\n  border-radius: 20px;\n  font-size: 0.72rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.mod-tag.divulgazione {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.durata {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.35);\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.card-title {\n  font-size: 1rem;\n  font-weight: 500;\n  color: white;\n  margin-bottom: 0.4rem;\n  overflow-wrap: break-word;\n}\n.card-desc {\n  font-size: 0.82rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-bottom: 0.9rem;\n  overflow-wrap: break-word;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.card-footer {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.3);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.7rem;\n}\n.card-aggiungi {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  border: 1.5px dashed rgba(216, 208, 137, 0.3);\n  background: rgba(216, 208, 137, 0.04);\n  min-height: 200px;\n  transition: background 0.15s, border-color 0.15s;\n}\n.card-aggiungi:hover {\n  background: rgba(216, 208, 137, 0.08);\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.aggiungi-icon {\n  font-size: 2rem;\n  color: #D8D089;\n  margin-bottom: 0.5rem;\n}\n.card-aggiungi p {\n  color: #D8D089;\n  font-size: 0.9rem;\n  font-weight: 500;\n}\n.admin-controls {\n  position: absolute;\n  top: 0.75rem;\n  right: 0.75rem;\n  display: flex;\n  gap: 0.4rem;\n  z-index: 1;\n}\n.btn-admin-edit,\n.btn-admin-del {\n  background: rgba(31, 66, 64, 0.85);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.2rem 0.5rem;\n  font-size: 0.8rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  width: auto;\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.2);\n  color: #EF6565;\n}\n@media (max-width: 768px) {\n  .page-body,\n  .navbar {\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n  }\n  .page-title {\n    font-size: 32px;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n}\n/*# sourceMappingURL=video-list.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: Router }, { type: AuthService }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(VideoList, { className: "VideoList", filePath: "src/app/features/education/video-list/video-list.ts", lineNumber: 35 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(VideoList, { className: "VideoList", filePath: "src/app/features/education/video-list/video-list.ts", lineNumber: 37 });
 })();
 
 // src/app/features/admin/video-form/video-form.ts
@@ -58263,7 +58859,7 @@ var VideoForm = class _VideoForm {
   errore = "";
   successo = "";
   caricamento = false;
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -58588,7 +59184,7 @@ var VideoForm = class _VideoForm {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(VideoForm, { className: "VideoForm", filePath: "src/app/features/admin/video-form/video-form.ts", lineNumber: 20 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(VideoForm, { className: "VideoForm", filePath: "src/app/features/admin/video-form/video-form.ts", lineNumber: 21 });
 })();
 
 // src/app/features/admin/quiz-form/quiz-form.ts
@@ -59057,7 +59653,7 @@ var QuizForm = class _QuizForm {
   caricamento = false;
   dragSrcDi = null;
   dragSrcRi = null;
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -59134,7 +59730,7 @@ var QuizForm = class _QuizForm {
       return;
     const formData = new FormData();
     formData.append("image", input2.files[0]);
-    this.http.post("http://localhost:3000/api/admin/upload", formData, { headers: new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` }) }).subscribe({
+    this.http.post(environment.apiUrl + "/api/admin/upload", formData, { headers: new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` }) }).subscribe({
       next: (r) => {
         if (r.success === 1) {
           this.quiz.domande[di2].immagineUrl = r.file.url;
@@ -59148,9 +59744,9 @@ var QuizForm = class _QuizForm {
   }
   impostaUltimoClick(di2, event) {
     const rect = event.currentTarget.getBoundingClientRect();
-    const x2 = Math.round((event.clientX - rect.left) / rect.width * 1e3) / 10;
+    const x = Math.round((event.clientX - rect.left) / rect.width * 1e3) / 10;
     const y2 = Math.round((event.clientY - rect.top) / rect.height * 1e3) / 10;
-    this.quiz.domande[di2].puntoCorretto = { x: x2, y: y2 };
+    this.quiz.domande[di2].puntoCorretto = { x, y: y2 };
     this.cdr.detectChanges();
   }
   /**
@@ -59705,7 +60301,7 @@ var QuizForm = class _QuizForm {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizForm, { className: "QuizForm", filePath: "src/app/features/admin/quiz-form/quiz-form.ts", lineNumber: 21 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(QuizForm, { className: "QuizForm", filePath: "src/app/features/admin/quiz-form/quiz-form.ts", lineNumber: 22 });
 })();
 
 // src/app/features/education/badge-list/badge-list.ts
@@ -59859,7 +60455,7 @@ var BadgeList = class _BadgeList {
   caricamento = true;
   errore = "";
   ruoloUtente = "";
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, authService, router, cdr) {
     this.http = http;
     this.authService = authService;
@@ -59975,7 +60571,7 @@ var BadgeList = class _BadgeList {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BadgeList, { className: "BadgeList", filePath: "src/app/features/education/badge-list/badge-list.ts", lineNumber: 39 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BadgeList, { className: "BadgeList", filePath: "src/app/features/education/badge-list/badge-list.ts", lineNumber: 40 });
 })();
 
 // src/app/features/admin/badge-form/badge-form.ts
@@ -60122,7 +60718,7 @@ var BadgeForm = class _BadgeForm {
   errore = "";
   successo = "";
   caricamento = false;
-  apiUrl = "http://localhost:3000/api/educazione";
+  apiUrl = environment.apiUrl + "/api/educazione";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -60470,7 +61066,7 @@ var BadgeForm = class _BadgeForm {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BadgeForm, { className: "BadgeForm", filePath: "src/app/features/admin/badge-form/badge-form.ts", lineNumber: 21 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BadgeForm, { className: "BadgeForm", filePath: "src/app/features/admin/badge-form/badge-form.ts", lineNumber: 22 });
 })();
 
 // src/app/core/guards/auth.guard.ts
@@ -60485,7 +61081,7 @@ var authGuard = () => {
 
 // src/app/core/services/utente.service.ts
 var UtenteService = class _UtenteService {
-  apiUrl = "http://localhost:3000/api/auth";
+  apiUrl = environment.apiUrl + "/api/auth";
   http = inject2(HttpClient);
   authSvc = inject2(AuthService);
   posizionePersonale = signal(null, ...ngDevMode ? [{ debugName: "posizionePersonale" }] : (
@@ -60578,13 +61174,17 @@ var SentieroService = class _SentieroService {
     /* istanbul ignore next */
     []
   ));
+  /** Carica tutti i sentieri visibili dal backend e aggiorna il segnale sentieri. */
   loadSentieri() {
     this.apiService.getAllSentieri().subscribe({
       next: (dati) => this.sentieri.set(dati),
       error: (err) => console.error("Errore nel caricamento:", err)
     });
   }
-  // Esempio per la rotta protetta[cite: 5, 7]
+  /**
+   * Inverte lo stato di visibilità di un sentiero tramite l'API admin.
+   * @param id - osm_id del sentiero da aggiornare
+   */
   toggleVisibilita(id) {
     return this.adminService.toggleVisibilita(id);
   }
@@ -60842,7 +61442,7 @@ var MapComponent = class _MapComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MapComponent, [{
     type: Component,
-    args: [{ selector: "app-map", standalone: true, imports: [CommonModule], template: `<div #mapContainer id="map" class="map-container"></div>`, styles: ["/* angular:styles/component:css;6ca549a7a33e0a3627a911588c0657be59a27dea80a803e3b6faf537fa547d5a;C:/Users/fabio/Desktop/uni/ing del software/app/PeakAware/frontend/src/app/features/sentieri/components/map/map.ts */\n.map-container,\n#map {\n  height: 100%;\n  width: 100%;\n}\n/*# sourceMappingURL=map.css.map */\n"] }]
+    args: [{ selector: "app-map", standalone: true, imports: [CommonModule], template: `<div #mapContainer id="map" class="map-container"></div>`, styles: ["/* angular:styles/component:css;6ca549a7a33e0a3627a911588c0657be59a27dea80a803e3b6faf537fa547d5a;C:/Users/fabio/Desktop/ing software/PeakAware/frontend/src/app/features/sentieri/components/map/map.ts */\n.map-container,\n#map {\n  height: 100%;\n  width: 100%;\n}\n/*# sourceMappingURL=map.css.map */\n"] }]
   }], () => [], { mapContainer: [{
     type: ViewChild,
     args: ["mapContainer"]
@@ -61210,7 +61810,7 @@ function distance(from2, to2, options = {}) {
 // node_modules/@turf/meta/dist/esm/index.js
 function coordEach(geojson, callback, excludeWrapCoord) {
   if (geojson === null) return;
-  var j3, k, l2, geometry, stopG, coords, geometryMaybeCollection, wrapShrink = 0, coordIndex = 0, isGeometryCollection, type = geojson.type, isFeatureCollection = type === "FeatureCollection", isFeature = type === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
+  var j2, k, l2, geometry, stopG, coords, geometryMaybeCollection, wrapShrink = 0, coordIndex = 0, isGeometryCollection, type = geojson.type, isFeatureCollection = type === "FeatureCollection", isFeature = type === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
   for (var featureIndex = 0; featureIndex < stop; featureIndex++) {
     geometryMaybeCollection = isFeatureCollection ? (
       // @ts-expect-error: Known type conflict
@@ -61249,11 +61849,11 @@ function coordEach(geojson, callback, excludeWrapCoord) {
           break;
         case "LineString":
         case "MultiPoint":
-          for (j3 = 0; j3 < coords.length; j3++) {
+          for (j2 = 0; j2 < coords.length; j2++) {
             if (
               // @ts-expect-error: Known type conflict
               callback(
-                coords[j3],
+                coords[j2],
                 coordIndex,
                 featureIndex,
                 multiFeatureIndex,
@@ -61268,12 +61868,12 @@ function coordEach(geojson, callback, excludeWrapCoord) {
           break;
         case "Polygon":
         case "MultiLineString":
-          for (j3 = 0; j3 < coords.length; j3++) {
-            for (k = 0; k < coords[j3].length - wrapShrink; k++) {
+          for (j2 = 0; j2 < coords.length; j2++) {
+            for (k = 0; k < coords[j2].length - wrapShrink; k++) {
               if (
                 // @ts-expect-error: Known type conflict
                 callback(
-                  coords[j3][k],
+                  coords[j2][k],
                   coordIndex,
                   featureIndex,
                   multiFeatureIndex,
@@ -61289,14 +61889,14 @@ function coordEach(geojson, callback, excludeWrapCoord) {
           if (geomType === "Polygon") multiFeatureIndex++;
           break;
         case "MultiPolygon":
-          for (j3 = 0; j3 < coords.length; j3++) {
+          for (j2 = 0; j2 < coords.length; j2++) {
             geometryIndex = 0;
-            for (k = 0; k < coords[j3].length; k++) {
-              for (l2 = 0; l2 < coords[j3][k].length - wrapShrink; l2++) {
+            for (k = 0; k < coords[j2].length; k++) {
+              for (l2 = 0; l2 < coords[j2][k].length - wrapShrink; l2++) {
                 if (
                   // @ts-expect-error: Known type conflict
                   callback(
-                    coords[j3][k][l2],
+                    coords[j2][k][l2],
                     coordIndex,
                     featureIndex,
                     multiFeatureIndex,
@@ -61312,10 +61912,10 @@ function coordEach(geojson, callback, excludeWrapCoord) {
           }
           break;
         case "GeometryCollection":
-          for (j3 = 0; j3 < geometry.geometries.length; j3++)
+          for (j2 = 0; j2 < geometry.geometries.length; j2++)
             if (
               // @ts-expect-error: Known type conflict
-              coordEach(geometry.geometries[j3], callback, excludeWrapCoord) === false
+              coordEach(geometry.geometries[j2], callback, excludeWrapCoord) === false
             )
               return false;
           break;
@@ -61326,7 +61926,7 @@ function coordEach(geojson, callback, excludeWrapCoord) {
   }
 }
 function geomEach(geojson, callback) {
-  var i, j3, g2, geometry, stopG, geometryMaybeCollection, isGeometryCollection, featureProperties, featureBBox, featureId, featureIndex = 0, isFeatureCollection = geojson.type === "FeatureCollection", isFeature = geojson.type === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
+  var i, j2, g2, geometry, stopG, geometryMaybeCollection, isGeometryCollection, featureProperties, featureBBox, featureId, featureIndex = 0, isFeatureCollection = geojson.type === "FeatureCollection", isFeature = geojson.type === "Feature", stop = isFeatureCollection ? geojson.features.length : 1;
   for (i = 0; i < stop; i++) {
     geometryMaybeCollection = isFeatureCollection ? (
       // @ts-expect-error: Known type conflict
@@ -61396,11 +61996,11 @@ function geomEach(geojson, callback) {
           break;
         }
         case "GeometryCollection": {
-          for (j3 = 0; j3 < geometry.geometries.length; j3++) {
+          for (j2 = 0; j2 < geometry.geometries.length; j2++) {
             if (
               // @ts-expect-error: Known type conflict
               callback(
-                geometry.geometries[j3],
+                geometry.geometries[j2],
                 featureIndex,
                 featureProperties,
                 featureBBox,
@@ -61565,27 +62165,35 @@ var _forTrack3 = ($index, $item) => $item.categoria;
 function SidebarComponent_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 18);
+    \u0275\u0275elementStart(0, "button", 19);
     \u0275\u0275listener("click", function SidebarComponent_Conditional_15_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.apriConfig());
     });
-    \u0275\u0275element(1, "i", 19);
+    \u0275\u0275element(1, "i", 20);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "button", 20);
+    \u0275\u0275elementStart(2, "button", 21);
     \u0275\u0275listener("click", function SidebarComponent_Conditional_15_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleImportBar());
     });
-    \u0275\u0275element(3, "i", 21);
+    \u0275\u0275element(3, "i", 22);
     \u0275\u0275elementEnd();
   }
 }
 function SidebarComponent_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "p", 12);
+    \u0275\u0275element(1, "i", 23);
+    \u0275\u0275text(2, " Importazione in corso, potrebbe richiedere qualche minuto... ");
+    \u0275\u0275elementEnd();
+  }
+}
+function SidebarComponent_Conditional_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 13);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -61595,9 +62203,9 @@ function SidebarComponent_Conditional_16_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r1.importEsito);
   }
 }
-function SidebarComponent_Conditional_17_For_3_Template(rf, ctx) {
+function SidebarComponent_Conditional_18_For_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 23);
+    \u0275\u0275elementStart(0, "option", 25);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -61608,11 +62216,11 @@ function SidebarComponent_Conditional_17_For_3_Template(rf, ctx) {
     \u0275\u0275textInterpolate(r_r4.nome);
   }
 }
-function SidebarComponent_Conditional_17_Conditional_4_Template(rf, ctx) {
+function SidebarComponent_Conditional_18_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "input", 27);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_17_Conditional_4_Template_input_ngModelChange_0_listener($event) {
+    \u0275\u0275elementStart(0, "input", 29);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Conditional_4_Template_input_ngModelChange_0_listener($event) {
       \u0275\u0275restoreView(_r5);
       const ctx_r1 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r1.areaCustom, $event) || (ctx_r1.areaCustom = $event);
@@ -61625,26 +62233,26 @@ function SidebarComponent_Conditional_17_Conditional_4_Template(rf, ctx) {
     \u0275\u0275twoWayProperty("ngModel", ctx_r1.areaCustom);
   }
 }
-function SidebarComponent_Conditional_17_Template(rf, ctx) {
+function SidebarComponent_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 13)(1, "select", 22);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_17_Template_select_ngModelChange_1_listener($event) {
+    \u0275\u0275elementStart(0, "div", 14)(1, "select", 24);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_select_ngModelChange_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.areaSelezionata, $event) || (ctx_r1.areaSelezionata = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275repeaterCreate(2, SidebarComponent_Conditional_17_For_3_Template, 2, 2, "option", 23, _forTrack13);
+    \u0275\u0275repeaterCreate(2, SidebarComponent_Conditional_18_For_3_Template, 2, 2, "option", 25, _forTrack13);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(4, SidebarComponent_Conditional_17_Conditional_4_Template, 1, 1, "input", 24);
-    \u0275\u0275elementStart(5, "button", 25);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_17_Template_button_click_5_listener() {
+    \u0275\u0275conditionalCreate(4, SidebarComponent_Conditional_18_Conditional_4_Template, 1, 1, "input", 26);
+    \u0275\u0275elementStart(5, "button", 27);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.avviaImportazione());
     });
-    \u0275\u0275element(6, "i", 26);
+    \u0275\u0275element(6, "i", 28);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -61661,11 +62269,11 @@ function SidebarComponent_Conditional_17_Template(rf, ctx) {
     \u0275\u0275classProp("ti-loader-2", ctx_r1.importaLoading)("ti-player-play-filled", !ctx_r1.importaLoading);
   }
 }
-function SidebarComponent_Conditional_18_For_91_Template(rf, ctx) {
+function SidebarComponent_Conditional_19_For_91_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 51);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_91_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 53);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_For_91_Template_button_click_0_listener() {
       const livello_r8 = \u0275\u0275restoreView(_r7).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.livelloEquipSelezionato = livello_r8);
@@ -61681,18 +62289,18 @@ function SidebarComponent_Conditional_18_For_91_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", livello_r8, " ");
   }
 }
-function SidebarComponent_Conditional_18_For_94_For_7_Template(rf, ctx) {
+function SidebarComponent_Conditional_19_For_94_For_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 56)(1, "input", 58);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_For_7_Template_input_ngModelChange_1_listener($event) {
+    \u0275\u0275elementStart(0, "div", 58)(1, "input", 60);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_For_94_For_7_Template_input_ngModelChange_1_listener($event) {
       const item_r13 = \u0275\u0275restoreView(_r12).$implicit;
       \u0275\u0275twoWayBindingSet(item_r13.nome, $event) || (item_r13.nome = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "label", 59)(3, "input", 60);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_For_7_Template_input_ngModelChange_3_listener($event) {
+    \u0275\u0275elementStart(2, "label", 61)(3, "input", 62);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_For_94_For_7_Template_input_ngModelChange_3_listener($event) {
       const item_r13 = \u0275\u0275restoreView(_r12).$implicit;
       \u0275\u0275twoWayBindingSet(item_r13.obbligatorio, $event) || (item_r13.obbligatorio = $event);
       return \u0275\u0275resetView($event);
@@ -61701,12 +62309,12 @@ function SidebarComponent_Conditional_18_For_94_For_7_Template(rf, ctx) {
     \u0275\u0275elementStart(4, "span");
     \u0275\u0275text(5, "essenziale");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "button", 61);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_For_7_Template_button_click_6_listener() {
-      const \u0275$index_222_r14 = \u0275\u0275restoreView(_r12).$index;
-      const \u0275$index_210_r11 = \u0275\u0275nextContext().$index;
+    \u0275\u0275elementStart(6, "button", 63);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_For_94_For_7_Template_button_click_6_listener() {
+      const \u0275$index_228_r14 = \u0275\u0275restoreView(_r12).$index;
+      const \u0275$index_216_r11 = \u0275\u0275nextContext().$index;
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.rimuoviItem(\u0275$index_210_r11, \u0275$index_222_r14));
+      return \u0275\u0275resetView(ctx_r1.rimuoviItem(\u0275$index_216_r11, \u0275$index_228_r14));
     });
     \u0275\u0275text(7, "\u2715");
     \u0275\u0275elementEnd()();
@@ -61721,37 +62329,37 @@ function SidebarComponent_Conditional_18_For_94_For_7_Template(rf, ctx) {
     \u0275\u0275twoWayProperty("ngModel", item_r13.obbligatorio);
   }
 }
-function SidebarComponent_Conditional_18_For_94_Template(rf, ctx) {
+function SidebarComponent_Conditional_19_For_94_Template(rf, ctx) {
   if (rf & 1) {
     const _r9 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 46)(1, "div", 52)(2, "input", 53);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_Template_input_ngModelChange_2_listener($event) {
+    \u0275\u0275elementStart(0, "div", 48)(1, "div", 54)(2, "input", 55);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_For_94_Template_input_ngModelChange_2_listener($event) {
       const cat_r10 = \u0275\u0275restoreView(_r9).$implicit;
       \u0275\u0275twoWayBindingSet(cat_r10.icona, $event) || (cat_r10.icona = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "input", 54);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_For_94_Template_input_ngModelChange_3_listener($event) {
+    \u0275\u0275elementStart(3, "input", 56);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_For_94_Template_input_ngModelChange_3_listener($event) {
       const cat_r10 = \u0275\u0275restoreView(_r9).$implicit;
       \u0275\u0275twoWayBindingSet(cat_r10.categoria, $event) || (cat_r10.categoria = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "button", 55);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_Template_button_click_4_listener() {
-      const \u0275$index_210_r11 = \u0275\u0275restoreView(_r9).$index;
+    \u0275\u0275elementStart(4, "button", 57);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_For_94_Template_button_click_4_listener() {
+      const \u0275$index_216_r11 = \u0275\u0275restoreView(_r9).$index;
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.rimuoviCategoria(\u0275$index_210_r11));
+      return \u0275\u0275resetView(ctx_r1.rimuoviCategoria(\u0275$index_216_r11));
     });
     \u0275\u0275text(5, "\u2715");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(6, SidebarComponent_Conditional_18_For_94_For_7_Template, 8, 3, "div", 56, \u0275\u0275repeaterTrackByIndex);
-    \u0275\u0275elementStart(8, "button", 57);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_For_94_Template_button_click_8_listener() {
-      const \u0275$index_210_r11 = \u0275\u0275restoreView(_r9).$index;
+    \u0275\u0275repeaterCreate(6, SidebarComponent_Conditional_19_For_94_For_7_Template, 8, 3, "div", 58, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementStart(8, "button", 59);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_For_94_Template_button_click_8_listener() {
+      const \u0275$index_216_r11 = \u0275\u0275restoreView(_r9).$index;
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.aggiungiItem(\u0275$index_210_r11));
+      return \u0275\u0275resetView(ctx_r1.aggiungiItem(\u0275$index_216_r11));
     });
     \u0275\u0275text(9, " + Aggiungi item ");
     \u0275\u0275elementEnd()();
@@ -61766,190 +62374,190 @@ function SidebarComponent_Conditional_18_For_94_Template(rf, ctx) {
     \u0275\u0275repeater(cat_r10.items);
   }
 }
-function SidebarComponent_Conditional_18_Template(rf, ctx) {
+function SidebarComponent_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 28);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 30);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.configAperta = false);
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(1, "div", 29)(2, "div", 30)(3, "h3");
-    \u0275\u0275element(4, "i", 19);
+    \u0275\u0275elementStart(1, "div", 31)(2, "div", 32)(3, "h3");
+    \u0275\u0275element(4, "i", 20);
     \u0275\u0275text(5, " Regole Sentieri e Attrezzatura");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "button", 31);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_6_listener() {
+    \u0275\u0275elementStart(6, "button", 33);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_Template_button_click_6_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.configAperta = false);
     });
-    \u0275\u0275element(7, "i", 32);
+    \u0275\u0275element(7, "i", 34);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 33)(9, "h4", 34);
+    \u0275\u0275elementStart(8, "div", 35)(9, "h4", 36);
     \u0275\u0275text(10, "Livello Esperienza Richiesto (1-5)");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "p", 35);
+    \u0275\u0275elementStart(11, "p", 37);
     \u0275\u0275text(12, "Seleziona il livello utente minimo per consigliare i percorsi.");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "div", 36)(14, "div", 37)(15, "label");
+    \u0275\u0275elementStart(13, "div", 38)(14, "div", 39)(15, "label");
     \u0275\u0275text(16, "Turistico (T):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "select", 38);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_select_ngModelChange_17_listener($event) {
+    \u0275\u0275elementStart(17, "select", 40);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_select_ngModelChange_17_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.requisitiCai["T"], $event) || (ctx_r1.configEdit.requisitiCai["T"] = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementStart(18, "option", 39);
+    \u0275\u0275elementStart(18, "option", 41);
     \u0275\u0275text(19, "Livello 1 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 39);
+    \u0275\u0275elementStart(20, "option", 41);
     \u0275\u0275text(21, "Livello 2 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 39);
+    \u0275\u0275elementStart(22, "option", 41);
     \u0275\u0275text(23, "Livello 3 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 39);
+    \u0275\u0275elementStart(24, "option", 41);
     \u0275\u0275text(25, "Livello 4 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 39);
+    \u0275\u0275elementStart(26, "option", 41);
     \u0275\u0275text(27, "Livello 5 / 5");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(28, "div", 37)(29, "label");
+    \u0275\u0275elementStart(28, "div", 39)(29, "label");
     \u0275\u0275text(30, "Escursionistico (E):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "select", 38);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_select_ngModelChange_31_listener($event) {
+    \u0275\u0275elementStart(31, "select", 40);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_select_ngModelChange_31_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.requisitiCai["E"], $event) || (ctx_r1.configEdit.requisitiCai["E"] = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementStart(32, "option", 39);
+    \u0275\u0275elementStart(32, "option", 41);
     \u0275\u0275text(33, "Livello 1 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "option", 39);
+    \u0275\u0275elementStart(34, "option", 41);
     \u0275\u0275text(35, "Livello 2 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "option", 39);
+    \u0275\u0275elementStart(36, "option", 41);
     \u0275\u0275text(37, "Livello 3 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 39);
+    \u0275\u0275elementStart(38, "option", 41);
     \u0275\u0275text(39, "Livello 4 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "option", 39);
+    \u0275\u0275elementStart(40, "option", 41);
     \u0275\u0275text(41, "Livello 5 / 5");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(42, "div", 37)(43, "label");
+    \u0275\u0275elementStart(42, "div", 39)(43, "label");
     \u0275\u0275text(44, "Esperti (EE):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(45, "select", 38);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_select_ngModelChange_45_listener($event) {
+    \u0275\u0275elementStart(45, "select", 40);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_select_ngModelChange_45_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.requisitiCai["EE"], $event) || (ctx_r1.configEdit.requisitiCai["EE"] = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementStart(46, "option", 39);
+    \u0275\u0275elementStart(46, "option", 41);
     \u0275\u0275text(47, "Livello 1 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "option", 39);
+    \u0275\u0275elementStart(48, "option", 41);
     \u0275\u0275text(49, "Livello 2 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "option", 39);
+    \u0275\u0275elementStart(50, "option", 41);
     \u0275\u0275text(51, "Livello 3 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "option", 39);
+    \u0275\u0275elementStart(52, "option", 41);
     \u0275\u0275text(53, "Livello 4 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "option", 39);
+    \u0275\u0275elementStart(54, "option", 41);
     \u0275\u0275text(55, "Livello 5 / 5");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(56, "div", 37)(57, "label");
+    \u0275\u0275elementStart(56, "div", 39)(57, "label");
     \u0275\u0275text(58, "Ferrata (EEA):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(59, "select", 38);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_select_ngModelChange_59_listener($event) {
+    \u0275\u0275elementStart(59, "select", 40);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_select_ngModelChange_59_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.requisitiCai["EEA"], $event) || (ctx_r1.configEdit.requisitiCai["EEA"] = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275elementStart(60, "option", 39);
+    \u0275\u0275elementStart(60, "option", 41);
     \u0275\u0275text(61, "Livello 1 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(62, "option", 39);
+    \u0275\u0275elementStart(62, "option", 41);
     \u0275\u0275text(63, "Livello 2 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "option", 39);
+    \u0275\u0275elementStart(64, "option", 41);
     \u0275\u0275text(65, "Livello 3 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(66, "option", 39);
+    \u0275\u0275elementStart(66, "option", 41);
     \u0275\u0275text(67, "Livello 4 / 5");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(68, "option", 39);
+    \u0275\u0275elementStart(68, "option", 41);
     \u0275\u0275text(69, "Livello 5 / 5");
     \u0275\u0275elementEnd()()()();
-    \u0275\u0275element(70, "div", 40);
-    \u0275\u0275elementStart(71, "h4", 34);
+    \u0275\u0275element(70, "div", 42);
+    \u0275\u0275elementStart(71, "h4", 36);
     \u0275\u0275text(72, "Soglie per l'Attrezzatura");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(73, "p", 35);
+    \u0275\u0275elementStart(73, "p", 37);
     \u0275\u0275text(74, "Oltre quali valori consigli l'equipaggiamento pesante?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(75, "div", 36)(76, "div", 37)(77, "label");
+    \u0275\u0275elementStart(75, "div", 38)(76, "div", 39)(77, "label");
     \u0275\u0275text(78, 'Percorso "Lungo" (km):');
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(79, "input", 41);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_input_ngModelChange_79_listener($event) {
+    \u0275\u0275elementStart(79, "input", 43);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_input_ngModelChange_79_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.soglieEquip.lungaKm, $event) || (ctx_r1.configEdit.soglieEquip.lungaKm = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(80, "div", 37)(81, "label");
+    \u0275\u0275elementStart(80, "div", 39)(81, "label");
     \u0275\u0275text(82, "Dislivello Elevato (m D+):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(83, "input", 42);
-    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_18_Template_input_ngModelChange_83_listener($event) {
+    \u0275\u0275elementStart(83, "input", 44);
+    \u0275\u0275twoWayListener("ngModelChange", function SidebarComponent_Conditional_19_Template_input_ngModelChange_83_listener($event) {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.configEdit.soglieEquip.impegnativaDPlus, $event) || (ctx_r1.configEdit.soglieEquip.impegnativaDPlus = $event);
       return \u0275\u0275resetView($event);
     });
     \u0275\u0275elementEnd()()();
-    \u0275\u0275element(84, "div", 40);
-    \u0275\u0275elementStart(85, "h4", 34);
+    \u0275\u0275element(84, "div", 42);
+    \u0275\u0275elementStart(85, "h4", 36);
     \u0275\u0275text(86, "Attrezzatura per Livello CAI");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(87, "p", 35);
+    \u0275\u0275elementStart(87, "p", 37);
     \u0275\u0275text(88, " Modifica categorie e item consigliati per ogni difficolt\xE0. Le modifiche sono attive per tutti gli utenti dopo il salvataggio. ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(89, "div", 43);
-    \u0275\u0275repeaterCreate(90, SidebarComponent_Conditional_18_For_91_Template, 2, 3, "button", 44, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(89, "div", 45);
+    \u0275\u0275repeaterCreate(90, SidebarComponent_Conditional_19_For_91_Template, 2, 3, "button", 46, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(92, "div", 45);
-    \u0275\u0275repeaterCreate(93, SidebarComponent_Conditional_18_For_94_Template, 10, 2, "div", 46, \u0275\u0275repeaterTrackByIndex);
-    \u0275\u0275elementStart(95, "button", 47);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_95_listener() {
+    \u0275\u0275elementStart(92, "div", 47);
+    \u0275\u0275repeaterCreate(93, SidebarComponent_Conditional_19_For_94_Template, 10, 2, "div", 48, \u0275\u0275repeaterTrackByIndex);
+    \u0275\u0275elementStart(95, "button", 49);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_Template_button_click_95_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.aggiungiCategoria());
     });
     \u0275\u0275text(96, " + Aggiungi categoria ");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(97, "div", 48)(98, "button", 49);
-    \u0275\u0275listener("click", function SidebarComponent_Conditional_18_Template_button_click_98_listener() {
+    \u0275\u0275elementStart(97, "div", 50)(98, "button", 51);
+    \u0275\u0275listener("click", function SidebarComponent_Conditional_19_Template_button_click_98_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.salvaConfig());
     });
-    \u0275\u0275element(99, "i", 50);
+    \u0275\u0275element(99, "i", 52);
     \u0275\u0275text(100, " Salva nel Database ");
     \u0275\u0275elementEnd()()();
   }
@@ -62013,9 +62621,9 @@ function SidebarComponent_Conditional_18_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.configEdit.attrezzaturaPerLivello[ctx_r1.livelloEquipSelezionato]);
   }
 }
-function SidebarComponent_Conditional_19_For_2_Template(rf, ctx) {
+function SidebarComponent_Conditional_20_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 62)(1, "span", 63);
+    \u0275\u0275elementStart(0, "div", 64)(1, "span", 65);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(3, "div")(4, "strong");
@@ -62033,10 +62641,10 @@ function SidebarComponent_Conditional_19_For_2_Template(rf, ctx) {
     \u0275\u0275textInterpolate2("", b_r15.nome, " \u2014 ", b_r15.descrizione);
   }
 }
-function SidebarComponent_Conditional_19_Template(rf, ctx) {
+function SidebarComponent_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 14);
-    \u0275\u0275repeaterCreate(1, SidebarComponent_Conditional_19_For_2_Template, 8, 3, "div", 62, _forTrack2);
+    \u0275\u0275elementStart(0, "div", 15);
+    \u0275\u0275repeaterCreate(1, SidebarComponent_Conditional_20_For_2_Template, 8, 3, "div", 64, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62045,9 +62653,9 @@ function SidebarComponent_Conditional_19_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.nuoviBadge());
   }
 }
-function SidebarComponent_For_22_Conditional_4_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 67);
+    \u0275\u0275elementStart(0, "span", 69);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -62057,17 +62665,17 @@ function SidebarComponent_For_22_Conditional_4_Template(rf, ctx) {
     \u0275\u0275textInterpolate(s_r17.properties == null ? null : s_r17.properties["ref"]);
   }
 }
-function SidebarComponent_For_22_Conditional_7_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r18 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 73);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_7_Template_button_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "button", 75);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_7_Template_button_click_0_listener($event) {
       \u0275\u0275restoreView(_r18);
       const s_r17 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleVisibilita(s_r17, $event));
     });
-    \u0275\u0275element(1, "i", 26);
+    \u0275\u0275element(1, "i", 28);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62077,17 +62685,17 @@ function SidebarComponent_For_22_Conditional_7_Template(rf, ctx) {
     \u0275\u0275classProp("ti-eye", s_r17.isVisible !== false)("ti-eye-off", s_r17.isVisible === false);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_1_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 75)(1, "span", 97);
-    \u0275\u0275element(2, "i", 98);
+    \u0275\u0275elementStart(0, "div", 77)(1, "span", 99);
+    \u0275\u0275element(2, "i", 100);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span", 99);
-    \u0275\u0275element(5, "i", 100);
+    \u0275\u0275elementStart(4, "span", 101);
+    \u0275\u0275element(5, "i", 102);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 97);
-    \u0275\u0275element(7, "i", 101);
+    \u0275\u0275elementStart(6, "span", 99);
+    \u0275\u0275element(7, "i", 103);
     \u0275\u0275text(8);
     \u0275\u0275elementEnd()();
   }
@@ -62099,15 +62707,15 @@ function SidebarComponent_For_22_Conditional_13_Conditional_1_Template(rf, ctx) 
     \u0275\u0275textInterpolate1(" ", (s_r17.properties == null ? null : s_r17.properties["to"]) || "\u2014", " ");
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_45_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_45_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 87)(1, "div", 102)(2, "span");
+    \u0275\u0275elementStart(0, "div", 89)(1, "div", 104)(2, "span");
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "strong");
     \u0275\u0275text(5);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "p", 103);
+    \u0275\u0275elementStart(6, "p", 105);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()();
   }
@@ -62122,28 +62730,28 @@ function SidebarComponent_For_22_Conditional_13_Conditional_45_Template(rf, ctx)
     \u0275\u0275textInterpolate(ctx_r1.consiglio().messaggio);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_46_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_46_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 88);
-    \u0275\u0275element(1, "i", 104);
+    \u0275\u0275elementStart(0, "p", 90);
+    \u0275\u0275element(1, "i", 106);
     \u0275\u0275text(2, " Accedi per vedere il consiglio personalizzato ");
     \u0275\u0275elementEnd();
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 114);
+    \u0275\u0275elementStart(0, "span", 116);
     \u0275\u0275text(1, "essenziale");
     \u0275\u0275elementEnd();
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "li")(1, "span", 113);
+    \u0275\u0275elementStart(0, "li")(1, "span", 115);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
     \u0275\u0275text(3);
-    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template, 2, 0, "span", 114);
+    \u0275\u0275conditionalCreate(4, SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Conditional_4_Template, 2, 0, "span", 116);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62157,13 +62765,13 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For
     \u0275\u0275conditional(item_r21.obbligatorio ? 4 : -1);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 108)(1, "p", 110);
+    \u0275\u0275elementStart(0, "div", 110)(1, "p", 112);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "ul", 111);
-    \u0275\u0275repeaterCreate(4, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template, 5, 5, "li", 112, _forTrack13);
+    \u0275\u0275elementStart(3, "ul", 113);
+    \u0275\u0275repeaterCreate(4, SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_For_5_Template, 5, 5, "li", 114, _forTrack13);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -62174,11 +62782,11 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For
     \u0275\u0275repeater(cat_r22.items);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 107);
-    \u0275\u0275repeaterCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_For_2_Template, 6, 2, "div", 108, _forTrack3);
-    \u0275\u0275elementStart(3, "p", 109);
+    \u0275\u0275elementStart(0, "div", 109);
+    \u0275\u0275repeaterCreate(1, SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_For_2_Template, 6, 2, "div", 110, _forTrack3);
+    \u0275\u0275elementStart(3, "p", 111);
     \u0275\u0275text(4, " \u25CF essenziale \xA0\u25CB consigliato in base alle condizioni ");
     \u0275\u0275elementEnd()();
   }
@@ -62188,23 +62796,23 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Tem
     \u0275\u0275repeater(ctx_r1.attrezzatura());
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_47_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_47_Template(rf, ctx) {
   if (rf & 1) {
     const _r20 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 89)(1, "div", 105);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_47_Template_div_click_1_listener() {
+    \u0275\u0275elementStart(0, "div", 91)(1, "div", 107);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_47_Template_div_click_1_listener() {
       \u0275\u0275restoreView(_r20);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleAttrezzatura());
     });
     \u0275\u0275elementStart(2, "span");
-    \u0275\u0275element(3, "i", 106);
+    \u0275\u0275element(3, "i", 108);
     \u0275\u0275text(4, " Attrezzatura consigliata");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 71);
+    \u0275\u0275elementStart(5, "span", 73);
     \u0275\u0275text(6, "\u203A");
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_13_Conditional_47_Conditional_7_Template, 5, 0, "div", 107);
+    \u0275\u0275conditionalCreate(7, SidebarComponent_For_23_Conditional_13_Conditional_47_Conditional_7_Template, 5, 0, "div", 109);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62215,47 +62823,47 @@ function SidebarComponent_For_22_Conditional_13_Conditional_47_Template(rf, ctx)
     \u0275\u0275conditional(ctx_r1.attrezzaturaAperta ? 7 : -1);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r23 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 117);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template_button_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "button", 119);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_1_Template_button_click_0_listener($event) {
       \u0275\u0275restoreView(_r23);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.avviaGps();
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(1, "i", 118);
+    \u0275\u0275element(1, "i", 120);
     \u0275\u0275text(2, " Inizia questo percorso ");
     \u0275\u0275elementEnd();
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r24 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 116)(1, "div", 119);
-    \u0275\u0275element(2, "span", 120);
+    \u0275\u0275elementStart(0, "div", 118)(1, "div", 121);
+    \u0275\u0275element(2, "span", 122);
     \u0275\u0275elementStart(3, "span");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "div", 121)(6, "button", 122);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template_button_click_6_listener($event) {
+    \u0275\u0275elementStart(5, "div", 123)(6, "button", 124);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_2_Template_button_click_6_listener($event) {
       \u0275\u0275restoreView(_r24);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.fermaGps();
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(7, "i", 123);
+    \u0275\u0275element(7, "i", 125);
     \u0275\u0275text(8, " Completato ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 124);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template_button_click_9_listener($event) {
+    \u0275\u0275elementStart(9, "button", 126);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_2_Template_button_click_9_listener($event) {
       \u0275\u0275restoreView(_r24);
       const ctx_r1 = \u0275\u0275nextContext(4);
       ctx_r1.annullaGps();
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(10, "i", 32);
+    \u0275\u0275element(10, "i", 34);
     \u0275\u0275text(11, " Annulla ");
     \u0275\u0275elementEnd()()();
   }
@@ -62265,9 +62873,9 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Tem
     \u0275\u0275textInterpolate(ctx_r1.messaggioGps());
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 125)(1, "span");
+    \u0275\u0275elementStart(0, "div", 127)(1, "span");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd()();
   }
@@ -62277,15 +62885,15 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Con
     \u0275\u0275textInterpolate1("\u{1F389} ", ctx_r1.messaggioGps());
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r25 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 126)(1, "span");
-    \u0275\u0275element(2, "i", 127);
+    \u0275\u0275elementStart(0, "div", 128)(1, "span");
+    \u0275\u0275element(2, "i", 129);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "button", 117);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template_button_click_4_listener($event) {
+    \u0275\u0275elementStart(4, "button", 119);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template_button_click_4_listener($event) {
       \u0275\u0275restoreView(_r25);
       const ctx_r1 = \u0275\u0275nextContext(5);
       ctx_r1.avviaGps();
@@ -62300,10 +62908,10 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Con
     \u0275\u0275textInterpolate1(" ", ctx_r1.messaggioGps());
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template, 3, 1, "div", 125);
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template, 6, 1, "div", 126);
+    \u0275\u0275conditionalCreate(0, SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Conditional_0_Template, 3, 1, "div", 127);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Conditional_1_Template, 6, 1, "div", 128);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(4);
@@ -62312,12 +62920,12 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Tem
     \u0275\u0275conditional(ctx_r1.statoGps() === "errore" ? 1 : -1);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_48_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_48_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 90);
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_1_Template, 3, 0, "button", 115);
-    \u0275\u0275conditionalCreate(2, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_2_Template, 12, 1, "div", 116);
-    \u0275\u0275conditionalCreate(3, SidebarComponent_For_22_Conditional_13_Conditional_48_Conditional_3_Template, 2, 2);
+    \u0275\u0275elementStart(0, "div", 92);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_1_Template, 3, 0, "button", 117);
+    \u0275\u0275conditionalCreate(2, SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_2_Template, 12, 1, "div", 118);
+    \u0275\u0275conditionalCreate(3, SidebarComponent_For_23_Conditional_13_Conditional_48_Conditional_3_Template, 2, 2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62331,10 +62939,10 @@ function SidebarComponent_For_22_Conditional_13_Conditional_48_Template(rf, ctx)
     \u0275\u0275conditional(ctx_r1.sentieroCompletatoId() === s_r17.osm_id ? 3 : -1);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_49_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_49_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 91);
-    \u0275\u0275element(1, "i", 128);
+    \u0275\u0275elementStart(0, "p", 93);
+    \u0275\u0275element(1, "i", 130);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
   }
@@ -62344,13 +62952,13 @@ function SidebarComponent_For_22_Conditional_13_Conditional_49_Template(rf, ctx)
     \u0275\u0275textInterpolate1(" ", s_r17.properties == null ? null : s_r17.properties["operator"], " ");
   }
 }
-function SidebarComponent_For_22_Conditional_13_Conditional_51_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Conditional_51_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "a", 129);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Conditional_51_Template_a_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "a", 131);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Conditional_51_Template_a_click_0_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275element(1, "i", 130);
+    \u0275\u0275element(1, "i", 132);
     \u0275\u0275text(2, " Sito ufficiale ");
     \u0275\u0275elementEnd();
   }
@@ -62359,90 +62967,90 @@ function SidebarComponent_For_22_Conditional_13_Conditional_51_Template(rf, ctx)
     \u0275\u0275property("href", s_r17.properties == null ? null : s_r17.properties["website"], \u0275\u0275sanitizeUrl);
   }
 }
-function SidebarComponent_For_22_Conditional_13_Template(rf, ctx) {
+function SidebarComponent_For_23_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 74);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_div_click_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 76);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Template_div_click_0_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275conditionalCreate(1, SidebarComponent_For_22_Conditional_13_Conditional_1_Template, 9, 2, "div", 75);
-    \u0275\u0275elementStart(2, "div", 76)(3, "div", 77)(4, "span", 78);
-    \u0275\u0275element(5, "i", 79);
+    \u0275\u0275conditionalCreate(1, SidebarComponent_For_23_Conditional_13_Conditional_1_Template, 9, 2, "div", 77);
+    \u0275\u0275elementStart(2, "div", 78)(3, "div", 79)(4, "span", 80);
+    \u0275\u0275element(5, "i", 81);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 80);
+    \u0275\u0275elementStart(6, "span", 82);
     \u0275\u0275text(7, "Lunghezza");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 81);
+    \u0275\u0275elementStart(8, "span", 83);
     \u0275\u0275text(9);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 77)(11, "span", 78);
-    \u0275\u0275element(12, "i", 82);
+    \u0275\u0275elementStart(10, "div", 79)(11, "span", 80);
+    \u0275\u0275element(12, "i", 84);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "span", 80);
+    \u0275\u0275elementStart(13, "span", 82);
     \u0275\u0275text(14, "Salita");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "span", 81);
+    \u0275\u0275elementStart(15, "span", 83);
     \u0275\u0275text(16);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(17, "div", 77)(18, "span", 78);
-    \u0275\u0275element(19, "i", 83);
+    \u0275\u0275elementStart(17, "div", 79)(18, "span", 80);
+    \u0275\u0275element(19, "i", 85);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "span", 80);
+    \u0275\u0275elementStart(20, "span", 82);
     \u0275\u0275text(21, "Discesa");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "span", 81);
+    \u0275\u0275elementStart(22, "span", 83);
     \u0275\u0275text(23);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(24, "div", 77)(25, "span", 78);
-    \u0275\u0275element(26, "i", 84);
+    \u0275\u0275elementStart(24, "div", 79)(25, "span", 80);
+    \u0275\u0275element(26, "i", 86);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(27, "span", 80);
+    \u0275\u0275elementStart(27, "span", 82);
     \u0275\u0275text(28, "Andata");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "span", 81);
+    \u0275\u0275elementStart(29, "span", 83);
     \u0275\u0275text(30);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(31, "div", 77)(32, "span", 78);
-    \u0275\u0275element(33, "i", 85);
+    \u0275\u0275elementStart(31, "div", 79)(32, "span", 80);
+    \u0275\u0275element(33, "i", 87);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "span", 80);
+    \u0275\u0275elementStart(34, "span", 82);
     \u0275\u0275text(35, "Ritorno");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "span", 81);
+    \u0275\u0275elementStart(36, "span", 83);
     \u0275\u0275text(37);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(38, "div", 77)(39, "span", 78);
-    \u0275\u0275element(40, "i", 86);
+    \u0275\u0275elementStart(38, "div", 79)(39, "span", 80);
+    \u0275\u0275element(40, "i", 88);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(41, "span", 80);
+    \u0275\u0275elementStart(41, "span", 82);
     \u0275\u0275text(42, "Difficolt\xE0");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(43, "span", 81);
+    \u0275\u0275elementStart(43, "span", 83);
     \u0275\u0275text(44);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(45, SidebarComponent_For_22_Conditional_13_Conditional_45_Template, 8, 4, "div", 87);
-    \u0275\u0275conditionalCreate(46, SidebarComponent_For_22_Conditional_13_Conditional_46_Template, 3, 0, "p", 88);
-    \u0275\u0275conditionalCreate(47, SidebarComponent_For_22_Conditional_13_Conditional_47_Template, 8, 3, "div", 89);
-    \u0275\u0275conditionalCreate(48, SidebarComponent_For_22_Conditional_13_Conditional_48_Template, 4, 3, "div", 90);
-    \u0275\u0275conditionalCreate(49, SidebarComponent_For_22_Conditional_13_Conditional_49_Template, 3, 1, "p", 91);
-    \u0275\u0275elementStart(50, "div", 92);
-    \u0275\u0275conditionalCreate(51, SidebarComponent_For_22_Conditional_13_Conditional_51_Template, 3, 1, "a", 93);
-    \u0275\u0275elementStart(52, "a", 94);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_a_click_52_listener($event) {
+    \u0275\u0275conditionalCreate(45, SidebarComponent_For_23_Conditional_13_Conditional_45_Template, 8, 4, "div", 89);
+    \u0275\u0275conditionalCreate(46, SidebarComponent_For_23_Conditional_13_Conditional_46_Template, 3, 0, "p", 90);
+    \u0275\u0275conditionalCreate(47, SidebarComponent_For_23_Conditional_13_Conditional_47_Template, 8, 3, "div", 91);
+    \u0275\u0275conditionalCreate(48, SidebarComponent_For_23_Conditional_13_Conditional_48_Template, 4, 3, "div", 92);
+    \u0275\u0275conditionalCreate(49, SidebarComponent_For_23_Conditional_13_Conditional_49_Template, 3, 1, "p", 93);
+    \u0275\u0275elementStart(50, "div", 94);
+    \u0275\u0275conditionalCreate(51, SidebarComponent_For_23_Conditional_13_Conditional_51_Template, 3, 1, "a", 95);
+    \u0275\u0275elementStart(52, "a", 96);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Template_a_click_52_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275element(53, "i", 95);
+    \u0275\u0275element(53, "i", 97);
     \u0275\u0275text(54, " Apri su OSM ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(55, "button", 96);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Conditional_13_Template_button_click_55_listener($event) {
+    \u0275\u0275elementStart(55, "button", 98);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Conditional_13_Template_button_click_55_listener($event) {
       \u0275\u0275restoreView(_r19);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.sentieroService.sentieroSelezionato.set(null);
       return \u0275\u0275resetView($event.stopPropagation());
     });
-    \u0275\u0275element(56, "i", 32);
+    \u0275\u0275element(56, "i", 34);
     \u0275\u0275text(57, " Chiudi ");
     \u0275\u0275elementEnd()()();
   }
@@ -62479,29 +63087,29 @@ function SidebarComponent_For_22_Conditional_13_Template(rf, ctx) {
     \u0275\u0275property("href", "https://www.openstreetmap.org/" + s_r17.osm_id, \u0275\u0275sanitizeUrl);
   }
 }
-function SidebarComponent_For_22_Template(rf, ctx) {
+function SidebarComponent_For_23_Template(rf, ctx) {
   if (rf & 1) {
     const _r16 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 64, 1);
-    \u0275\u0275listener("click", function SidebarComponent_For_22_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 66, 1);
+    \u0275\u0275listener("click", function SidebarComponent_For_23_Template_div_click_0_listener() {
       const s_r17 = \u0275\u0275restoreView(_r16).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.seleziona(s_r17));
     });
-    \u0275\u0275elementStart(2, "div", 65)(3, "div", 66);
-    \u0275\u0275conditionalCreate(4, SidebarComponent_For_22_Conditional_4_Template, 2, 1, "span", 67);
+    \u0275\u0275elementStart(2, "div", 67)(3, "div", 68);
+    \u0275\u0275conditionalCreate(4, SidebarComponent_For_23_Conditional_4_Template, 2, 1, "span", 69);
     \u0275\u0275elementStart(5, "h3");
     \u0275\u0275text(6);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, SidebarComponent_For_22_Conditional_7_Template, 2, 6, "button", 68);
+    \u0275\u0275conditionalCreate(7, SidebarComponent_For_23_Conditional_7_Template, 2, 6, "button", 70);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "div", 69)(9, "span", 70);
+    \u0275\u0275elementStart(8, "div", 71)(9, "span", 72);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "span", 71);
+    \u0275\u0275elementStart(11, "span", 73);
     \u0275\u0275text(12, "\u203A");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(13, SidebarComponent_For_22_Conditional_13_Template, 58, 14, "div", 72);
+    \u0275\u0275conditionalCreate(13, SidebarComponent_For_23_Conditional_13_Template, 58, 14, "div", 74);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -62529,9 +63137,9 @@ function SidebarComponent_For_22_Template(rf, ctx) {
     \u0275\u0275conditional(((tmp_20_0 = ctx_r1.sentieroService.sentieroSelezionato()) == null ? null : tmp_20_0.osm_id) === s_r17.osm_id ? 13 : -1);
   }
 }
-function SidebarComponent_ForEmpty_23_Template(rf, ctx) {
+function SidebarComponent_ForEmpty_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p", 17);
+    \u0275\u0275elementStart(0, "p", 18);
     \u0275\u0275text(1, "Nessun sentiero caricato.");
     \u0275\u0275elementEnd();
   }
@@ -62544,7 +63152,7 @@ var SidebarComponent = class _SidebarComponent {
   http = inject2(HttpClient);
   sidebarScroll;
   trailCards;
-  apiUrl = "http://localhost:3000/api";
+  apiUrl = environment.apiUrl + "/api";
   livelliCai = ["T", "E", "EE", "EEA"];
   sentieriOrdinati = computed(() => {
     const lista = [...this.sentieroService.sentieri()];
@@ -62915,7 +63523,7 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275queryRefresh(_t2 = \u0275\u0275loadQuery()) && (ctx.sidebarScroll = _t2.first);
       \u0275\u0275queryRefresh(_t2 = \u0275\u0275loadQuery()) && (ctx.trailCards = _t2);
     }
-  }, decls: 24, vars: 7, consts: [["sidebarScroll", ""], ["trailCard", ""], [1, "sidebar-wrapper"], [1, "sidebar-header"], [1, "header-top"], [1, "ti", "ti-route"], [1, "stats"], [1, "header-actions"], ["title", "Torna alla Home", 1, "btn-icon", 3, "click"], [1, "ti", "ti-home"], ["title", "Ricarica Sentieri", 1, "btn-icon", 3, "click"], [1, "ti", "ti-refresh"], [1, "import-result"], [1, "admin-import-bar"], [1, "badge-toast"], [1, "list-container"], [1, "trail-item", 3, "expanded"], [1, "empty-msg"], ["title", "Impostazioni Algoritmi", 1, "btn-icon", 3, "click"], [1, "ti", "ti-settings"], ["title", "Importa Sentieri OSM", 1, "btn-icon", "btn-import", 3, "click"], [1, "ti", "ti-download"], [1, "admin-input", 3, "ngModelChange", "ngModel"], [3, "value"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModel"], ["title", "Esegui Download OSM", 1, "btn-icon", "btn-import", 3, "click", "disabled"], [1, "ti"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModelChange", "ngModel"], [1, "admin-overlay", 3, "click"], [1, "admin-modal"], [1, "admin-modal-header"], [1, "btn-close-modal", 3, "click"], [1, "ti", "ti-x"], [1, "admin-modal-body"], [1, "config-section-title"], [1, "admin-info"], [1, "config-grid"], [1, "config-row"], [1, "admin-select", 3, "ngModelChange", "ngModel"], [3, "ngValue"], [1, "panel-divider"], ["type", "number", 1, "admin-select", 3, "ngModelChange", "ngModel"], ["type", "number", "step", "50", 1, "admin-select", 3, "ngModelChange", "ngModel"], [1, "equip-tabs"], [1, "equip-tab", 3, "active"], [1, "equip-editor"], [1, "equip-edit-cat"], [1, "btn-equip-add", "btn-equip-add--cat", 3, "click"], [1, "admin-modal-footer"], [1, "btn-save-config", 3, "click"], [1, "ti", "ti-device-floppy"], [1, "equip-tab", 3, "click"], [1, "equip-edit-cat-header"], ["placeholder", "\u{1F392}", "title", "Icona categoria", 1, "admin-input", "equip-input-icon", 3, "ngModelChange", "ngModel"], ["placeholder", "Nome categoria", 1, "admin-input", "equip-input-catname", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi categoria", 1, "btn-equip-remove", 3, "click"], [1, "equip-edit-item"], [1, "btn-equip-add", "btn-equip-add--item", 3, "click"], ["placeholder", "Nome equipaggiamento", 1, "admin-input", "equip-input-item", 3, "ngModelChange", "ngModel"], [1, "equip-obbligatorio-label", 3, "title"], ["type", "checkbox", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi item", 1, "btn-equip-remove", "btn-equip-remove--item", 3, "click"], [1, "badge-item"], [1, "badge-icona"], [1, "trail-item", 3, "click"], [1, "item-header"], [1, "title-block"], [1, "ref-badge"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "off"], [1, "header-right"], [1, "difficulty-badge"], [1, "chevron"], [1, "trail-details"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "click"], [1, "trail-details", 3, "click"], [1, "route-row"], [1, "stats-grid"], [1, "stat-card"], [1, "stat-icon"], [1, "ti", "ti-ruler"], [1, "stat-label"], [1, "stat-value"], [1, "ti", "ti-trending-up"], [1, "ti", "ti-trending-down"], [1, "ti", "ti-clock"], [1, "ti", "ti-clock-check"], [1, "ti", "ti-compass"], [1, "consiglio"], [1, "login-hint"], [1, "attrezzatura-section"], [1, "gps-section"], [1, "operator"], [1, "detail-actions"], ["target", "_blank", 1, "btn-web", 3, "href"], ["target", "_blank", 1, "btn-osm", 3, "click", "href"], [1, "ti", "ti-map"], [1, "btn-close", 3, "click"], [1, "route-point"], [1, "ti", "ti-map-pin"], [1, "route-arrow"], [1, "ti", "ti-arrow-right"], [1, "ti", "ti-flag-3"], [1, "consiglio-header"], [1, "consiglio-testo"], [1, "ti", "ti-lock"], [1, "attrezzatura-header", 3, "click"], [1, "ti", "ti-backpack"], [1, "attrezzatura-body"], [1, "equip-categoria"], [1, "equip-nota"], [1, "equip-cat-titolo"], [1, "equip-lista"], [3, "obbligatorio"], [1, "equip-dot"], [1, "equip-tag"], [1, "btn-gps-start"], [1, "gps-attivo"], [1, "btn-gps-start", 3, "click"], [1, "ti", "ti-current-location"], [1, "gps-stato"], [1, "gps-pulse"], [1, "gps-azioni"], [1, "btn-gps-stop", 3, "click"], [1, "ti", "ti-check"], [1, "btn-gps-annulla", 3, "click"], [1, "gps-completato"], [1, "gps-errore"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-mountain"], ["target", "_blank", 1, "btn-web", 3, "click", "href"], [1, "ti", "ti-world"]], template: function SidebarComponent_Template(rf, ctx) {
+  }, decls: 25, vars: 8, consts: [["sidebarScroll", ""], ["trailCard", ""], [1, "sidebar-wrapper"], [1, "sidebar-header"], [1, "header-top"], [1, "ti", "ti-route"], [1, "stats"], [1, "header-actions"], ["title", "Torna alla Home", 1, "btn-icon", 3, "click"], [1, "ti", "ti-home"], ["title", "Ricarica Sentieri", 1, "btn-icon", 3, "click"], [1, "ti", "ti-refresh"], [1, "import-result", "import-loading"], [1, "import-result"], [1, "admin-import-bar"], [1, "badge-toast"], [1, "list-container"], [1, "trail-item", 3, "expanded"], [1, "empty-msg"], ["title", "Impostazioni Algoritmi", 1, "btn-icon", 3, "click"], [1, "ti", "ti-settings"], ["title", "Importa Sentieri OSM", 1, "btn-icon", "btn-import", 3, "click"], [1, "ti", "ti-download"], [1, "ti", "ti-loader-2", "spin"], [1, "admin-input", 3, "ngModelChange", "ngModel"], [3, "value"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModel"], ["title", "Esegui Download OSM", 1, "btn-icon", "btn-import", 3, "click", "disabled"], [1, "ti"], ["type", "text", "placeholder", "es. 45.8,10.5,46.2,11.5", 1, "admin-input", 2, "margin-left", "0.4rem", "width", "120px", 3, "ngModelChange", "ngModel"], [1, "admin-overlay", 3, "click"], [1, "admin-modal"], [1, "admin-modal-header"], [1, "btn-close-modal", 3, "click"], [1, "ti", "ti-x"], [1, "admin-modal-body"], [1, "config-section-title"], [1, "admin-info"], [1, "config-grid"], [1, "config-row"], [1, "admin-select", 3, "ngModelChange", "ngModel"], [3, "ngValue"], [1, "panel-divider"], ["type", "number", 1, "admin-select", 3, "ngModelChange", "ngModel"], ["type", "number", "step", "50", 1, "admin-select", 3, "ngModelChange", "ngModel"], [1, "equip-tabs"], [1, "equip-tab", 3, "active"], [1, "equip-editor"], [1, "equip-edit-cat"], [1, "btn-equip-add", "btn-equip-add--cat", 3, "click"], [1, "admin-modal-footer"], [1, "btn-save-config", 3, "click"], [1, "ti", "ti-device-floppy"], [1, "equip-tab", 3, "click"], [1, "equip-edit-cat-header"], ["placeholder", "\u{1F392}", "title", "Icona categoria", 1, "admin-input", "equip-input-icon", 3, "ngModelChange", "ngModel"], ["placeholder", "Nome categoria", 1, "admin-input", "equip-input-catname", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi categoria", 1, "btn-equip-remove", 3, "click"], [1, "equip-edit-item"], [1, "btn-equip-add", "btn-equip-add--item", 3, "click"], ["placeholder", "Nome equipaggiamento", 1, "admin-input", "equip-input-item", 3, "ngModelChange", "ngModel"], [1, "equip-obbligatorio-label", 3, "title"], ["type", "checkbox", 3, "ngModelChange", "ngModel"], ["title", "Rimuovi item", 1, "btn-equip-remove", "btn-equip-remove--item", 3, "click"], [1, "badge-item"], [1, "badge-icona"], [1, "trail-item", 3, "click"], [1, "item-header"], [1, "title-block"], [1, "ref-badge"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "off"], [1, "header-right"], [1, "difficulty-badge"], [1, "chevron"], [1, "trail-details"], ["title", "Attiva/Disattiva Visibilit\xE0 Globale", 1, "btn-visibility", 3, "click"], [1, "trail-details", 3, "click"], [1, "route-row"], [1, "stats-grid"], [1, "stat-card"], [1, "stat-icon"], [1, "ti", "ti-ruler"], [1, "stat-label"], [1, "stat-value"], [1, "ti", "ti-trending-up"], [1, "ti", "ti-trending-down"], [1, "ti", "ti-clock"], [1, "ti", "ti-clock-check"], [1, "ti", "ti-compass"], [1, "consiglio"], [1, "login-hint"], [1, "attrezzatura-section"], [1, "gps-section"], [1, "operator"], [1, "detail-actions"], ["target", "_blank", 1, "btn-web", 3, "href"], ["target", "_blank", 1, "btn-osm", 3, "click", "href"], [1, "ti", "ti-map"], [1, "btn-close", 3, "click"], [1, "route-point"], [1, "ti", "ti-map-pin"], [1, "route-arrow"], [1, "ti", "ti-arrow-right"], [1, "ti", "ti-flag-3"], [1, "consiglio-header"], [1, "consiglio-testo"], [1, "ti", "ti-lock"], [1, "attrezzatura-header", 3, "click"], [1, "ti", "ti-backpack"], [1, "attrezzatura-body"], [1, "equip-categoria"], [1, "equip-nota"], [1, "equip-cat-titolo"], [1, "equip-lista"], [3, "obbligatorio"], [1, "equip-dot"], [1, "equip-tag"], [1, "btn-gps-start"], [1, "gps-attivo"], [1, "btn-gps-start", 3, "click"], [1, "ti", "ti-current-location"], [1, "gps-stato"], [1, "gps-pulse"], [1, "gps-azioni"], [1, "btn-gps-stop", 3, "click"], [1, "ti", "ti-check"], [1, "btn-gps-annulla", 3, "click"], [1, "gps-completato"], [1, "gps-errore"], [1, "ti", "ti-alert-triangle"], [1, "ti", "ti-mountain"], ["target", "_blank", 1, "btn-web", 3, "click", "href"], [1, "ti", "ti-world"]], template: function SidebarComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 2, 0)(2, "div", 3)(3, "div", 4)(4, "div")(5, "h2");
       \u0275\u0275element(6, "i", 5);
@@ -62938,13 +63546,14 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275elementEnd();
       \u0275\u0275conditionalCreate(15, SidebarComponent_Conditional_15_Template, 4, 0);
       \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(16, SidebarComponent_Conditional_16_Template, 2, 1, "p", 12);
-      \u0275\u0275conditionalCreate(17, SidebarComponent_Conditional_17_Template, 7, 7, "div", 13);
+      \u0275\u0275conditionalCreate(16, SidebarComponent_Conditional_16_Template, 3, 0, "p", 12);
+      \u0275\u0275conditionalCreate(17, SidebarComponent_Conditional_17_Template, 2, 1, "p", 13);
+      \u0275\u0275conditionalCreate(18, SidebarComponent_Conditional_18_Template, 7, 7, "div", 14);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(18, SidebarComponent_Conditional_18_Template, 101, 26);
-      \u0275\u0275conditionalCreate(19, SidebarComponent_Conditional_19_Template, 3, 0, "div", 14);
-      \u0275\u0275elementStart(20, "div", 15);
-      \u0275\u0275repeaterCreate(21, SidebarComponent_For_22_Template, 14, 12, "div", 16, _forTrack08, false, SidebarComponent_ForEmpty_23_Template, 2, 0, "p", 17);
+      \u0275\u0275conditionalCreate(19, SidebarComponent_Conditional_19_Template, 101, 26);
+      \u0275\u0275conditionalCreate(20, SidebarComponent_Conditional_20_Template, 3, 0, "div", 15);
+      \u0275\u0275elementStart(21, "div", 16);
+      \u0275\u0275repeaterCreate(22, SidebarComponent_For_23_Template, 14, 12, "div", 17, _forTrack08, false, SidebarComponent_ForEmpty_24_Template, 2, 0, "p", 18);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
@@ -62953,17 +63562,19 @@ var SidebarComponent = class _SidebarComponent {
       \u0275\u0275advance(6);
       \u0275\u0275conditional(ctx.isAdmin() ? 15 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.importEsito ? 16 : -1);
+      \u0275\u0275conditional(ctx.importaLoading ? 16 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.isAdmin() && ctx.showImportBar ? 17 : -1);
+      \u0275\u0275conditional(ctx.importEsito && !ctx.importaLoading ? 17 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.configAperta && ctx.isAdmin() ? 18 : -1);
+      \u0275\u0275conditional(ctx.isAdmin() && ctx.showImportBar ? 18 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.nuoviBadge().length > 0 ? 19 : -1);
+      \u0275\u0275conditional(ctx.configAperta && ctx.isAdmin() ? 19 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.nuoviBadge().length > 0 ? 20 : -1);
       \u0275\u0275advance(2);
       \u0275\u0275repeater(ctx.sentieriOrdinati());
     }
-  }, dependencies: [CommonModule, FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel], styles: ['\n.sidebar-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result[_ngcontent-%COMP%] {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header[_ngcontent-%COMP%] {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.admin-input[_ngcontent-%COMP%] {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: _ngcontent-%COMP%_slideDownModal 0.25s ease forwards;\n}\n@keyframes _ngcontent-%COMP%_slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body[_ngcontent-%COMP%] {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer[_ngcontent-%COMP%] {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config[_ngcontent-%COMP%] {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.list-container[_ngcontent-%COMP%] {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded[_ngcontent-%COMP%] {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off[_ngcontent-%COMP%] {\n  color: #e57373;\n}\n.header-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard][_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details[_ngcontent-%COMP%] {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes _ngcontent-%COMP%_slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm[_ngcontent-%COMP%], \n.btn-web[_ngcontent-%COMP%] {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web[_ngcontent-%COMP%] {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata][_ngcontent-%COMP%] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.consiglio-titolo[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.3s ease;\n}\n.badge-icona[_ngcontent-%COMP%] {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.btn-gps-start[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.gps-attivo[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse[_ngcontent-%COMP%] {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: _ngcontent-%COMP%_pulse 1.5s infinite;\n}\n@keyframes _ngcontent-%COMP%_pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop[_ngcontent-%COMP%] {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore[_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section[_ngcontent-%COMP%] {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header[_ngcontent-%COMP%]   .chevron[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.attrezzatura-body[_ngcontent-%COMP%] {\n  padding: 0.8rem 1rem 1rem;\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.equip-categoria[_ngcontent-%COMP%] {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%] {\n  color: white;\n}\n.equip-dot[_ngcontent-%COMP%] {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%]   .equip-dot[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.equip-tag[_ngcontent-%COMP%] {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota[_ngcontent-%COMP%] {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider[_ngcontent-%COMP%] {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab[_ngcontent-%COMP%] {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active[_ngcontent-%COMP%] {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat[_ngcontent-%COMP%] {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon[_ngcontent-%COMP%] {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname[_ngcontent-%COMP%] {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove[_ngcontent-%COMP%]:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item[_ngcontent-%COMP%]:hover {\n  opacity: 1;\n}\n.btn-equip-add[_ngcontent-%COMP%] {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add[_ngcontent-%COMP%]:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item[_ngcontent-%COMP%] {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */'] });
+  }, dependencies: [CommonModule, FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel], styles: ['\n.sidebar-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon[_ngcontent-%COMP%] {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon[_ngcontent-%COMP%]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result[_ngcontent-%COMP%] {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n}\n.import-loading[_ngcontent-%COMP%] {\n  color: rgba(216, 208, 137, 0.7);\n}\n@keyframes _ngcontent-%COMP%_spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n.spin[_ngcontent-%COMP%] {\n  display: inline-block;\n  animation: _ngcontent-%COMP%_spin 1s linear infinite;\n}\n.sidebar-header[_ngcontent-%COMP%] {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header[_ngcontent-%COMP%]   h2[_ngcontent-%COMP%] {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.admin-input[_ngcontent-%COMP%] {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-input[_ngcontent-%COMP%]::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal[_ngcontent-%COMP%] {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: _ngcontent-%COMP%_slideDownModal 0.25s ease forwards;\n}\n@keyframes _ngcontent-%COMP%_slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body[_ngcontent-%COMP%] {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select[_ngcontent-%COMP%]:focus {\n  border-color: #D8D089;\n}\n.admin-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer[_ngcontent-%COMP%] {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config[_ngcontent-%COMP%] {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.list-container[_ngcontent-%COMP%] {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item[_ngcontent-%COMP%]:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded[_ngcontent-%COMP%] {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted[_ngcontent-%COMP%] {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility[_ngcontent-%COMP%] {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off[_ngcontent-%COMP%] {\n  color: #e57373;\n}\n.header-right[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge[_ngcontent-%COMP%] {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard][_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron[_ngcontent-%COMP%] {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details[_ngcontent-%COMP%] {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes _ngcontent-%COMP%_slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow[_ngcontent-%COMP%] {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon[_ngcontent-%COMP%] {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label[_ngcontent-%COMP%] {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm[_ngcontent-%COMP%], \n.btn-web[_ngcontent-%COMP%] {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web[_ngcontent-%COMP%] {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio[_ngcontent-%COMP%] {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato][_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile][_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato][_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata][_ngcontent-%COMP%] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto][_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.consiglio-titolo[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: _ngcontent-%COMP%_slideDown 0.3s ease;\n}\n.badge-icona[_ngcontent-%COMP%] {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item[_ngcontent-%COMP%]   strong[_ngcontent-%COMP%] {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item[_ngcontent-%COMP%]   p[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint[_ngcontent-%COMP%] {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section[_ngcontent-%COMP%] {\n  margin-bottom: 1rem;\n}\n.btn-gps-start[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.gps-attivo[_ngcontent-%COMP%] {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse[_ngcontent-%COMP%] {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: _ngcontent-%COMP%_pulse 1.5s infinite;\n}\n@keyframes _ngcontent-%COMP%_pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop[_ngcontent-%COMP%] {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop[_ngcontent-%COMP%]:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla[_ngcontent-%COMP%] {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore[_ngcontent-%COMP%] {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section[_ngcontent-%COMP%] {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header[_ngcontent-%COMP%]   .chevron[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n}\n.attrezzatura-body[_ngcontent-%COMP%] {\n  padding: 0.8rem 1rem 1rem;\n  animation: _ngcontent-%COMP%_slideDown 0.2s ease;\n}\n.equip-categoria[_ngcontent-%COMP%] {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista[_ngcontent-%COMP%] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%] {\n  color: white;\n}\n.equip-dot[_ngcontent-%COMP%] {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista[_ngcontent-%COMP%]   li.obbligatorio[_ngcontent-%COMP%]   .equip-dot[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.equip-tag[_ngcontent-%COMP%] {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota[_ngcontent-%COMP%] {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider[_ngcontent-%COMP%] {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab[_ngcontent-%COMP%] {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active[_ngcontent-%COMP%] {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat[_ngcontent-%COMP%] {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon[_ngcontent-%COMP%] {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname[_ngcontent-%COMP%] {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item[_ngcontent-%COMP%] {\n  flex: 1;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove[_ngcontent-%COMP%]:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item[_ngcontent-%COMP%] {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item[_ngcontent-%COMP%]:hover {\n  opacity: 1;\n}\n.btn-equip-add[_ngcontent-%COMP%] {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add[_ngcontent-%COMP%]:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item[_ngcontent-%COMP%] {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat[_ngcontent-%COMP%] {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SidebarComponent, [{
@@ -62994,7 +63605,12 @@ var SidebarComponent = class _SidebarComponent {
       </div>\r
     </div>\r
 \r
-    @if (importEsito) {\r
+    @if (importaLoading) {\r
+      <p class="import-result import-loading">\r
+        <i class="ti ti-loader-2 spin"></i> Importazione in corso, potrebbe richiedere qualche minuto...\r
+      </p>\r
+    }\r
+    @if (importEsito && !importaLoading) {\r
       <p class="import-result">{{ importEsito }}</p>\r
     }\r
 \r
@@ -63394,7 +64010,7 @@ var SidebarComponent = class _SidebarComponent {
   </div>\r
 \r
 </div>\r
-`, styles: ['/* src/app/features/sentieri/components/trail-list/sidebar.css */\n.sidebar-wrapper {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n}\n.sidebar-header {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header h2 {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: slideDown 0.2s ease;\n}\n.admin-input {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input:focus {\n  border-color: #D8D089;\n}\n.admin-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: slideDownModal 0.25s ease forwards;\n}\n@keyframes slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header h3 {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row label {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select:focus {\n  border-color: #D8D089;\n}\n.admin-select option {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config:hover {\n  background: #c9c97a;\n}\n.list-container {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block h3 {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off {\n  color: #e57373;\n}\n.header-right {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm,\n.btn-web {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona {\n  font-size: 1.1rem;\n}\n.consiglio-titolo {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: slideDown 0.3s ease;\n}\n.badge-icona {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item strong {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item p {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section {\n  margin-bottom: 1rem;\n}\n.btn-gps-start {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start:hover {\n  background: #c9c97a;\n}\n.gps-attivo {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: pulse 1.5s infinite;\n}\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header .chevron {\n  font-size: 1.1rem;\n}\n.attrezzatura-body {\n  padding: 0.8rem 1rem 1rem;\n  animation: slideDown 0.2s ease;\n}\n.equip-categoria {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista li {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista li.obbligatorio {\n  color: white;\n}\n.equip-dot {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista li.obbligatorio .equip-dot {\n  color: #D8D089;\n}\n.equip-tag {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item {\n  flex: 1;\n}\n.equip-obbligatorio-label {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label input[type=checkbox] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item:hover {\n  opacity: 1;\n}\n.btn-equip-add {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */\n'] }]
+`, styles: ['/* src/app/features/sentieri/components/trail-list/sidebar.css */\n.sidebar-wrapper {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow-y: auto;\n  background: #1f4240;\n  color: white;\n  font-family:\n    "Segoe UI",\n    system-ui,\n    sans-serif;\n  position: relative;\n}\n.header-top {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  gap: 0.5rem;\n}\n.header-actions {\n  display: flex;\n  gap: 0.3rem;\n  flex-shrink: 0;\n  margin-top: 0.2rem;\n}\n.btn-icon {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  border: none;\n  background: rgba(255, 255, 255, 0.10);\n  color: white;\n  font-size: 0.95rem;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background 0.2s;\n}\n.btn-icon:hover {\n  background: rgba(255, 255, 255, 0.20);\n}\n.btn-icon:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.btn-import {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n}\n.import-result {\n  margin: 0.3rem 0 0;\n  font-size: 0.73rem;\n  opacity: 0.85;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 0.35rem;\n}\n.import-loading {\n  color: rgba(216, 208, 137, 0.7);\n}\n@keyframes spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n.spin {\n  display: inline-block;\n  animation: spin 1s linear infinite;\n}\n.sidebar-header {\n  padding: 1.25rem 1rem 0.8rem;\n  background: rgba(31, 66, 64, 0.9);\n  backdrop-filter: blur(10px);\n  -webkit-backdrop-filter: blur(10px);\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n  color: white;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.sidebar-header h2 {\n  margin: 0 0 0.2rem;\n  font-size: 1.2rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n}\n.stats {\n  margin: 0;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n}\n.admin-import-bar {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 1rem;\n  padding-top: 0.8rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  animation: slideDown 0.2s ease;\n}\n.admin-input {\n  flex: 1;\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  border-radius: 8px;\n  color: white;\n  padding: 0.4rem 0.6rem;\n  font-size: 0.8rem;\n  outline: none;\n  transition: border-color 0.2s;\n}\n.admin-input:focus {\n  border-color: #D8D089;\n}\n.admin-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.admin-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  width: 400px;\n  background: rgba(0, 0, 0, 0.65);\n  z-index: 1000;\n  -webkit-backdrop-filter: blur(3px);\n  backdrop-filter: blur(3px);\n}\n.admin-modal {\n  position: fixed;\n  top: 50%;\n  left: 200px;\n  transform: translate(-50%, -50%);\n  width: 92%;\n  max-width: 380px;\n  background: #2B5C59;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 12px;\n  z-index: 1001;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);\n  animation: slideDownModal 0.25s ease forwards;\n}\n@keyframes slideDownModal {\n  from {\n    opacity: 0;\n    transform: translate(-50%, -45%);\n  }\n  to {\n    opacity: 1;\n    transform: translate(-50%, -50%);\n  }\n}\n.admin-modal-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 1.25rem;\n  border-bottom: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.admin-modal-header h3 {\n  margin: 0;\n  font-size: 1rem;\n  color: white;\n}\n.btn-close-modal {\n  background: transparent;\n  border: none;\n  color: white;\n  font-size: 1.2rem;\n  cursor: pointer;\n}\n.admin-modal-body {\n  padding: 1.25rem;\n  display: flex;\n  flex-direction: column;\n  overflow-y: auto;\n  max-height: 60vh;\n}\n.admin-info {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.6);\n  margin: 0 0 0.8rem;\n}\n.config-section-title {\n  color: white;\n  font-size: 0.95rem;\n  margin: 1rem 0 0.2rem 0;\n}\n.config-grid {\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n  background: rgba(0, 0, 0, 0.15);\n  padding: 1rem;\n  border-radius: 8px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.config-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.config-row label {\n  font-weight: 500;\n  font-size: 0.85rem;\n  color: rgba(255, 255, 255, 0.85);\n}\n.admin-select {\n  background: rgba(255, 255, 255, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  color: white;\n  padding: 0.4rem;\n  border-radius: 6px;\n  outline: none;\n  font-size: 0.85rem;\n  width: 130px;\n}\n.admin-select:focus {\n  border-color: #D8D089;\n}\n.admin-select option {\n  background: #1f4240;\n  color: white;\n}\n.admin-modal-footer {\n  padding: 1rem 1.25rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.2);\n  display: flex;\n  justify-content: flex-end;\n}\n.btn-save-config {\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  padding: 0.6rem 1.2rem;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-save-config:hover {\n  background: #c9c97a;\n}\n.list-container {\n  padding: 1rem 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.trail-item {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  cursor: pointer;\n  transition: border-color 0.2s, background 0.2s;\n  overflow: hidden;\n}\n.trail-item:hover {\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.trail-item.expanded {\n  border-color: #D8D089;\n  background: #26504d;\n}\n.item-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1rem;\n  gap: 0.5rem;\n}\n.title-block {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  min-width: 0;\n}\n.title-block h3 {\n  margin: 0;\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.text-muted {\n  opacity: 0.5;\n  text-decoration: line-through;\n}\n.ref-badge {\n  flex-shrink: 0;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 4px;\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  letter-spacing: 1px;\n}\n.btn-visibility {\n  background: transparent;\n  border: none;\n  color: #81c784;\n  font-size: 1.1rem;\n  cursor: pointer;\n  padding: 0.2rem;\n  display: flex;\n  align-items: center;\n  border-radius: 4px;\n  transition: background 0.2s, color 0.2s;\n  margin-left: auto;\n}\n.btn-visibility:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.btn-visibility.off {\n  color: #e57373;\n}\n.header-right {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  flex-shrink: 0;\n}\n.difficulty-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  padding: 0.2rem 0.5rem;\n  border-radius: 20px;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  border: 0.5px solid rgba(255, 255, 255, 0.1);\n}\n.difficulty-badge[data-level=easy] {\n  background: rgba(76, 175, 80, 0.15);\n  color: #81c784;\n  border-color: rgba(76, 175, 80, 0.3);\n}\n.difficulty-badge[data-level=medium] {\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border-color: rgba(216, 208, 137, 0.3);\n}\n.difficulty-badge[data-level=hard] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.difficulty-badge[data-level=expert] {\n  background: rgba(244, 67, 54, 0.15);\n  color: #e57373;\n  border-color: rgba(244, 67, 54, 0.3);\n}\n.difficulty-badge[data-level=unknown] {\n  background: rgba(255, 255, 255, 0.08);\n  color: rgba(255, 255, 255, 0.6);\n}\n.chevron {\n  font-size: 1.2rem;\n  color: rgba(255, 255, 255, 0.3);\n  transition: transform 0.25s, color 0.2s;\n  display: inline-block;\n  line-height: 1;\n}\n.chevron.open {\n  transform: rotate(90deg);\n  color: #D8D089;\n}\n.trail-details {\n  padding: 0 1rem 1rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  animation: slideDown 0.2s ease;\n  margin-top: 0.2rem;\n  padding-top: 1rem;\n}\n@keyframes slideDown {\n  from {\n    opacity: 0;\n    transform: translateY(-6px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.route-row {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 0 0 1rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.7);\n  flex-wrap: wrap;\n}\n.route-point {\n  background: rgba(255, 255, 255, 0.06);\n  padding: 0.3rem 0.6rem;\n  border-radius: 6px;\n  font-weight: 500;\n}\n.route-arrow {\n  color: #D8D089;\n  font-weight: 700;\n}\n.stats-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.stat-card {\n  background: rgba(255, 255, 255, 0.04);\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n  border-radius: 8px;\n  padding: 0.6rem 0.4rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 0.2rem;\n}\n.stat-icon {\n  font-size: 1rem;\n  opacity: 0.9;\n}\n.stat-label {\n  font-size: 0.65rem;\n  color: rgba(255, 255, 255, 0.45);\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.stat-value {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: #D8D089;\n}\n.operator {\n  font-size: 0.75rem;\n  color: rgba(255, 255, 255, 0.4);\n  margin: 0 0 1rem;\n  font-style: italic;\n}\n.detail-actions {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.btn-osm,\n.btn-web {\n  flex: 1;\n  text-align: center;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-web {\n  background: transparent;\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n}\n.btn-web:hover {\n  background: rgba(216, 208, 137, 0.08);\n}\n.btn-osm {\n  background: rgba(255, 255, 255, 0.06);\n  color: white;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n}\n.btn-osm:hover {\n  background: rgba(255, 255, 255, 0.12);\n}\n.btn-close {\n  flex: 1;\n  padding: 0.5rem 0.6rem;\n  border-radius: 8px;\n  font-size: 0.8rem;\n  font-weight: 500;\n  background: rgba(255, 255, 255, 0.04);\n  color: rgba(255, 255, 255, 0.5);\n  border: none;\n  cursor: pointer;\n  transition: background 0.15s, color 0.15s;\n}\n.btn-close:hover {\n  background: rgba(255, 255, 255, 0.1);\n  color: white;\n}\n.empty-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.35);\n  padding: 2.5rem;\n  font-size: 0.95rem;\n}\n.consiglio {\n  border-radius: 10px;\n  padding: 0.85rem 1rem;\n  margin-bottom: 1rem;\n  border-left: 4px solid;\n}\n.consiglio[data-livello=consigliato] {\n  background: rgba(76, 175, 80, 0.1);\n  border-color: #81c784;\n}\n.consiglio[data-livello=fattibile] {\n  background: rgba(216, 208, 137, 0.1);\n  border-color: #D8D089;\n}\n.consiglio[data-livello=sconsigliato] {\n  background: rgba(244, 67, 54, 0.1);\n  border-color: #e57373;\n}\n.consiglio[data-livello=ferrata] {\n  background: rgba(156, 39, 176, 0.1);\n  border-color: #ba68c8;\n}\n.consiglio[data-livello=sconosciuto] {\n  background: rgba(255, 255, 255, 0.05);\n  border-color: rgba(255, 255, 255, 0.3);\n}\n.consiglio-header {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  margin-bottom: 0.4rem;\n}\n.consiglio-icona {\n  font-size: 1.1rem;\n}\n.consiglio-titolo {\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n}\n.consiglio-testo {\n  margin: 0;\n  font-size: 0.8rem;\n  line-height: 1.5;\n  color: rgba(255, 255, 255, 0.7);\n}\n.badge-toast {\n  position: sticky;\n  top: 65px;\n  z-index: 20;\n  margin: 0.8rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.badge-item {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n  background: #2B5C59;\n  color: white;\n  border-radius: 12px;\n  padding: 0.85rem 1rem;\n  border-left: 4px solid #D8D089;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  animation: slideDown 0.3s ease;\n}\n.badge-icona {\n  font-size: 1.6rem;\n  flex-shrink: 0;\n}\n.badge-item strong {\n  font-size: 0.85rem;\n  display: block;\n  color: #D8D089;\n  margin-bottom: 2px;\n}\n.badge-item p {\n  margin: 0;\n  font-size: 0.75rem;\n  opacity: 0.8;\n  line-height: 1.4;\n}\n.login-hint {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.5);\n  text-align: center;\n  padding: 0.75rem;\n  background: rgba(255, 255, 255, 0.04);\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  border: 0.5px solid rgba(151, 168, 149, 0.15);\n}\n.gps-section {\n  margin-bottom: 1rem;\n}\n.btn-gps-start {\n  width: 100%;\n  padding: 0.75rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.btn-gps-start:hover {\n  background: #c9c97a;\n}\n.gps-attivo {\n  background: rgba(216, 208, 137, 0.05);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 8px;\n  padding: 0.85rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.6rem;\n}\n.gps-stato {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  font-size: 0.85rem;\n  color: #D8D089;\n  font-weight: 500;\n}\n.gps-pulse {\n  width: 10px;\n  height: 10px;\n  background: #D8D089;\n  border-radius: 50%;\n  flex-shrink: 0;\n  animation: pulse 1.5s infinite;\n}\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.4;\n    transform: scale(1.3);\n  }\n}\n.gps-azioni {\n  display: flex;\n  gap: 0.5rem;\n}\n.btn-gps-stop {\n  flex: 2;\n  padding: 0.5rem;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  cursor: pointer;\n}\n.btn-gps-stop:hover {\n  background: #c9c97a;\n}\n.btn-gps-annulla {\n  flex: 1;\n  padding: 0.5rem;\n  background: rgba(255, 255, 255, 0.08);\n  color: white;\n  border: none;\n  border-radius: 6px;\n  font-size: 0.85rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-gps-annulla:hover {\n  background: rgba(255, 255, 255, 0.15);\n}\n.gps-completato {\n  background: rgba(76, 175, 80, 0.1);\n  border: 0.5px solid rgba(76, 175, 80, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #81c784;\n  font-weight: 500;\n}\n.gps-errore {\n  background: rgba(244, 67, 54, 0.1);\n  border: 0.5px solid rgba(244, 67, 54, 0.3);\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n  font-size: 0.85rem;\n  color: #e57373;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.attrezzatura-section {\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 10px;\n  margin-bottom: 1rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.02);\n}\n.attrezzatura-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 0.75rem 1rem;\n  background: rgba(255, 255, 255, 0.04);\n  cursor: pointer;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  -webkit-user-select: none;\n  user-select: none;\n  transition: background 0.15s;\n}\n.attrezzatura-header:hover {\n  background: rgba(255, 255, 255, 0.08);\n}\n.attrezzatura-header .chevron {\n  font-size: 1.1rem;\n}\n.attrezzatura-body {\n  padding: 0.8rem 1rem 1rem;\n  animation: slideDown 0.2s ease;\n}\n.equip-categoria {\n  margin-bottom: 0.85rem;\n}\n.equip-cat-titolo {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #D8D089;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  margin: 0 0 0.5rem;\n}\n.equip-lista {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 0.35rem;\n}\n.equip-lista li {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.65);\n}\n.equip-lista li.obbligatorio {\n  color: white;\n}\n.equip-dot {\n  font-size: 0.5rem;\n  flex-shrink: 0;\n  color: rgba(255, 255, 255, 0.2);\n}\n.equip-lista li.obbligatorio .equip-dot {\n  color: #D8D089;\n}\n.equip-tag {\n  margin-left: auto;\n  font-size: 0.65rem;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  padding: 0.15rem 0.4rem;\n  border-radius: 4px;\n  font-weight: 600;\n  flex-shrink: 0;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.equip-nota {\n  margin: 0.75rem 0 0;\n  font-size: 0.7rem;\n  color: rgba(255, 255, 255, 0.4);\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.5rem;\n}\n.panel-divider {\n  margin: 1.2rem 0;\n  opacity: 0.2;\n  border: none;\n  border-top: 1px solid currentColor;\n}\n.equip-tabs {\n  display: flex;\n  gap: 0.4rem;\n  margin: 0.8rem 0 1rem;\n}\n.equip-tab {\n  padding: 0.3rem 1rem;\n  border-radius: 6px;\n  border: 1px solid var(--border, #ccc);\n  background: transparent;\n  cursor: pointer;\n  font-weight: 700;\n  font-size: 0.82rem;\n  letter-spacing: 0.03em;\n  color: var(--text-muted, #888);\n  transition:\n    background 0.15s,\n    color 0.15s,\n    border-color 0.15s;\n}\n.equip-tab.active {\n  background: var(--accent, #2e7d32);\n  color: #fff;\n  border-color: var(--accent, #2e7d32);\n}\n.equip-editor {\n  display: flex;\n  flex-direction: column;\n  gap: 0.7rem;\n}\n.equip-edit-cat {\n  background: var(--bg-subtle, rgba(0,0,0,0.04));\n  border-radius: 8px;\n  padding: 0.75rem 0.85rem;\n}\n.equip-edit-cat-header {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.55rem;\n}\n.equip-input-icon {\n  width: 3.2rem;\n  text-align: center;\n  font-size: 1rem;\n  flex-shrink: 0;\n}\n.equip-input-catname {\n  flex: 1;\n  font-weight: 600;\n}\n.equip-edit-item {\n  display: flex;\n  gap: 0.45rem;\n  align-items: center;\n  margin-bottom: 0.35rem;\n}\n.equip-input-item {\n  flex: 1;\n}\n.equip-obbligatorio-label {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  font-size: 0.75rem;\n  color: var(--text-muted, #888);\n  white-space: nowrap;\n  cursor: pointer;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.equip-obbligatorio-label input[type=checkbox] {\n  cursor: pointer;\n  accent-color: var(--accent, #2e7d32);\n}\n.btn-equip-remove {\n  flex-shrink: 0;\n  background: transparent;\n  border: none;\n  color: var(--danger, #c0392b);\n  cursor: pointer;\n  font-size: 0.85rem;\n  padding: 0.2rem 0.45rem;\n  border-radius: 4px;\n  line-height: 1;\n  transition: background 0.12s;\n}\n.btn-equip-remove:hover {\n  background: var(--danger-bg, rgba(192, 57, 43, 0.1));\n}\n.btn-equip-remove--item {\n  font-size: 0.75rem;\n  opacity: 0.7;\n}\n.btn-equip-remove--item:hover {\n  opacity: 1;\n}\n.btn-equip-add {\n  background: transparent;\n  border: 1px dashed var(--border, #ccc);\n  color: var(--text-muted, #888);\n  cursor: pointer;\n  border-radius: 6px;\n  font-size: 0.78rem;\n  padding: 0.3rem 0.7rem;\n  transition: border-color 0.15s, color 0.15s;\n}\n.btn-equip-add:hover {\n  border-color: var(--accent, #2e7d32);\n  color: var(--accent, #2e7d32);\n}\n.btn-equip-add--item {\n  margin-top: 0.4rem;\n}\n.btn-equip-add--cat {\n  width: 100%;\n  padding: 0.55rem;\n  font-size: 0.82rem;\n  margin-top: 0.2rem;\n  font-weight: 600;\n}\n/*# sourceMappingURL=sidebar.css.map */\n'] }]
   }], () => [], { sidebarScroll: [{
     type: ViewChild,
     args: ["sidebarScroll"]
@@ -63404,22 +64020,38 @@ var SidebarComponent = class _SidebarComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/features/sentieri/components/trail-list/sidebar.ts", lineNumber: 36 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SidebarComponent, { className: "SidebarComponent", filePath: "src/app/features/sentieri/components/trail-list/sidebar.ts", lineNumber: 37 });
 })();
 
 // src/app/features/sentieri/sentieri-shell.ts
+function SentieriShell_Conditional_23_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 17);
+    \u0275\u0275listener("click", function SentieriShell_Conditional_23_Template_div_click_0_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleSidebar());
+    });
+    \u0275\u0275elementEnd();
+  }
+}
 var SentieriShell = class _SentieriShell {
   router;
+  sidebarOpen = false;
   constructor(router) {
     this.router = router;
   }
   vai(path) {
     this.router.navigate([path]);
   }
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
   static \u0275fac = function SentieriShell_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _SentieriShell)(\u0275\u0275directiveInject(Router));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SentieriShell, selectors: [["app-sentieri-shell"]], decls: 25, vars: 0, consts: [[1, "sentieri-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "sentieri-container"], [1, "sidebar"], [1, "map-area"]], template: function SentieriShell_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SentieriShell, selectors: [["app-sentieri-shell"]], decls: 29, vars: 3, consts: [[1, "sentieri-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], ["aria-label", "Lista sentieri", 1, "mobile-sidebar-btn", 3, "click"], [1, "ti", "ti-list-search"], [1, "sentieri-container"], [1, "mobile-overlay"], [1, "sidebar"], [1, "map-area"], ["active", "sentieri"], [1, "mobile-overlay", 3, "click"]], template: function SentieriShell_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
       \u0275\u0275listener("click", function SentieriShell_Template_div_click_3_listener() {
@@ -63454,21 +64086,37 @@ var SentieriShell = class _SentieriShell {
       });
       \u0275\u0275text(18, "Cicerone");
       \u0275\u0275elementEnd();
-      \u0275\u0275element(19, "app-profile-button");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(20, "div", 10)(21, "aside", 11);
-      \u0275\u0275element(22, "app-sidebar");
+      \u0275\u0275elementStart(19, "button", 10);
+      \u0275\u0275listener("click", function SentieriShell_Template_button_click_19_listener() {
+        return ctx.toggleSidebar();
+      });
+      \u0275\u0275element(20, "i", 11);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(23, "main", 12);
-      \u0275\u0275element(24, "app-map");
+      \u0275\u0275element(21, "app-profile-button");
       \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(22, "div", 12);
+      \u0275\u0275conditionalCreate(23, SentieriShell_Conditional_23_Template, 1, 0, "div", 13);
+      \u0275\u0275elementStart(24, "aside", 14);
+      \u0275\u0275element(25, "app-sidebar");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(26, "main", 15);
+      \u0275\u0275element(27, "app-map");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(28, "app-mobile-nav", 16);
+      \u0275\u0275elementEnd();
     }
-  }, dependencies: [CommonModule, MapComponent, SidebarComponent, ProfileButton], styles: ['\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.sentieri-root[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  width: 100vw;\n  overflow: hidden;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  background: rgba(31, 66, 64, 0.97);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n  z-index: 300;\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.sentieri-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.sidebar[_ngcontent-%COMP%] {\n  width: 400px;\n  height: 100%;\n  background: #ffffff;\n  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);\n  z-index: 2;\n  overflow: hidden;\n}\n.map-area[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 100%;\n}\n/*# sourceMappingURL=sentieri-shell.css.map */'] });
+    if (rf & 2) {
+      \u0275\u0275advance(23);
+      \u0275\u0275conditional(ctx.sidebarOpen ? 23 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("sidebar-open", ctx.sidebarOpen);
+    }
+  }, dependencies: [CommonModule, MapComponent, SidebarComponent, ProfileButton, MobileNav], styles: ['\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.sentieri-root[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  width: 100vw;\n  overflow: hidden;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  flex-shrink: 0;\n  position: relative;\n  z-index: 300;\n}\n.header-bar[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background: rgba(31, 66, 64, 0.97);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n  z-index: -1;\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.sentieri-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n  isolation: isolate;\n}\n.sidebar[_ngcontent-%COMP%] {\n  width: 400px;\n  height: 100%;\n  background: #ffffff;\n  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);\n  z-index: 2;\n  overflow: hidden;\n}\n.map-area[_ngcontent-%COMP%] {\n  flex: 1;\n  height: 100%;\n}\n.mobile-sidebar-btn[_ngcontent-%COMP%] {\n  display: none;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  background: rgba(255, 255, 255, 0.12);\n  border: 0.5px solid rgba(255, 255, 255, 0.28);\n  border-radius: 50%;\n  color: white;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  flex-shrink: 0;\n}\n.mobile-sidebar-btn[_ngcontent-%COMP%]:hover {\n  background: rgba(255, 255, 255, 0.22);\n}\n@media (max-width: 768px) {\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .mobile-sidebar-btn[_ngcontent-%COMP%] {\n    display: flex;\n  }\n  .sentieri-container[_ngcontent-%COMP%] {\n    position: relative;\n  }\n  .sidebar[_ngcontent-%COMP%] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: 100%;\n    z-index: 800;\n    width: 320px;\n    max-width: 88vw;\n    transform: translateX(-100%);\n    transition: transform 0.28s ease;\n    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.35);\n  }\n  .sidebar.sidebar-open[_ngcontent-%COMP%] {\n    transform: translateX(0);\n  }\n  .mobile-overlay[_ngcontent-%COMP%] {\n    position: absolute;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.52);\n    z-index: 799;\n  }\n}\n/*# sourceMappingURL=sentieri-shell.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SentieriShell, [{
     type: Component,
-    args: [{ selector: "app-sentieri-shell", standalone: true, imports: [CommonModule, MapComponent, SidebarComponent, ProfileButton], template: `<div class="sentieri-root">\r
+    args: [{ selector: "app-sentieri-shell", standalone: true, imports: [CommonModule, MapComponent, SidebarComponent, ProfileButton, MobileNav], template: `<div class="sentieri-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
@@ -63481,13 +64129,19 @@ var SentieriShell = class _SentieriShell {
         <span class="nav-link" (click)="vai('/educazione/quiz')">Educazione</span>\r
         <span class="nav-link active">Sentieri</span>\r
         <span class="nav-link" (click)="vai('/cicerone/notizie')">Cicerone</span>\r
+        <button class="mobile-sidebar-btn" (click)="toggleSidebar()" aria-label="Lista sentieri">\r
+          <i class="ti ti-list-search"></i>\r
+        </button>\r
         <app-profile-button />\r
       </div>\r
     </nav>\r
   </header>\r
 \r
   <div class="sentieri-container">\r
-    <aside class="sidebar">\r
+    @if (sidebarOpen) {\r
+      <div class="mobile-overlay" (click)="toggleSidebar()"></div>\r
+    }\r
+    <aside class="sidebar" [class.sidebar-open]="sidebarOpen">\r
       <app-sidebar />\r
     </aside>\r
     <main class="map-area">\r
@@ -63495,11 +64149,12 @@ var SentieriShell = class _SentieriShell {
     </main>\r
   </div>\r
 \r
-</div>`, styles: ['/* src/app/features/sentieri/sentieri-shell.css */\n* {\n  box-sizing: border-box;\n}\n.sentieri-root {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  width: 100vw;\n  overflow: hidden;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  flex-shrink: 0;\n  background: rgba(31, 66, 64, 0.97);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n  z-index: 300;\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.sentieri-container {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n}\n.sidebar {\n  width: 400px;\n  height: 100%;\n  background: #ffffff;\n  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);\n  z-index: 2;\n  overflow: hidden;\n}\n.map-area {\n  flex: 1;\n  height: 100%;\n}\n/*# sourceMappingURL=sentieri-shell.css.map */\n'] }]
+  <app-mobile-nav active="sentieri" />\r
+</div>`, styles: ['/* src/app/features/sentieri/sentieri-shell.css */\n* {\n  box-sizing: border-box;\n}\n.sentieri-root {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  width: 100vw;\n  overflow: hidden;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  flex-shrink: 0;\n  position: relative;\n  z-index: 300;\n}\n.header-bar::before {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background: rgba(31, 66, 64, 0.97);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n  z-index: -1;\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.sentieri-container {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n  isolation: isolate;\n}\n.sidebar {\n  width: 400px;\n  height: 100%;\n  background: #ffffff;\n  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);\n  z-index: 2;\n  overflow: hidden;\n}\n.map-area {\n  flex: 1;\n  height: 100%;\n}\n.mobile-sidebar-btn {\n  display: none;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n  background: rgba(255, 255, 255, 0.12);\n  border: 0.5px solid rgba(255, 255, 255, 0.28);\n  border-radius: 50%;\n  color: white;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  flex-shrink: 0;\n}\n.mobile-sidebar-btn:hover {\n  background: rgba(255, 255, 255, 0.22);\n}\n@media (max-width: 768px) {\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .mobile-sidebar-btn {\n    display: flex;\n  }\n  .sentieri-container {\n    position: relative;\n  }\n  .sidebar {\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: 100%;\n    z-index: 800;\n    width: 320px;\n    max-width: 88vw;\n    transform: translateX(-100%);\n    transition: transform 0.28s ease;\n    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.35);\n  }\n  .sidebar.sidebar-open {\n    transform: translateX(0);\n  }\n  .mobile-overlay {\n    position: absolute;\n    inset: 0;\n    background: rgba(0, 0, 0, 0.52);\n    z-index: 799;\n  }\n}\n/*# sourceMappingURL=sentieri-shell.css.map */\n'] }]
   }], () => [{ type: Router }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SentieriShell, { className: "SentieriShell", filePath: "src/app/features/sentieri/sentieri-shell.ts", lineNumber: 20 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SentieriShell, { className: "SentieriShell", filePath: "src/app/features/sentieri/sentieri-shell.ts", lineNumber: 21 });
 })();
 
 // src/app/features/cicerone/notizie.ts
@@ -63507,13 +64162,13 @@ var _forTrack09 = ($index, $item) => $item._id;
 function Notizie_Conditional_51_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 32);
+    \u0275\u0275elementStart(0, "button", 33);
     \u0275\u0275listener("click", function Notizie_Conditional_51_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.nuovaNotizia());
     });
-    \u0275\u0275element(1, "i", 33);
+    \u0275\u0275element(1, "i", 34);
     \u0275\u0275text(2, " Nuova Notizia ");
     \u0275\u0275elementEnd();
   }
@@ -63539,8 +64194,8 @@ function Notizie_Conditional_53_Template(rf, ctx) {
 }
 function Notizie_Conditional_54_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 36);
-    \u0275\u0275element(1, "img", 48);
+    \u0275\u0275elementStart(0, "div", 37);
+    \u0275\u0275element(1, "img", 49);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -63552,8 +64207,8 @@ function Notizie_Conditional_54_For_2_Conditional_1_Template(rf, ctx) {
 }
 function Notizie_Conditional_54_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 37);
-    \u0275\u0275element(1, "i", 49);
+    \u0275\u0275elementStart(0, "div", 38);
+    \u0275\u0275element(1, "i", 50);
     \u0275\u0275elementEnd();
   }
 }
@@ -63573,57 +64228,57 @@ function Notizie_Conditional_54_For_2_Conditional_5_Template(rf, ctx) {
 function Notizie_Conditional_54_For_2_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 50);
+    \u0275\u0275elementStart(0, "div", 51);
     \u0275\u0275listener("click", function Notizie_Conditional_54_For_2_Conditional_17_Template_div_click_0_listener($event) {
       return $event.stopPropagation();
     });
-    \u0275\u0275elementStart(1, "button", 51);
+    \u0275\u0275elementStart(1, "button", 52);
     \u0275\u0275listener("click", function Notizie_Conditional_54_For_2_Conditional_17_Template_button_click_1_listener($event) {
       \u0275\u0275restoreView(_r5);
       const notizia_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.modificaNotizia(notizia_r4._id, $event));
     });
-    \u0275\u0275element(2, "i", 52);
+    \u0275\u0275element(2, "i", 53);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 53);
+    \u0275\u0275elementStart(3, "button", 54);
     \u0275\u0275listener("click", function Notizie_Conditional_54_For_2_Conditional_17_Template_button_click_3_listener($event) {
       \u0275\u0275restoreView(_r5);
       const notizia_r4 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.eliminaNotizia(notizia_r4._id, $event));
     });
-    \u0275\u0275element(4, "i", 54);
+    \u0275\u0275element(4, "i", 55);
     \u0275\u0275elementEnd()();
   }
 }
 function Notizie_Conditional_54_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 35);
+    \u0275\u0275elementStart(0, "div", 36);
     \u0275\u0275listener("click", function Notizie_Conditional_54_For_2_Template_div_click_0_listener() {
       const notizia_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.avviaNotizia(notizia_r4._id));
     });
-    \u0275\u0275conditionalCreate(1, Notizie_Conditional_54_For_2_Conditional_1_Template, 2, 2, "div", 36)(2, Notizie_Conditional_54_For_2_Conditional_2_Template, 2, 0, "div", 37);
-    \u0275\u0275elementStart(3, "div", 38)(4, "div", 39);
-    \u0275\u0275conditionalCreate(5, Notizie_Conditional_54_For_2_Conditional_5_Template, 2, 4, "span", 40);
-    \u0275\u0275elementStart(6, "span", 41);
+    \u0275\u0275conditionalCreate(1, Notizie_Conditional_54_For_2_Conditional_1_Template, 2, 2, "div", 37)(2, Notizie_Conditional_54_For_2_Conditional_2_Template, 2, 0, "div", 38);
+    \u0275\u0275elementStart(3, "div", 39)(4, "div", 40);
+    \u0275\u0275conditionalCreate(5, Notizie_Conditional_54_For_2_Conditional_5_Template, 2, 4, "span", 41);
+    \u0275\u0275elementStart(6, "span", 42);
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "h3", 42);
+    \u0275\u0275elementStart(9, "h3", 43);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "p", 43);
+    \u0275\u0275elementStart(11, "p", 44);
     \u0275\u0275text(12);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "div", 44)(14, "span", 45);
+    \u0275\u0275elementStart(13, "div", 45)(14, "span", 46);
     \u0275\u0275text(15, "Leggi tutto ");
-    \u0275\u0275element(16, "i", 46);
+    \u0275\u0275element(16, "i", 47);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(17, Notizie_Conditional_54_For_2_Conditional_17_Template, 5, 0, "div", 47);
+    \u0275\u0275conditionalCreate(17, Notizie_Conditional_54_For_2_Conditional_17_Template, 5, 0, "div", 48);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -63655,7 +64310,7 @@ function Notizie_Conditional_54_Conditional_3_Template(rf, ctx) {
 function Notizie_Conditional_54_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 31);
-    \u0275\u0275repeaterCreate(1, Notizie_Conditional_54_For_2_Template, 18, 11, "div", 34, _forTrack09);
+    \u0275\u0275repeaterCreate(1, Notizie_Conditional_54_For_2_Template, 18, 11, "div", 35, _forTrack09);
     \u0275\u0275conditionalCreate(3, Notizie_Conditional_54_Conditional_3_Template, 2, 0, "div", 29);
     \u0275\u0275elementEnd();
   }
@@ -63681,7 +64336,7 @@ var Notizie = class _Notizie {
   ordinamento = "recenti";
   /** Ruolo dell'utente loggato — determina se mostrare i controlli admin */
   ruoloUtente = "utente";
-  apiUrl = "http://localhost:3000/api/cicerone";
+  apiUrl = environment.apiUrl + "/api/cicerone";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -63775,9 +64430,13 @@ var Notizie = class _Notizie {
   static \u0275fac = function Notizie_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _Notizie)(\u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Notizie, selectors: [["app-notizie"]], decls: 55, vars: 7, consts: [[1, "not-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "filtri-bar"], [1, "select-ordine", 3, "ngModelChange", "change", "ngModel"], ["value", "recenti"], ["value", "popolari"], ["value", "personalizzate"], ["name", "categoria", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel", "disabled"], ["value", ""], ["value", "meteo"], ["value", "valanghe"], ["value", "orientamento"], ["value", "fauna"], ["value", "prontoSoccorso"], ["value", "generale"], [1, "btn-nuova"], [1, "stato-msg"], [1, "errore-msg"], [1, "feed"], [1, "btn-nuova", 3, "click"], [1, "ti", "ti-plus"], [1, "post-card", 3, "featured"], [1, "post-card", 3, "click"], [1, "post-img-wrap"], [1, "post-img-placeholder"], [1, "post-body"], [1, "post-meta-top"], [3, "class"], [1, "post-data"], [1, "post-titolo"], [1, "post-preview"], [1, "post-footer"], [1, "leggi-tutto"], [1, "ti", "ti-arrow-right"], [1, "azioni-admin"], [1, "post-img", 3, "src", "alt"], [1, "ti", "ti-news"], [1, "azioni-admin", 3, "click"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"]], template: function Notizie_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _Notizie, selectors: [["app-notizie"]], decls: 56, vars: 7, consts: [[1, "not-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "nav-links"], [1, "nav-link", 3, "click"], [1, "nav-link", "active"], [1, "page-inner"], [1, "page-hero"], [1, "page-eyebrow"], [1, "page-title"], [1, "page-sub"], [1, "filtri-bar"], [1, "select-ordine", 3, "ngModelChange", "change", "ngModel"], ["value", "recenti"], ["value", "popolari"], ["value", "personalizzate"], ["name", "categoria", 1, "filtro-select", 3, "ngModelChange", "change", "ngModel", "disabled"], ["value", ""], ["value", "meteo"], ["value", "valanghe"], ["value", "orientamento"], ["value", "fauna"], ["value", "prontoSoccorso"], ["value", "generale"], [1, "btn-nuova"], [1, "stato-msg"], [1, "errore-msg"], [1, "feed"], ["active", "cicerone"], [1, "btn-nuova", 3, "click"], [1, "ti", "ti-plus"], [1, "post-card", 3, "featured"], [1, "post-card", 3, "click"], [1, "post-img-wrap"], [1, "post-img-placeholder"], [1, "post-body"], [1, "post-meta-top"], [3, "class"], [1, "post-data"], [1, "post-titolo"], [1, "post-preview"], [1, "post-footer"], [1, "leggi-tutto"], [1, "ti", "ti-arrow-right"], [1, "azioni-admin"], [1, "post-img", 3, "src", "alt"], [1, "ti", "ti-news"], [1, "azioni-admin", 3, "click"], [1, "btn-admin-edit", 3, "click"], [1, "ti", "ti-pencil"], [1, "btn-admin-del", 3, "click"], [1, "ti", "ti-x"]], template: function Notizie_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function Notizie_Template_div_click_3_listener() {
+        return ctx.vaiA("/home");
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -63868,7 +64527,9 @@ var Notizie = class _Notizie {
       \u0275\u0275conditionalCreate(52, Notizie_Conditional_52_Template, 2, 0, "div", 29);
       \u0275\u0275conditionalCreate(53, Notizie_Conditional_53_Template, 2, 1, "div", 30);
       \u0275\u0275conditionalCreate(54, Notizie_Conditional_54_Template, 4, 1, "div", 31);
-      \u0275\u0275elementEnd()();
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(55, "app-mobile-nav", 32);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(29);
@@ -63885,16 +64546,16 @@ var Notizie = class _Notizie {
       \u0275\u0275advance();
       \u0275\u0275conditional(!ctx.caricamento && !ctx.errore ? 54 : -1);
     }
-  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, CommonModule, ProfileButton, DatePipe], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.not-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 1140px;\n  margin: 0 auto;\n  padding: 0 2rem 5rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 56px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.filtro-select[_ngcontent-%COMP%], \n.select-ordine[_ngcontent-%COMP%] {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus, \n.select-ordine[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%], \n.select-ordine[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.btn-nuova[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 8px;\n  padding: 0.65rem 1.1rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-nuova[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.feed[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.25rem;\n  align-items: start;\n}\n.post-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  overflow: hidden;\n  cursor: pointer;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.post-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.post-card.featured[_ngcontent-%COMP%] {\n  grid-column: 1 / -1;\n  display: grid;\n  grid-template-columns: 3fr 2fr;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-img-wrap[_ngcontent-%COMP%] {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-img-placeholder[_ngcontent-%COMP%] {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-body[_ngcontent-%COMP%] {\n  padding: 2rem 2.5rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-titolo[_ngcontent-%COMP%] {\n  font-size: 1.55rem;\n  line-height: 1.22;\n  margin-bottom: 0.7rem;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-preview[_ngcontent-%COMP%] {\n  -webkit-line-clamp: 5;\n  font-size: 0.92rem;\n}\n.post-img-wrap[_ngcontent-%COMP%] {\n  width: 100%;\n  aspect-ratio: 16/7;\n  overflow: hidden;\n  background: #1f4240;\n}\n.post-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  transition: transform 0.3s ease;\n}\n.post-card[_ngcontent-%COMP%]:hover   .post-img[_ngcontent-%COMP%] {\n  transform: scale(1.03);\n}\n.post-img-placeholder[_ngcontent-%COMP%] {\n  width: 100%;\n  aspect-ratio: 16/7;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 2.5rem;\n  color: rgba(151, 168, 149, 0.4);\n}\n.post-body[_ngcontent-%COMP%] {\n  padding: 1.1rem 1.3rem 1.2rem;\n}\n.post-meta-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.55rem;\n}\n.cat-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.2rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe[_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso[_ngcontent-%COMP%] {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento[_ngcontent-%COMP%] {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.post-data[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.3);\n}\n.post-titolo[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: rgba(255, 255, 255, 0.9);\n  margin: 0 0 0.45rem;\n  line-height: 1.35;\n}\n.post-preview[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.5);\n  line-height: 1.65;\n  margin: 0 0 0.9rem;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.post-footer[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.75rem;\n}\n.leggi-tutto[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.azioni-admin[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n@media (max-width: 900px) {\n  .feed[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-img-wrap[_ngcontent-%COMP%], \n   .post-card.featured[_ngcontent-%COMP%]   .post-img-placeholder[_ngcontent-%COMP%] {\n    aspect-ratio: 16/7;\n    min-height: 0;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-body[_ngcontent-%COMP%] {\n    padding: 1.1rem 1.3rem 1.2rem;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-titolo[_ngcontent-%COMP%] {\n    font-size: 1.2rem;\n  }\n}\n@media (max-width: 768px) {\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 38px;\n    letter-spacing: -0.5px;\n  }\n  .page-inner[_ngcontent-%COMP%] {\n    padding: 0 1.25rem 3rem;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: block;\n  }\n}\n/*# sourceMappingURL=notizie.css.map */'] });
+  }, dependencies: [FormsModule, NgSelectOption, \u0275NgSelectMultipleOption, SelectControlValueAccessor, NgControlStatus, NgModel, CommonModule, ProfileButton, MobileNav, DatePipe], styles: ['\n[_nghost-%COMP%] {\n  display: block;\n  background: #1f4240;\n}\n*[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n}\n.not-root[_ngcontent-%COMP%] {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar[_ngcontent-%COMP%] {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar[_ngcontent-%COMP%] {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark[_ngcontent-%COMP%] {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text[_ngcontent-%COMP%] {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  color: #D8D089;\n}\n.nav-links[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link[_ngcontent-%COMP%] {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link[_ngcontent-%COMP%]:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: 500;\n}\n.page-inner[_ngcontent-%COMP%] {\n  max-width: 1140px;\n  margin: 0 auto;\n  padding: 0 2rem 5rem;\n}\n.page-hero[_ngcontent-%COMP%] {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow[_ngcontent-%COMP%] {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title[_ngcontent-%COMP%] {\n  font-size: 56px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 12px;\n}\n.page-sub[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.filtri-bar[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.filtro-select[_ngcontent-%COMP%], \n.select-ordine[_ngcontent-%COMP%] {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select[_ngcontent-%COMP%]:focus, \n.select-ordine[_ngcontent-%COMP%]:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select[_ngcontent-%COMP%]   option[_ngcontent-%COMP%], \n.select-ordine[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  background: #2B5C59;\n}\n.btn-nuova[_ngcontent-%COMP%] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 8px;\n  padding: 0.65rem 1.1rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-nuova[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.stato-msg[_ngcontent-%COMP%] {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg[_ngcontent-%COMP%] {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.feed[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.25rem;\n  align-items: start;\n}\n.post-card[_ngcontent-%COMP%] {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  overflow: hidden;\n  cursor: pointer;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.post-card[_ngcontent-%COMP%]:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.post-card.featured[_ngcontent-%COMP%] {\n  grid-column: 1 / -1;\n  display: grid;\n  grid-template-columns: 3fr 2fr;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-img-wrap[_ngcontent-%COMP%] {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-img-placeholder[_ngcontent-%COMP%] {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-body[_ngcontent-%COMP%] {\n  padding: 2rem 2.5rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-titolo[_ngcontent-%COMP%] {\n  font-size: 1.55rem;\n  line-height: 1.22;\n  margin-bottom: 0.7rem;\n}\n.post-card.featured[_ngcontent-%COMP%]   .post-preview[_ngcontent-%COMP%] {\n  -webkit-line-clamp: 5;\n  font-size: 0.92rem;\n}\n.post-img-wrap[_ngcontent-%COMP%] {\n  width: 100%;\n  aspect-ratio: 16/7;\n  overflow: hidden;\n  background: #1f4240;\n}\n.post-img[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  transition: transform 0.3s ease;\n}\n.post-card[_ngcontent-%COMP%]:hover   .post-img[_ngcontent-%COMP%] {\n  transform: scale(1.03);\n}\n.post-img-placeholder[_ngcontent-%COMP%] {\n  width: 100%;\n  aspect-ratio: 16/7;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 2.5rem;\n  color: rgba(151, 168, 149, 0.4);\n}\n.post-body[_ngcontent-%COMP%] {\n  padding: 1.1rem 1.3rem 1.2rem;\n}\n.post-meta-top[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.55rem;\n}\n.cat-tag[_ngcontent-%COMP%] {\n  display: inline-block;\n  padding: 0.2rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe[_ngcontent-%COMP%] {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna[_ngcontent-%COMP%] {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso[_ngcontent-%COMP%] {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento[_ngcontent-%COMP%] {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.post-data[_ngcontent-%COMP%] {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.3);\n}\n.post-titolo[_ngcontent-%COMP%] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: rgba(255, 255, 255, 0.9);\n  margin: 0 0 0.45rem;\n  line-height: 1.35;\n}\n.post-preview[_ngcontent-%COMP%] {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.5);\n  line-height: 1.65;\n  margin: 0 0 0.9rem;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.post-footer[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.75rem;\n}\n.leggi-tutto[_ngcontent-%COMP%] {\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.azioni-admin[_ngcontent-%COMP%] {\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit[_ngcontent-%COMP%], \n.btn-admin-del[_ngcontent-%COMP%] {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  transition: background 0.15s;\n}\n.btn-admin-edit[_ngcontent-%COMP%]:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del[_ngcontent-%COMP%]:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n@media (max-width: 900px) {\n  .feed[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured[_ngcontent-%COMP%] {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-img-wrap[_ngcontent-%COMP%], \n   .post-card.featured[_ngcontent-%COMP%]   .post-img-placeholder[_ngcontent-%COMP%] {\n    aspect-ratio: 16/7;\n    min-height: 0;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-body[_ngcontent-%COMP%] {\n    padding: 1.1rem 1.3rem 1.2rem;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-titolo[_ngcontent-%COMP%] {\n    font-size: 1.2rem;\n  }\n}\n@media (max-width: 768px) {\n  .page-title[_ngcontent-%COMP%] {\n    font-size: 38px;\n    letter-spacing: -0.5px;\n  }\n  .page-inner[_ngcontent-%COMP%] {\n    padding: 0 1.25rem 3rem;\n  }\n  .nav-link[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .nav-link.active[_ngcontent-%COMP%] {\n    display: none;\n  }\n  .post-img-wrap[_ngcontent-%COMP%], \n   .post-img-placeholder[_ngcontent-%COMP%] {\n    aspect-ratio: 3 / 1;\n  }\n  .post-card.featured[_ngcontent-%COMP%]   .post-img-wrap[_ngcontent-%COMP%], \n   .post-card.featured[_ngcontent-%COMP%]   .post-img-placeholder[_ngcontent-%COMP%] {\n    aspect-ratio: 3 / 1;\n    min-height: 0;\n  }\n}\n/*# sourceMappingURL=notizie.css.map */'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Notizie, [{
     type: Component,
-    args: [{ selector: "app-notizie", standalone: true, imports: [FormsModule, CommonModule, DatePipe, ProfileButton], template: `<div class="not-root">\r
+    args: [{ selector: "app-notizie", standalone: true, imports: [FormsModule, CommonModule, DatePipe, ProfileButton, MobileNav], template: `<div class="not-root">\r
 \r
   <header class="header-bar">\r
     <nav class="navbar">\r
-      <div class="logo">\r
+      <div class="logo" (click)="vaiA('/home')">\r
         <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
         <span class="logo-text">Peak<span>Aware</span></span>\r
       </div>\r
@@ -63999,12 +64660,14 @@ var Notizie = class _Notizie {
     }\r
 \r
   </div>\r
+\r
+  <app-mobile-nav active="cicerone" />\r
 </div>\r
-`, styles: ['/* src/app/features/cicerone/notizie.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.not-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 1140px;\n  margin: 0 auto;\n  padding: 0 2rem 5rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 56px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.filtri-bar {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.filtro-select,\n.select-ordine {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus,\n.select-ordine:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option,\n.select-ordine option {\n  background: #2B5C59;\n}\n.btn-nuova {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 8px;\n  padding: 0.65rem 1.1rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-nuova:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.feed {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.25rem;\n  align-items: start;\n}\n.post-card {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  overflow: hidden;\n  cursor: pointer;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.post-card:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.post-card.featured {\n  grid-column: 1 / -1;\n  display: grid;\n  grid-template-columns: 3fr 2fr;\n}\n.post-card.featured .post-img-wrap {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured .post-img-placeholder {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured .post-body {\n  padding: 2rem 2.5rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.post-card.featured .post-titolo {\n  font-size: 1.55rem;\n  line-height: 1.22;\n  margin-bottom: 0.7rem;\n}\n.post-card.featured .post-preview {\n  -webkit-line-clamp: 5;\n  font-size: 0.92rem;\n}\n.post-img-wrap {\n  width: 100%;\n  aspect-ratio: 16/7;\n  overflow: hidden;\n  background: #1f4240;\n}\n.post-img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  transition: transform 0.3s ease;\n}\n.post-card:hover .post-img {\n  transform: scale(1.03);\n}\n.post-img-placeholder {\n  width: 100%;\n  aspect-ratio: 16/7;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 2.5rem;\n  color: rgba(151, 168, 149, 0.4);\n}\n.post-body {\n  padding: 1.1rem 1.3rem 1.2rem;\n}\n.post-meta-top {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.55rem;\n}\n.cat-tag {\n  display: inline-block;\n  padding: 0.2rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.post-data {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.3);\n}\n.post-titolo {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: rgba(255, 255, 255, 0.9);\n  margin: 0 0 0.45rem;\n  line-height: 1.35;\n}\n.post-preview {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.5);\n  line-height: 1.65;\n  margin: 0 0 0.9rem;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.post-footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.75rem;\n}\n.leggi-tutto {\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.azioni-admin {\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit,\n.btn-admin-del {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n@media (max-width: 900px) {\n  .feed {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured .post-img-wrap,\n  .post-card.featured .post-img-placeholder {\n    aspect-ratio: 16/7;\n    min-height: 0;\n  }\n  .post-card.featured .post-body {\n    padding: 1.1rem 1.3rem 1.2rem;\n  }\n  .post-card.featured .post-titolo {\n    font-size: 1.2rem;\n  }\n}\n@media (max-width: 768px) {\n  .page-title {\n    font-size: 38px;\n    letter-spacing: -0.5px;\n  }\n  .page-inner {\n    padding: 0 1.25rem 3rem;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: block;\n  }\n}\n/*# sourceMappingURL=notizie.css.map */\n'] }]
+`, styles: ['/* src/app/features/cicerone/notizie.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.not-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 1140px;\n  margin: 0 auto;\n  padding: 0 2rem 5rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 56px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1.5px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 16px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 480px;\n  line-height: 1.6;\n}\n.filtri-bar {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  margin-bottom: 2rem;\n}\n.filtro-select,\n.select-ordine {\n  padding: 0.65rem 1.1rem;\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 8px;\n  font-size: 0.95rem;\n  cursor: pointer;\n  outline: none;\n}\n.filtro-select:focus,\n.select-ordine:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.filtro-select option,\n.select-ordine option {\n  background: #2B5C59;\n}\n.btn-nuova {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.4);\n  color: #D8D089;\n  border-radius: 8px;\n  padding: 0.65rem 1.1rem;\n  font-size: 0.9rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-nuova:hover {\n  background: rgba(216, 208, 137, 0.25);\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.feed {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.25rem;\n  align-items: start;\n}\n.post-card {\n  background: #2B5C59;\n  border-radius: 14px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  overflow: hidden;\n  cursor: pointer;\n  transition: transform 0.15s, border-color 0.15s;\n}\n.post-card:hover {\n  transform: translateY(-2px);\n  border-color: rgba(216, 208, 137, 0.4);\n}\n.post-card.featured {\n  grid-column: 1 / -1;\n  display: grid;\n  grid-template-columns: 3fr 2fr;\n}\n.post-card.featured .post-img-wrap {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured .post-img-placeholder {\n  aspect-ratio: auto;\n  min-height: 300px;\n}\n.post-card.featured .post-body {\n  padding: 2rem 2.5rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.post-card.featured .post-titolo {\n  font-size: 1.55rem;\n  line-height: 1.22;\n  margin-bottom: 0.7rem;\n}\n.post-card.featured .post-preview {\n  -webkit-line-clamp: 5;\n  font-size: 0.92rem;\n}\n.post-img-wrap {\n  width: 100%;\n  aspect-ratio: 16/7;\n  overflow: hidden;\n  background: #1f4240;\n}\n.post-img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n  transition: transform 0.3s ease;\n}\n.post-card:hover .post-img {\n  transform: scale(1.03);\n}\n.post-img-placeholder {\n  width: 100%;\n  aspect-ratio: 16/7;\n  background:\n    linear-gradient(\n      135deg,\n      #1f4240,\n      #26504d);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 2.5rem;\n  color: rgba(151, 168, 149, 0.4);\n}\n.post-body {\n  padding: 1.1rem 1.3rem 1.2rem;\n}\n.post-meta-top {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.55rem;\n}\n.cat-tag {\n  display: inline-block;\n  padding: 0.2rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  background: rgba(216, 208, 137, 0.15);\n  color: #D8D089;\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n}\n.cat-tag.valanghe {\n  background: rgba(185, 122, 83, 0.15);\n  color: #B97A53;\n  border-color: rgba(185, 122, 83, 0.3);\n}\n.cat-tag.fauna {\n  background: rgba(76, 175, 130, 0.12);\n  color: #4CAF82;\n  border-color: rgba(76, 175, 130, 0.3);\n}\n.cat-tag.prontoSoccorso {\n  background: rgba(239, 101, 101, 0.12);\n  color: #EF6565;\n  border-color: rgba(239, 101, 101, 0.3);\n}\n.cat-tag.orientamento {\n  background: rgba(160, 154, 232, 0.12);\n  color: #A09AE8;\n  border-color: rgba(160, 154, 232, 0.3);\n}\n.post-data {\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.3);\n}\n.post-titolo {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: rgba(255, 255, 255, 0.9);\n  margin: 0 0 0.45rem;\n  line-height: 1.35;\n}\n.post-preview {\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.5);\n  line-height: 1.65;\n  margin: 0 0 0.9rem;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n.post-footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.15);\n  padding-top: 0.75rem;\n}\n.leggi-tutto {\n  font-size: 0.82rem;\n  font-weight: 500;\n  color: #D8D089;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.azioni-admin {\n  display: flex;\n  gap: 0.4rem;\n}\n.btn-admin-edit,\n.btn-admin-del {\n  background: rgba(255, 255, 255, 0.08);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 6px;\n  padding: 0.25rem 0.55rem;\n  font-size: 0.82rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.6);\n  transition: background 0.15s;\n}\n.btn-admin-edit:hover {\n  background: rgba(216, 208, 137, 0.12);\n  color: #D8D089;\n}\n.btn-admin-del:hover {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n}\n@media (max-width: 900px) {\n  .feed {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured {\n    grid-template-columns: 1fr;\n  }\n  .post-card.featured .post-img-wrap,\n  .post-card.featured .post-img-placeholder {\n    aspect-ratio: 16/7;\n    min-height: 0;\n  }\n  .post-card.featured .post-body {\n    padding: 1.1rem 1.3rem 1.2rem;\n  }\n  .post-card.featured .post-titolo {\n    font-size: 1.2rem;\n  }\n}\n@media (max-width: 768px) {\n  .page-title {\n    font-size: 38px;\n    letter-spacing: -0.5px;\n  }\n  .page-inner {\n    padding: 0 1.25rem 3rem;\n  }\n  .nav-link {\n    display: none;\n  }\n  .nav-link.active {\n    display: none;\n  }\n  .post-img-wrap,\n  .post-img-placeholder {\n    aspect-ratio: 3 / 1;\n  }\n  .post-card.featured .post-img-wrap,\n  .post-card.featured .post-img-placeholder {\n    aspect-ratio: 3 / 1;\n    min-height: 0;\n  }\n}\n/*# sourceMappingURL=notizie.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Notizie, { className: "Notizie", filePath: "src/app/features/cicerone/notizie.ts", lineNumber: 24 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(Notizie, { className: "Notizie", filePath: "src/app/features/cicerone/notizie.ts", lineNumber: 36 });
 })();
 
 // node_modules/@editorjs/editorjs/dist/editorjs.mjs
@@ -66600,51 +67263,51 @@ var Ko = { exports: {} };
           if (typeof w == "function")
             return w();
           if (m[w] === void 0) {
-            var x2 = (function(I2) {
-              return document.querySelector(I2);
+            var x = (function(I) {
+              return document.querySelector(I);
             }).call(this, w);
-            if (window.HTMLIFrameElement && x2 instanceof window.HTMLIFrameElement)
+            if (window.HTMLIFrameElement && x instanceof window.HTMLIFrameElement)
               try {
-                x2 = x2.contentDocument.head;
+                x = x.contentDocument.head;
               } catch {
-                x2 = null;
+                x = null;
               }
-            m[w] = x2;
+            m[w] = x;
           }
           return m[w];
         };
       })(), d2 = null, h2 = 0, p2 = [], g2 = i(5);
       function f(k, m) {
         for (var w = 0; w < k.length; w++) {
-          var x2 = k[w], I2 = a3[x2.id];
-          if (I2) {
-            I2.refs++;
-            for (var C = 0; C < I2.parts.length; C++)
-              I2.parts[C](x2.parts[C]);
-            for (; C < x2.parts.length; C++)
-              I2.parts.push(F(x2.parts[C], m));
+          var x = k[w], I = a3[x.id];
+          if (I) {
+            I.refs++;
+            for (var C = 0; C < I.parts.length; C++)
+              I.parts[C](x.parts[C]);
+            for (; C < x.parts.length; C++)
+              I.parts.push(F(x.parts[C], m));
           } else {
             var N = [];
-            for (C = 0; C < x2.parts.length; C++)
-              N.push(F(x2.parts[C], m));
-            a3[x2.id] = { id: x2.id, refs: 1, parts: N };
+            for (C = 0; C < x.parts.length; C++)
+              N.push(F(x.parts[C], m));
+            a3[x.id] = { id: x.id, refs: 1, parts: N };
           }
         }
       }
       function v2(k, m) {
-        for (var w = [], x2 = {}, I2 = 0; I2 < k.length; I2++) {
-          var C = k[I2], N = m.base ? C[0] + m.base : C[0], B2 = { css: C[1], media: C[2], sourceMap: C[3] };
-          x2[N] ? x2[N].parts.push(B2) : w.push(x2[N] = { id: N, parts: [B2] });
+        for (var w = [], x = {}, I = 0; I < k.length; I++) {
+          var C = k[I], N = m.base ? C[0] + m.base : C[0], B = { css: C[1], media: C[2], sourceMap: C[3] };
+          x[N] ? x[N].parts.push(B) : w.push(x[N] = { id: N, parts: [B] });
         }
         return w;
       }
-      function O2(k, m) {
+      function O(k, m) {
         var w = c2(k.insertInto);
         if (!w)
           throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-        var x2 = p2[p2.length - 1];
+        var x = p2[p2.length - 1];
         if (k.insertAt === "top")
-          x2 ? x2.nextSibling ? w.insertBefore(m, x2.nextSibling) : w.appendChild(m) : w.insertBefore(m, w.firstChild), p2.push(m);
+          x ? x.nextSibling ? w.insertBefore(m, x.nextSibling) : w.appendChild(m) : w.insertBefore(m, w.firstChild), p2.push(m);
         else if (k.insertAt === "bottom")
           w.appendChild(m);
         else {
@@ -66655,8 +67318,8 @@ var Ko = { exports: {} };
  Must be 'top', 'bottom', or Object.
  (https://github.com/webpack-contrib/style-loader#insertat)
 `);
-          var I2 = c2(k.insertInto + " " + k.insertAt.before);
-          w.insertBefore(m, I2);
+          var I = c2(k.insertInto + " " + k.insertAt.before);
+          w.insertBefore(m, I);
         }
       }
       function T(k) {
@@ -66668,15 +67331,15 @@ var Ko = { exports: {} };
       }
       function M(k) {
         var m = document.createElement("style");
-        return k.attrs.type === void 0 && (k.attrs.type = "text/css"), q2(m, k.attrs), O2(k, m), m;
+        return k.attrs.type === void 0 && (k.attrs.type = "text/css"), q(m, k.attrs), O(k, m), m;
       }
-      function q2(k, m) {
+      function q(k, m) {
         Object.keys(m).forEach(function(w) {
           k.setAttribute(w, m[w]);
         });
       }
       function F(k, m) {
-        var w, x2, I2, C;
+        var w, x, I, C;
         if (m.transform && k.css) {
           if (!(C = m.transform(k.css)))
             return function() {
@@ -66685,38 +67348,38 @@ var Ko = { exports: {} };
         }
         if (m.singleton) {
           var N = h2++;
-          w = d2 || (d2 = M(m)), x2 = ie.bind(null, w, N, false), I2 = ie.bind(null, w, N, true);
+          w = d2 || (d2 = M(m)), x = ie.bind(null, w, N, false), I = ie.bind(null, w, N, true);
         } else
-          k.sourceMap && typeof URL == "function" && typeof URL.createObjectURL == "function" && typeof URL.revokeObjectURL == "function" && typeof Blob == "function" && typeof btoa == "function" ? (w = (function(B2) {
+          k.sourceMap && typeof URL == "function" && typeof URL.createObjectURL == "function" && typeof URL.revokeObjectURL == "function" && typeof Blob == "function" && typeof btoa == "function" ? (w = (function(B) {
             var W = document.createElement("link");
-            return B2.attrs.type === void 0 && (B2.attrs.type = "text/css"), B2.attrs.rel = "stylesheet", q2(W, B2.attrs), O2(B2, W), W;
-          })(m), x2 = (function(B2, W, ve) {
+            return B.attrs.type === void 0 && (B.attrs.type = "text/css"), B.attrs.rel = "stylesheet", q(W, B.attrs), O(B, W), W;
+          })(m), x = (function(B, W, ve) {
             var se = ve.css, tt = ve.sourceMap, Yn = W.convertToAbsoluteUrls === void 0 && tt;
             (W.convertToAbsoluteUrls || Yn) && (se = g2(se)), tt && (se += `
 /*# sourceMappingURL=data:application/json;base64,` + btoa(unescape(encodeURIComponent(JSON.stringify(tt)))) + " */");
-            var Kn = new Blob([se], { type: "text/css" }), ko = B2.href;
-            B2.href = URL.createObjectURL(Kn), ko && URL.revokeObjectURL(ko);
-          }).bind(null, w, m), I2 = function() {
+            var Kn = new Blob([se], { type: "text/css" }), ko = B.href;
+            B.href = URL.createObjectURL(Kn), ko && URL.revokeObjectURL(ko);
+          }).bind(null, w, m), I = function() {
             T(w), w.href && URL.revokeObjectURL(w.href);
-          }) : (w = M(m), x2 = (function(B2, W) {
+          }) : (w = M(m), x = (function(B, W) {
             var ve = W.css, se = W.media;
-            if (se && B2.setAttribute("media", se), B2.styleSheet)
-              B2.styleSheet.cssText = ve;
+            if (se && B.setAttribute("media", se), B.styleSheet)
+              B.styleSheet.cssText = ve;
             else {
-              for (; B2.firstChild; )
-                B2.removeChild(B2.firstChild);
-              B2.appendChild(document.createTextNode(ve));
+              for (; B.firstChild; )
+                B.removeChild(B.firstChild);
+              B.appendChild(document.createTextNode(ve));
             }
-          }).bind(null, w), I2 = function() {
+          }).bind(null, w), I = function() {
             T(w);
           });
-        return x2(k), function(B2) {
-          if (B2) {
-            if (B2.css === k.css && B2.media === k.media && B2.sourceMap === k.sourceMap)
+        return x(k), function(B) {
+          if (B) {
+            if (B.css === k.css && B.media === k.media && B.sourceMap === k.sourceMap)
               return;
-            x2(k = B2);
+            x(k = B);
           } else
-            I2();
+            I();
         };
       }
       t.exports = function(k, m) {
@@ -66724,31 +67387,31 @@ var Ko = { exports: {} };
           throw new Error("The style-loader cannot be used in a non-browser environment");
         (m = m || {}).attrs = typeof m.attrs == "object" ? m.attrs : {}, m.singleton || typeof m.singleton == "boolean" || (m.singleton = l2()), m.insertInto || (m.insertInto = "head"), m.insertAt || (m.insertAt = "bottom");
         var w = v2(k, m);
-        return f(w, m), function(x2) {
-          for (var I2 = [], C = 0; C < w.length; C++) {
+        return f(w, m), function(x) {
+          for (var I = [], C = 0; C < w.length; C++) {
             var N = w[C];
-            (B2 = a3[N.id]).refs--, I2.push(B2);
+            (B = a3[N.id]).refs--, I.push(B);
           }
-          for (x2 && f(v2(x2, m), m), C = 0; C < I2.length; C++) {
-            var B2;
-            if ((B2 = I2[C]).refs === 0) {
-              for (var W = 0; W < B2.parts.length; W++)
-                B2.parts[W]();
-              delete a3[B2.id];
+          for (x && f(v2(x, m), m), C = 0; C < I.length; C++) {
+            var B;
+            if ((B = I[C]).refs === 0) {
+              for (var W = 0; W < B.parts.length; W++)
+                B.parts[W]();
+              delete a3[B.id];
             }
           }
         };
       };
-      var H2, Q = (H2 = [], function(k, m) {
-        return H2[k] = m, H2.filter(Boolean).join(`
+      var H, Q = (H = [], function(k, m) {
+        return H[k] = m, H.filter(Boolean).join(`
 `);
       });
-      function ie(k, m, w, x2) {
-        var I2 = w ? "" : x2.css;
+      function ie(k, m, w, x) {
+        var I = w ? "" : x.css;
         if (k.styleSheet)
-          k.styleSheet.cssText = Q(m, I2);
+          k.styleSheet.cssText = Q(m, I);
         else {
-          var C = document.createTextNode(I2), N = k.childNodes;
+          var C = document.createTextNode(I), N = k.childNodes;
           N[m] && k.removeChild(N[m]), N.length ? k.insertBefore(C, N[m]) : k.appendChild(C);
         }
       }
@@ -66772,16 +67435,16 @@ var Ko = { exports: {} };
     }, function(t, o, i) {
       var s, r, a3, l2, c2, d2, h2, p2, g2;
       t.exports = (s = "cdx-notifies", r = "cdx-notify", a3 = "cdx-notify__cross", l2 = "cdx-notify__button--confirm", c2 = "cdx-notify__button--cancel", d2 = "cdx-notify__input", h2 = "cdx-notify__button", p2 = "cdx-notify__btns-wrapper", { alert: g2 = function(f) {
-        var v2 = document.createElement("DIV"), O2 = document.createElement("DIV"), T = f.message, M = f.style;
-        return v2.classList.add(r), M && v2.classList.add(r + "--" + M), v2.innerHTML = T, O2.classList.add(a3), O2.addEventListener("click", v2.remove.bind(v2)), v2.appendChild(O2), v2;
+        var v2 = document.createElement("DIV"), O = document.createElement("DIV"), T = f.message, M = f.style;
+        return v2.classList.add(r), M && v2.classList.add(r + "--" + M), v2.innerHTML = T, O.classList.add(a3), O.addEventListener("click", v2.remove.bind(v2)), v2.appendChild(O), v2;
       }, confirm: function(f) {
-        var v2 = g2(f), O2 = document.createElement("div"), T = document.createElement("button"), M = document.createElement("button"), q2 = v2.querySelector("." + a3), F = f.cancelHandler, H2 = f.okHandler;
-        return O2.classList.add(p2), T.innerHTML = f.okText || "Confirm", M.innerHTML = f.cancelText || "Cancel", T.classList.add(h2), M.classList.add(h2), T.classList.add(l2), M.classList.add(c2), F && typeof F == "function" && (M.addEventListener("click", F), q2.addEventListener("click", F)), H2 && typeof H2 == "function" && T.addEventListener("click", H2), T.addEventListener("click", v2.remove.bind(v2)), M.addEventListener("click", v2.remove.bind(v2)), O2.appendChild(T), O2.appendChild(M), v2.appendChild(O2), v2;
+        var v2 = g2(f), O = document.createElement("div"), T = document.createElement("button"), M = document.createElement("button"), q = v2.querySelector("." + a3), F = f.cancelHandler, H = f.okHandler;
+        return O.classList.add(p2), T.innerHTML = f.okText || "Confirm", M.innerHTML = f.cancelText || "Cancel", T.classList.add(h2), M.classList.add(h2), T.classList.add(l2), M.classList.add(c2), F && typeof F == "function" && (M.addEventListener("click", F), q.addEventListener("click", F)), H && typeof H == "function" && T.addEventListener("click", H), T.addEventListener("click", v2.remove.bind(v2)), M.addEventListener("click", v2.remove.bind(v2)), O.appendChild(T), O.appendChild(M), v2.appendChild(O), v2;
       }, prompt: function(f) {
-        var v2 = g2(f), O2 = document.createElement("div"), T = document.createElement("button"), M = document.createElement("input"), q2 = v2.querySelector("." + a3), F = f.cancelHandler, H2 = f.okHandler;
-        return O2.classList.add(p2), T.innerHTML = f.okText || "Ok", T.classList.add(h2), T.classList.add(l2), M.classList.add(d2), f.placeholder && M.setAttribute("placeholder", f.placeholder), f.default && (M.value = f.default), f.inputType && (M.type = f.inputType), F && typeof F == "function" && q2.addEventListener("click", F), H2 && typeof H2 == "function" && T.addEventListener("click", function() {
-          H2(M.value);
-        }), T.addEventListener("click", v2.remove.bind(v2)), O2.appendChild(M), O2.appendChild(T), v2.appendChild(O2), v2;
+        var v2 = g2(f), O = document.createElement("div"), T = document.createElement("button"), M = document.createElement("input"), q = v2.querySelector("." + a3), F = f.cancelHandler, H = f.okHandler;
+        return O.classList.add(p2), T.innerHTML = f.okText || "Ok", T.classList.add(h2), T.classList.add(l2), M.classList.add(d2), f.placeholder && M.setAttribute("placeholder", f.placeholder), f.default && (M.value = f.default), f.inputType && (M.type = f.inputType), F && typeof F == "function" && q.addEventListener("click", F), H && typeof H == "function" && T.addEventListener("click", function() {
+          H(M.value);
+        }), T.addEventListener("click", v2.remove.bind(v2)), O.appendChild(M), O.appendChild(T), v2.appendChild(O), v2;
       }, getWrapper: function() {
         var f = document.createElement("DIV");
         return f.classList.add(s), f;
@@ -66899,10 +67562,10 @@ var Xo = { exports: {} };
             p2.removeChild(f), this._sanitize(h2, p2);
             break;
           }
-          var v2 = r(f), O2;
-          v2 && (O2 = Array.prototype.some.call(f.childNodes, i));
-          var T = !!p2.parentNode, M = i(p2) && i(f) && T, q2 = f.nodeName.toLowerCase(), F = l2(this.config, q2, f), H2 = v2 && O2;
-          if (H2 || c2(f, F) || !this.config.keepNestedBlockElements && M) {
+          var v2 = r(f), O;
+          v2 && (O = Array.prototype.some.call(f.childNodes, i));
+          var T = !!p2.parentNode, M = i(p2) && i(f) && T, q = f.nodeName.toLowerCase(), F = l2(this.config, q, f), H = v2 && O;
+          if (H || c2(f, F) || !this.config.keepNestedBlockElements && M) {
             if (!(f.nodeName === "SCRIPT" || f.nodeName === "STYLE"))
               for (; f.childNodes.length > 0; )
                 p2.insertBefore(f.childNodes[0], f);
@@ -70696,9 +71359,9 @@ function Fr(n2, e) {
   Object.defineProperty(n2, "isElement", { enumerable: true, get: function() {
     return v2.isElement;
   } });
-  var O2 = Cn;
+  var O = Cn;
   Object.defineProperty(n2, "isEmpty", { enumerable: true, get: function() {
-    return O2.isEmpty;
+    return O.isEmpty;
   } });
   var T = Tn;
   Object.defineProperty(n2, "isFragment", { enumerable: true, get: function() {
@@ -70708,17 +71371,17 @@ function Fr(n2, e) {
   Object.defineProperty(n2, "isHTMLString", { enumerable: true, get: function() {
     return M.isHTMLString;
   } });
-  var q2 = eo;
+  var q = eo;
   Object.defineProperty(n2, "isLeaf", { enumerable: true, get: function() {
-    return q2.isLeaf;
+    return q.isLeaf;
   } });
   var F = oo;
   Object.defineProperty(n2, "isNodeEmpty", { enumerable: true, get: function() {
     return F.isNodeEmpty;
   } });
-  var H2 = Ze;
+  var H = Ze;
   Object.defineProperty(n2, "isLineBreakTag", { enumerable: true, get: function() {
-    return H2.isLineBreakTag;
+    return H.isLineBreakTag;
   } });
   var Q = Ge;
   Object.defineProperty(n2, "isSingleTag", { enumerable: true, get: function() {
@@ -72925,9 +73588,9 @@ var Rn = class Dn extends E {
           r = s, l2 = true, this.toolsTags[r.tagName] && (a3 = this.toolsTags[r.tagName].tool);
           break;
       }
-      const { tags: c2 } = a3.pasteConfig || { tags: [] }, d2 = c2.reduce((g2, f) => (this.collectTagNames(f).forEach((O2) => {
-        const T = D(f) ? f[O2] : null;
-        g2[O2.toLowerCase()] = T || {};
+      const { tags: c2 } = a3.pasteConfig || { tags: [] }, d2 = c2.reduce((g2, f) => (this.collectTagNames(f).forEach((O) => {
+        const T = D(f) ? f[O] : null;
+        g2[O.toLowerCase()] = T || {};
       }), g2), {}), h2 = Object.assign({}, d2, a3.baseSanitizeConfig);
       if (r.tagName.toLowerCase() === "table") {
         const g2 = Z(r.outerHTML, h2);
@@ -75844,1119 +76507,475 @@ var n = class _n2 {
   }
 };
 
-// node_modules/@editorjs/image/dist/image.mjs
-(function() {
-  "use strict";
-  try {
-    if (typeof document < "u") {
-      var o = document.createElement("style");
-      o.appendChild(document.createTextNode('.image-tool{--bg-color: #cdd1e0;--front-color: #388ae5;--border-color: #e8e8eb}.image-tool__image{border-radius:3px;overflow:hidden;margin-bottom:10px;padding-bottom:0}.image-tool__image-picture{max-width:100%;vertical-align:bottom;display:block}.image-tool__image-preloader{width:50px;height:50px;border-radius:50%;background-size:cover;margin:auto;position:relative;background-color:var(--bg-color);background-position:center center}.image-tool__image-preloader:after{content:"";position:absolute;z-index:3;width:60px;height:60px;border-radius:50%;border:2px solid var(--bg-color);border-top-color:var(--front-color);left:50%;top:50%;margin-top:-30px;margin-left:-30px;animation:image-preloader-spin 2s infinite linear;box-sizing:border-box}.image-tool__caption{visibility:hidden;position:absolute;bottom:0;left:0;margin-bottom:10px}.image-tool__caption[contentEditable=true][data-placeholder]:before{position:absolute!important;content:attr(data-placeholder);color:#707684;font-weight:400;display:none}.image-tool__caption[contentEditable=true][data-placeholder]:empty:before{display:block}.image-tool__caption[contentEditable=true][data-placeholder]:empty:focus:before{display:none}.image-tool--empty .image-tool__image,.image-tool--empty .image-tool__image-preloader{display:none}.image-tool--empty .image-tool__caption,.image-tool--uploading .image-tool__caption{visibility:hidden!important}.image-tool .cdx-button{display:flex;align-items:center;justify-content:center}.image-tool .cdx-button svg{height:auto;margin:0 6px 0 0}.image-tool--filled .cdx-button,.image-tool--filled .image-tool__image-preloader{display:none}.image-tool--uploading .image-tool__image{min-height:200px;display:flex;border:1px solid var(--border-color);background-color:#fff}.image-tool--uploading .image-tool__image-picture,.image-tool--uploading .cdx-button{display:none}.image-tool--withBorder .image-tool__image{border:1px solid var(--border-color)}.image-tool--withBackground .image-tool__image{padding:15px;background:var(--bg-color)}.image-tool--withBackground .image-tool__image-picture{max-width:60%;margin:0 auto}.image-tool--stretched .image-tool__image-picture{width:100%}.image-tool--caption .image-tool__caption{visibility:visible}.image-tool--caption{padding-bottom:50px}@keyframes image-preloader-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}')), document.head.appendChild(o);
-    }
-  } catch (e) {
-    console.error("vite-plugin-css-injected-by-js", e);
-  }
-})();
-var R2 = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19V19C9.13623 19 8.20435 19 7.46927 18.6955C6.48915 18.2895 5.71046 17.5108 5.30448 16.5307C5 15.7956 5 14.8638 5 13V12C5 9.19108 5 7.78661 5.67412 6.77772C5.96596 6.34096 6.34096 5.96596 6.77772 5.67412C7.78661 5 9.19108 5 12 5H13.5C14.8956 5 15.5933 5 16.1611 5.17224C17.4395 5.56004 18.44 6.56046 18.8278 7.83886C19 8.40666 19 9.10444 19 10.5V10.5"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16 13V16M16 19V16M19 16H16M16 16H13"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.5 17.5L17.5 6.5"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.9919 10.5H19.0015"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.9919 19H11.0015"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13L13 5"/></svg>';
-var I = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.9919 9.5H19.0015"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.5 5H14.5096"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14.625 5H15C17.2091 5 19 6.79086 19 9V9.375"/><path stroke="currentColor" stroke-width="2" d="M9.375 5L9 5C6.79086 5 5 6.79086 5 9V9.375"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.3725 5H9.38207"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9.5H5.00957"/><path stroke="currentColor" stroke-width="2" d="M9.375 19H9C6.79086 19 5 17.2091 5 15V14.625"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.3725 19H9.38207"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 14.55H5.00957"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16 13V16M16 19V16M19 16H16M16 16H13"/></svg>';
-var L4 = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" stroke="currentColor" stroke-width="2" rx="4"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.13968 15.32L8.69058 11.5661C9.02934 11.2036 9.48873 11 9.96774 11C10.4467 11 10.9061 11.2036 11.2449 11.5661L15.3871 16M13.5806 14.0664L15.0132 12.533C15.3519 12.1705 15.8113 11.9668 16.2903 11.9668C16.7693 11.9668 17.2287 12.1705 17.5675 12.533L18.841 13.9634"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.7778 9.33331H13.7867"/></svg>';
-var x = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9L20 12L17 15"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 12H20"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 9L4 12L7 15"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12H10"/></svg>';
-var B = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 9V7.2C8 7.08954 8.08954 7 8.2 7L12 7M16 9V7.2C16 7.08954 15.9105 7 15.8 7L12 7M12 7L12 17M12 17H10M12 17H14"/></svg>';
-function S2(C, i = null, a3 = {}) {
-  const s = document.createElement(C);
-  Array.isArray(i) ? s.classList.add(...i) : i !== null && s.classList.add(i);
-  for (const r in a3)
-    a3.hasOwnProperty(r) && (s[r] = a3[r]);
-  return s;
-}
-var _2 = /* @__PURE__ */ ((C) => (C.Empty = "empty", C.Uploading = "uploading", C.Filled = "filled", C))(_2 || {});
-var D2 = class {
-  /**
-   * @param ui - image tool Ui module
-   * @param ui.api - Editor.js API
-   * @param ui.config - user config
-   * @param ui.onSelectFile - callback for clicks on Select file button
-   * @param ui.readOnly - read-only mode flag
-   */
-  constructor({ api: i, config: a3, onSelectFile: s, readOnly: r }) {
-    this.api = i, this.config = a3, this.onSelectFile = s, this.readOnly = r, this.nodes = {
-      wrapper: S2("div", [this.CSS.baseClass, this.CSS.wrapper]),
-      imageContainer: S2("div", [this.CSS.imageContainer]),
-      fileButton: this.createFileButton(),
-      imageEl: void 0,
-      imagePreloader: S2("div", this.CSS.imagePreloader),
-      caption: S2("div", [this.CSS.input, this.CSS.caption], {
-        contentEditable: !this.readOnly
-      })
-    }, this.nodes.caption.dataset.placeholder = this.config.captionPlaceholder, this.nodes.imageContainer.appendChild(this.nodes.imagePreloader), this.nodes.wrapper.appendChild(this.nodes.imageContainer), this.nodes.wrapper.appendChild(this.nodes.caption), this.nodes.wrapper.appendChild(this.nodes.fileButton);
-  }
-  /**
-   * Apply visual representation of activated tune
-   * @param tuneName - one of available tunes {@link Tunes.tunes}
-   * @param status - true for enable, false for disable
-   */
-  applyTune(i, a3) {
-    this.nodes.wrapper.classList.toggle(`${this.CSS.wrapper}--${i}`, a3);
-  }
-  /**
-   * Renders tool UI
-   */
-  render() {
-    return this.toggleStatus(
-      "empty"
-      /* Empty */
-    ), this.nodes.wrapper;
-  }
-  /**
-   * Shows uploading preloader
-   * @param src - preview source
-   */
-  showPreloader(i) {
-    this.nodes.imagePreloader.style.backgroundImage = `url(${i})`, this.toggleStatus(
-      "uploading"
-      /* Uploading */
-    );
-  }
-  /**
-   * Hide uploading preloader
-   */
-  hidePreloader() {
-    this.nodes.imagePreloader.style.backgroundImage = "", this.toggleStatus(
-      "empty"
-      /* Empty */
-    );
-  }
-  /**
-   * Shows an image
-   * @param url - image source
-   */
-  fillImage(i) {
-    const a3 = /\.mp4$/.test(i) ? "VIDEO" : "IMG", s = {
-      src: i
-    };
-    let r = "load";
-    a3 === "VIDEO" && (s.autoplay = true, s.loop = true, s.muted = true, s.playsinline = true, r = "loadeddata"), this.nodes.imageEl = S2(a3, this.CSS.imageEl, s), this.nodes.imageEl.addEventListener(r, () => {
-      this.toggleStatus(
-        "filled"
-        /* Filled */
-      ), this.nodes.imagePreloader !== void 0 && (this.nodes.imagePreloader.style.backgroundImage = "");
-    }), this.nodes.imageContainer.appendChild(this.nodes.imageEl);
-  }
-  /**
-   * Shows caption input
-   * @param text - caption content text
-   */
-  fillCaption(i) {
-    this.nodes.caption !== void 0 && (this.nodes.caption.innerHTML = i);
-  }
-  /**
-   * Changes UI status
-   * @param status - see {@link Ui.status} constants
-   */
-  toggleStatus(i) {
-    for (const a3 in _2)
-      if (Object.prototype.hasOwnProperty.call(_2, a3)) {
-        const s = _2[a3];
-        this.nodes.wrapper.classList.toggle(`${this.CSS.wrapper}--${s}`, s === i);
-      }
-  }
-  /**
-   * CSS classes
-   */
-  get CSS() {
+// src/app/features/admin/notizie-form/custom-image-tool.ts
+var CustomImageTool = class _CustomImageTool {
+  // ── Static ──────────────────────────────────────────────────────────────────
+  static get toolbox() {
     return {
-      baseClass: this.api.styles.block,
-      loading: this.api.styles.loader,
-      input: this.api.styles.input,
-      button: this.api.styles.button,
-      /**
-       * Tool's classes
-       */
-      wrapper: "image-tool",
-      imageContainer: "image-tool__image",
-      imagePreloader: "image-tool__image-preloader",
-      imageEl: "image-tool__image-picture",
-      caption: "image-tool__caption"
+      title: "Immagine",
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 336 276">
+               <path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 22zm0
+               79-100-67-49 33-67-44-98 69v30c0 19 15 34 34 34h178c19 0 34-15 34-34v-21zM181
+               95c0 16-13 29-29 29s-29-13-29-29 13-29 29-29 29 13 29 29z"/>
+             </svg>`
     };
   }
-  /**
-   * Creates upload-file button
-   */
-  createFileButton() {
-    const i = S2("div", [this.CSS.button]);
-    return i.innerHTML = this.config.buttonContent ?? `${L4} ${this.api.i18n.t("Select an Image")}`, i.addEventListener("click", () => {
-      this.onSelectFile();
-    }), i;
-  }
-};
-function U2(C) {
-  return C && C.__esModule && Object.prototype.hasOwnProperty.call(C, "default") ? C.default : C;
-}
-var H = { exports: {} };
-(function(C, i) {
-  (function(a3, s) {
-    C.exports = s();
-  })(window, function() {
-    return (function(a3) {
-      var s = {};
-      function r(o) {
-        if (s[o]) return s[o].exports;
-        var e = s[o] = { i: o, l: false, exports: {} };
-        return a3[o].call(e.exports, e, e.exports, r), e.l = true, e.exports;
-      }
-      return r.m = a3, r.c = s, r.d = function(o, e, d2) {
-        r.o(o, e) || Object.defineProperty(o, e, { enumerable: true, get: d2 });
-      }, r.r = function(o) {
-        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(o, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(o, "__esModule", { value: true });
-      }, r.t = function(o, e) {
-        if (1 & e && (o = r(o)), 8 & e || 4 & e && typeof o == "object" && o && o.__esModule) return o;
-        var d2 = /* @__PURE__ */ Object.create(null);
-        if (r.r(d2), Object.defineProperty(d2, "default", { enumerable: true, value: o }), 2 & e && typeof o != "string") for (var v2 in o) r.d(d2, v2, (function(l2) {
-          return o[l2];
-        }).bind(null, v2));
-        return d2;
-      }, r.n = function(o) {
-        var e = o && o.__esModule ? function() {
-          return o.default;
-        } : function() {
-          return o;
-        };
-        return r.d(e, "a", e), e;
-      }, r.o = function(o, e) {
-        return Object.prototype.hasOwnProperty.call(o, e);
-      }, r.p = "", r(r.s = 3);
-    })([function(a3, s) {
-      var r;
-      r = /* @__PURE__ */ (function() {
-        return this;
-      })();
-      try {
-        r = r || new Function("return this")();
-      } catch {
-        typeof window == "object" && (r = window);
-      }
-      a3.exports = r;
-    }, function(a3, s, r) {
-      (function(o) {
-        var e = r(2), d2 = setTimeout;
-        function v2() {
-        }
-        function l2(n2) {
-          if (!(this instanceof l2)) throw new TypeError("Promises must be constructed via new");
-          if (typeof n2 != "function") throw new TypeError("not a function");
-          this._state = 0, this._handled = false, this._value = void 0, this._deferreds = [], t(n2, this);
-        }
-        function f(n2, c2) {
-          for (; n2._state === 3; ) n2 = n2._value;
-          n2._state !== 0 ? (n2._handled = true, l2._immediateFn(function() {
-            var u4 = n2._state === 1 ? c2.onFulfilled : c2.onRejected;
-            if (u4 !== null) {
-              var g2;
-              try {
-                g2 = u4(n2._value);
-              } catch (m) {
-                return void y2(c2.promise, m);
-              }
-              p2(c2.promise, g2);
-            } else (n2._state === 1 ? p2 : y2)(c2.promise, n2._value);
-          })) : n2._deferreds.push(c2);
-        }
-        function p2(n2, c2) {
-          try {
-            if (c2 === n2) throw new TypeError("A promise cannot be resolved with itself.");
-            if (c2 && (typeof c2 == "object" || typeof c2 == "function")) {
-              var u4 = c2.then;
-              if (c2 instanceof l2) return n2._state = 3, n2._value = c2, void w(n2);
-              if (typeof u4 == "function") return void t((g2 = u4, m = c2, function() {
-                g2.apply(m, arguments);
-              }), n2);
-            }
-            n2._state = 1, n2._value = c2, w(n2);
-          } catch (h2) {
-            y2(n2, h2);
-          }
-          var g2, m;
-        }
-        function y2(n2, c2) {
-          n2._state = 2, n2._value = c2, w(n2);
-        }
-        function w(n2) {
-          n2._state === 2 && n2._deferreds.length === 0 && l2._immediateFn(function() {
-            n2._handled || l2._unhandledRejectionFn(n2._value);
-          });
-          for (var c2 = 0, u4 = n2._deferreds.length; c2 < u4; c2++) f(n2, n2._deferreds[c2]);
-          n2._deferreds = null;
-        }
-        function b2(n2, c2, u4) {
-          this.onFulfilled = typeof n2 == "function" ? n2 : null, this.onRejected = typeof c2 == "function" ? c2 : null, this.promise = u4;
-        }
-        function t(n2, c2) {
-          var u4 = false;
-          try {
-            n2(function(g2) {
-              u4 || (u4 = true, p2(c2, g2));
-            }, function(g2) {
-              u4 || (u4 = true, y2(c2, g2));
-            });
-          } catch (g2) {
-            if (u4) return;
-            u4 = true, y2(c2, g2);
-          }
-        }
-        l2.prototype.catch = function(n2) {
-          return this.then(null, n2);
-        }, l2.prototype.then = function(n2, c2) {
-          var u4 = new this.constructor(v2);
-          return f(this, new b2(n2, c2, u4)), u4;
-        }, l2.prototype.finally = e.a, l2.all = function(n2) {
-          return new l2(function(c2, u4) {
-            if (!n2 || n2.length === void 0) throw new TypeError("Promise.all accepts an array");
-            var g2 = Array.prototype.slice.call(n2);
-            if (g2.length === 0) return c2([]);
-            var m = g2.length;
-            function h2(T, E2) {
-              try {
-                if (E2 && (typeof E2 == "object" || typeof E2 == "function")) {
-                  var M = E2.then;
-                  if (typeof M == "function") return void M.call(E2, function(F) {
-                    h2(T, F);
-                  }, u4);
-                }
-                g2[T] = E2, --m == 0 && c2(g2);
-              } catch (F) {
-                u4(F);
-              }
-            }
-            for (var k = 0; k < g2.length; k++) h2(k, g2[k]);
-          });
-        }, l2.resolve = function(n2) {
-          return n2 && typeof n2 == "object" && n2.constructor === l2 ? n2 : new l2(function(c2) {
-            c2(n2);
-          });
-        }, l2.reject = function(n2) {
-          return new l2(function(c2, u4) {
-            u4(n2);
-          });
-        }, l2.race = function(n2) {
-          return new l2(function(c2, u4) {
-            for (var g2 = 0, m = n2.length; g2 < m; g2++) n2[g2].then(c2, u4);
-          });
-        }, l2._immediateFn = typeof o == "function" && function(n2) {
-          o(n2);
-        } || function(n2) {
-          d2(n2, 0);
-        }, l2._unhandledRejectionFn = function(n2) {
-          typeof console < "u" && console && console.warn("Possible Unhandled Promise Rejection:", n2);
-        }, s.a = l2;
-      }).call(this, r(5).setImmediate);
-    }, function(a3, s, r) {
-      s.a = function(o) {
-        var e = this.constructor;
-        return this.then(function(d2) {
-          return e.resolve(o()).then(function() {
-            return d2;
-          });
-        }, function(d2) {
-          return e.resolve(o()).then(function() {
-            return e.reject(d2);
-          });
-        });
-      };
-    }, function(a3, s, r) {
-      function o(t) {
-        return (o = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(n2) {
-          return typeof n2;
-        } : function(n2) {
-          return n2 && typeof Symbol == "function" && n2.constructor === Symbol && n2 !== Symbol.prototype ? "symbol" : typeof n2;
-        })(t);
-      }
-      r(4);
-      var e, d2, v2, l2, f, p2, y2, w = r(8), b2 = (d2 = function(t) {
-        return new Promise(function(n2, c2) {
-          t = l2(t), (t = f(t)).beforeSend && t.beforeSend();
-          var u4 = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject("Microsoft.XMLHTTP");
-          u4.open(t.method, t.url), u4.setRequestHeader("X-Requested-With", "XMLHttpRequest"), Object.keys(t.headers).forEach(function(m) {
-            var h2 = t.headers[m];
-            u4.setRequestHeader(m, h2);
-          });
-          var g2 = t.ratio;
-          u4.upload.addEventListener("progress", function(m) {
-            var h2 = Math.round(m.loaded / m.total * 100), k = Math.ceil(h2 * g2 / 100);
-            t.progress(Math.min(k, 100));
-          }, false), u4.addEventListener("progress", function(m) {
-            var h2 = Math.round(m.loaded / m.total * 100), k = Math.ceil(h2 * (100 - g2) / 100) + g2;
-            t.progress(Math.min(k, 100));
-          }, false), u4.onreadystatechange = function() {
-            if (u4.readyState === 4) {
-              var m = u4.response;
-              try {
-                m = JSON.parse(m);
-              } catch {
-              }
-              var h2 = w.parseHeaders(u4.getAllResponseHeaders()), k = { body: m, code: u4.status, headers: h2 };
-              y2(u4.status) ? n2(k) : c2(k);
-            }
-          }, u4.send(t.data);
-        });
-      }, v2 = function(t) {
-        return t.method = "POST", d2(t);
-      }, l2 = function() {
-        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-        if (t.url && typeof t.url != "string") throw new Error("Url must be a string");
-        if (t.url = t.url || "", t.method && typeof t.method != "string") throw new Error("`method` must be a string or null");
-        if (t.method = t.method ? t.method.toUpperCase() : "GET", t.headers && o(t.headers) !== "object") throw new Error("`headers` must be an object or null");
-        if (t.headers = t.headers || {}, t.type && (typeof t.type != "string" || !Object.values(e).includes(t.type))) throw new Error("`type` must be taken from module's \xABcontentType\xBB library");
-        if (t.progress && typeof t.progress != "function") throw new Error("`progress` must be a function or null");
-        if (t.progress = t.progress || function(n2) {
-        }, t.beforeSend = t.beforeSend || function(n2) {
-        }, t.ratio && typeof t.ratio != "number") throw new Error("`ratio` must be a number");
-        if (t.ratio < 0 || t.ratio > 100) throw new Error("`ratio` must be in a 0-100 interval");
-        if (t.ratio = t.ratio || 90, t.accept && typeof t.accept != "string") throw new Error("`accept` must be a string with a list of allowed mime-types");
-        if (t.accept = t.accept || "*/*", t.multiple && typeof t.multiple != "boolean") throw new Error("`multiple` must be a true or false");
-        if (t.multiple = t.multiple || false, t.fieldName && typeof t.fieldName != "string") throw new Error("`fieldName` must be a string");
-        return t.fieldName = t.fieldName || "files", t;
-      }, f = function(t) {
-        switch (t.method) {
-          case "GET":
-            var n2 = p2(t.data, e.URLENCODED);
-            delete t.data, t.url = /\?/.test(t.url) ? t.url + "&" + n2 : t.url + "?" + n2;
-            break;
-          case "POST":
-          case "PUT":
-          case "DELETE":
-          case "UPDATE":
-            var c2 = (function() {
-              return (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}).type || e.JSON;
-            })(t);
-            (w.isFormData(t.data) || w.isFormElement(t.data)) && (c2 = e.FORM), t.data = p2(t.data, c2), c2 !== b2.contentType.FORM && (t.headers["content-type"] = c2);
-        }
-        return t;
-      }, p2 = function() {
-        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-        switch (arguments.length > 1 ? arguments[1] : void 0) {
-          case e.URLENCODED:
-            return w.urlEncode(t);
-          case e.JSON:
-            return w.jsonEncode(t);
-          case e.FORM:
-            return w.formEncode(t);
-          default:
-            return t;
-        }
-      }, y2 = function(t) {
-        return t >= 200 && t < 300;
-      }, { contentType: e = { URLENCODED: "application/x-www-form-urlencoded; charset=utf-8", FORM: "multipart/form-data", JSON: "application/json; charset=utf-8" }, request: d2, get: function(t) {
-        return t.method = "GET", d2(t);
-      }, post: v2, transport: function(t) {
-        return t = l2(t), w.selectFiles(t).then(function(n2) {
-          for (var c2 = new FormData(), u4 = 0; u4 < n2.length; u4++) c2.append(t.fieldName, n2[u4], n2[u4].name);
-          w.isObject(t.data) && Object.keys(t.data).forEach(function(m) {
-            var h2 = t.data[m];
-            c2.append(m, h2);
-          });
-          var g2 = t.beforeSend;
-          return t.beforeSend = function() {
-            return g2(n2);
-          }, t.data = c2, v2(t);
-        });
-      }, selectFiles: function(t) {
-        return delete (t = l2(t)).beforeSend, w.selectFiles(t);
-      } });
-      a3.exports = b2;
-    }, function(a3, s, r) {
-      r.r(s);
-      var o = r(1);
-      window.Promise = window.Promise || o.a;
-    }, function(a3, s, r) {
-      (function(o) {
-        var e = o !== void 0 && o || typeof self < "u" && self || window, d2 = Function.prototype.apply;
-        function v2(l2, f) {
-          this._id = l2, this._clearFn = f;
-        }
-        s.setTimeout = function() {
-          return new v2(d2.call(setTimeout, e, arguments), clearTimeout);
-        }, s.setInterval = function() {
-          return new v2(d2.call(setInterval, e, arguments), clearInterval);
-        }, s.clearTimeout = s.clearInterval = function(l2) {
-          l2 && l2.close();
-        }, v2.prototype.unref = v2.prototype.ref = function() {
-        }, v2.prototype.close = function() {
-          this._clearFn.call(e, this._id);
-        }, s.enroll = function(l2, f) {
-          clearTimeout(l2._idleTimeoutId), l2._idleTimeout = f;
-        }, s.unenroll = function(l2) {
-          clearTimeout(l2._idleTimeoutId), l2._idleTimeout = -1;
-        }, s._unrefActive = s.active = function(l2) {
-          clearTimeout(l2._idleTimeoutId);
-          var f = l2._idleTimeout;
-          f >= 0 && (l2._idleTimeoutId = setTimeout(function() {
-            l2._onTimeout && l2._onTimeout();
-          }, f));
-        }, r(6), s.setImmediate = typeof self < "u" && self.setImmediate || o !== void 0 && o.setImmediate || this && this.setImmediate, s.clearImmediate = typeof self < "u" && self.clearImmediate || o !== void 0 && o.clearImmediate || this && this.clearImmediate;
-      }).call(this, r(0));
-    }, function(a3, s, r) {
-      (function(o, e) {
-        (function(d2, v2) {
-          if (!d2.setImmediate) {
-            var l2, f, p2, y2, w, b2 = 1, t = {}, n2 = false, c2 = d2.document, u4 = Object.getPrototypeOf && Object.getPrototypeOf(d2);
-            u4 = u4 && u4.setTimeout ? u4 : d2, {}.toString.call(d2.process) === "[object process]" ? l2 = function(h2) {
-              e.nextTick(function() {
-                m(h2);
-              });
-            } : (function() {
-              if (d2.postMessage && !d2.importScripts) {
-                var h2 = true, k = d2.onmessage;
-                return d2.onmessage = function() {
-                  h2 = false;
-                }, d2.postMessage("", "*"), d2.onmessage = k, h2;
-              }
-            })() ? (y2 = "setImmediate$" + Math.random() + "$", w = function(h2) {
-              h2.source === d2 && typeof h2.data == "string" && h2.data.indexOf(y2) === 0 && m(+h2.data.slice(y2.length));
-            }, d2.addEventListener ? d2.addEventListener("message", w, false) : d2.attachEvent("onmessage", w), l2 = function(h2) {
-              d2.postMessage(y2 + h2, "*");
-            }) : d2.MessageChannel ? ((p2 = new MessageChannel()).port1.onmessage = function(h2) {
-              m(h2.data);
-            }, l2 = function(h2) {
-              p2.port2.postMessage(h2);
-            }) : c2 && "onreadystatechange" in c2.createElement("script") ? (f = c2.documentElement, l2 = function(h2) {
-              var k = c2.createElement("script");
-              k.onreadystatechange = function() {
-                m(h2), k.onreadystatechange = null, f.removeChild(k), k = null;
-              }, f.appendChild(k);
-            }) : l2 = function(h2) {
-              setTimeout(m, 0, h2);
-            }, u4.setImmediate = function(h2) {
-              typeof h2 != "function" && (h2 = new Function("" + h2));
-              for (var k = new Array(arguments.length - 1), T = 0; T < k.length; T++) k[T] = arguments[T + 1];
-              var E2 = { callback: h2, args: k };
-              return t[b2] = E2, l2(b2), b2++;
-            }, u4.clearImmediate = g2;
-          }
-          function g2(h2) {
-            delete t[h2];
-          }
-          function m(h2) {
-            if (n2) setTimeout(m, 0, h2);
-            else {
-              var k = t[h2];
-              if (k) {
-                n2 = true;
-                try {
-                  (function(T) {
-                    var E2 = T.callback, M = T.args;
-                    switch (M.length) {
-                      case 0:
-                        E2();
-                        break;
-                      case 1:
-                        E2(M[0]);
-                        break;
-                      case 2:
-                        E2(M[0], M[1]);
-                        break;
-                      case 3:
-                        E2(M[0], M[1], M[2]);
-                        break;
-                      default:
-                        E2.apply(v2, M);
-                    }
-                  })(k);
-                } finally {
-                  g2(h2), n2 = false;
-                }
-              }
-            }
-          }
-        })(typeof self > "u" ? o === void 0 ? this : o : self);
-      }).call(this, r(0), r(7));
-    }, function(a3, s) {
-      var r, o, e = a3.exports = {};
-      function d2() {
-        throw new Error("setTimeout has not been defined");
-      }
-      function v2() {
-        throw new Error("clearTimeout has not been defined");
-      }
-      function l2(u4) {
-        if (r === setTimeout) return setTimeout(u4, 0);
-        if ((r === d2 || !r) && setTimeout) return r = setTimeout, setTimeout(u4, 0);
-        try {
-          return r(u4, 0);
-        } catch {
-          try {
-            return r.call(null, u4, 0);
-          } catch {
-            return r.call(this, u4, 0);
-          }
-        }
-      }
-      (function() {
-        try {
-          r = typeof setTimeout == "function" ? setTimeout : d2;
-        } catch {
-          r = d2;
-        }
-        try {
-          o = typeof clearTimeout == "function" ? clearTimeout : v2;
-        } catch {
-          o = v2;
-        }
-      })();
-      var f, p2 = [], y2 = false, w = -1;
-      function b2() {
-        y2 && f && (y2 = false, f.length ? p2 = f.concat(p2) : w = -1, p2.length && t());
-      }
-      function t() {
-        if (!y2) {
-          var u4 = l2(b2);
-          y2 = true;
-          for (var g2 = p2.length; g2; ) {
-            for (f = p2, p2 = []; ++w < g2; ) f && f[w].run();
-            w = -1, g2 = p2.length;
-          }
-          f = null, y2 = false, (function(m) {
-            if (o === clearTimeout) return clearTimeout(m);
-            if ((o === v2 || !o) && clearTimeout) return o = clearTimeout, clearTimeout(m);
-            try {
-              o(m);
-            } catch {
-              try {
-                return o.call(null, m);
-              } catch {
-                return o.call(this, m);
-              }
-            }
-          })(u4);
-        }
-      }
-      function n2(u4, g2) {
-        this.fun = u4, this.array = g2;
-      }
-      function c2() {
-      }
-      e.nextTick = function(u4) {
-        var g2 = new Array(arguments.length - 1);
-        if (arguments.length > 1) for (var m = 1; m < arguments.length; m++) g2[m - 1] = arguments[m];
-        p2.push(new n2(u4, g2)), p2.length !== 1 || y2 || l2(t);
-      }, n2.prototype.run = function() {
-        this.fun.apply(null, this.array);
-      }, e.title = "browser", e.browser = true, e.env = {}, e.argv = [], e.version = "", e.versions = {}, e.on = c2, e.addListener = c2, e.once = c2, e.off = c2, e.removeListener = c2, e.removeAllListeners = c2, e.emit = c2, e.prependListener = c2, e.prependOnceListener = c2, e.listeners = function(u4) {
-        return [];
-      }, e.binding = function(u4) {
-        throw new Error("process.binding is not supported");
-      }, e.cwd = function() {
-        return "/";
-      }, e.chdir = function(u4) {
-        throw new Error("process.chdir is not supported");
-      }, e.umask = function() {
-        return 0;
-      };
-    }, function(a3, s, r) {
-      function o(d2, v2) {
-        for (var l2 = 0; l2 < v2.length; l2++) {
-          var f = v2[l2];
-          f.enumerable = f.enumerable || false, f.configurable = true, "value" in f && (f.writable = true), Object.defineProperty(d2, f.key, f);
-        }
-      }
-      var e = r(9);
-      a3.exports = (function() {
-        function d2() {
-          (function(p2, y2) {
-            if (!(p2 instanceof y2)) throw new TypeError("Cannot call a class as a function");
-          })(this, d2);
-        }
-        var v2, l2, f;
-        return v2 = d2, f = [{ key: "urlEncode", value: function(p2) {
-          return e(p2);
-        } }, { key: "jsonEncode", value: function(p2) {
-          return JSON.stringify(p2);
-        } }, { key: "formEncode", value: function(p2) {
-          if (this.isFormData(p2)) return p2;
-          if (this.isFormElement(p2)) return new FormData(p2);
-          if (this.isObject(p2)) {
-            var y2 = new FormData();
-            return Object.keys(p2).forEach(function(w) {
-              var b2 = p2[w];
-              y2.append(w, b2);
-            }), y2;
-          }
-          throw new Error("`data` must be an instance of Object, FormData or <FORM> HTMLElement");
-        } }, { key: "isObject", value: function(p2) {
-          return Object.prototype.toString.call(p2) === "[object Object]";
-        } }, { key: "isFormData", value: function(p2) {
-          return p2 instanceof FormData;
-        } }, { key: "isFormElement", value: function(p2) {
-          return p2 instanceof HTMLFormElement;
-        } }, { key: "selectFiles", value: function() {
-          var p2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-          return new Promise(function(y2, w) {
-            var b2 = document.createElement("INPUT");
-            b2.type = "file", p2.multiple && b2.setAttribute("multiple", "multiple"), p2.accept && b2.setAttribute("accept", p2.accept), b2.style.display = "none", document.body.appendChild(b2), b2.addEventListener("change", function(t) {
-              var n2 = t.target.files;
-              y2(n2), document.body.removeChild(b2);
-            }, false), b2.click();
-          });
-        } }, { key: "parseHeaders", value: function(p2) {
-          var y2 = p2.trim().split(/[\r\n]+/), w = {};
-          return y2.forEach(function(b2) {
-            var t = b2.split(": "), n2 = t.shift(), c2 = t.join(": ");
-            n2 && (w[n2] = c2);
-          }), w;
-        } }], (l2 = null) && o(v2.prototype, l2), f && o(v2, f), d2;
-      })();
-    }, function(a3, s) {
-      var r = function(e) {
-        return encodeURIComponent(e).replace(/[!'()*]/g, escape).replace(/%20/g, "+");
-      }, o = function(e, d2, v2, l2) {
-        return d2 = d2 || null, v2 = v2 || "&", l2 = l2 || null, e ? (function(f) {
-          for (var p2 = new Array(), y2 = 0; y2 < f.length; y2++) f[y2] && p2.push(f[y2]);
-          return p2;
-        })(Object.keys(e).map(function(f) {
-          var p2, y2, w = f;
-          if (l2 && (w = l2 + "[" + w + "]"), typeof e[f] == "object" && e[f] !== null) p2 = o(e[f], null, v2, w);
-          else {
-            d2 && (y2 = w, w = !isNaN(parseFloat(y2)) && isFinite(y2) ? d2 + Number(w) : w);
-            var b2 = e[f];
-            b2 = (b2 = (b2 = (b2 = b2 === true ? "1" : b2) === false ? "0" : b2) === 0 ? "0" : b2) || "", p2 = r(w) + "=" + r(b2);
-          }
-          return p2;
-        })).join(v2).replace(/[!'()*]/g, "") : "";
-      };
-      a3.exports = o;
-    }]);
-  });
-})(H);
-var q = H.exports;
-var j2 = /* @__PURE__ */ U2(q);
-function O(C) {
-  return C !== void 0 && typeof C.then == "function";
-}
-var A2 = class {
-  /**
-   * @param params - uploader module params
-   * @param params.config - image tool config
-   * @param params.onUpload - one callback for all uploading (file, url, d-n-d, pasting)
-   * @param params.onError - callback for uploading errors
-   */
-  constructor({ config: i, onUpload: a3, onError: s }) {
-    this.config = i, this.onUpload = a3, this.onError = s;
-  }
-  /**
-   * Handle clicks on the upload file button
-   * Fires ajax.transport()
-   * @param onPreview - callback fired when preview is ready
-   */
-  uploadSelectedFile({ onPreview: i }) {
-    const a3 = function(r) {
-      const o = new FileReader();
-      o.readAsDataURL(r), o.onload = (e) => {
-        i(e.target.result);
-      };
-    };
-    let s;
-    if (this.config.uploader && typeof this.config.uploader.uploadByFile == "function") {
-      const r = this.config.uploader.uploadByFile;
-      s = j2.selectFiles({ accept: this.config.types ?? "image/*" }).then((o) => {
-        a3(o[0]);
-        const e = r(o[0]);
-        return O(e) || console.warn("Custom uploader method uploadByFile should return a Promise"), e;
-      });
-    } else
-      s = j2.transport({
-        url: this.config.endpoints.byFile,
-        data: this.config.additionalRequestData,
-        accept: this.config.types ?? "image/*",
-        headers: this.config.additionalRequestHeaders,
-        beforeSend: (r) => {
-          a3(r[0]);
-        },
-        fieldName: this.config.field ?? "image"
-      }).then((r) => r.body);
-    s.then((r) => {
-      this.onUpload(r);
-    }).catch((r) => {
-      this.onError(r);
-    });
-  }
-  /**
-   * Handle clicks on the upload file button
-   * Fires ajax.post()
-   * @param url - image source url
-   */
-  uploadByUrl(i) {
-    let a3;
-    this.config.uploader && typeof this.config.uploader.uploadByUrl == "function" ? (a3 = this.config.uploader.uploadByUrl(i), O(a3) || console.warn("Custom uploader method uploadByUrl should return a Promise")) : a3 = j2.post({
-      url: this.config.endpoints.byUrl,
-      data: Object.assign({
-        url: i
-      }, this.config.additionalRequestData),
-      type: j2.contentType.JSON,
-      headers: this.config.additionalRequestHeaders
-    }).then((s) => s.body), a3.then((s) => {
-      this.onUpload(s);
-    }).catch((s) => {
-      this.onError(s);
-    });
-  }
-  /**
-   * Handle clicks on the upload file button
-   * Fires ajax.post()
-   * @param file - file pasted by drag-n-drop
-   * @param onPreview - file pasted by drag-n-drop
-   */
-  uploadByFile(i, { onPreview: a3 }) {
-    const s = new FileReader();
-    s.readAsDataURL(i), s.onload = (o) => {
-      a3(o.target.result);
-    };
-    let r;
-    if (this.config.uploader && typeof this.config.uploader.uploadByFile == "function")
-      r = this.config.uploader.uploadByFile(i), O(r) || console.warn("Custom uploader method uploadByFile should return a Promise");
-    else {
-      const o = new FormData();
-      o.append(this.config.field ?? "image", i), this.config.additionalRequestData && Object.keys(this.config.additionalRequestData).length && Object.entries(this.config.additionalRequestData).forEach(([e, d2]) => {
-        o.append(e, d2);
-      }), r = j2.post({
-        url: this.config.endpoints.byFile,
-        data: o,
-        type: j2.contentType.JSON,
-        headers: this.config.additionalRequestHeaders
-      }).then((e) => e.body);
-    }
-    r.then((o) => {
-      this.onUpload(o);
-    }).catch((o) => {
-      this.onError(o);
-    });
-  }
-};
-/**
- * Image Tool for the Editor.js
- * @author CodeX <team@codex.so>
- * @license MIT
- * @see {@link https://github.com/editor-js/image}
- *
- * To developers.
- * To simplify Tool structure, we split it to 4 parts:
- *  1) index.ts — main Tool's interface, public API and methods for working with data
- *  2) uploader.ts — module that has methods for sending files via AJAX: from device, by URL or File pasting
- *  3) ui.ts — module for UI manipulations: render, showing preloader, etc
- *
- * For debug purposes there is a testing server
- * that can save uploaded files and return a Response {@link UploadResponseFormat}
- *
- *       $ node dev/server.js
- *
- * It will expose 8008 port, so you can pass http://localhost:8008 with the Tools config:
- *
- * image: {
- *   class: ImageTool,
- *   config: {
- *     endpoints: {
- *       byFile: 'http://localhost:8008/uploadFile',
- *       byUrl: 'http://localhost:8008/fetchUrl',
- *     }
- *   },
- * },
- */
-var P2 = class _P {
-  /**
-   * @param tool - tool properties got from editor.js
-   * @param tool.data - previously saved data
-   * @param tool.config - user config for Tool
-   * @param tool.api - Editor.js API
-   * @param tool.readOnly - read-only mode flag
-   * @param tool.block - current Block API
-   */
-  constructor({ data: i, config: a3, api: s, readOnly: r, block: o }) {
-    this.isCaptionEnabled = null, this.api = s, this.block = o, this.config = {
-      endpoints: a3.endpoints,
-      additionalRequestData: a3.additionalRequestData,
-      additionalRequestHeaders: a3.additionalRequestHeaders,
-      field: a3.field,
-      types: a3.types,
-      captionPlaceholder: this.api.i18n.t(a3.captionPlaceholder ?? "Caption"),
-      buttonContent: a3.buttonContent,
-      uploader: a3.uploader,
-      actions: a3.actions,
-      features: a3.features || {}
-    }, this.uploader = new A2({
-      config: this.config,
-      onUpload: (e) => this.onUpload(e),
-      onError: (e) => this.uploadingFailed(e)
-    }), this.ui = new D2({
-      api: s,
-      config: this.config,
-      onSelectFile: () => {
-        this.uploader.uploadSelectedFile({
-          onPreview: (e) => {
-            this.ui.showPreloader(e);
-          }
-        });
-      },
-      readOnly: r
-    }), this._data = {
-      caption: "",
-      withBorder: false,
-      withBackground: false,
-      stretched: false,
-      file: {
-        url: ""
-      }
-    }, this.data = i;
-  }
-  /**
-   * Notify core that read-only mode is supported
-   */
   static get isReadOnlySupported() {
     return true;
   }
-  /**
-   * Get Tool toolbox settings
-   * icon - Tool icon's SVG
-   * title - title to show in toolbox
-   */
-  static get toolbox() {
-    return {
-      icon: L4,
-      title: "Image"
+  // ── CSS injection (una volta sola) ──────────────────────────────────────────
+  static stylesInjected = false;
+  static injectStyles() {
+    if (_CustomImageTool.stylesInjected)
+      return;
+    _CustomImageTool.stylesInjected = true;
+    const style = document.createElement("style");
+    style.id = "custom-image-tool-styles";
+    style.textContent = `
+
+/* \u2500\u2500 Upload UI \u2500\u2500 */
+.cit-upload-area {
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 28px 20px;
+  text-align: center;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cit-upload-btn {
+  display: inline-block;
+  background: #1e40af;
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+}
+.cit-upload-btn:hover { background: #1d4ed8; }
+
+.cit-url-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.cit-url-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  color: #1e293b;
+  background: #fff;
+}
+.cit-url-input:focus { border-color: #1e40af; }
+
+.cit-url-btn {
+  background: #475569;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+.cit-url-btn:hover { background: #334155; }
+
+/* \u2500\u2500 Loading / Error \u2500\u2500 */
+.cit-loading,
+.cit-error {
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+.cit-loading { background: #f1f5f9; color: #475569; }
+.cit-error   { background: #fef2f2; color: #991b1b; }
+
+.cit-retry-btn {
+  background: none;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: 5px;
+  padding: 3px 10px;
+  margin-left: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* \u2500\u2500 Layout row (editor preview per left/right) \u2500\u2500 */
+.cit-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cit-text-hint {
+  flex: 1;
+  min-height: 90px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #f8fafc,
+    #f8fafc 6px,
+    #f1f5f9 6px,
+    #f1f5f9 12px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 13px;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+  border-radius: 8px;
+}
+
+/* \u2500\u2500 Figure / Image \u2500\u2500 */
+.cit-figure {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+}
+
+.cit-img {
+  display: block;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.cit-caption-input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  background: transparent;
+  font-size: 13px;
+  color: #64748b;
+  padding: 3px 4px;
+  outline: none;
+  text-align: center;
+}
+.cit-caption-input:focus { border-bottom-color: #1e40af; }
+.cit-caption-input::placeholder { color: #94a3b8; font-style: italic; }
+
+.cit-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(15,23,42,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.cit-figure:hover .cit-remove-btn { opacity: 1; }
+
+/* \u2500\u2500 Tunes panel \u2500\u2500 */
+.cit-settings-panel {
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+
+.cit-settings-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: #94a3b8;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.cit-settings-row {
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+  flex-wrap: wrap;
+}
+
+.cit-tune-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #334155;
+  transition: background 0.12s, border-color 0.12s;
+  line-height: 1.4;
+}
+.cit-tune-btn:hover { background: #e2e8f0; }
+.cit-tune-active {
+  background: #1e40af !important;
+  border-color: #1e40af !important;
+  color: #fff !important;
+}
+
+    `;
+    document.head.appendChild(style);
+  }
+  // ── Instance ─────────────────────────────────────────────────────────────────
+  data;
+  config;
+  wrapper;
+  captionInput;
+  constructor({ data, config: config2 }) {
+    _CustomImageTool.injectStyles();
+    this.data = {
+      file: data?.file ?? null,
+      caption: data?.caption ?? "",
+      size: data?.size ?? "originale",
+      align: data?.align ?? "center"
     };
+    this.config = config2 ?? { uploadUrl: "", getToken: () => "" };
   }
-  /**
-   * Available image tools
-   */
-  static get tunes() {
-    return [
-      {
-        name: "withBorder",
-        icon: I,
-        title: "With border",
-        toggle: true
-      },
-      {
-        name: "stretched",
-        icon: x,
-        title: "Stretch image",
-        toggle: true
-      },
-      {
-        name: "withBackground",
-        icon: R2,
-        title: "With background",
-        toggle: true
-      }
-    ];
-  }
-  /**
-   * Renders Block content
-   */
+  // ── EditorJS API ─────────────────────────────────────────────────────────────
   render() {
-    var i, a3, s;
-    return (((i = this.config.features) == null ? void 0 : i.caption) === true || ((a3 = this.config.features) == null ? void 0 : a3.caption) === void 0 || ((s = this.config.features) == null ? void 0 : s.caption) === "optional" && this.data.caption) && (this.isCaptionEnabled = true, this.ui.applyTune("caption", true)), this.ui.render();
+    this.wrapper = document.createElement("div");
+    this.wrapper.className = "cit-wrapper";
+    if (this.data.file?.url) {
+      this.renderImage();
+    } else {
+      this.renderUploadUI();
+    }
+    return this.wrapper;
   }
-  /**
-   * Validate data: check if Image exists
-   * @param savedData — data received after saving
-   * @returns false if saved data is not correct, otherwise true
-   */
-  validate(i) {
-    return !!i.file.url;
-  }
-  /**
-   * Return Block data
-   */
-  save() {
-    const i = this.ui.nodes.caption;
-    return this._data.caption = i.innerHTML, this.data;
-  }
-  /**
-   * Returns configuration for block tunes: add background, add border, stretch image
-   * @returns TunesMenuConfig
-   */
   renderSettings() {
-    var o;
-    const i = _P.tunes.concat(this.config.actions || []), a3 = {
-      border: "withBorder",
-      background: "withBackground",
-      stretch: "stretched",
-      caption: "caption"
-    };
-    ((o = this.config.features) == null ? void 0 : o.caption) === "optional" && i.push({
-      name: "caption",
-      icon: B,
-      title: "With caption",
-      toggle: true
+    const panel = document.createElement("div");
+    panel.className = "cit-settings-panel";
+    const sizeTitle = document.createElement("span");
+    sizeTitle.className = "cit-settings-title";
+    sizeTitle.textContent = "Dimensione";
+    panel.appendChild(sizeTitle);
+    const sizeRow = document.createElement("div");
+    sizeRow.className = "cit-settings-row";
+    const sizes = [
+      { label: "S", value: "piccola" },
+      { label: "M", value: "media" },
+      { label: "L", value: "grande" },
+      { label: "Auto", value: "originale" }
+    ];
+    sizes.forEach(({ label, value }) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = label;
+      btn.className = "cit-tune-btn" + (this.data.size === value ? " cit-tune-active" : "");
+      btn.addEventListener("click", () => {
+        this.data.size = value;
+        sizeRow.querySelectorAll(".cit-tune-btn").forEach((b2) => b2.classList.remove("cit-tune-active"));
+        btn.classList.add("cit-tune-active");
+        const img = this.wrapper.querySelector(".cit-img");
+        if (img)
+          this.applySize(img);
+      });
+      sizeRow.appendChild(btn);
     });
-    const s = i.filter((e) => {
-      var v2, l2;
-      const d2 = Object.keys(a3).find((f) => a3[f] === e.name);
-      return d2 === "caption" ? ((v2 = this.config.features) == null ? void 0 : v2.caption) !== false : d2 == null || ((l2 = this.config.features) == null ? void 0 : l2[d2]) !== false;
-    }), r = (e) => {
-      let d2 = this.data[e.name];
-      return e.name === "caption" && (d2 = this.isCaptionEnabled ?? d2), d2;
-    };
-    return s.map((e) => ({
-      icon: e.icon,
-      label: this.api.i18n.t(e.title),
-      name: e.name,
-      toggle: e.toggle,
-      isActive: r(e),
-      onActivate: () => {
-        if (typeof e.action == "function") {
-          e.action(e.name);
-          return;
-        }
-        let d2 = !r(e);
-        e.name === "caption" && (this.isCaptionEnabled = !(this.isCaptionEnabled ?? false), d2 = this.isCaptionEnabled), this.tuneToggled(e.name, d2);
-      }
-    }));
+    panel.appendChild(sizeRow);
+    const alignTitle = document.createElement("span");
+    alignTitle.className = "cit-settings-title";
+    alignTitle.textContent = "Posizione";
+    panel.appendChild(alignTitle);
+    const alignRow = document.createElement("div");
+    alignRow.className = "cit-settings-row";
+    const aligns = [
+      { icon: "\u2B05", title: "Sinistra \u2014 il testo avvolge a destra", value: "left" },
+      { icon: "\u2194", title: "Centro", value: "center" },
+      { icon: "\u27A1", title: "Destra \u2014 il testo avvolge a sinistra", value: "right" }
+    ];
+    aligns.forEach(({ icon: icon2, title, value }) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = icon2;
+      btn.title = title;
+      btn.className = "cit-tune-btn" + (this.data.align === value ? " cit-tune-active" : "");
+      btn.addEventListener("click", () => {
+        this.data.align = value;
+        alignRow.querySelectorAll(".cit-tune-btn").forEach((b2) => b2.classList.remove("cit-tune-active"));
+        btn.classList.add("cit-tune-active");
+        if (this.data.file?.url)
+          this.applyAlign();
+      });
+      alignRow.appendChild(btn);
+    });
+    panel.appendChild(alignRow);
+    return panel;
   }
-  /**
-   * Fires after clicks on the Toolbox Image Icon
-   * Initiates click on the Select File button
-   */
-  appendCallback() {
-    this.ui.nodes.fileButton.click();
-  }
-  /**
-   * Specify paste substitutes
-   * @see {@link https://github.com/codex-team/editor.js/blob/master/docs/tools.md#paste-handling}
-   */
-  static get pasteConfig() {
+  save() {
     return {
-      /**
-       * Paste HTML into Editor
-       */
-      tags: [
-        {
-          img: { src: true }
-        }
-      ],
-      /**
-       * Paste URL of image into the Editor
-       */
-      patterns: {
-        image: /https?:\/\/\S+\.(gif|jpe?g|tiff|png|svg|webp)(\?[a-z0-9=]*)?$/i
-      },
-      /**
-       * Drag n drop file from into the Editor
-       */
-      files: {
-        mimeTypes: ["image/*"]
-      }
+      file: this.data.file,
+      caption: this.captionInput?.value ?? this.data.caption ?? "",
+      size: this.data.size ?? "originale",
+      align: this.data.align ?? "center"
     };
   }
-  /**
-   * Specify paste handlers
-   * @see {@link https://github.com/codex-team/editor.js/blob/master/docs/tools.md#paste-handling}
-   * @param event - editor.js custom paste event
-   *                              {@link https://github.com/codex-team/editor.js/blob/master/types/tools/paste-events.d.ts}
-   */
-  async onPaste(i) {
-    switch (i.type) {
-      case "tag": {
-        const a3 = i.detail.data;
-        if (/^blob:/.test(a3.src)) {
-          const r = await (await fetch(a3.src)).blob();
-          this.uploadFile(r);
-          break;
-        }
-        this.uploadUrl(a3.src);
-        break;
+  // ── Private ──────────────────────────────────────────────────────────────────
+  renderUploadUI() {
+    this.wrapper.innerHTML = "";
+    const area = document.createElement("div");
+    area.className = "cit-upload-area";
+    const label = document.createElement("label");
+    label.className = "cit-upload-btn";
+    label.textContent = "\u2191 Carica immagine";
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/jpeg,image/jpg,image/png,image/webp";
+    fileInput.style.display = "none";
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (file)
+        this.uploadFile(file);
+    });
+    label.appendChild(fileInput);
+    area.appendChild(label);
+    const urlRow = document.createElement("div");
+    urlRow.className = "cit-url-row";
+    const urlInput = document.createElement("input");
+    urlInput.type = "url";
+    urlInput.placeholder = "Oppure incolla URL immagine\u2026";
+    urlInput.className = "cit-url-input";
+    const urlBtn = document.createElement("button");
+    urlBtn.type = "button";
+    urlBtn.textContent = "Usa URL";
+    urlBtn.className = "cit-url-btn";
+    urlBtn.addEventListener("click", () => {
+      const url = urlInput.value.trim();
+      if (url) {
+        this.data.file = { url };
+        this.renderImage();
       }
-      case "pattern": {
-        const a3 = i.detail.data;
-        this.uploadUrl(a3);
-        break;
+    });
+    urlRow.appendChild(urlInput);
+    urlRow.appendChild(urlBtn);
+    area.appendChild(urlRow);
+    this.wrapper.appendChild(area);
+  }
+  async uploadFile(file) {
+    this.wrapper.innerHTML = '<div class="cit-loading">\u23F3 Caricamento immagine\u2026</div>';
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      const headers = {};
+      if (this.config?.getToken) {
+        headers["Authorization"] = `Bearer ${this.config.getToken()}`;
       }
-      case "file": {
-        const a3 = i.detail.file;
-        this.uploadFile(a3);
-        break;
+      const res = await fetch(this.config.uploadUrl, {
+        method: "POST",
+        headers,
+        body: formData
+      });
+      const json = await res.json();
+      if (json.success === 1 && json.file?.url) {
+        this.data.file = { url: json.file.url };
+        this.renderImage();
+      } else {
+        this.showError("Upload fallito \u2014 riprova");
       }
+    } catch {
+      this.showError("Errore di rete \u2014 riprova");
     }
   }
-  /**
-   * Private methods
-   * ̿̿ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\з= ( ▀ ͜͞ʖ▀) =ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿
-   */
-  /**
-   * Stores all Tool's data
-   * @param data - data in Image Tool format
-   */
-  set data(i) {
-    var a3;
-    this.image = i.file, this._data.caption = i.caption || "", this.ui.fillCaption(this._data.caption), _P.tunes.forEach(({ name: s }) => {
-      const r = typeof i[s] < "u" ? i[s] === true || i[s] === "true" : false;
-      this.setTune(s, r);
-    }), i.caption ? this.setTune("caption", true) : ((a3 = this.config.features) == null ? void 0 : a3.caption) === true && this.setTune("caption", true);
+  showError(msg) {
+    this.wrapper.innerHTML = `<div class="cit-error">${msg} <button class="cit-retry-btn">\u21A9 Riprova</button></div>`;
+    this.wrapper.querySelector(".cit-retry-btn")?.addEventListener("click", () => this.renderUploadUI());
   }
-  /**
-   * Return Tool data
-   */
-  get data() {
-    return this._data;
-  }
-  /**
-   * Set new image file
-   * @param file - uploaded file data
-   */
-  set image(i) {
-    this._data.file = i || { url: "" }, i && i.url && this.ui.fillImage(i.url);
-  }
-  /**
-   * File uploading callback
-   * @param response - uploading server response
-   */
-  onUpload(i) {
-    i.success && i.file ? this.image = i.file : this.uploadingFailed("incorrect response: " + JSON.stringify(i));
-  }
-  /**
-   * Handle uploader errors
-   * @param errorText - uploading error info
-   */
-  uploadingFailed(i) {
-    console.log("Image Tool: uploading failed because of", i), this.api.notifier.show({
-      message: this.api.i18n.t("Couldn\u2019t upload image. Please try another."),
-      style: "error"
-    }), this.ui.hidePreloader();
-  }
-  /**
-   * Callback fired when Block Tune is activated
-   * @param tuneName - tune that has been clicked
-   * @param state - new state
-   */
-  tuneToggled(i, a3) {
-    i === "caption" ? (this.ui.applyTune(i, a3), a3 == false && (this._data.caption = "", this.ui.fillCaption(""))) : this.setTune(i, a3);
-  }
-  /**
-   * Set one tune
-   * @param tuneName - {@link Tunes.tunes}
-   * @param value - tune state
-   */
-  setTune(i, a3) {
-    this._data[i] = a3, this.ui.applyTune(i, a3), i === "stretched" && Promise.resolve().then(() => {
-      this.block.stretched = a3;
-    }).catch((s) => {
-      console.error(s);
+  renderImage() {
+    this.wrapper.innerHTML = "";
+    this.wrapper.style.cssText = "display:block;";
+    const figure = document.createElement("figure");
+    figure.className = "cit-figure";
+    const img = document.createElement("img");
+    img.src = this.data.file.url;
+    img.className = "cit-img";
+    img.alt = this.data.caption ?? "";
+    this.applySize(img);
+    figure.appendChild(img);
+    this.captionInput = document.createElement("input");
+    this.captionInput.type = "text";
+    this.captionInput.placeholder = "Aggiungi didascalia\u2026";
+    this.captionInput.value = this.data.caption ?? "";
+    this.captionInput.className = "cit-caption-input";
+    figure.appendChild(this.captionInput);
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "cit-remove-btn";
+    removeBtn.type = "button";
+    removeBtn.title = "Rimuovi immagine";
+    removeBtn.textContent = "\u2715";
+    removeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.data.file = null;
+      this.data.caption = "";
+      this.renderUploadUI();
     });
-  }
-  /**
-   * Show preloader and upload image file
-   * @param file - file that is currently uploading (from paste)
-   */
-  uploadFile(i) {
-    this.uploader.uploadByFile(i, {
-      onPreview: (a3) => {
-        this.ui.showPreloader(a3);
+    figure.appendChild(removeBtn);
+    if (this.data.align === "center") {
+      figure.style.cssText = "display:block; margin:0 auto;";
+      this.wrapper.appendChild(figure);
+    } else {
+      const row = document.createElement("div");
+      row.className = "cit-row";
+      if (this.data.align === "right") {
+        row.style.flexDirection = "row-reverse";
       }
-    });
+      const hint = document.createElement("div");
+      hint.className = "cit-text-hint";
+      hint.textContent = this.data.align === "left" ? "\u2192  Il testo scorrer\xE0 qui" : "Il testo scorrer\xE0 qui  \u2190";
+      row.appendChild(figure);
+      row.appendChild(hint);
+      this.wrapper.appendChild(row);
+      removeBtn.style.opacity = "1";
+    }
   }
-  /**
-   * Show preloader and upload image by target url
-   * @param url - url pasted
-   */
-  uploadUrl(i) {
-    this.ui.showPreloader(i), this.uploader.uploadByUrl(i);
+  applyAlign() {
+    if (this.data.file?.url) {
+      this.renderImage();
+    }
+  }
+  applySize(img) {
+    img.style.cssText = "display:block; border-radius:8px;";
+    switch (this.data.size) {
+      case "piccola":
+        img.style.maxWidth = "240px";
+        img.style.width = "auto";
+        break;
+      case "media":
+        img.style.maxWidth = "480px";
+        img.style.width = "100%";
+        break;
+      case "grande":
+        img.style.maxWidth = "800px";
+        img.style.width = "100%";
+        break;
+      default:
+        img.style.maxWidth = "100%";
+        img.style.width = "auto";
+    }
   }
 };
 
@@ -77008,7 +77027,7 @@ var NotizieForm = class _NotizieForm {
   successo = "";
   caricamento = false;
   editor;
-  apiUrl = "http://localhost:3000/api/cicerone";
+  apiUrl = environment.apiUrl + "/api/cicerone";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -77035,11 +77054,11 @@ var NotizieForm = class _NotizieForm {
         header: p,
         paragraph: n,
         image: {
-          class: P2,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          class: CustomImageTool,
           config: {
-            endpoints: {
-              byFile: "http://localhost:3000/api/admin/upload"
-            }
+            uploadUrl: environment.apiUrl + "/api/admin/upload",
+            getToken: () => this.authService.getToken() ?? ""
           }
         }
       }
@@ -77329,7 +77348,7 @@ var NotizieForm = class _NotizieForm {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieForm, { className: "NotizieForm", filePath: "src/app/features/admin/notizie-form/notizie-form.ts", lineNumber: 19 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieForm, { className: "NotizieForm", filePath: "src/app/features/admin/notizie-form/notizie-form.ts", lineNumber: 29 });
 })();
 
 // src/app/features/cicerone/notizie-dett/notizie-dett.ts
@@ -77346,7 +77365,7 @@ function NotizieDett_Conditional_16_Template(rf, ctx) {
     const _r1 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div", 12);
     \u0275\u0275text(1);
-    \u0275\u0275elementStart(2, "button", 26);
+    \u0275\u0275elementStart(2, "button", 27);
     \u0275\u0275listener("click", function NotizieDett_Conditional_16_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -77376,7 +77395,7 @@ function NotizieDett_Conditional_17_Conditional_2_Template(rf, ctx) {
 }
 function NotizieDett_Conditional_17_For_10_Conditional_0_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "p", 34);
+    \u0275\u0275element(0, "p", 35);
   }
   if (rf & 2) {
     const block_r4 = \u0275\u0275nextContext().$implicit;
@@ -77385,7 +77404,7 @@ function NotizieDett_Conditional_17_For_10_Conditional_0_Template(rf, ctx) {
 }
 function NotizieDett_Conditional_17_For_10_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "h2", 34);
+    \u0275\u0275element(0, "h2", 35);
   }
   if (rf & 2) {
     const block_r4 = \u0275\u0275nextContext().$implicit;
@@ -77394,7 +77413,7 @@ function NotizieDett_Conditional_17_For_10_Conditional_1_Template(rf, ctx) {
 }
 function NotizieDett_Conditional_17_For_10_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "h3", 34);
+    \u0275\u0275element(0, "h3", 35);
   }
   if (rf & 2) {
     const block_r4 = \u0275\u0275nextContext().$implicit;
@@ -77403,7 +77422,7 @@ function NotizieDett_Conditional_17_For_10_Conditional_2_Template(rf, ctx) {
 }
 function NotizieDett_Conditional_17_For_10_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "h4", 34);
+    \u0275\u0275element(0, "h4", 35);
   }
   if (rf & 2) {
     const block_r4 = \u0275\u0275nextContext().$implicit;
@@ -77424,26 +77443,28 @@ function NotizieDett_Conditional_17_For_10_Conditional_4_Conditional_2_Template(
 }
 function NotizieDett_Conditional_17_For_10_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "figure");
-    \u0275\u0275element(1, "img", 35);
+    \u0275\u0275elementStart(0, "figure", 36);
+    \u0275\u0275element(1, "img", 37);
     \u0275\u0275conditionalCreate(2, NotizieDett_Conditional_17_For_10_Conditional_4_Conditional_2_Template, 2, 1, "figcaption");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const block_r4 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("ngStyle", ctx_r1.imageFigureStyle(block_r4.data));
     \u0275\u0275advance();
-    \u0275\u0275property("src", block_r4.data.file == null ? null : block_r4.data.file.url, \u0275\u0275sanitizeUrl)("alt", block_r4.data.caption || "");
+    \u0275\u0275property("src", block_r4.data.file == null ? null : block_r4.data.file.url, \u0275\u0275sanitizeUrl)("alt", block_r4.data.caption || "")("ngStyle", ctx_r1.imageStyle(block_r4.data));
     \u0275\u0275advance();
     \u0275\u0275conditional(block_r4.data.caption ? 2 : -1);
   }
 }
 function NotizieDett_Conditional_17_For_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275conditionalCreate(0, NotizieDett_Conditional_17_For_10_Conditional_0_Template, 1, 1, "p", 34);
-    \u0275\u0275conditionalCreate(1, NotizieDett_Conditional_17_For_10_Conditional_1_Template, 1, 1, "h2", 34);
-    \u0275\u0275conditionalCreate(2, NotizieDett_Conditional_17_For_10_Conditional_2_Template, 1, 1, "h3", 34);
-    \u0275\u0275conditionalCreate(3, NotizieDett_Conditional_17_For_10_Conditional_3_Template, 1, 1, "h4", 34);
-    \u0275\u0275conditionalCreate(4, NotizieDett_Conditional_17_For_10_Conditional_4_Template, 3, 3, "figure");
+    \u0275\u0275conditionalCreate(0, NotizieDett_Conditional_17_For_10_Conditional_0_Template, 1, 1, "p", 35);
+    \u0275\u0275conditionalCreate(1, NotizieDett_Conditional_17_For_10_Conditional_1_Template, 1, 1, "h2", 35);
+    \u0275\u0275conditionalCreate(2, NotizieDett_Conditional_17_For_10_Conditional_2_Template, 1, 1, "h3", 35);
+    \u0275\u0275conditionalCreate(3, NotizieDett_Conditional_17_For_10_Conditional_3_Template, 1, 1, "h4", 35);
+    \u0275\u0275conditionalCreate(4, NotizieDett_Conditional_17_For_10_Conditional_4_Template, 3, 5, "figure", 36);
   }
   if (rf & 2) {
     const block_r4 = ctx.$implicit;
@@ -77461,19 +77482,19 @@ function NotizieDett_Conditional_17_For_10_Template(rf, ctx) {
 function NotizieDett_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "article", 13)(1, "div", 27);
-    \u0275\u0275conditionalCreate(2, NotizieDett_Conditional_17_Conditional_2_Template, 2, 4, "span", 28);
-    \u0275\u0275elementStart(3, "span", 29);
+    \u0275\u0275elementStart(0, "article", 13)(1, "div", 28);
+    \u0275\u0275conditionalCreate(2, NotizieDett_Conditional_17_Conditional_2_Template, 2, 4, "span", 29);
+    \u0275\u0275elementStart(3, "span", 30);
     \u0275\u0275text(4);
     \u0275\u0275pipe(5, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "h1", 30);
+    \u0275\u0275elementStart(6, "h1", 31);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "div", 31);
+    \u0275\u0275elementStart(8, "div", 32);
     \u0275\u0275repeaterCreate(9, NotizieDett_Conditional_17_For_10_Template, 5, 5, null, null, \u0275\u0275repeaterTrackByIndex);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "div", 32)(12, "button", 33);
+    \u0275\u0275elementStart(11, "div", 33)(12, "button", 34);
     \u0275\u0275listener("click", function NotizieDett_Conditional_17_Template_button_click_12_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -77510,7 +77531,7 @@ function NotizieDett_Conditional_23_Template(rf, ctx) {
 function NotizieDett_Conditional_31_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 24);
-    \u0275\u0275element(1, "i", 36);
+    \u0275\u0275element(1, "i", 38);
     \u0275\u0275elementStart(2, "p");
     \u0275\u0275text(3, "Caricamento...");
     \u0275\u0275elementEnd()();
@@ -77519,7 +77540,7 @@ function NotizieDett_Conditional_31_Template(rf, ctx) {
 function NotizieDett_Conditional_32_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 24);
-    \u0275\u0275element(1, "i", 37);
+    \u0275\u0275element(1, "i", 39);
     \u0275\u0275elementStart(2, "p");
     \u0275\u0275text(3, "Ancora nessun commento. Sii il primo!");
     \u0275\u0275elementEnd()();
@@ -77528,34 +77549,34 @@ function NotizieDett_Conditional_32_Template(rf, ctx) {
 function NotizieDett_For_34_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 45)(1, "button", 46);
+    \u0275\u0275elementStart(0, "div", 47)(1, "button", 48);
     \u0275\u0275listener("click", function NotizieDett_For_34_Conditional_12_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r5);
       const commento_r6 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.eliminaCommento(commento_r6._id));
     });
-    \u0275\u0275element(2, "i", 47);
+    \u0275\u0275element(2, "i", 49);
     \u0275\u0275text(3, " Elimina ");
     \u0275\u0275elementEnd()();
   }
 }
 function NotizieDett_For_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 25)(1, "div", 38)(2, "div", 39)(3, "span", 40);
-    \u0275\u0275element(4, "i", 41);
+    \u0275\u0275elementStart(0, "div", 25)(1, "div", 40)(2, "div", 41)(3, "span", 42);
+    \u0275\u0275element(4, "i", 43);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 42);
+    \u0275\u0275elementStart(5, "span", 44);
     \u0275\u0275text(6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "span", 43);
+    \u0275\u0275elementStart(7, "span", 45);
     \u0275\u0275text(8);
     \u0275\u0275pipe(9, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 44);
+    \u0275\u0275elementStart(10, "div", 46);
     \u0275\u0275text(11);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(12, NotizieDett_For_34_Conditional_12_Template, 4, 0, "div", 45);
+    \u0275\u0275conditionalCreate(12, NotizieDett_For_34_Conditional_12_Template, 4, 0, "div", 47);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -77584,7 +77605,7 @@ var NotizieDett = class _NotizieDett {
   loadingCommenti = false;
   idUtenteLoggato = "";
   ruoloUtente = "";
-  apiUrl = "http://localhost:3000/api/cicerone";
+  apiUrl = environment.apiUrl + "/api/cicerone";
   constructor(route, router, http, authService, cdr) {
     this.route = route;
     this.router = router;
@@ -77664,15 +77685,48 @@ var NotizieDett = class _NotizieDett {
     if (id)
       this.caricaNotizia(id);
   }
+  vaiHome() {
+    this.router.navigate(["/home"]);
+  }
   tornaIndietro() {
     this.router.navigate(["/cicerone/notizie"]);
+  }
+  // ── Helpers per il rendering delle immagini ──────────────────────────────────
+  /** Stili inline per il <figure>: float sinistra/destra o blocco centrato */
+  imageFigureStyle(data) {
+    const align = data?.align ?? "center";
+    if (align === "left") {
+      return { float: "left", marginRight: "1.6em", marginBottom: "0.8em", marginTop: "0.3em" };
+    }
+    if (align === "right") {
+      return { float: "right", marginLeft: "1.6em", marginBottom: "0.8em", marginTop: "0.3em" };
+    }
+    return { display: "block", margin: "1.4em auto", textAlign: "center" };
+  }
+  /** Stili inline per il <img>: max-width in base al preset di dimensione */
+  imageStyle(data) {
+    const base = { borderRadius: "10px", display: "block" };
+    switch (data?.size) {
+      case "piccola":
+        return __spreadProps(__spreadValues({}, base), { maxWidth: "240px", width: "auto" });
+      case "media":
+        return __spreadProps(__spreadValues({}, base), { maxWidth: "480px", width: "100%" });
+      case "grande":
+        return __spreadProps(__spreadValues({}, base), { maxWidth: "800px", width: "100%" });
+      default:
+        return __spreadProps(__spreadValues({}, base), { maxWidth: "100%", width: "auto" });
+    }
   }
   static \u0275fac = function NotizieDett_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _NotizieDett)(\u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(AuthService), \u0275\u0275directiveInject(ChangeDetectorRef));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NotizieDett, selectors: [["app-notizie-dett"]], features: [\u0275\u0275ProvidersFeature([DatePipe])], decls: 35, vars: 7, consts: [[1, "dett-root"], [1, "header-bar"], [1, "navbar"], [1, "logo"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "btn-back-nav", 3, "click"], [1, "ti", "ti-arrow-left"], [1, "split-layout"], [1, "colonna-articolo"], [1, "stato-msg"], [1, "errore-msg"], [1, "articolo"], [1, "colonna-commenti"], [1, "commenti-header"], [1, "commenti-titolo"], [1, "ti", "ti-message-2"], [1, "commenti-count"], [1, "commenti-inner"], [1, "form-commento"], ["placeholder", "Lascia un commento...", "rows", "3", 1, "commento-input", 3, "ngModelChange", "ngModel"], [1, "btn-pubblica", 3, "click"], [1, "ti", "ti-send"], [1, "commenti-vuoti"], [1, "commento-card"], [1, "btn-retry", 3, "click"], [1, "articolo-meta-top"], [3, "class"], [1, "post-data"], [1, "articolo-titolo"], [1, "articolo-corpo"], [1, "articolo-footer"], [1, "btn-torna", 3, "click"], [3, "innerHTML"], [3, "src", "alt"], [1, "ti", "ti-loader-2"], [1, "ti", "ti-message-off"], [1, "comm-header"], [1, "autore-info"], [1, "autore-avatar"], [1, "ti", "ti-user"], [1, "autore-nome"], [1, "comm-data"], [1, "comm-testo"], [1, "comm-azioni"], [1, "btn-elimina", 3, "click"], [1, "ti", "ti-trash"]], template: function NotizieDett_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NotizieDett, selectors: [["app-notizie-dett"]], features: [\u0275\u0275ProvidersFeature([DatePipe])], decls: 36, vars: 7, consts: [[1, "dett-root"], [1, "header-bar"], [1, "navbar"], [1, "logo", 3, "click"], [1, "logo-mark"], [1, "ti", "ti-mountain"], [1, "logo-text"], [1, "btn-back-nav", 3, "click"], [1, "ti", "ti-arrow-left"], [1, "split-layout"], [1, "colonna-articolo"], [1, "stato-msg"], [1, "errore-msg"], [1, "articolo"], [1, "colonna-commenti"], [1, "commenti-header"], [1, "commenti-titolo"], [1, "ti", "ti-message-2"], [1, "commenti-count"], [1, "commenti-inner"], [1, "form-commento"], ["placeholder", "Lascia un commento...", "rows", "3", 1, "commento-input", 3, "ngModelChange", "ngModel"], [1, "btn-pubblica", 3, "click"], [1, "ti", "ti-send"], [1, "commenti-vuoti"], [1, "commento-card"], ["active", "cicerone"], [1, "btn-retry", 3, "click"], [1, "articolo-meta-top"], [3, "class"], [1, "post-data"], [1, "articolo-titolo"], [1, "articolo-corpo"], [1, "articolo-footer"], [1, "btn-torna", 3, "click"], [3, "innerHTML"], [3, "ngStyle"], [3, "src", "alt", "ngStyle"], [1, "ti", "ti-loader-2"], [1, "ti", "ti-message-off"], [1, "comm-header"], [1, "autore-info"], [1, "autore-avatar"], [1, "ti", "ti-user"], [1, "autore-nome"], [1, "comm-data"], [1, "comm-testo"], [1, "comm-azioni"], [1, "btn-elimina", 3, "click"], [1, "ti", "ti-trash"]], template: function NotizieDett_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3)(4, "div", 4);
+      \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "nav", 2)(3, "div", 3);
+      \u0275\u0275listener("click", function NotizieDett_Template_div_click_3_listener() {
+        return ctx.vaiHome();
+      });
+      \u0275\u0275elementStart(4, "div", 4);
       \u0275\u0275element(5, "i", 5);
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(6, "span", 6);
@@ -77715,7 +77769,9 @@ var NotizieDett = class _NotizieDett {
       \u0275\u0275conditionalCreate(31, NotizieDett_Conditional_31_Template, 4, 0, "div", 24);
       \u0275\u0275conditionalCreate(32, NotizieDett_Conditional_32_Template, 4, 0, "div", 24);
       \u0275\u0275repeaterCreate(33, NotizieDett_For_34_Template, 13, 7, "div", 25, _forTrack010);
-      \u0275\u0275elementEnd()()()();
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275element(35, "app-mobile-nav", 26);
+      \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       \u0275\u0275advance(15);
@@ -77735,7 +77791,7 @@ var NotizieDett = class _NotizieDett {
       \u0275\u0275advance();
       \u0275\u0275repeater(ctx.commenti);
     }
-  }, dependencies: [CommonModule, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, DatePipe], styles: [`
+  }, dependencies: [CommonModule, NgStyle, FormsModule, DefaultValueAccessor, NgControlStatus, NgModel, MobileNav, DatePipe], styles: [`
 [_nghost-%COMP%] {
   display: block;
 }
@@ -77775,6 +77831,7 @@ var NotizieDett = class _NotizieDett {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 .logo-mark[_ngcontent-%COMP%] {
   width: 34px;
@@ -77823,6 +77880,8 @@ var NotizieDett = class _NotizieDett {
   overflow-y: auto;
   padding: 2.5rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
 }
 .stato-msg[_ngcontent-%COMP%] {
   text-align: center;
@@ -77856,10 +77915,11 @@ var NotizieDett = class _NotizieDett {
 }
 .articolo[_ngcontent-%COMP%] {
   width: 100%;
+  flex: 1;
+  min-height: min-content;
   background: #2B5C59;
   border-radius: 16px;
   border: 0.5px solid rgba(151, 168, 149, 0.2);
-  overflow: hidden;
 }
 .articolo-meta-top[_ngcontent-%COMP%] {
   display: flex;
@@ -77941,18 +78001,24 @@ var NotizieDett = class _NotizieDett {
   margin: 1.2em 0 0.3em;
 }
 .articolo-corpo[_ngcontent-%COMP%]   figure[_ngcontent-%COMP%] {
-  margin: 1.4em 0;
+  margin: 0;
 }
-.articolo-corpo[_ngcontent-%COMP%]   figure[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {
-  width: 100%;
-  border-radius: 10px;
-  display: block;
+.articolo-corpo[_ngcontent-%COMP%]::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .articolo-corpo[_ngcontent-%COMP%]   figcaption[_ngcontent-%COMP%] {
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.35);
   text-align: center;
   margin-top: 0.4rem;
+}
+.articolo-corpo[_ngcontent-%COMP%]   figure[_ngcontent-%COMP%]:not([style*=float]) {
+  margin: 1.4em auto;
+}
+.articolo-corpo[_ngcontent-%COMP%]   figure[style*=float][_ngcontent-%COMP%] {
+  max-width: 45%;
 }
 .articolo-corpo[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {
   color: #D8D089;
@@ -78174,6 +78240,16 @@ var NotizieDett = class _NotizieDett {
   text-align: center;
 }
 @media (max-width: 768px) {
+  .articolo-corpo[_ngcontent-%COMP%]   figure[_ngcontent-%COMP%] {
+    float: none !important;
+    max-width: 100% !important;
+    margin: 1.2em auto !important;
+    text-align: center;
+  }
+  .articolo-corpo[_ngcontent-%COMP%]   figure[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {
+    width: 100%;
+    max-width: 100%;
+  }
   .dett-root[_ngcontent-%COMP%] {
     height: auto;
   }
@@ -78211,157 +78287,163 @@ var NotizieDett = class _NotizieDett {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NotizieDett, [{
     type: Component,
-    args: [{ selector: "app-notizie-dett", standalone: true, imports: [CommonModule, FormsModule], providers: [DatePipe], template: `<div class="dett-root">
-
-  <header class="header-bar">
-    <nav class="navbar">
-      <div class="logo">
-        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
-        <span class="logo-text">Peak<span>Aware</span></span>
-      </div>
-      <button class="btn-back-nav" (click)="tornaIndietro()">
-        <i class="ti ti-arrow-left"></i> Notizie
-      </button>
-    </nav>
-  </header>
-
-  <div class="split-layout">
-
-    <!-- \u2500\u2500 ARTICOLO (2/3) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->
-    <div class="colonna-articolo">
-
-      @if (!notizia && !errore) {
-        <div class="stato-msg">Caricamento notizia...</div>
-      }
-
-      @if (errore) {
-        <div class="errore-msg">
-          {{ errore }}
-          <button class="btn-retry" (click)="ricarica()">Riprova</button>
-        </div>
-      }
-
-      @if (notizia) {
-        <article class="articolo">
-
-          <div class="articolo-meta-top">
-            @if (notizia.categoria) {
-              <span class="cat-tag {{ notizia.categoria }}">{{ notizia.categoria }}</span>
-            }
-            <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>
-          </div>
-
-          <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>
-
-          <div class="articolo-corpo">
-            @for (block of notizia.contenuto.blocks; track $index) {
-
-              @if (block.type === 'paragraph') {
-                <p [innerHTML]="block.data.text"></p>
-              }
-
-              @if (block.type === 'header' && block.data.level === 2) {
-                <h2 [innerHTML]="block.data.text"></h2>
-              }
-              @if (block.type === 'header' && block.data.level === 3) {
-                <h3 [innerHTML]="block.data.text"></h3>
-              }
-              @if (block.type === 'header' && (block.data.level === 4 || block.data.level === 1)) {
-                <h4 [innerHTML]="block.data.text"></h4>
-              }
-
-              @if (block.type === 'image') {
-                <figure>
-                  <img [src]="block.data.file?.url" [alt]="block.data.caption || ''" />
-                  @if (block.data.caption) {
-                    <figcaption>{{ block.data.caption }}</figcaption>
-                  }
-                </figure>
-              }
-
-            }
-          </div>
-
-          <div class="articolo-footer">
-            <button class="btn-torna" (click)="tornaIndietro()">
-              <i class="ti ti-arrow-left"></i> Torna alle notizie
-            </button>
-          </div>
-
-        </article>
-      }
-
-    </div>
-
-    <!-- \u2500\u2500 COMMENTI (1/3) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->
-    <div class="colonna-commenti">
-
-      <div class="commenti-header">
-        <span class="commenti-titolo">
-          <i class="ti ti-message-2"></i> Commenti
-        </span>
-        @if (commenti.length > 0) {
-          <span class="commenti-count">{{ commenti.length }}</span>
-        }
-      </div>
-
-      <div class="commenti-inner">
-
-        <div class="form-commento">
-          <textarea
-            class="commento-input"
-            [(ngModel)]="nuovoCommento"
-            placeholder="Lascia un commento..."
-            rows="3">
-          </textarea>
-          <button class="btn-pubblica" (click)="aggiungiCommento()">
-            <i class="ti ti-send"></i> Pubblica
-          </button>
-        </div>
-
-        @if (loadingCommenti) {
-          <div class="commenti-vuoti">
-            <i class="ti ti-loader-2"></i>
-            <p>Caricamento...</p>
-          </div>
-        }
-
-        @if (!loadingCommenti && commenti.length === 0) {
-          <div class="commenti-vuoti">
-            <i class="ti ti-message-off"></i>
-            <p>Ancora nessun commento. Sii il primo!</p>
-          </div>
-        }
-
-        @for (commento of commenti; track commento._id) {
-          <div class="commento-card">
-
-            <div class="comm-header">
-              <div class="autore-info">
-                <span class="autore-avatar"><i class="ti ti-user"></i></span>
-                <span class="autore-nome">{{ commento.autore.username || 'Utente' }}</span>
-              </div>
-              <span class="comm-data">{{ commento.dataCreazione | date:'dd/MM/yy' }}</span>
-            </div>
-
-            <div class="comm-testo">{{ commento.testo }}</div>
-
-            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {
-              <div class="comm-azioni">
-                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">
-                  <i class="ti ti-trash"></i> Elimina
-                </button>
-              </div>
-            }
-
-          </div>
-        }
-
-      </div>
-    </div>
-
-  </div>
-</div>
+    args: [{ selector: "app-notizie-dett", standalone: true, imports: [CommonModule, FormsModule, MobileNav], providers: [DatePipe], template: `<div class="dett-root">\r
+\r
+  <header class="header-bar">\r
+    <nav class="navbar">\r
+      <div class="logo" (click)="vaiHome()">\r
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
+        <span class="logo-text">Peak<span>Aware</span></span>\r
+      </div>\r
+      <button class="btn-back-nav" (click)="tornaIndietro()">\r
+        <i class="ti ti-arrow-left"></i> Notizie\r
+      </button>\r
+    </nav>\r
+  </header>\r
+\r
+  <div class="split-layout">\r
+\r
+    <!-- \u2500\u2500 ARTICOLO (2/3) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->\r
+    <div class="colonna-articolo">\r
+\r
+      @if (!notizia && !errore) {\r
+        <div class="stato-msg">Caricamento notizia...</div>\r
+      }\r
+\r
+      @if (errore) {\r
+        <div class="errore-msg">\r
+          {{ errore }}\r
+          <button class="btn-retry" (click)="ricarica()">Riprova</button>\r
+        </div>\r
+      }\r
+\r
+      @if (notizia) {\r
+        <article class="articolo">\r
+\r
+          <div class="articolo-meta-top">\r
+            @if (notizia.categoria) {\r
+              <span class="cat-tag {{ notizia.categoria }}">{{ notizia.categoria }}</span>\r
+            }\r
+            <span class="post-data">{{ notizia.dataPubblicazione | date:'dd/MM/yyyy' }}</span>\r
+          </div>\r
+\r
+          <h1 class="articolo-titolo">{{ notizia.titolo }}</h1>\r
+\r
+          <div class="articolo-corpo">\r
+            @for (block of notizia.contenuto.blocks; track $index) {\r
+\r
+              @if (block.type === 'paragraph') {\r
+                <p [innerHTML]="block.data.text"></p>\r
+              }\r
+\r
+              @if (block.type === 'header' && block.data.level === 2) {\r
+                <h2 [innerHTML]="block.data.text"></h2>\r
+              }\r
+              @if (block.type === 'header' && block.data.level === 3) {\r
+                <h3 [innerHTML]="block.data.text"></h3>\r
+              }\r
+              @if (block.type === 'header' && (block.data.level === 4 || block.data.level === 1)) {\r
+                <h4 [innerHTML]="block.data.text"></h4>\r
+              }\r
+\r
+              @if (block.type === 'image') {\r
+                <figure [ngStyle]="imageFigureStyle(block.data)">\r
+                  <img\r
+                    [src]="block.data.file?.url"\r
+                    [alt]="block.data.caption || ''"\r
+                    [ngStyle]="imageStyle(block.data)"\r
+                  />\r
+                  @if (block.data.caption) {\r
+                    <figcaption>{{ block.data.caption }}</figcaption>\r
+                  }\r
+                </figure>\r
+              }\r
+\r
+            }\r
+          </div>\r
+\r
+          <div class="articolo-footer">\r
+            <button class="btn-torna" (click)="tornaIndietro()">\r
+              <i class="ti ti-arrow-left"></i> Torna alle notizie\r
+            </button>\r
+          </div>\r
+\r
+        </article>\r
+      }\r
+\r
+    </div>\r
+\r
+    <!-- \u2500\u2500 COMMENTI (1/3) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 -->\r
+    <div class="colonna-commenti">\r
+\r
+      <div class="commenti-header">\r
+        <span class="commenti-titolo">\r
+          <i class="ti ti-message-2"></i> Commenti\r
+        </span>\r
+        @if (commenti.length > 0) {\r
+          <span class="commenti-count">{{ commenti.length }}</span>\r
+        }\r
+      </div>\r
+\r
+      <div class="commenti-inner">\r
+\r
+        <div class="form-commento">\r
+          <textarea\r
+            class="commento-input"\r
+            [(ngModel)]="nuovoCommento"\r
+            placeholder="Lascia un commento..."\r
+            rows="3">\r
+          </textarea>\r
+          <button class="btn-pubblica" (click)="aggiungiCommento()">\r
+            <i class="ti ti-send"></i> Pubblica\r
+          </button>\r
+        </div>\r
+\r
+        @if (loadingCommenti) {\r
+          <div class="commenti-vuoti">\r
+            <i class="ti ti-loader-2"></i>\r
+            <p>Caricamento...</p>\r
+          </div>\r
+        }\r
+\r
+        @if (!loadingCommenti && commenti.length === 0) {\r
+          <div class="commenti-vuoti">\r
+            <i class="ti ti-message-off"></i>\r
+            <p>Ancora nessun commento. Sii il primo!</p>\r
+          </div>\r
+        }\r
+\r
+        @for (commento of commenti; track commento._id) {\r
+          <div class="commento-card">\r
+\r
+            <div class="comm-header">\r
+              <div class="autore-info">\r
+                <span class="autore-avatar"><i class="ti ti-user"></i></span>\r
+                <span class="autore-nome">{{ commento.autore.username || 'Utente' }}</span>\r
+              </div>\r
+              <span class="comm-data">{{ commento.dataCreazione | date:'dd/MM/yy' }}</span>\r
+            </div>\r
+\r
+            <div class="comm-testo">{{ commento.testo }}</div>\r
+\r
+            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {\r
+              <div class="comm-azioni">\r
+                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">\r
+                  <i class="ti ti-trash"></i> Elimina\r
+                </button>\r
+              </div>\r
+            }\r
+\r
+          </div>\r
+        }\r
+\r
+      </div>\r
+    </div>\r
+\r
+  </div>\r
+\r
+  <app-mobile-nav active="cicerone" />\r
+</div>\r
 `, styles: [`/* src/app/features/cicerone/notizie-dett/notizie-dett.css */
 :host {
   display: block;
@@ -78402,6 +78484,7 @@ var NotizieDett = class _NotizieDett {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 .logo-mark {
   width: 34px;
@@ -78450,6 +78533,8 @@ var NotizieDett = class _NotizieDett {
   overflow-y: auto;
   padding: 2.5rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
 }
 .stato-msg {
   text-align: center;
@@ -78483,10 +78568,11 @@ var NotizieDett = class _NotizieDett {
 }
 .articolo {
   width: 100%;
+  flex: 1;
+  min-height: min-content;
   background: #2B5C59;
   border-radius: 16px;
   border: 0.5px solid rgba(151, 168, 149, 0.2);
-  overflow: hidden;
 }
 .articolo-meta-top {
   display: flex;
@@ -78568,18 +78654,24 @@ var NotizieDett = class _NotizieDett {
   margin: 1.2em 0 0.3em;
 }
 .articolo-corpo figure {
-  margin: 1.4em 0;
+  margin: 0;
 }
-.articolo-corpo figure img {
-  width: 100%;
-  border-radius: 10px;
-  display: block;
+.articolo-corpo::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .articolo-corpo figcaption {
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.35);
   text-align: center;
   margin-top: 0.4rem;
+}
+.articolo-corpo figure:not([style*=float]) {
+  margin: 1.4em auto;
+}
+.articolo-corpo figure[style*=float] {
+  max-width: 45%;
 }
 .articolo-corpo a {
   color: #D8D089;
@@ -78801,6 +78893,16 @@ var NotizieDett = class _NotizieDett {
   text-align: center;
 }
 @media (max-width: 768px) {
+  .articolo-corpo figure {
+    float: none !important;
+    max-width: 100% !important;
+    margin: 1.2em auto !important;
+    text-align: center;
+  }
+  .articolo-corpo figure img {
+    width: 100%;
+    max-width: 100%;
+  }
   .dett-root {
     height: auto;
   }
@@ -78838,7 +78940,7 @@ var NotizieDett = class _NotizieDett {
   }], () => [{ type: ActivatedRoute }, { type: Router }, { type: HttpClient }, { type: AuthService }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieDett, { className: "NotizieDett", filePath: "src/app/features/cicerone/notizie-dett/notizie-dett.ts", lineNumber: 48 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieDett, { className: "NotizieDett", filePath: "src/app/features/cicerone/notizie-dett/notizie-dett.ts", lineNumber: 50 });
 })();
 
 // src/app/features/admin/livelli-form/livelli-form.ts
@@ -79135,7 +79237,7 @@ var LivelliForm = class _LivelliForm {
   nuovoNome = "";
   nuovoPunti = null;
   aggiungendo = false;
-  apiUrl = "http://localhost:3000/api/livelli";
+  apiUrl = environment.apiUrl + "/api/livelli";
   constructor(http, authService, router, cdr) {
     this.http = http;
     this.authService = authService;
@@ -79231,7 +79333,7 @@ var LivelliForm = class _LivelliForm {
     });
   }
   isLast(l2) {
-    return l2.numero === Math.max(...this.livelli.map((x2) => x2.numero));
+    return l2.numero === Math.max(...this.livelli.map((x) => x.numero));
   }
   headers() {
     return new HttpHeaders({ Authorization: `Bearer ${this.authService.getToken()}` });
@@ -79428,7 +79530,7 @@ var LivelliForm = class _LivelliForm {
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LivelliForm, { className: "LivelliForm", filePath: "src/app/features/admin/livelli-form/livelli-form.ts", lineNumber: 29 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LivelliForm, { className: "LivelliForm", filePath: "src/app/features/admin/livelli-form/livelli-form.ts", lineNumber: 30 });
 })();
 
 // src/app/features/admin/gestisci-utenti/gestisci-utenti.ts
@@ -79580,7 +79682,7 @@ var GestisciUtenti = class _GestisciUtenti {
   ricerca = "";
   eliminandoId = null;
   promuovendoId = null;
-  apiUrl = "http://localhost:3000/api/admin";
+  apiUrl = environment.apiUrl + "/api/admin";
   constructor(http, authService, router, cdr) {
     this.http = http;
     this.authService = authService;
@@ -79725,110 +79827,110 @@ var GestisciUtenti = class _GestisciUtenti {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(GestisciUtenti, [{
     type: Component,
-    args: [{ selector: "app-gestisci-utenti", standalone: true, imports: [CommonModule, FormsModule], template: `<div class="gu-root">
-
-  <header class="header-bar">
-    <nav class="navbar">
-      <div class="logo">
-        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
-        <span class="logo-text">Peak<span>Aware</span></span>
-      </div>
-      <div class="nav-links">
-        <span class="nav-link" (click)="vaiA('/home')">Home</span>
-        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Educazione</span>
-        <span class="nav-link active">Gestione Utenti</span>
-      </div>
-    </nav>
-  </header>
-
-  <div class="page-inner">
-
-    <div class="page-hero">
-      <div class="page-eyebrow">Admin</div>
-      <h1 class="page-title">Gestione Utenti</h1>
-      <p class="page-sub">Cerca, elimina o promuovi ad admin gli account registrati sulla piattaforma.</p>
-    </div>
-
-    <!-- SEARCH -->
-    <div class="search-wrap">
-      <i class="ti ti-search search-icon"></i>
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Cerca per username o email..."
-        [(ngModel)]="ricerca"
-        (ngModelChange)="caricaUtenti()"
-      />
-    </div>
-
-    @if (errore) {
-      <div class="errore-msg">{{ errore }}</div>
-    }
-
-    @if (caricamento) {
-      <div class="stato-msg">Caricamento...</div>
-    }
-
-    @if (!caricamento) {
-      @if (utenti.length === 0) {
-        <div class="stato-msg">Nessun utente trovato.</div>
-      } @else {
-        <div class="utenti-list">
-          @for (u of utenti; track u._id) {
-            <div class="utente-row">
-
-              <div class="utente-avatar">
-                {{ (u.username || u.email).substring(0, 2).toUpperCase() }}
-              </div>
-
-              <div class="utente-info">
-                <div class="utente-nome">{{ u.username }}</div>
-                <div class="utente-email">{{ u.email }}</div>
-                <div class="utente-meta">
-                  Registrato il {{ formatData(u.createdAt) }}
-                </div>
-              </div>
-
-              <div class="utente-badges">
-                <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">
-                  {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}
-                </span>
-              </div>
-
-              <div class="utente-actions">
-                @if (u.ruolo !== 'admin') {
-                  <button class="btn-promuovi"
-                          [disabled]="promuovendoId === u._id"
-                          (click)="promuovi(u)"
-                          title="Promuovi ad admin">
-                    <i class="ti ti-shield-up"></i>
-                    {{ promuovendoId === u._id ? '...' : 'Admin' }}
-                  </button>
-                }
-                @if (u._id !== idUtenteCorrente()) {
-                  <button class="btn-del"
-                          [disabled]="eliminandoId === u._id"
-                          (click)="elimina(u)"
-                          title="Elimina account">
-                    <i class="ti ti-trash"></i>
-                  </button>
-                }
-              </div>
-
-            </div>
-          }
-        </div>
-        <div class="totale-label">{{ utenti.length }} account</div>
-      }
-    }
-
-  </div>
-</div>
+    args: [{ selector: "app-gestisci-utenti", standalone: true, imports: [CommonModule, FormsModule], template: `<div class="gu-root">\r
+\r
+  <header class="header-bar">\r
+    <nav class="navbar">\r
+      <div class="logo">\r
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
+        <span class="logo-text">Peak<span>Aware</span></span>\r
+      </div>\r
+      <div class="nav-links">\r
+        <span class="nav-link" (click)="vaiA('/home')">Home</span>\r
+        <span class="nav-link" (click)="vaiA('/educazione/quiz')">Educazione</span>\r
+        <span class="nav-link active">Gestione Utenti</span>\r
+      </div>\r
+    </nav>\r
+  </header>\r
+\r
+  <div class="page-inner">\r
+\r
+    <div class="page-hero">\r
+      <div class="page-eyebrow">Admin</div>\r
+      <h1 class="page-title">Gestione Utenti</h1>\r
+      <p class="page-sub">Cerca, elimina o promuovi ad admin gli account registrati sulla piattaforma.</p>\r
+    </div>\r
+\r
+    <!-- SEARCH -->\r
+    <div class="search-wrap">\r
+      <i class="ti ti-search search-icon"></i>\r
+      <input\r
+        type="text"\r
+        class="search-input"\r
+        placeholder="Cerca per username o email..."\r
+        [(ngModel)]="ricerca"\r
+        (ngModelChange)="caricaUtenti()"\r
+      />\r
+    </div>\r
+\r
+    @if (errore) {\r
+      <div class="errore-msg">{{ errore }}</div>\r
+    }\r
+\r
+    @if (caricamento) {\r
+      <div class="stato-msg">Caricamento...</div>\r
+    }\r
+\r
+    @if (!caricamento) {\r
+      @if (utenti.length === 0) {\r
+        <div class="stato-msg">Nessun utente trovato.</div>\r
+      } @else {\r
+        <div class="utenti-list">\r
+          @for (u of utenti; track u._id) {\r
+            <div class="utente-row">\r
+\r
+              <div class="utente-avatar">\r
+                {{ (u.username || u.email).substring(0, 2).toUpperCase() }}\r
+              </div>\r
+\r
+              <div class="utente-info">\r
+                <div class="utente-nome">{{ u.username }}</div>\r
+                <div class="utente-email">{{ u.email }}</div>\r
+                <div class="utente-meta">\r
+                  Registrato il {{ formatData(u.createdAt) }}\r
+                </div>\r
+              </div>\r
+\r
+              <div class="utente-badges">\r
+                <span class="ruolo-badge" [class.badge-admin]="u.ruolo === 'admin'">\r
+                  {{ u.ruolo === 'admin' ? 'Admin' : 'Utente' }}\r
+                </span>\r
+              </div>\r
+\r
+              <div class="utente-actions">\r
+                @if (u.ruolo !== 'admin') {\r
+                  <button class="btn-promuovi"\r
+                          [disabled]="promuovendoId === u._id"\r
+                          (click)="promuovi(u)"\r
+                          title="Promuovi ad admin">\r
+                    <i class="ti ti-shield-up"></i>\r
+                    {{ promuovendoId === u._id ? '...' : 'Admin' }}\r
+                  </button>\r
+                }\r
+                @if (u._id !== idUtenteCorrente()) {\r
+                  <button class="btn-del"\r
+                          [disabled]="eliminandoId === u._id"\r
+                          (click)="elimina(u)"\r
+                          title="Elimina account">\r
+                    <i class="ti ti-trash"></i>\r
+                  </button>\r
+                }\r
+              </div>\r
+\r
+            </div>\r
+          }\r
+        </div>\r
+        <div class="totale-label">{{ utenti.length }} account</div>\r
+      }\r
+    }\r
+\r
+  </div>\r
+</div>\r
 `, styles: ['/* src/app/features/admin/gestisci-utenti/gestisci-utenti.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.gu-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.nav-links {\n  display: flex;\n  align-items: center;\n  gap: 28px;\n}\n.nav-link {\n  color: rgba(255, 255, 255, 0.45);\n  font-size: 15px;\n  cursor: pointer;\n  transition: color 0.15s;\n}\n.nav-link:hover {\n  color: rgba(255, 255, 255, 0.75);\n}\n.nav-link.active {\n  color: white;\n  font-weight: 500;\n}\n.page-inner {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3.5rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 48px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 12px;\n}\n.page-sub {\n  font-size: 15px;\n  color: rgba(255, 255, 255, 0.5);\n  max-width: 520px;\n  line-height: 1.6;\n}\n.search-wrap {\n  position: relative;\n  margin-bottom: 1.5rem;\n}\n.search-icon {\n  position: absolute;\n  left: 0.9rem;\n  top: 50%;\n  transform: translateY(-50%);\n  color: rgba(255, 255, 255, 0.35);\n  font-size: 1rem;\n  pointer-events: none;\n}\n.search-input {\n  width: 100%;\n  padding: 0.75rem 0.9rem 0.75rem 2.5rem;\n  background: rgba(255, 255, 255, 0.07);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: white;\n  border-radius: 10px;\n  font-size: 0.9rem;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.search-input::placeholder {\n  color: rgba(255, 255, 255, 0.25);\n}\n.search-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1.5rem;\n  font-size: 0.9rem;\n}\n.utenti-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.utente-row {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  background: #2B5C59;\n  border-radius: 12px;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  padding: 0.85rem 1rem;\n  transition: border-color 0.15s;\n}\n.utente-row:hover {\n  border-color: rgba(151, 168, 149, 0.4);\n}\n.utente-avatar {\n  flex-shrink: 0;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: rgba(216, 208, 137, 0.15);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.85rem;\n  font-weight: 700;\n  color: #D8D089;\n}\n.utente-info {\n  flex: 1;\n  min-width: 0;\n}\n.utente-nome {\n  font-size: 0.95rem;\n  font-weight: 600;\n  color: white;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-email {\n  font-size: 0.8rem;\n  color: rgba(255, 255, 255, 0.45);\n  margin-top: 2px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.utente-meta {\n  font-size: 0.72rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 2px;\n}\n.utente-badges {\n  flex-shrink: 0;\n}\n.ruolo-badge {\n  font-size: 0.7rem;\n  font-weight: 600;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  padding: 0.2rem 0.55rem;\n  border-radius: 20px;\n  background: rgba(151, 168, 149, 0.12);\n  border: 0.5px solid rgba(151, 168, 149, 0.3);\n  color: rgba(255, 255, 255, 0.5);\n}\n.ruolo-badge.badge-admin {\n  background: rgba(216, 208, 137, 0.12);\n  border-color: rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n}\n.utente-actions {\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  flex-shrink: 0;\n}\n.btn-promuovi {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(216, 208, 137, 0.1);\n  border: 0.5px solid rgba(216, 208, 137, 0.35);\n  color: #D8D089;\n  border-radius: 7px;\n  padding: 0.35rem 0.75rem;\n  font-size: 0.82rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-promuovi:hover:not(:disabled) {\n  background: rgba(216, 208, 137, 0.2);\n}\n.btn-promuovi:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.btn-del {\n  background: rgba(255, 255, 255, 0.06);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 7px;\n  padding: 0.35rem 0.6rem;\n  font-size: 0.9rem;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.4);\n  transition: background 0.15s, color 0.15s;\n}\n.btn-del:hover:not(:disabled) {\n  background: rgba(192, 57, 43, 0.15);\n  color: #EF6565;\n  border-color: rgba(192, 57, 43, 0.3);\n}\n.btn-del:disabled {\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.totale-label {\n  text-align: right;\n  font-size: 0.78rem;\n  color: rgba(255, 255, 255, 0.28);\n  margin-top: 0.75rem;\n}\n/*# sourceMappingURL=gestisci-utenti.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GestisciUtenti, { className: "GestisciUtenti", filePath: "src/app/features/admin/gestisci-utenti/gestisci-utenti.ts", lineNumber: 29 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GestisciUtenti, { className: "GestisciUtenti", filePath: "src/app/features/admin/gestisci-utenti/gestisci-utenti.ts", lineNumber: 30 });
 })();
 
 // src/app/features/cicerone/notizie-comm/notizie-comm.ts
@@ -79930,7 +80032,7 @@ var NotizieComm = class _NotizieComm {
   id = null;
   idUtenteLoggato = "";
   ruoloUtente = "";
-  apiUrl = "http://localhost:3000/api/cicerone";
+  apiUrl = environment.apiUrl + "/api/cicerone";
   constructor(http, authService, router, route, cdr) {
     this.http = http;
     this.authService = authService;
@@ -80067,87 +80169,87 @@ var NotizieComm = class _NotizieComm {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NotizieComm, [{
     type: Component,
-    args: [{ selector: "app-notizie-comm", standalone: true, imports: [FormsModule, CommonModule, DatePipe], template: `<div class="comm-root">
-
-  <header class="header-bar">
-    <nav class="navbar">
-      <div class="logo">
-        <div class="logo-mark"><i class="ti ti-mountain"></i></div>
-        <span class="logo-text">Peak<span>Aware</span></span>
-      </div>
-      <button class="btn-back-nav" (click)="tornaIndietro()">
-        <i class="ti ti-arrow-left"></i> Notizie
-      </button>
-    </nav>
-  </header>
-
-  <div class="page-inner">
-
-    <div class="page-hero">
-      <div class="page-eyebrow">Cicerone</div>
-      <h1 class="page-title">Commenti</h1>
-    </div>
-
-    <div class="nuovo-commento">
-      <p class="form-title"><i class="ti ti-message-plus"></i> Lascia un commento</p>
-      <textarea
-        class="commento-input"
-        [(ngModel)]="nuovoCommento"
-        placeholder="Scrivi qui il tuo commento..."
-        rows="4">
-      </textarea>
-      <button class="btn-pubblica" (click)="aggiungiCommento()">
-        <i class="ti ti-send"></i> Pubblica
-      </button>
-    </div>
-
-    @if (caricamento) {
-      <div class="stato-msg">Caricamento commenti...</div>
-    }
-
-    @if (errore) {
-      <div class="errore-msg">{{ errore }}</div>
-    }
-
-    @if (!caricamento && commenti.length === 0) {
-      <div class="stato-msg">Nessun commento ancora. Sii il primo!</div>
-    }
-
-    @if (commenti.length > 0) {
-      <div class="lista-commenti">
-        @for (commento of commenti; track commento._id) {
-          <div class="commento-card">
-
-            <div class="commento-header">
-              <div class="autore-info">
-                <span class="autore-avatar"><i class="ti ti-user"></i></span>
-                <span class="autore">{{ commento.autore.username || 'Utente' }}</span>
-              </div>
-              <span class="data">{{ commento.dataCreazione | date:'dd/MM/yyyy \xB7 HH:mm' }}</span>
-            </div>
-
-            <div class="testo-commento">{{ commento.testo }}</div>
-
-            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {
-              <div class="azioni">
-                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">
-                  <i class="ti ti-trash"></i> Elimina
-                </button>
-              </div>
-            }
-
-          </div>
-        }
-      </div>
-    }
-
-  </div>
-</div>
+    args: [{ selector: "app-notizie-comm", standalone: true, imports: [FormsModule, CommonModule, DatePipe], template: `<div class="comm-root">\r
+\r
+  <header class="header-bar">\r
+    <nav class="navbar">\r
+      <div class="logo">\r
+        <div class="logo-mark"><i class="ti ti-mountain"></i></div>\r
+        <span class="logo-text">Peak<span>Aware</span></span>\r
+      </div>\r
+      <button class="btn-back-nav" (click)="tornaIndietro()">\r
+        <i class="ti ti-arrow-left"></i> Notizie\r
+      </button>\r
+    </nav>\r
+  </header>\r
+\r
+  <div class="page-inner">\r
+\r
+    <div class="page-hero">\r
+      <div class="page-eyebrow">Cicerone</div>\r
+      <h1 class="page-title">Commenti</h1>\r
+    </div>\r
+\r
+    <div class="nuovo-commento">\r
+      <p class="form-title"><i class="ti ti-message-plus"></i> Lascia un commento</p>\r
+      <textarea\r
+        class="commento-input"\r
+        [(ngModel)]="nuovoCommento"\r
+        placeholder="Scrivi qui il tuo commento..."\r
+        rows="4">\r
+      </textarea>\r
+      <button class="btn-pubblica" (click)="aggiungiCommento()">\r
+        <i class="ti ti-send"></i> Pubblica\r
+      </button>\r
+    </div>\r
+\r
+    @if (caricamento) {\r
+      <div class="stato-msg">Caricamento commenti...</div>\r
+    }\r
+\r
+    @if (errore) {\r
+      <div class="errore-msg">{{ errore }}</div>\r
+    }\r
+\r
+    @if (!caricamento && commenti.length === 0) {\r
+      <div class="stato-msg">Nessun commento ancora. Sii il primo!</div>\r
+    }\r
+\r
+    @if (commenti.length > 0) {\r
+      <div class="lista-commenti">\r
+        @for (commento of commenti; track commento._id) {\r
+          <div class="commento-card">\r
+\r
+            <div class="commento-header">\r
+              <div class="autore-info">\r
+                <span class="autore-avatar"><i class="ti ti-user"></i></span>\r
+                <span class="autore">{{ commento.autore.username || 'Utente' }}</span>\r
+              </div>\r
+              <span class="data">{{ commento.dataCreazione | date:'dd/MM/yyyy \xB7 HH:mm' }}</span>\r
+            </div>\r
+\r
+            <div class="testo-commento">{{ commento.testo }}</div>\r
+\r
+            @if (commento.autore._id === idUtenteLoggato || ruoloUtente === 'admin') {\r
+              <div class="azioni">\r
+                <button class="btn-elimina" (click)="eliminaCommento(commento._id)">\r
+                  <i class="ti ti-trash"></i> Elimina\r
+                </button>\r
+              </div>\r
+            }\r
+\r
+          </div>\r
+        }\r
+      </div>\r
+    }\r
+\r
+  </div>\r
+</div>\r
 `, styles: ['/* src/app/features/cicerone/notizie-comm/notizie-comm.css */\n:host {\n  display: block;\n  background: #1f4240;\n}\n* {\n  box-sizing: border-box;\n}\n.comm-root {\n  min-height: 100vh;\n  background: #1f4240;\n  font-family:\n    "Segoe UI",\n    Tahoma,\n    Geneva,\n    Verdana,\n    sans-serif;\n}\n.header-bar {\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  background: rgba(255, 255, 255, 0.10);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);\n}\n.navbar {\n  padding: 0 5%;\n  height: 70px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.logo {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n.logo-mark {\n  width: 34px;\n  height: 34px;\n  background: #D8D089;\n  border-radius: 7px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #1f4240;\n  font-size: 17px;\n}\n.logo-text {\n  color: white;\n  font-size: 18px;\n  font-weight: 500;\n  letter-spacing: 0.3px;\n}\n.logo-text span {\n  color: #D8D089;\n}\n.btn-back-nav {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: transparent;\n  color: rgba(255, 255, 255, 0.55);\n  border: 0.5px solid rgba(255, 255, 255, 0.2);\n  border-radius: 8px;\n  padding: 8px 16px;\n  font-size: 14px;\n  cursor: pointer;\n  transition: color 0.15s, border-color 0.15s;\n}\n.btn-back-nav:hover {\n  color: white;\n  border-color: rgba(255, 255, 255, 0.4);\n}\n.page-inner {\n  max-width: 720px;\n  margin: 0 auto;\n  padding: 0 1.5rem 4rem;\n}\n.page-hero {\n  padding: 3rem 0 2rem;\n}\n.page-eyebrow {\n  font-size: 12px;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #D8D089;\n  margin-bottom: 12px;\n}\n.page-title {\n  font-size: 42px;\n  font-weight: 600;\n  color: white;\n  line-height: 1.05;\n  letter-spacing: -1px;\n  margin-bottom: 0;\n}\n.stato-msg {\n  text-align: center;\n  color: rgba(255, 255, 255, 0.4);\n  padding: 3rem;\n  font-size: 1rem;\n}\n.errore-msg {\n  background: rgba(192, 57, 43, 0.12);\n  border: 0.5px solid rgba(192, 57, 43, 0.35);\n  color: #EF9F27;\n  padding: 0.85rem 1rem;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  font-size: 0.9rem;\n}\n.nuovo-commento {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 14px;\n  padding: 1.4rem 1.6rem;\n  margin-bottom: 2rem;\n}\n.form-title {\n  font-size: 0.88rem;\n  font-weight: 600;\n  color: rgba(255, 255, 255, 0.65);\n  margin: 0 0 1rem;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n}\n.commento-input {\n  width: 100%;\n  resize: vertical;\n  min-height: 100px;\n  padding: 0.85rem 1rem;\n  background: rgba(255, 255, 255, 0.05);\n  border: 0.5px solid rgba(151, 168, 149, 0.25);\n  border-radius: 10px;\n  color: white;\n  font-size: 0.92rem;\n  line-height: 1.6;\n  font-family: inherit;\n  outline: none;\n  transition: border-color 0.2s;\n  margin-bottom: 1rem;\n  display: block;\n}\n.commento-input::placeholder {\n  color: rgba(255, 255, 255, 0.3);\n}\n.commento-input:focus {\n  border-color: rgba(216, 208, 137, 0.5);\n}\n.btn-pubblica {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  background: #D8D089;\n  color: #1f4240;\n  border: none;\n  border-radius: 8px;\n  padding: 0.65rem 1.3rem;\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-pubblica:hover {\n  background: #c9c97a;\n}\n.lista-commenti {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.commento-card {\n  background: #2B5C59;\n  border: 0.5px solid rgba(151, 168, 149, 0.2);\n  border-radius: 14px;\n  padding: 1.1rem 1.3rem;\n  transition: border-color 0.15s;\n}\n.commento-card:hover {\n  border-color: rgba(216, 208, 137, 0.25);\n}\n.commento-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-bottom: 0.75rem;\n  gap: 0.75rem;\n}\n.autore-info {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  min-width: 0;\n}\n.autore-avatar {\n  width: 28px;\n  height: 28px;\n  background: rgba(216, 208, 137, 0.12);\n  border: 0.5px solid rgba(216, 208, 137, 0.3);\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #D8D089;\n  font-size: 13px;\n  flex-shrink: 0;\n}\n.autore {\n  font-weight: 600;\n  font-size: 0.88rem;\n  color: rgba(255, 255, 255, 0.9);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.data {\n  font-size: 0.76rem;\n  color: rgba(255, 255, 255, 0.3);\n  flex-shrink: 0;\n}\n.testo-commento {\n  font-size: 0.92rem;\n  color: rgba(255, 255, 255, 0.72);\n  line-height: 1.65;\n}\n.azioni {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 0.85rem;\n  padding-top: 0.75rem;\n  border-top: 0.5px solid rgba(151, 168, 149, 0.12);\n}\n.btn-elimina {\n  display: inline-flex;\n  align-items: center;\n  gap: 5px;\n  background: rgba(192, 57, 43, 0.10);\n  border: 0.5px solid rgba(192, 57, 43, 0.3);\n  color: #EF6565;\n  border-radius: 6px;\n  padding: 0.3rem 0.75rem;\n  font-size: 0.8rem;\n  cursor: pointer;\n  transition: background 0.15s;\n}\n.btn-elimina:hover {\n  background: rgba(192, 57, 43, 0.22);\n}\n@media (max-width: 768px) {\n  .page-title {\n    font-size: 32px;\n    letter-spacing: -0.5px;\n  }\n  .page-inner {\n    padding: 0 1.25rem 3rem;\n  }\n}\n/*# sourceMappingURL=notizie-comm.css.map */\n'] }]
   }], () => [{ type: HttpClient }, { type: AuthService }, { type: Router }, { type: ActivatedRoute }, { type: ChangeDetectorRef }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieComm, { className: "NotizieComm", filePath: "src/app/features/cicerone/notizie-comm/notizie-comm.ts", lineNumber: 29 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(NotizieComm, { className: "NotizieComm", filePath: "src/app/features/cicerone/notizie-comm/notizie-comm.ts", lineNumber: 30 });
 })();
 
 // src/app/app.routes.ts
@@ -80201,7 +80303,7 @@ var appConfig = {
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: "top" })),
     provideHttpClient(withInterceptors([authInterceptor])),
     // Necessario per chiamate HTTP al backend
-    { provide: BASE_PATH, useValue: "http://localhost:3000" }
+    { provide: BASE_PATH, useValue: environment.apiUrl }
   ]
 };
 
@@ -80227,7 +80329,7 @@ var App = class _App {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 18 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(App, { className: "App", filePath: "src/app/app.ts", lineNumber: 16 });
 })();
 
 // src/main.ts

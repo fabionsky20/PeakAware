@@ -634,11 +634,29 @@ body {
     Geneva,
     Verdana,
     sans-serif;
-  background: #F4F6F7;
+  background: #1f4240;
   color: #1a1a1a;
 }
 a {
   text-decoration: none;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(31, 66, 64, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(151, 168, 149, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(216, 208, 137, 0.5);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(151, 168, 149, 0.35) rgba(31, 66, 64, 0.4);
 }
 
 /* angular:styles/global:styles */

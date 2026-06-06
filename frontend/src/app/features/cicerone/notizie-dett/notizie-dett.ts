@@ -11,6 +11,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '@env';
+import { MobileNav } from '../../../shared/mobile-nav/mobile-nav';
 
 interface EditorBlock {
   type: string;
@@ -41,7 +42,7 @@ interface Commento {
 @Component({
   selector: 'app-notizie-dett',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MobileNav],
   providers: [DatePipe],
   templateUrl: './notizie-dett.html',
   styleUrl: './notizie-dett.css'

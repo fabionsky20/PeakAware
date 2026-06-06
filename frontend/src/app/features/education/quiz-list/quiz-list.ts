@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileButton } from '../../sentieri/components/profile-button/profile-button';
+import { MobileNav } from '../../../shared/mobile-nav/mobile-nav';
 import { environment } from '@env';
 
 interface Quiz {
@@ -50,7 +51,7 @@ interface BadgeSidebar {
 @Component({
   selector: 'app-quiz-list',
   standalone: true,
-  imports: [FormsModule, ProfileButton],
+  imports: [FormsModule, ProfileButton, MobileNav],
   templateUrl: './quiz-list.html',
   styleUrl: './quiz-list.css'
 })

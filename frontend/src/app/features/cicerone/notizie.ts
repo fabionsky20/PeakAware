@@ -16,6 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { environment } from '@env';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProfileButton } from '../sentieri/components/profile-button/profile-button';
+import { MobileNav } from '../../shared/mobile-nav/mobile-nav';
 
 interface Notizia {
   _id: string;
@@ -28,7 +29,7 @@ interface Notizia {
 @Component({
   selector: 'app-notizie',
   standalone: true,
-    imports: [FormsModule, CommonModule, DatePipe, ProfileButton],
+    imports: [FormsModule, CommonModule, DatePipe, ProfileButton, MobileNav],
     templateUrl: './notizie.html',
     styleUrl: './notizie.css'
 })

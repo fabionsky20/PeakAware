@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "sources": ["angular:styles/component:css;6ca549a7a33e0a3627a911588c0657be59a27dea80a803e3b6faf537fa547d5a;C:/Users/fabio/Desktop/uni/ing del software/app/PeakAware/frontend/src/app/features/sentieri/components/map/map.ts"],
+  "sources": ["angular:styles/component:css;6ca549a7a33e0a3627a911588c0657be59a27dea80a803e3b6faf537fa547d5a;C:/Users/fabio/Desktop/ing software/PeakAware/frontend/src/app/features/sentieri/components/map/map.ts"],
   "sourcesContent": [".map-container, #map { height: 100%; width: 100%; }"],
   "mappings": ";AAAA,CAAC;AAAe,CAAC;AAAM,UAAQ;AAAM,SAAO;AAAM;",
   "names": []

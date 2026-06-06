@@ -259,7 +259,7 @@
   .page-title { font-size: 38px; letter-spacing: -0.5px; }
   .page-inner { padding: 0 1.25rem 3rem; }
   .nav-link { display: none; }
-  .nav-link.active { display: block; }
+  .nav-link.active { display: none; }
   /* Immagini più compatte su mobile */
   .post-img-wrap,
   .post-img-placeholder { aspect-ratio: 3 / 1; }

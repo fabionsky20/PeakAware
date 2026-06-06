@@ -1,0 +1,115 @@
+/* ── Tutto nascosto su desktop ──────────────────────────── */
+
+.mnav-backdrop,
+.mnav-tab,
+.mnav-panel {
+  display: none;
+}
+
+/* ── Solo mobile ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /* Sfondo scuro quando il pannello è aperto */
+  .mnav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    z-index: 990;
+  }
+
+  /* Linguetta attaccata al bordo destro */
+  .mnav-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 0;
+    top: 88px;
+    width: 26px;
+    height: 48px;
+    padding: 0;
+    background: rgba(31, 66, 64, 0.68);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0.5px solid rgba(151, 168, 149, 0.32);
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .mnav-tab:hover,
+  .mnav-tab.open {
+    background: rgba(31, 66, 64, 0.92);
+    color: #D8D089;
+  }
+
+  /* Pannello che scivola da destra */
+  .mnav-panel {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    top: 70px;
+    bottom: 0;
+    width: 180px;
+    background: rgba(24, 54, 52, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-left: 0.5px solid rgba(151, 168, 149, 0.22);
+    z-index: 991;
+    transform: translateX(100%);
+    transition: transform 0.26s ease;
+    padding: 1.4rem 0;
+  }
+
+  .mnav-panel.open {
+    transform: translateX(0);
+  }
+
+  /* Lista link */
+  .mnav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 0.6rem;
+  }
+
+  /* Singolo link */
+  .mnav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0.72rem 0.85rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.93rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .mnav-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .mnav-item.active {
+    background: rgba(216, 208, 137, 0.13);
+    color: #D8D089;
+  }
+
+  .mnav-item i {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+}
