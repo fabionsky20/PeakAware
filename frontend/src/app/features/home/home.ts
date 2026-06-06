@@ -5,7 +5,7 @@
  * sentieri e carousel notizie. Ricarica i progressi ogni volta che
  * la rotta torna su /home (NavigationEnd).
  */
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef, ElementRef, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -37,7 +37,7 @@ interface LivelloDB {
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home implements OnInit, OnDestroy {
+export class Home implements OnInit, AfterViewInit, OnDestroy {
 
   punti = 0;
   livello = 1;
@@ -70,6 +70,8 @@ export class Home implements OnInit, OnDestroy {
     'url(images/escursione-mountain.jpg) center/cover no-repeat',
   ].join(', ');
 
+  private el = inject(ElementRef);
+  private io?: IntersectionObserver;
   private navSub!: Subscription;
 
   private readonly cardColori: Record<string, { bg: string; accent: string }> = {
@@ -101,8 +103,23 @@ export class Home implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          this.io?.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    this.el.nativeElement.querySelectorAll('.edu-card, .plan-card')
+      .forEach((el: Element) => this.io!.observe(el));
+  }
+
   ngOnDestroy(): void {
     this.navSub?.unsubscribe();
+    this.io?.disconnect();
   }
 
   get username(): string {

@@ -20,7 +20,6 @@
 .root {
   width: 100%;
   background: #1f4240;
-  min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
@@ -180,6 +179,13 @@
 .card-left  { width: 78%; margin-right: auto; }
 .card-right { width: 78%; margin-left: auto; }
 
+/* ── FADE-IN CARDS ───────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── EDUCAZIONE CARD ─────────────────────────────────────────── */
 
 .edu-card {
@@ -190,6 +196,11 @@
   display: flex; justify-content: space-between;
   align-items: flex-start; gap: 1.5rem;
   position: relative; overflow: hidden;
+  opacity: 0;
+}
+
+.edu-card.fade-in {
+  animation: fadeInUp 0.55s ease forwards;
 }
 
 .edu-card-content { position: relative; flex: 1; }
@@ -228,6 +239,11 @@
   border: 0.5px solid rgba(185,122,83,0.3);
   padding: 2.5rem;
   position: relative; overflow: hidden;
+  opacity: 0;
+}
+
+.plan-card.fade-in {
+  animation: fadeInUp 0.55s ease 0.18s forwards;
 }
 
 .plan-card-top {
@@ -283,7 +299,7 @@
 
 /* ── NOTIZIE ─────────────────────────────────────────────────── */
 
-.notizie-wrap { margin-top: 3rem; position: relative; padding-bottom: 3.5rem; }
+.notizie-wrap { margin-top: 3rem; position: relative; }
 
 .notizie-bg { position: absolute; inset: 0; z-index: 0; }
 .notizie-wrap .inner { position: relative; z-index: 1; }
@@ -357,7 +373,7 @@
   padding: 2.5rem 0;
 }
 
-.notizie-spacer { height: 3rem; }
+.notizie-spacer { height: 0; }
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 
